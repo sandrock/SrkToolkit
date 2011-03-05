@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://projects.sandrock.fr/srktoolkit/wildserviceref/api">
+  <xs:element name="Root">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Definition">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Type" type="xs:string" />
+              <xs:element name="Name" type="xs:string" />
+              <xs:element name="Namespace" type="xs:string" />
+              <xs:element name="Summary" type="xs:string" />
+              <xs:element name="AsyncEventType" type="xs:string" default="AsyncResponseHandler" />
+              <xs:element name="AsyncArgsType" type="xs:string" default="AsyncResponseArgs" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Methods">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Region">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="Method">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Return" minOccurs="0" maxOccurs="1">
+                            <xs:complexType>
+                              <xs:attribute name="Type" type="xs:string" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="unbounded" name="Param">
+                            <xs:complexType>
+                              <xs:attribute name="Type" type="xs:string" use="required" />
+                              <xs:attribute name="Name" type="xs:string" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="Name" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="Name" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

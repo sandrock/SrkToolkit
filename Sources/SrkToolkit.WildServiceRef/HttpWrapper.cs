@@ -12,11 +12,55 @@ namespace SrkToolkit.WildServiceRef {
 #pragma warning disable 1591
 
         public string GetString(string url) {
-            throw new NotImplementedException();
+            var response = Execute(url);
+
+            // we will read data via the response stream
+            Stream resStream = response.GetResponseStream();
+
+            StringBuilder sb = new StringBuilder();
+            byte[] buf = new byte[8192];
+            int count = 0;
+
+            do {
+                // fill the buffer with data
+                count = resStream.Read(buf, 0, buf.Length);
+
+                // make sure we read some data
+                if (count != 0) {
+                    // translate from bytes to ASCII text
+                    sb.Append(Encoding.UTF8.GetString(buf, 0, count));
+                }
+            }
+            while (count > 0); // any more data to read?
+
+            var stringResponse = sb.ToString();
+            return stringResponse;
         }
 
         public string GetString(string url, Dictionary<string, string> postParameters) {
-            throw new NotImplementedException();
+            var response = Execute(url, postParameters);
+
+            // we will read data via the response stream
+            Stream resStream = response.GetResponseStream();
+
+            StringBuilder sb = new StringBuilder();
+            byte[] buf = new byte[8192];
+            int count = 0;
+
+            do {
+                // fill the buffer with data
+                count = resStream.Read(buf, 0, buf.Length);
+
+                // make sure we read some data
+                if (count != 0) {
+                    // translate from bytes to ASCII text
+                    sb.Append(Encoding.UTF8.GetString(buf, 0, count));
+                }
+            }
+            while (count > 0); // any more data to read?
+
+            var stringResponse = sb.ToString();
+            return stringResponse;
         }
 
         public string GetString(string url, Stream postStream) {
@@ -53,7 +97,7 @@ namespace SrkToolkit.WildServiceRef {
             HttpWebRequest request = (HttpWebRequest)
                 WebRequest.Create(new Uri(url, UriKind.Absolute));
 
-            request.AllowAutoRedirect = false;
+            //request.AllowAutoRedirect = false;
             request.UserAgent = UserAgent;
 
             // execute the request

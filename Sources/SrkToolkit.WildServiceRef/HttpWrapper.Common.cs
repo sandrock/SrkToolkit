@@ -29,13 +29,13 @@ namespace SrkToolkit.WildServiceRef {
         /// Created as <see cref="HttpStatusCodeHandler"/> if not set.
         /// </summary>
         public IHttpStatusCodeHandler HttpStatusCodeHandler {
-            get { return httpStatusCodeHandler ?? (httpStatusCodeHandler = new HttpStatusCodeHandler()); }
-            set { httpStatusCodeHandler = value; }
+            get { return _httpStatusCodeHandler ?? (_httpStatusCodeHandler = new HttpStatusCodeHandler()); }
+            set { _httpStatusCodeHandler = value; }
         }
-        private IHttpStatusCodeHandler httpStatusCodeHandler;
+        private IHttpStatusCodeHandler _httpStatusCodeHandler;
 
         private void HandleHttpCodes(HttpStatusCode httpStatusCode) {
-            httpStatusCodeHandler.Handle((int)httpStatusCode);
+            HttpStatusCodeHandler.Handle((int)httpStatusCode);
         }
 
     }

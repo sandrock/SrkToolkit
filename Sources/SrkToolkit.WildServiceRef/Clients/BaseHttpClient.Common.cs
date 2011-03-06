@@ -62,8 +62,11 @@ namespace SrkToolkit.WildServiceRef.Clients {
         /// <param name="baseUrl"></param>
         /// <param name="urlFormat"></param>
         protected BaseHttpClient(string userAgent, string baseUrl, string urlFormat) {
+            if (string.IsNullOrEmpty(baseUrl))
+                throw new ArgumentException("A base url is required", "baseUrl");
+
             UserAgent = userAgent ?? "unknown-client";
-            BaseUrl = baseUrl ?? "http://api.betaseries.com/";
+            BaseUrl = baseUrl;
             UrlFormat = urlFormat;
         }
 

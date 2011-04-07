@@ -55,6 +55,7 @@
     <Compile Include="..\WPF4.SrkToolkit.Mvvm\ViewModelBase.Common.cs">
       <Link>ViewModelBase.Common.cs</Link>
     </Compile>
+    <Compile Include="System\DataEventArgs.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

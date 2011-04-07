@@ -41,9 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SrkToolkit.Wp7Base\ICleanup.cs">
-      <Link>ICleanup.cs</Link>
-    </Compile>
+    <Compile Include="ICleanup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

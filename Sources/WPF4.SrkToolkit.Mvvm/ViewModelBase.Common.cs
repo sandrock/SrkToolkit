@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using SrkToolkit.Base;
+using System.Windows.Threading;
 
 namespace SrkToolkit.Mvvm {
 
@@ -10,6 +11,16 @@ namespace SrkToolkit.Mvvm {
     /// A base class for the ViewModel classes in the MVVM pattern.
     /// </summary>
     public partial class ViewModelBase : INotifyPropertyChanged, IDisposable, ICleanup {
+
+        #region Threading
+
+        private static Dispatcher PresentationDispatcher;
+
+        protected void Dispatch(Action action) {
+            PresentationDispatcher.BeginInvoke(action, null);
+        }
+
+        #endregion
 
         #region Is in design mode awareness
 

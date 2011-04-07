@@ -1,9 +1,19 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Windows.Threading;
+using System.Windows;
 
 namespace SrkToolkit.Mvvm {
 
     partial class ViewModelBase {
+
+        #region Threading
+
+        static ViewModelBase() {
+            PresentationDispatcher = Deployment.Current.Dispatcher;
+        }
+
+        #endregion
 
         #region Is in design mode awareness
 

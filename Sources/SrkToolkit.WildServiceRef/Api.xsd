@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://projects.sandrock.fr/srktoolkit/wildserviceref/api">
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://projects.sandrock.fr/srktoolkit/wildserviceref/api" xmlns="http://projects.sandrock.fr/srktoolkit/wildserviceref/api">
   <xs:element name="Root">
     <xs:complexType>
       <xs:sequence>
@@ -12,10 +12,11 @@
               <xs:element name="Summary" type="xs:string" />
               <xs:element name="AsyncEventType" type="xs:string" default="AsyncResponseHandler" />
               <xs:element name="AsyncArgsType" type="xs:string" default="AsyncResponseArgs" />
+              <xs:element name="AsyncEndedSuffix" type="xs:string" default="Ended" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Methods">
+        <xs:element name="Methods" minOccurs="1" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
               <xs:element maxOccurs="unbounded" name="Region">

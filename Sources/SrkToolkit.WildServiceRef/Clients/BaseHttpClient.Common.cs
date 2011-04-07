@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SrkToolkit.WildServiceRef.Clients {
 
@@ -15,7 +12,6 @@ namespace SrkToolkit.WildServiceRef.Clients {
         /// <summary>
         /// Base HTTP url for queries. 
         /// This will permit to use a different base adresse (for HTTPS, different port or domain name...).
-        /// Default is http://api.betaseries.com/.
         /// </summary>
         /// <remarks>
         /// Value must be setted from .ctor.

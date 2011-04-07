@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{00CE188C-0F29-4AA4-A567-55B2E537D3F5}</ProjectGuid>
+    <ProjectGuid>{3AAB750C-6AB7-4FE2-A2E8-E517E7E2AA4D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SrkToolkit.WildServiceRef</RootNamespace>
-    <AssemblyName>SrkToolkit.WildServiceRef</AssemblyName>
+    <RootNamespace>SrkToolkit.WcfServiceRef</RootNamespace>
+    <AssemblyName>SrkToolkit.WcfServiceRef</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\SrkToolkit.WildServiceRef.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,39 +33,18 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseClientFactory.cs" />
     <Compile Include="Common\AsyncResponseArgs.cs" />
     <Compile Include="Common\AsyncResponseHandler.cs" />
-    <Compile Include="HttpStatusCodeHandler.cs" />
-    <Compile Include="HttpTools.cs" />
-    <Compile Include="HttpUtility.cs" />
-    <Compile Include="HttpWrapper.Common.cs" />
-    <Compile Include="HttpWrapper.cs" />
-    <Compile Include="Clients\BaseHttpClient.cs" />
-    <Compile Include="Clients\BaseHttpClient.Common.cs" />
-    <Compile Include="IHttpStatusCodeHandler.cs" />
-    <Compile Include="IHttpWrapper.cs" />
-    <Compile Include="Parsing\Parse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnauthorizedOperationException.cs" />
-    <Compile Include="UnavailableServiceException.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Api.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy /Y Api.xsd "C:\Program Files (x86)\Microsoft Visual Studio 10.0\Xml\Schemas\Api.xsd"</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

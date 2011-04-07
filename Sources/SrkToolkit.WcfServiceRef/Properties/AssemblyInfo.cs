@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SrkToolkit.WildServiceRef")]
+[assembly: AssemblyTitle("SrkToolkit.WcfServiceRef")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("SrkToolkit.WildServiceRef")]
+[assembly: AssemblyProduct("SrkToolkit.WcfServiceRef")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0e89bb74-840f-4acf-8bea-44ba30839de1")]
+[assembly: Guid("6da3f5d7-aeaa-4e46-a25c-23f3a4b7cd51")]
 
 // Version information for an assembly consists of the following four values:
 //

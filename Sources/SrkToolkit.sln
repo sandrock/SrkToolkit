@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkitSL.ServiceWrapper
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkit.WildServiceRef.CodeGeneration", "SrkToolkit.WildServiceRef.CodeGeneration\SrkToolkit.WildServiceRef.CodeGeneration.csproj", "{3AF5844E-EB56-4B2F-9679-C6276C0D2869}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkit.WcfServiceRef", "SrkToolkit.WcfServiceRef\SrkToolkit.WcfServiceRef.csproj", "{3AAB750C-6AB7-4FE2-A2E8-E517E7E2AA4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{3AF5844E-EB56-4B2F-9679-C6276C0D2869}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AF5844E-EB56-4B2F-9679-C6276C0D2869}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AF5844E-EB56-4B2F-9679-C6276C0D2869}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AAB750C-6AB7-4FE2-A2E8-E517E7E2AA4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AAB750C-6AB7-4FE2-A2E8-E517E7E2AA4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AAB750C-6AB7-4FE2-A2E8-E517E7E2AA4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AAB750C-6AB7-4FE2-A2E8-E517E7E2AA4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,5 +73,6 @@ Global
 		{D3FED2E6-C159-4C51-AF90-CF15FAFA5334} = {866B4EE7-5350-4FBC-8955-5DAE16A89EF6}
 		{00CE188C-0F29-4AA4-A567-55B2E537D3F5} = {866B4EE7-5350-4FBC-8955-5DAE16A89EF6}
 		{3AF5844E-EB56-4B2F-9679-C6276C0D2869} = {866B4EE7-5350-4FBC-8955-5DAE16A89EF6}
+		{3AAB750C-6AB7-4FE2-A2E8-E517E7E2AA4D} = {866B4EE7-5350-4FBC-8955-5DAE16A89EF6}
 	EndGlobalSection
 EndGlobal

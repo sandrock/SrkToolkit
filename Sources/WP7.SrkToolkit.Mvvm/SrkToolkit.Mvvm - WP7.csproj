@@ -9,8 +9,8 @@
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SrkToolkit.Wp7Presentation</RootNamespace>
-    <AssemblyName>SrkToolkit.Wp7Presentation</AssemblyName>
+    <RootNamespace>SrkToolkit.Mvvm</RootNamespace>
+    <AssemblyName>SrkToolkit.Mvvm</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
@@ -29,7 +29,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin\Debug\SrkToolkit.Wp7Presentation.XML</DocumentationFile>
+    <DocumentationFile>Bin\Debug\SrkToolkit.Mvvm.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,15 +49,16 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SrkToolkit.Base\ICleanup.cs">
+      <Link>Base\ICleanup.cs</Link>
+    </Compile>
+    <Compile Include="..\WPF4.SrkToolkit.Mvvm\ViewModelBase.Common.cs">
+      <Link>ViewModelBase.Common.cs</Link>
+    </Compile>
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SrkToolkit.Wp7Base\SrkToolkit.Wp7Base.csproj">
-      <Project>{21ED47C1-2466-4095-BE0B-BF8B8CB51D27}</Project>
-      <Name>SrkToolkit.Wp7Base</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions />

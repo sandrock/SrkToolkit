@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SrkToolkit.WildServiceRef.Common {
+namespace SrkToolkit.WcfServiceRef.Common {
 
     /// <summary>
     /// Represent an API response with no data.

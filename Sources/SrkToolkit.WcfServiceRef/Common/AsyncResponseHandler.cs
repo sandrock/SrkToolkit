@@ -1,5 +1,5 @@
 ﻿
-namespace SrkToolkit.WildServiceRef.Common {
+namespace SrkToolkit.WcfServiceRef.Common {
 
     /// <summary>
     /// Delegate for a service response not containing data.

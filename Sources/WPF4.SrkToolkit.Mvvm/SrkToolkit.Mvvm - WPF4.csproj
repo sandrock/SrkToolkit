@@ -47,8 +47,13 @@
     <Compile Include="..\SrkToolkit.Base\ICleanup.cs">
       <Link>Base\ICleanup.cs</Link>
     </Compile>
+    <Compile Include="InteractionViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\DataEventArgs.cs" />
+    <Compile Include="Tools\BusyTask.cs" />
+    <Compile Include="Tools\BusyTaskCollection.cs" />
+    <Compile Include="Tools\BusyTaskType.cs" />
+    <Compile Include="Tools\MessageBoxService.cs" />
     <Compile Include="ViewModelBase.Common.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>

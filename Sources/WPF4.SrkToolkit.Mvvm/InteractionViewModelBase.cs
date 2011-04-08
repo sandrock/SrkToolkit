@@ -2,11 +2,9 @@
 using SrkToolkit.Mvvm.Tools;
 
 namespace SrkToolkit.Mvvm {
+
+
     public class InteractionViewModelBase : ViewModelBase {
-
-        #region Composition parts
-
-        #endregion
 
         #region View properties
 
@@ -21,10 +19,6 @@ namespace SrkToolkit.Mvvm {
             get { return _tasks; }
         }
         private readonly BusyTaskCollection _tasks = new BusyTaskCollection();
-
-        #endregion
-
-        #region Properties
 
         #endregion
 
@@ -61,6 +55,7 @@ namespace SrkToolkit.Mvvm {
         /// <param name="key"></param>
         /// <param name="isProcessing"></param>
         /// <param name="type"></param>
+        /// <param name="message"></param>
         protected void UpdateTask(string key, bool isProcessing = false, string message = null, BusyTaskType type = BusyTaskType.Default) {
             var task = Tasks[key];
             if (task != null) {
@@ -74,6 +69,59 @@ namespace SrkToolkit.Mvvm {
                 });
             }
         }
+
+        /// <summary>
+        /// Update a task status.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="isProcessing"></param>
+        /// <param name="type"></param>
+        /// <param name="message"></param>
+        protected void UpdateTask(string key, string message = null, bool isProcessing = false, BusyTaskType type = BusyTaskType.Default) {
+            var task = Tasks[key];
+            if (task != null) {
+                Tasks.Update(key, message, isProcessing, type);
+            } else {
+                Tasks.Add(new BusyTask {
+                    Key = key,
+                    IsGlobal = false,
+                    IsProcessing = isProcessing,
+                    Message = message,
+                });
+            }
+        }
+
+        /// <summary>
+        /// Update a task status.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="isProcessing"></param>
+        /// <param name="type"></param>
+        protected void UpdateTask(string key, Exception exception, string message = null, bool isProcessing = false, BusyTaskType type = BusyTaskType.Error) {
+            if (exception != null) {
+#if DEBUG
+                UpdateTask(key, isProcessing, message ?? exception.Message, type);
+#else
+                UpdateTask(key, isProcessing, message ?? "An error occured. ", type);
+#endif
+            } else {
+                UpdateTask(key, isProcessing, message, BusyTaskType.Default);
+            }
+        }
+
+        #endregion
+
+        #region MessageBoxService
+
+        /// <summary>
+        /// MessageBox abstraction.
+        /// You can replace this for unit-testing.
+        /// </summary>
+        protected MessageBoxService Mbox {
+            get { return _mbox ?? (_mbox = new MessageBoxService()); }
+            set { _mbox = value; }
+        }
+        private MessageBoxService _mbox;
 
         #endregion
         

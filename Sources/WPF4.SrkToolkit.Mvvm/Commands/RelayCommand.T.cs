@@ -5,12 +5,12 @@ using System.Diagnostics;
 namespace SrkToolkit.Mvvm.Commands {
 
     /// <summary>
-    /// Classic RelayCommand implementation for the MVVM pattern.
+    /// Classic generic RelayCommand implementation for the MVVM pattern.
     /// </summary>
-    public class RelayCommand : ICommand {
+    public class RelayCommand<T> : ICommand {
 
-        private readonly Func<bool> _canExecuteFunc;
-        private readonly Action _executeAction;
+        private readonly Predicate<T> _canExecuteFunc;
+        private readonly Action<T> _executeAction;
 
         /// <summary>
         /// Event for the CanExecute feature.
@@ -33,7 +33,7 @@ namespace SrkToolkit.Mvvm.Commands {
         /// </summary>
         /// <param name="execute">the action to execute</param>
         /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
-        public RelayCommand(Action execute)
+        public RelayCommand(Action<T> execute)
             : this(execute, null) {
         }
 
@@ -43,7 +43,7 @@ namespace SrkToolkit.Mvvm.Commands {
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
         /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
-        public RelayCommand(Action execute, Func<bool> canExecute) {
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute) {
             if (execute == null) {
                 throw new ArgumentNullException("execute");
             }
@@ -58,7 +58,7 @@ namespace SrkToolkit.Mvvm.Commands {
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         [DebuggerStepThrough]
         public bool CanExecute(object parameter) {
-            return ((this._canExecuteFunc == null) ? true : this._canExecuteFunc.Invoke());
+            return ((this._canExecuteFunc == null) ? true : this._canExecuteFunc.Invoke((T)parameter));
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace SrkToolkit.Mvvm.Commands {
         /// </summary>
         /// <param name="parameter">This parameter will always be ignored.</param>
         public void Execute(object parameter) {
-            this._executeAction.Invoke();
+            this._executeAction.Invoke((T)parameter);
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using SrkToolkit.Base;
 using System.Windows.Threading;
+using SrkToolkit.Mvvm.Tools;
 
 namespace SrkToolkit.Mvvm {
 

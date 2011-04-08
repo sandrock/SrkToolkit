@@ -47,6 +47,7 @@
     <Compile Include="..\SrkToolkit.Base\ICleanup.cs">
       <Link>Base\ICleanup.cs</Link>
     </Compile>
+    <Compile Include="Commands\RelayCommand.T.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="InteractionViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

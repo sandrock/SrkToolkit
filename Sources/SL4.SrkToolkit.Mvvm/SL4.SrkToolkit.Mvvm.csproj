@@ -61,6 +61,18 @@
     <Compile Include="..\WP7.SrkToolkit.Mvvm\ViewModelBase.cs">
       <Link>ViewModelBase.cs</Link>
     </Compile>
+    <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\BusyTask.cs">
+      <Link>Tools\BusyTask.cs</Link>
+    </Compile>
+    <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\BusyTaskCollection.cs">
+      <Link>Tools\BusyTaskCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\BusyTaskType.cs">
+      <Link>Tools\BusyTaskType.cs</Link>
+    </Compile>
+    <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\MessageBoxService.cs">
+      <Link>Tools\MessageBoxService.cs</Link>
+    </Compile>
     <Compile Include="..\WPF4.SrkToolkit.Mvvm\ViewModelBase.Common.cs">
       <Link>ViewModelBase.Common.cs</Link>
     </Compile>

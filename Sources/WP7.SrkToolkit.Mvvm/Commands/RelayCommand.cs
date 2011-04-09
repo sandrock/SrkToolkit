@@ -12,6 +12,11 @@ namespace SrkToolkit.Mvvm.Commands {
         private readonly Action _executeAction;
 
         /// <summary>
+        /// Event for the CanExecute feature.
+        /// </summary>
+        public event EventHandler CanExecuteChanged;
+
+        /// <summary>
         /// Create a new instance that can always execute.
         /// </summary>
         /// <param name="execute">the action to execute</param>

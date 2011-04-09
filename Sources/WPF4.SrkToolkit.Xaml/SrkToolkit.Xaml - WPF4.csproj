@@ -54,6 +54,7 @@
     <Compile Include="Converters\NotNullToVisibilityConverter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\OppositeBoolConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -17,13 +17,17 @@ namespace SrkToolkit.Mvvm.Tools {
             this.action = action;
         }
 
-        [Conditional("DEBUG"), DebuggerStepThrough]
+        [DebuggerStepThrough]
         public MessageBoxResult ShowDebug(string messageBoxText) {
+#if DEBUG
             if (action != null) {
                 return action(messageBoxText, null, MessageBoxButton.OK);
             } else {
                 return MessageBox.Show(messageBoxText);
             }
+#else
+            return MessageBoxResult.OK;
+#endif
         }
 
         [DebuggerStepThrough]

@@ -86,12 +86,17 @@ namespace SrkToolkit.Mvvm {
 
         #region Cleanup
 
+        private bool _disposed;
+        protected bool disposed {
+            get { return _disposed; }
+        }
+
         #region IDisposable Members
 #pragma warning disable 1591
 
-        [Obsolete("Use ICleanup.Cleanup instead.")]
-        public void Dispose() {
+        public sealed void Dispose() {
             this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
 #pragma warning restore 1591
@@ -100,9 +105,15 @@ namespace SrkToolkit.Mvvm {
         #region ICleanup Members
 
         /// <summary>
-        /// Override this method to dispose resources.
+        /// Override this method to unload data.
         /// It is called by <see cref="IDisposable.Dispose"/>.
+        /// Always call the parent method. 
         /// </summary>
+        /// <remarks>
+        /// It can be called many times without altering the object.
+        /// For navigation apps, can be called by OnNavigatedFrom.
+        /// For xaml popups, can be called by OnPopupClosed or OnUnload.
+        /// </remarks>
         public virtual void Cleanup() {
             
         }
@@ -110,11 +121,16 @@ namespace SrkToolkit.Mvvm {
         #endregion
 
         /// <summary>
-        /// Overriden method. Calls <see cref="Cleanup"/>.
+        /// Dispose method to free resources.
+        /// The object will not be usable anymore.
+        /// It calls <see cref="Cleanup"/> before disposing anything.
+        /// Always call the parent method. 
         /// </summary>
         /// <param name="disposing"></param>
-        [Obsolete("Use ICleanup.Cleanup instead.")]
         protected virtual void Dispose(bool disposing) {
+            if (_disposed)
+                return;
+
             if (disposing) {
                 this.Cleanup();
             }

@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WCF Services", "WCF Service
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkit.Mvvm - WPF4", "WPF4.SrkToolkit.Mvvm\SrkToolkit.Mvvm - WPF4.csproj", "{A842E52E-4001-4BD8-BDCD-C95630D984D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SL4.SrkToolkit.Mvvm", "SL4.SrkToolkit.Mvvm\SL4.SrkToolkit.Mvvm.csproj", "{09CD285E-A097-4C38-8598-5A9BE0557030}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkit.Mvvm - SL4", "SL4.SrkToolkit.Mvvm\SrkToolkit.Mvvm - SL4.csproj", "{09CD285E-A097-4C38-8598-5A9BE0557030}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XAML", "XAML", "{A3324369-1E2D-495C-8E96-109B6F98F003}"
 EndProject

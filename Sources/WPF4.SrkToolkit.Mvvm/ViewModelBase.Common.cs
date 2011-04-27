@@ -94,7 +94,7 @@ namespace SrkToolkit.Mvvm {
         #region IDisposable Members
 #pragma warning disable 1591
 
-        public sealed void Dispose() {
+        public void Dispose() {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }

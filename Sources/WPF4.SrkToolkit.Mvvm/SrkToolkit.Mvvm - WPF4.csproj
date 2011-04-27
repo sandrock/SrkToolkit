@@ -44,9 +44,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SrkToolkit.Base\ICleanup.cs">
-      <Link>Base\ICleanup.cs</Link>
-    </Compile>
+    <Compile Include="Base\ICleanup.cs" />
     <Compile Include="Commands\RelayCommand.T.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="InteractionViewModelBase.cs" />

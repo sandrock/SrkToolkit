@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System;
 
 [assembly: AssemblyTitle("SrkToolkit.WcfServiceRef")]
 [assembly: AssemblyDescription("")]
@@ -12,6 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
+[assembly: CLSCompliant(true)]
 
 [assembly: Guid("6da3f5d7-aeaa-4e46-a25c-23f3a4b7cd51")]
 

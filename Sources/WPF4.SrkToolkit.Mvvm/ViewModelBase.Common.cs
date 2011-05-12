@@ -87,7 +87,7 @@ namespace SrkToolkit.Mvvm {
         #region Cleanup
 
         private bool _disposed;
-        protected bool disposed {
+        protected bool Disposed {
             get { return _disposed; }
         }
 

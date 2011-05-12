@@ -24,7 +24,6 @@ namespace SrkToolkit.Xaml.Converters {
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
             bool reverse = false;
-            bool isNull = false;
             bool hide = false;
             var vHide = Visibility.Collapsed;
 

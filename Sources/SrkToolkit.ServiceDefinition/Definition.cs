@@ -1,5 +1,5 @@
 ﻿
-namespace SrkToolkit.WildServiceRef.CodeGeneration {
+namespace SrkToolkit.ServiceDefinition {
     public class Definition {
         public string Name { get; set; }
         public string Type { get; set; }

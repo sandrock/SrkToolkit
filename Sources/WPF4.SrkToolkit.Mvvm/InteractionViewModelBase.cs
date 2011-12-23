@@ -4,7 +4,7 @@ using SrkToolkit.Mvvm.Tools;
 namespace SrkToolkit.Mvvm {
 
 
-    public class InteractionViewModelBase : ViewModelBase {
+    public partial class InteractionViewModelBase : ViewModelBase {
 
         #region View properties
 

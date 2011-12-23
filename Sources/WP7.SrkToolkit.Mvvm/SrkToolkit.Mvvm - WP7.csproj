@@ -30,6 +30,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>Bin\Debug\SrkToolkit.Mvvm.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,6 +44,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Phone" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -49,9 +52,6 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SrkToolkit.Base\ICleanup.cs">
-      <Link>Base\ICleanup.cs</Link>
-    </Compile>
     <Compile Include="..\WPF4.SrkToolkit.Mvvm\InteractionViewModelBase.cs">
       <Link>InteractionViewModelBase.cs</Link>
     </Compile>
@@ -70,8 +70,12 @@
     <Compile Include="..\WPF4.SrkToolkit.Mvvm\ViewModelBase.Common.cs">
       <Link>ViewModelBase.Common.cs</Link>
     </Compile>
+    <Compile Include="Base\ICleanup.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommand.T.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="InteractionViewModelBase.WP7.cs" />
+    <Compile Include="PhoneApplicationPage.cs" />
     <Compile Include="System\DataEventArgs.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

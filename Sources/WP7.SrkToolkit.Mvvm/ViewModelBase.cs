@@ -10,7 +10,9 @@ namespace SrkToolkit.Mvvm {
         #region Threading
 
         static ViewModelBase() {
-            PresentationDispatcher = Deployment.Current.Dispatcher;
+            if (Deployment.Current != null) {
+                PresentationDispatcher = Deployment.Current.Dispatcher;
+            }
         }
 
         #endregion

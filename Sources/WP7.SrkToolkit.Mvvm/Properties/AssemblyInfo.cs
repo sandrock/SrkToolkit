@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System;
 
 [assembly: AssemblyTitle("SrkToolkit.Mvvm")]
 [assembly: AssemblyDescription("")]
@@ -12,6 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
+[assembly: CLSCompliant(true)]
 
 [assembly: Guid("12ee086f-0ba0-4af7-af68-9f845babd969")]
 

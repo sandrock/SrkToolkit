@@ -62,6 +62,7 @@
     <Compile Include="Tools\BusyTask.cs" />
     <Compile Include="Tools\BusyTaskCollection.cs" />
     <Compile Include="Tools\BusyTaskType.cs" />
+    <Compile Include="Tools\IMessageBoxService.cs" />
     <Compile Include="Tools\MessageBoxService.cs" />
     <Compile Include="ViewModelBase.Common.cs" />
     <Compile Include="ViewModelBase.cs" />

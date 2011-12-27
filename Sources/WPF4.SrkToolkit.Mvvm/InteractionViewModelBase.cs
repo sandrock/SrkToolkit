@@ -25,7 +25,6 @@ namespace SrkToolkit.Mvvm {
         #region .ctor
 
         public InteractionViewModelBase() : base() {
-
         }
 
         #endregion
@@ -117,11 +116,11 @@ namespace SrkToolkit.Mvvm {
         /// MessageBox abstraction.
         /// You can replace this for unit-testing.
         /// </summary>
-        protected MessageBoxService Mbox {
+        protected IMessageBoxService Mbox {
             get { return _mbox ?? (_mbox = new MessageBoxService()); }
             set { _mbox = value; }
         }
-        private MessageBoxService _mbox;
+        private IMessageBoxService _mbox;
 
         #endregion
         

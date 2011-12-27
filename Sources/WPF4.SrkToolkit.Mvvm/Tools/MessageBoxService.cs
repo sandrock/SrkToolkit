@@ -7,7 +7,7 @@ namespace SrkToolkit.Mvvm.Tools {
     /// <summary>
     /// Abstraction of the MessageBox component. 
     /// </summary>
-    public class MessageBoxService {
+    public class MessageBoxService : IMessageBoxService {
 
         private readonly Func<string, string, MessageBoxButton, MessageBoxResult> action;
 

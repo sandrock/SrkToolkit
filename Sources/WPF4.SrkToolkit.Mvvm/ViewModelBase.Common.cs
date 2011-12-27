@@ -15,10 +15,18 @@ namespace SrkToolkit.Mvvm {
 
         #region Threading
 
-        private static Dispatcher PresentationDispatcher;
+        private Dispatcher PresentationDispatcher;
 
         protected void Dispatch(Action action) {
             PresentationDispatcher.BeginInvoke(action, null);
+        }
+
+        protected void DispatchBackground(Action action) {
+            PresentationDispatcher.BeginInvoke(action, DispatcherPriority.Background, null);
+        }
+
+        protected void DispatchApplicationIdle(Action action) {
+            PresentationDispatcher.BeginInvoke(action, DispatcherPriority.ApplicationIdle, null);
         }
 
         #endregion

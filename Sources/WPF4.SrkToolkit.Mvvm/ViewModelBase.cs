@@ -11,7 +11,7 @@ namespace SrkToolkit.Mvvm {
 
         #region Threading
 
-        static ViewModelBase() {
+        public ViewModelBase() {
             PresentationDispatcher = Dispatcher.CurrentDispatcher;
         }
 

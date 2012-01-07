@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Threading;
+using SrkToolkit.Xaml.Commands;
 
 namespace SrkToolkit.Xaml.Behaviors {
     /// <summary>
@@ -202,6 +203,54 @@ namespace SrkToolkit.Xaml.Behaviors {
 
         #endregion
 
+        #region Commands
+
+        /// <summary>
+        /// Maximize/windowize command.
+        /// To be bound in the view.
+        /// </summary>
+        public ICommand MaximizeCommand {
+            [System.Diagnostics.DebuggerStepThrough]
+            get { return this.maximizeCommand ?? (this.maximizeCommand = new RelayCommand(OnMaximize)); }
+        }
+        private ICommand maximizeCommand;
+
+        private void OnMaximize() {
+            this.AssociatedObject.WindowState = (this.AssociatedObject.WindowState == WindowState.Normal)
+                ? WindowState.Maximized : WindowState.Normal;
+        }
+
+        /// <summary>
+        /// Minimize command.
+        /// To be bound in the view.
+        /// </summary>
+        public ICommand MinimizeCommand {
+            [System.Diagnostics.DebuggerStepThrough]
+            get { return this.minimizeCommand ?? (this.minimizeCommand = new RelayCommand(OnMinimize)); }
+        }
+        private ICommand minimizeCommand;
+
+        private void OnMinimize() {
+            this.AssociatedObject.WindowState = (this.AssociatedObject.WindowState == WindowState.Minimized)
+                ? WindowState.Normal : WindowState.Minimized;
+        }
+
+        /// <summary>
+        /// Close command.
+        /// To be bound in the view.
+        /// </summary>
+        public ICommand CloseCommand {
+            [System.Diagnostics.DebuggerStepThrough]
+            get { return this.closeCommand ?? (this.closeCommand = new RelayCommand(OnClose)); }
+        }
+        private ICommand closeCommand;
+
+        private void OnClose() {
+            this.AssociatedObject.Close();
+        }
+
+        #endregion
+
         #region Events
 
         public event EventHandler Resized;
@@ -220,6 +269,15 @@ namespace SrkToolkit.Xaml.Behaviors {
             this.dispatcher = this.AssociatedObject.Dispatcher;
 
             this.AssociatedObject.Loaded += (s, e) => this.WireUpWndProc();
+            this.AssociatedObject.MouseLeftButtonDown += this.OnInputDown;
+            this.AssociatedObject.TouchDown += this.OnInputDown;
+        }
+
+        void OnInputDown(object sender, RoutedEventArgs e) {
+            if (sender is Window) {
+                this.AssociatedObject.DragMove();
+                e.Handled = true;
+            }
         }
 
         protected override void OnDetaching() {
@@ -430,20 +488,20 @@ namespace SrkToolkit.Xaml.Behaviors {
             GetCursorPos(out p);
 
             if (resizeRight) {
-                this.AssociatedObject.Width = this.resizeSize.Width - (resizePoint.X - p.X);
+                this.AssociatedObject.Width = Math.Abs(this.resizeSize.Width - (resizePoint.X - p.X)) + 8;
             }
 
             if (resizeDown) {
-                this.AssociatedObject.Height = resizeSize.Height - (resizePoint.Y - p.Y);
+                this.AssociatedObject.Height = Math.Abs(resizeSize.Height - (resizePoint.Y - p.Y)) + 8;
             }
 
             if (resizeLeft) {
-                this.AssociatedObject.Width = resizeSize.Width + (resizePoint.X - p.X);
+                this.AssociatedObject.Width = Math.Abs(resizeSize.Width + (resizePoint.X - p.X)) + 8;
                 this.AssociatedObject.Left = resizeWindowPoint.X - (resizePoint.X - p.X);
             }
 
             if (resizeUp) {
-                this.AssociatedObject.Height = resizeSize.Height + (resizePoint.Y - p.Y);
+                this.AssociatedObject.Height = Math.Abs(resizeSize.Height + (resizePoint.Y - p.Y)) + 8;
                 this.AssociatedObject.Top = resizeWindowPoint.Y - (resizePoint.Y - p.Y);
             }
         }

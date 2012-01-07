@@ -44,7 +44,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\Lib\FX40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -62,6 +64,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DateTimeDateConverter.cs" />
     <Compile Include="Converters\NotNullToVisibilityConverter.cs" />
+    <Compile Include="RelayCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\OppositeBoolConverter.cs" />

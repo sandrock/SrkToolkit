@@ -60,6 +60,30 @@ namespace SrkToolkit.Services
 
         /// <summary>
         /// Registers the a service with a specified interface type.
+        /// </summary>
+        /// <typeparam name="TInterface">The type of the interface.</typeparam>
+        /// <typeparam name="TImplementation">The type of the implementation.</typeparam>
+        /// <param name="service">The reference to the service instance.</param>
+        public static void Register<TImplementation>(TImplementation service)
+            where TImplementation : class
+        {
+            if (service == null)
+                throw new ArgumentNullException("service");
+
+            var type = typeof(TImplementation);
+            var id = type.GUID;
+            lock (internals)
+            {
+                if (services.ContainsKey(id))
+                    throw new ArgumentException("Service of type '" + type.Name + "' is already registered");
+
+                services.Add(id, service);
+                TraceEx.Info("ApplicationService", "Registered instance for " + type.Name);
+            }
+        }
+
+        /// <summary>
+        /// Registers the a service with a specified interface type.
         /// The service is automatically instanciated on the first call to it.
         /// </summary>
         /// <typeparam name="TInterface">The type of the interface.</typeparam>

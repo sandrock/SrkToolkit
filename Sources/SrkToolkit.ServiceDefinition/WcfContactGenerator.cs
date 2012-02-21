@@ -72,8 +72,9 @@ namespace SrkToolkit.ServiceDefinition {
                     // method: comments
                     //
                     WriteMemberCommentSummary(method.Description);
-                    WriteMethodHeader(access)
+                    WriteMethodHeader(access);
 
+#warning code being written // TODO: code being written (SandRock)
 
                 }
 

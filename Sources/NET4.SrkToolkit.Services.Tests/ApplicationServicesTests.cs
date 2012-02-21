@@ -62,6 +62,30 @@ namespace SrkToolkit.Services.Tests
         }
 
         [TestMethod, TestCategory(Category.Unit)]
+        public void RegisterClassInstanceAndResolve()
+        {
+            // prepare
+            ClassA instance = new ClassA();
+            object resolved = null;
+            object resolved1 = null;
+
+            // execute
+            ApplicationServices.Register(instance);
+            resolved = ApplicationServices.Resolve<ClassA>();
+
+            // verify
+            Assert.IsNotNull(resolved);
+            Assert.IsInstanceOfType(resolved, typeof(ClassA));
+            Assert.AreSame(instance, resolved);
+
+            // execute again
+            resolved1 = ApplicationServices.Resolve<ClassA>();
+
+            // verify
+            Assert.AreSame(instance, resolved1);
+        }
+
+        [TestMethod, TestCategory(Category.Unit)]
         public void RegisterFactoryAndResolve()
         {
             // prepare

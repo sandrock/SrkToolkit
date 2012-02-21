@@ -25,7 +25,7 @@ namespace SrkToolkit.ServiceDefinition {
             this.writer = writer;
         }
 
-        public virtual void Run(Generation gen) {
+        public virtual void Run(Generation gen, IWriter writer) {
             throw new NotSupportedException();
         }
 

@@ -55,6 +55,7 @@
     <Compile Include="Base\ICleanup.cs" />
     <Compile Include="Commands\RelayCommand.T.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="DispatcherExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="InteractionViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

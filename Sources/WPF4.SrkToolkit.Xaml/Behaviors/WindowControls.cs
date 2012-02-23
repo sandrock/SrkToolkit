@@ -274,7 +274,7 @@ namespace SrkToolkit.Xaml.Behaviors {
         }
 
         void OnInputDown(object sender, RoutedEventArgs e) {
-            if (sender is Window) {
+            if (sender is Window && !this.AssociatedObject.AreAnyTouchesOver) {
                 this.AssociatedObject.DragMove();
                 e.Handled = true;
             }

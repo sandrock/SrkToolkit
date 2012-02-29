@@ -1,23 +1,25 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
-using SrkToolkit.Mvvm.Commands;
 using Microsoft.Phone.Tasks;
+using SrkToolkit.Mvvm.Commands;
 
 namespace SrkToolkit.Mvvm
 {
     partial class InteractionViewModelBase
     {
 
-        #region Navigation (internal and web)
+        #region Phone stuff
 
         #region Navigate Command
 
         /// <summary>
         /// Useless thing.
         /// </summary>
+        [CLSCompliant(false)]
         protected static PhoneApplicationFrame RootVisual
         {
             get
@@ -59,12 +61,18 @@ namespace SrkToolkit.Mvvm
             }
         }
 
-        protected void NavigateBack()
+        /// <summary>
+        /// Navigates to the most recent entry in the back navigation history, or throws an exception if no entry exists in back navigation.
+        /// </summary>
+        /// <param name="fallbackUri">
+        ///   if going back is not allowed, this param will be used to navigate somewhere else.
+        /// </param>
+        protected void NavigateBack(string fallbackUri = "/MainPage.xaml")
         {
             if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
-            else
-                NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            else if (fallbackUri != null)
+                NavigationService.Navigate(new Uri(fallbackUri, UriKind.Relative));
         }
 
         #endregion
@@ -104,6 +112,13 @@ namespace SrkToolkit.Mvvm
             }
         }
 
+        /// <summary>
+        /// Called when the <see cref="WebLinkCommand"/> is executed.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns>
+        /// if the returned value is true, then a <see cref="WebBrowserTask"/> will be xecuted for the specified url.
+        /// </returns>
         protected virtual bool OnWebLink(Uri url)
         {
             return true;
@@ -118,15 +133,22 @@ namespace SrkToolkit.Mvvm
         /// <summary>
         /// Nice for navigation.
         /// </summary>
+        [CLSCompliant(false)]
         protected NavigationService NavigationService { get; private set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this page is deactivated.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is page deactivated; otherwise, <c>false</c>.
+        /// </value>
         public virtual bool IsPageDeactivated
         {
             get
             {
 #if DEBUG
                 if (System.Diagnostics.Debugger.IsAttached && _isPageDeactivated)
-                    System.Diagnostics.Debugger.Break();
+                    System.Diagnostics.Debugger.Break(); // breaking here means a page still works even if no more displayed
 #endif
                 return _isPageDeactivated;
             }
@@ -134,28 +156,55 @@ namespace SrkToolkit.Mvvm
         }
         private bool _isPageDeactivated;
 
-
         /// <summary>
-        /// Called by the view.
+        /// Called when a page is no longer the active page in a frame.
         /// </summary>
-        /// <param name="e"></param>
-        public virtual void OnNavigatedFrom(NavigationEventArgs e)
+        /// <param name="e">An object that contains the event data.</param>
+        internal protected virtual void OnNavigatedFrom(NavigationEventArgs e)
         {
             IsPageDeactivated = true;
         }
 
         /// <summary>
-        /// Called by the view.
+        /// Called when a page becomes the active page in a frame.
         /// Set the <see cref="NavigationService"/> property.
-        /// Triggers auto-login and session persistance.
         /// </summary>
-        /// <param name="e"></param>
-        /// <param name="context"></param>
-        /// <param name="navigationService"></param>
-        public virtual void OnNavigatedTo(NavigationEventArgs e, NavigationContext context, NavigationService navigationService)
+        /// <param name="e">An object that contains the event data.</param>
+        /// <param name="context">The navigation context.</param>
+        /// <param name="navigationService">The navigation service.</param>
+        [CLSCompliant(false)]
+        internal protected virtual void OnNavigatedTo(NavigationEventArgs e, NavigationContext context, NavigationService navigationService)
         {
             NavigationService = navigationService;
             IsPageDeactivated = false;
+        }
+
+        /// <summary>
+        /// Called just before a page is no longer the active page in a frame.
+        /// </summary>
+        /// <param name="e">An object that contains the event data.</param>
+        internal protected void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Called when navigating to a fragment on a page.
+        /// </summary>
+        /// <param name="e">An object that contains the event data.</param>
+        [CLSCompliant(false)]
+        internal protected void OnFragmentNavigation(FragmentNavigationEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// This method is called when the hardware back key is pressed.
+        /// </summary>
+        /// <param name="e">Set e.Cancel to true to indicate that the request was handled by the application.</param>
+        internal protected void OnBackKeyPress(CancelEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

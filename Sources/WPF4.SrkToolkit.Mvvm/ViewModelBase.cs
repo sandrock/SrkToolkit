@@ -12,7 +12,15 @@ namespace SrkToolkit.Mvvm {
         #region Threading
 
         public ViewModelBase() {
-            PresentationDispatcher = Dispatcher.CurrentDispatcher;
+            Dispatcher = Dispatcher.CurrentDispatcher;
+        }
+
+        protected void DispatchBackground(Action action) {
+            Dispatcher.BeginInvoke(action, DispatcherPriority.Background, null);
+        }
+
+        protected void DispatchApplicationIdle(Action action) {
+            Dispatcher.BeginInvoke(action, DispatcherPriority.ApplicationIdle, null);
         }
 
         #endregion
@@ -27,7 +35,6 @@ namespace SrkToolkit.Mvvm {
                     if (!(_isInDesignMode.Value || !Process.GetCurrentProcess().ProcessName.StartsWith("devenv", StringComparison.Ordinal))) {
                         _isInDesignMode = true;
                     }
-
                 }
                 return _isInDesignMode.Value;
             }

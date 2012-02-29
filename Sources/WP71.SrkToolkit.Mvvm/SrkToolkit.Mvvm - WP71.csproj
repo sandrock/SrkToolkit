@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DE760EB5-95B4-4E56-89FB-48A38DDDC80A}</ProjectGuid>
+    <ProjectGuid>{011FCD78-30C5-42BC-9499-AA4B4CDD7897}</ProjectGuid>
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -13,7 +13,7 @@
     <AssemblyName>SrkToolkit.Mvvm</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
-    <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
@@ -52,6 +52,27 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\WP7.SrkToolkit.Mvvm\Commands\RelayCommand.cs">
+      <Link>Commands\RelayCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\WP7.SrkToolkit.Mvvm\Commands\RelayCommand.T.cs">
+      <Link>Commands\RelayCommand.T.cs</Link>
+    </Compile>
+    <Compile Include="..\WP7.SrkToolkit.Mvvm\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
+    <Compile Include="..\WP7.SrkToolkit.Mvvm\InteractionViewModelBase.WP7.cs">
+      <Link>InteractionViewModelBase.WP7.cs</Link>
+    </Compile>
+    <Compile Include="..\WP7.SrkToolkit.Mvvm\PhoneApplicationPage.cs">
+      <Link>PhoneApplicationPage.cs</Link>
+    </Compile>
+    <Compile Include="..\WP7.SrkToolkit.Mvvm\System\DataEventArgs.cs">
+      <Link>System\DataEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\WP7.SrkToolkit.Mvvm\ViewModelBase.cs">
+      <Link>ViewModelBase.cs</Link>
+    </Compile>
     <Compile Include="..\WPF4.SrkToolkit.Mvvm\InteractionViewModelBase.cs">
       <Link>InteractionViewModelBase.cs</Link>
     </Compile>
@@ -73,24 +94,10 @@
     <Compile Include="..\WPF4.SrkToolkit.Mvvm\ViewModelBase.Common.cs">
       <Link>ViewModelBase.Common.cs</Link>
     </Compile>
-    <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Commands\RelayCommand.T.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="InteractionViewModelBase.WP7.cs" />
-    <Compile Include="PhoneApplicationPage.cs" />
-    <Compile Include="System\DataEventArgs.cs" />
-    <Compile Include="ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using SrkToolkit.Base;
 using System.Windows.Threading;
 using SrkToolkit.Mvvm.Tools;
 
@@ -11,22 +10,21 @@ namespace SrkToolkit.Mvvm {
     /// <summary>
     /// A base class for the ViewModel classes in the MVVM pattern.
     /// </summary>
-    public partial class ViewModelBase : INotifyPropertyChanged, IDisposable, ICleanup {
+    public partial class ViewModelBase : INotifyPropertyChanged, IDisposable {
+        private bool _disposed;
 
         #region Threading
 
-        private Dispatcher PresentationDispatcher;
+        private Dispatcher Dispatcher;
 
+        /// <summary>
+        /// Executes the specified delegate asynchronously on the thread the <see cref="Dispatcher"/> is associated with.
+        /// </summary>
+        /// <param name="action">
+        /// A delegate to a method that takes no arguments and does not return a value, which is pushed onto the <see cref="Dispatcher"/> event queue.
+        /// </param>
         protected void Dispatch(Action action) {
-            PresentationDispatcher.BeginInvoke(action, null);
-        }
-
-        protected void DispatchBackground(Action action) {
-            PresentationDispatcher.BeginInvoke(action, DispatcherPriority.Background, null);
-        }
-
-        protected void DispatchApplicationIdle(Action action) {
-            PresentationDispatcher.BeginInvoke(action, DispatcherPriority.ApplicationIdle, null);
+            Dispatcher.BeginInvoke(action, null);
         }
 
         #endregion
@@ -35,6 +33,12 @@ namespace SrkToolkit.Mvvm {
 
         private static bool? _isInDesignMode;
 
+        /// <summary>
+        /// Gets a value indicating whether is in design mode.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if is in design mode static; otherwise, <c>false</c>.
+        /// </value>
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Non static member needed for data binding")]
         public bool IsInDesignMode {
             get {
@@ -75,6 +79,10 @@ namespace SrkToolkit.Mvvm {
             }
         }
 
+        /// <summary>
+        /// Verifies the name of the property.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
         [Conditional("DEBUG"), DebuggerStepThrough]
         public void VerifyPropertyName(string propertyName) {
             if (base.GetType().GetProperty(propertyName) == null) {
@@ -94,7 +102,12 @@ namespace SrkToolkit.Mvvm {
 
         #region Cleanup
 
-        private bool _disposed;
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if disposed; otherwise, <c>false</c>.
+        /// </value>
         protected bool Disposed {
             get { return _disposed; }
         }
@@ -110,38 +123,14 @@ namespace SrkToolkit.Mvvm {
 #pragma warning restore 1591
         #endregion
 
-        #region ICleanup Members
-
-        /// <summary>
-        /// Override this method to unload data.
-        /// It is called by <see cref="IDisposable.Dispose"/>.
-        /// Always call the parent method. 
-        /// </summary>
-        /// <remarks>
-        /// It can be called many times without altering the object.
-        /// For navigation apps, can be called by OnNavigatedFrom.
-        /// For xaml popups, can be called by OnPopupClosed or OnUnload.
-        /// </remarks>
-        public virtual void Cleanup() {
-            
-        }
-
-        #endregion
-
         /// <summary>
         /// Dispose method to free resources.
         /// The object will not be usable anymore.
-        /// It calls <see cref="Cleanup"/> before disposing anything.
         /// Always call the parent method. 
         /// </summary>
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing) {
-            if (_disposed)
-                return;
-
-            if (disposing) {
-                this.Cleanup();
-            }
+            this._disposed = true;
         }
 
         #endregion

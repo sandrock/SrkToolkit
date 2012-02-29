@@ -7,6 +7,9 @@ namespace SrkToolkit.Mvvm.Tools {
     /// Represent a background task in a viewmodel.
     /// </summary>
     public class BusyTask : ViewModelBase {
+        private bool _isProcessing;
+        private string _message;
+        private BusyTaskType _type;
 
         /// <summary>
         /// Message to display like "Downloading data... ".
@@ -15,12 +18,14 @@ namespace SrkToolkit.Mvvm.Tools {
             get { return _message; }
             set { SetValue(ref _message, value, "Message"); }
         }
-        private string _message;
 
         /// <summary>
-        /// Is the task currently processing.
+        /// Gets or sets a value indicating whether the task currently processing.
         /// Will set <see cref="IsQueued"/> to false.
         /// </summary>
+        /// <value>
+        ///   <c>true</c> if the task currently processing; otherwise, <c>false</c>.
+        /// </value>
         public bool IsProcessing {
             get { return _isProcessing; }
             set {
@@ -30,7 +35,14 @@ namespace SrkToolkit.Mvvm.Tools {
                 IsQueued = false;
             }
         }
-        private bool _isProcessing;
+
+        /// <summary>
+        /// Gets a value indicating whether the task not currently processing.
+        /// Will set <see cref="IsQueued"/> to false.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the task not currently processing; otherwise, <c>false</c>.
+        /// </value>
         public bool IsNotProcessing {
             get { return !_isProcessing; }
         }
@@ -52,7 +64,6 @@ namespace SrkToolkit.Mvvm.Tools {
                 }
             }
         }
-        private BusyTaskType _type;
 
         /// <summary>
         /// Simple accessor linked to <see cref="Type"/>.
@@ -60,7 +71,6 @@ namespace SrkToolkit.Mvvm.Tools {
         public bool IsError {
             get { return _type == BusyTaskType.Error; }
         }
-
 
         /// <summary>
         /// Simple accessor linked to <see cref="Type"/>.
@@ -79,6 +89,5 @@ namespace SrkToolkit.Mvvm.Tools {
         /// permits to freeze the UI with <see cref="BusyTaskCollection.IsBusy"/>.
         /// </summary>
         public bool IsGlobal { get; set; }
-        
     }
 }

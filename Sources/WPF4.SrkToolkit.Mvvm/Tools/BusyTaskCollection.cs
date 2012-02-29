@@ -100,8 +100,10 @@ namespace SrkToolkit.Mvvm.Tools {
 
         #region .ctor
 
-        public BusyTaskCollection() : base() {
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BusyTaskCollection"/> class.
+        /// </summary>
+        internal BusyTaskCollection() : base() {
         }
 
         #endregion

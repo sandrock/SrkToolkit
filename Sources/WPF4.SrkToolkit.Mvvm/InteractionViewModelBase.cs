@@ -3,7 +3,9 @@ using SrkToolkit.Mvvm.Tools;
 
 namespace SrkToolkit.Mvvm {
 
-
+    /// <summary>
+    /// Higher-level ViewModel base with tasks and MessageBox abstraction.
+    /// </summary>
     public partial class InteractionViewModelBase : ViewModelBase {
 
         #region View properties
@@ -24,6 +26,9 @@ namespace SrkToolkit.Mvvm {
 
         #region .ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InteractionViewModelBase"/> class.
+        /// </summary>
         public InteractionViewModelBase() : base() {
         }
 
@@ -91,11 +96,13 @@ namespace SrkToolkit.Mvvm {
         }
 
         /// <summary>
-        /// Update a task status.
+        /// Update a task status with an exception message.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="isProcessing"></param>
-        /// <param name="type"></param>
+        /// <param name="key">The key.</param>
+        /// <param name="exception">The exception.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="isProcessing">if set to <c>true</c> [is processing].</param>
+        /// <param name="type">The type.</param>
         protected void UpdateTask(string key, Exception exception, string message = null, bool isProcessing = false, BusyTaskType type = BusyTaskType.Error) {
             if (exception != null) {
 #if DEBUG

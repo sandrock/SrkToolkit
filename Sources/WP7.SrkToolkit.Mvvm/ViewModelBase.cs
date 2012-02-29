@@ -9,9 +9,12 @@ namespace SrkToolkit.Mvvm {
 
         #region Threading
 
-        static ViewModelBase() {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
+        /// </summary>
+        protected ViewModelBase() {
             if (Deployment.Current != null) {
-                PresentationDispatcher = Deployment.Current.Dispatcher;
+                Dispatcher = Deployment.Current.Dispatcher;
             }
         }
 
@@ -19,6 +22,12 @@ namespace SrkToolkit.Mvvm {
 
         #region Is in design mode awareness
 
+        /// <summary>
+        /// Gets a value indicating whether is in design mode.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if is in design mode static; otherwise, <c>false</c>.
+        /// </value>
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Justification = "The security risk here is neglectible.")]
         public static bool IsInDesignModeStatic {
             get {

@@ -122,7 +122,11 @@ namespace SrkToolkit.Services
                 if (services.ContainsKey(id))
                     throw new ArgumentException("Service of type '" + type.Name + "' is already registered");
 
+#if SILVERLIGHT
+                services.Add(id, new LazyFactoryService(() => factory()));
+#else
                 services.Add(id, new LazyFactoryService(factory));
+#endif
                 TraceEx.Info("ApplicationService", "Registered factory for " + type.Name);
             }
         }

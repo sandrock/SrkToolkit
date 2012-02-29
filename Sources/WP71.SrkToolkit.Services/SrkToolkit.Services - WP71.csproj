@@ -5,15 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DE760EB5-95B4-4E56-89FB-48A38DDDC80A}</ProjectGuid>
+    <ProjectGuid>{53D43F26-87EC-4217-A53D-33C1BFC9E778}</ProjectGuid>
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SrkToolkit.Mvvm</RootNamespace>
-    <AssemblyName>SrkToolkit.Mvvm</AssemblyName>
+    <RootNamespace>SrkToolkit.Services</RootNamespace>
+    <AssemblyName>SrkToolkit.Services</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
-    <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
@@ -29,9 +29,6 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin\Debug\SrkToolkit.Mvvm.xml</DocumentationFile>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,7 +41,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Phone" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -52,34 +48,18 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\WPF4.SrkToolkit.Mvvm\InteractionViewModelBase.cs">
-      <Link>InteractionViewModelBase.cs</Link>
+    <Compile Include="..\NET4.SrkToolkit.Services\AppEventBus.cs">
+      <Link>AppEventBus.cs</Link>
     </Compile>
-    <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\BusyTask.cs">
-      <Link>Tools\BusyTask.cs</Link>
+    <Compile Include="..\NET4.SrkToolkit.Services\ApplicationServices.cs">
+      <Link>ApplicationServices.cs</Link>
     </Compile>
-    <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\BusyTaskCollection.cs">
-      <Link>Tools\BusyTaskCollection.cs</Link>
+    <Compile Include="..\NET4.SrkToolkit.Services\System\IDisposed.cs">
+      <Link>System\IDisposed.cs</Link>
     </Compile>
-    <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\BusyTaskType.cs">
-      <Link>Tools\BusyTaskType.cs</Link>
+    <Compile Include="..\WP7.SrkToolkit.Services\Diagnostics\TraceEx.cs">
+      <Link>Diagnostics\TraceEx.cs</Link>
     </Compile>
-    <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\IMessageBoxService.cs">
-      <Link>Tools\IMessageBoxService.cs</Link>
-    </Compile>
-    <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\MessageBoxService.cs">
-      <Link>Tools\MessageBoxService.cs</Link>
-    </Compile>
-    <Compile Include="..\WPF4.SrkToolkit.Mvvm\ViewModelBase.Common.cs">
-      <Link>ViewModelBase.Common.cs</Link>
-    </Compile>
-    <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Commands\RelayCommand.T.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="InteractionViewModelBase.WP7.cs" />
-    <Compile Include="PhoneApplicationPage.cs" />
-    <Compile Include="System\DataEventArgs.cs" />
-    <Compile Include="ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

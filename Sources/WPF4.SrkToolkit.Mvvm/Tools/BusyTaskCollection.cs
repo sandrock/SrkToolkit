@@ -108,6 +108,8 @@ namespace SrkToolkit.Mvvm.Tools {
 
         #endregion
 
+        public event EventHandler StateChangedEvent;
+
         #region Public methods
 
         /// <summary>
@@ -194,9 +196,12 @@ namespace SrkToolkit.Mvvm.Tools {
             IsBusy = isbusy;
             IsProcessing = isprocessing;
             OnPropertyChanged(new PropertyChangedEventArgs("AggregateMessage"));
+        
+            var handler = this.StateChangedEvent;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
         }
 
         #endregion
-
     }
 }

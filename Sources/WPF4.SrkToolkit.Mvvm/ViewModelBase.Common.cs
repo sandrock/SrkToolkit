@@ -134,6 +134,5 @@ namespace SrkToolkit.Mvvm {
         }
 
         #endregion
-
     }
 }

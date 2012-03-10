@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -32,11 +33,9 @@ namespace SrkToolkit.Mvvm {
         /// This method is called when the hardware back key is pressed.
         /// </summary>
         /// <param name="e">Set e.Cancel to true to indicate that the request was handled by the application.</param>
-        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
-        {
-            if (DataContext != null && DataContext is InteractionViewModelBase)
-            {
-                ((InteractionViewModelBase)DataContext).OnBackKeyPress(e);
+        protected override void OnBackKeyPress(CancelEventArgs e) {
+            if (this.DataContext != null && this.DataContext is InteractionViewModelBase) {
+                ((InteractionViewModelBase)this.DataContext).OnBackKeyPress(e);
             }
 
             base.OnBackKeyPress(e);
@@ -49,9 +48,10 @@ namespace SrkToolkit.Mvvm {
         protected override void OnNavigatedFrom(NavigationEventArgs e) {
             base.OnNavigatedFrom(e);
 
-            if (DataContext != null && DataContext is InteractionViewModelBase)
-            {
-                ((InteractionViewModelBase)DataContext).OnNavigatedFrom(e);
+            if (this.DataContext != null && this.DataContext is InteractionViewModelBase) {
+                var vm = (InteractionViewModelBase)this.DataContext;
+                vm.VisualStateChangeEvent += new EventHandler<VisualStateChangeEventArgs>(OnVisualStateChange);
+                vm.OnNavigatedFrom(e);
             }
         }
 
@@ -62,9 +62,9 @@ namespace SrkToolkit.Mvvm {
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
 
-            if (DataContext != null && DataContext is InteractionViewModelBase)
-            {
-                ((InteractionViewModelBase)DataContext).OnNavigatedTo(e, NavigationContext, NavigationService);
+            if (this.DataContext != null && this.DataContext is InteractionViewModelBase) {
+                var vm = (InteractionViewModelBase)this.DataContext;
+                vm.OnNavigatedTo(e, NavigationContext, NavigationService);
             }
         }
 
@@ -73,13 +73,11 @@ namespace SrkToolkit.Mvvm {
         /// </summary>
         /// <param name="e">An object that contains the event data.</param>
         [CLSCompliant(false)]
-        protected override void OnFragmentNavigation(FragmentNavigationEventArgs e)
-        {
+        protected override void OnFragmentNavigation(FragmentNavigationEventArgs e) {
             base.OnFragmentNavigation(e);
 
-            if (DataContext != null && DataContext is InteractionViewModelBase)
-            {
-                ((InteractionViewModelBase)DataContext).OnFragmentNavigation(e);
+            if (this.DataContext != null && this.DataContext is InteractionViewModelBase) {
+                ((InteractionViewModelBase)this.DataContext).OnFragmentNavigation(e);
             }
         }
 
@@ -87,14 +85,21 @@ namespace SrkToolkit.Mvvm {
         /// Called just before a page is no longer the active page in a frame.
         /// </summary>
         /// <param name="e">An object that contains the event data.</param>
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            if (DataContext != null && DataContext is InteractionViewModelBase)
-            {
-                ((InteractionViewModelBase)DataContext).OnNavigatingFrom(e);
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
+            if (this.DataContext != null && this.DataContext is InteractionViewModelBase) {
+                ((InteractionViewModelBase)this.DataContext).OnNavigatingFrom(e);
             }
 
             base.OnNavigatingFrom(e);
+        }
+
+        /// <summary>
+        /// Called when a visual state changeis commanded from the viewmodel.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="SrkToolkit.Mvvm.VisualStateChangeEventArgs"/> instance containing the event data.</param>
+        protected virtual void OnVisualStateChange(object sender, VisualStateChangeEventArgs e) {
+            e.Succeed = VisualStateManager.GoToState(this, e.StateName, e.UseTransitions);
         }
     }
 }

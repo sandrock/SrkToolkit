@@ -29,6 +29,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Debug\SrkToolkit.Services.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,12 +52,10 @@
     <Compile Include="..\NET4.SrkToolkit.Services\AppEventBus.cs">
       <Link>AppEventBus.cs</Link>
     </Compile>
-    <Compile Include="..\NET4.SrkToolkit.Services\ApplicationServices.cs">
-      <Link>ApplicationServices.cs</Link>
-    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Services\System\IDisposed.cs">
       <Link>System\IDisposed.cs</Link>
     </Compile>
+    <Compile Include="ApplicationServices.cs" />
     <Compile Include="Diagnostics\TraceEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

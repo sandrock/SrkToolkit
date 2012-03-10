@@ -11,7 +11,6 @@ namespace SrkToolkit.Mvvm
 {
     partial class InteractionViewModelBase
     {
-
         #region Phone stuff
 
         #region Navigate Command
@@ -62,17 +61,41 @@ namespace SrkToolkit.Mvvm
         }
 
         /// <summary>
-        /// Navigates to the most recent entry in the back navigation history, or throws an exception if no entry exists in back navigation.
+        /// Navigates to the most recent entry in the back navigation history.
         /// </summary>
         /// <param name="fallbackUri">
         ///   if going back is not allowed, this param will be used to navigate somewhere else.
         /// </param>
-        protected void NavigateBack(string fallbackUri = "/MainPage.xaml")
-        {
-            if (NavigationService.CanGoBack)
+        /// <example>
+        ///   this.NavigateBack("/Pages/MainPage.xaml");
+        /// </example>
+        protected void NavigateBack(string fallbackUri) {
+            if (NavigationService.CanGoBack) {
                 NavigationService.GoBack();
-            else if (fallbackUri != null)
-                NavigationService.Navigate(new Uri(fallbackUri, UriKind.Relative));
+            } else if (fallbackUri != null) {
+                if (fallbackUri == null)
+                    throw new ArgumentNullException("fallbackUri");
+
+                this.NavigateBack(new Uri(fallbackUri, UriKind.Relative));
+            }
+        }
+
+        /// <summary>
+        /// Navigates to the most recent entry in the back navigation history.
+        /// </summary>
+        /// <param name="fallbackUri">
+        ///   if going back is not allowed, this param will be used to navigate somewhere else.
+        /// </param>
+        protected void NavigateBack(Uri fallbackUri)
+        {
+            if (NavigationService.CanGoBack) {
+                NavigationService.GoBack();
+            } else if (fallbackUri != null) {
+                if (fallbackUri == null)
+                    throw new ArgumentNullException("fallbackUri");
+
+                NavigationService.Navigate(fallbackUri);
+            }
         }
 
         #endregion
@@ -185,7 +208,6 @@ namespace SrkToolkit.Mvvm
         /// <param name="e">An object that contains the event data.</param>
         internal protected void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -195,7 +217,6 @@ namespace SrkToolkit.Mvvm
         [CLSCompliant(false)]
         internal protected void OnFragmentNavigation(FragmentNavigationEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -204,10 +225,35 @@ namespace SrkToolkit.Mvvm
         /// <param name="e">Set e.Cancel to true to indicate that the request was handled by the application.</param>
         internal protected void OnBackKeyPress(CancelEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         #endregion
 
+        #region VisualStateManager
+
+        /// <summary>
+        /// Occurs when a visual state change is commanded.
+        /// </summary>
+        public event EventHandler<VisualStateChangeEventArgs> VisualStateChangeEvent;
+
+        /// <summary>
+        /// Commands a visual state change.
+        /// </summary>
+        /// <param name="stateName">Name of the state.</param>
+        /// <param name="useTransitions">if set to <c>true</c> use transitions.</param>
+        /// <returns>
+        ///   <b>true</b> is the transition succeed; otherwise, <b>false</b>
+        /// </returns>
+        protected bool GoToVisualState(string stateName, bool useTransitions = true)
+        {
+            var args = new VisualStateChangeEventArgs(stateName, useTransitions);
+            var handler = this.VisualStateChangeEvent;
+            if (handler != null)
+                handler(this, args);
+
+            return args.Succeed;
+        }
+
+        #endregion
     }
 }

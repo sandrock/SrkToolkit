@@ -21,7 +21,9 @@ namespace SrkToolkit.Mvvm.Commands {
         /// </summary>
         /// <param name="execute">the action to execute</param>
         /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
-        public RelayCommand(Action<T> execute) {
+        [DebuggerStepThrough]
+        public RelayCommand(Action<T> execute)
+        {
             if (execute == null) {
                 throw new ArgumentNullException("execute");
             }
@@ -42,7 +44,9 @@ namespace SrkToolkit.Mvvm.Commands {
         /// Defines the method to be called when the command is invoked. 
         /// </summary>
         /// <param name="parameter">This parameter will always be ignored.</param>
-        public void Execute(object parameter) {
+        [DebuggerStepThrough]
+        public void Execute(object parameter)
+        {
             this._executeAction.Invoke((T)parameter);
         }
     }

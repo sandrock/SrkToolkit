@@ -73,11 +73,13 @@
     <Compile Include="..\WPF4.SrkToolkit.Mvvm\ViewModelBase.Common.cs">
       <Link>ViewModelBase.Common.cs</Link>
     </Compile>
+    <Compile Include="PhoneAppNavigationState.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommand.T.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="InteractionViewModelBase.WP7.cs" />
     <Compile Include="PhoneApplicationPage.cs" />
+    <Compile Include="PhoneAppService.cs" />
     <Compile Include="System\DataEventArgs.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

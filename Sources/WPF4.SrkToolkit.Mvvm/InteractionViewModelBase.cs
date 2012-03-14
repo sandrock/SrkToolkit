@@ -7,6 +7,7 @@ namespace SrkToolkit.Mvvm {
     /// Higher-level ViewModel base with tasks and MessageBox abstraction.
     /// </summary>
     public partial class InteractionViewModelBase : ViewModelBase {
+        private InteractionViewModelBase baseViewModel;
 
         #region View properties
 
@@ -30,6 +31,15 @@ namespace SrkToolkit.Mvvm {
         /// Initializes a new instance of the <see cref="InteractionViewModelBase"/> class.
         /// </summary>
         public InteractionViewModelBase() : base() {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InteractionViewModelBase"/> class.
+        /// </summary>
+        public InteractionViewModelBase(InteractionViewModelBase interactionViewModelBase)
+            : base()
+        {
+            this.baseViewModel = interactionViewModelBase;
         }
 
         #endregion

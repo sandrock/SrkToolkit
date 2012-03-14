@@ -50,7 +50,7 @@ namespace SrkToolkit.Mvvm {
 
             if (this.DataContext != null && this.DataContext is InteractionViewModelBase) {
                 var vm = (InteractionViewModelBase)this.DataContext;
-                vm.VisualStateChangeEvent += new EventHandler<VisualStateChangeEventArgs>(OnVisualStateChange);
+                vm.VisualStateChangeEvent -= this.OnVisualStateChange;
                 vm.OnNavigatedFrom(e);
             }
         }
@@ -64,6 +64,7 @@ namespace SrkToolkit.Mvvm {
 
             if (this.DataContext != null && this.DataContext is InteractionViewModelBase) {
                 var vm = (InteractionViewModelBase)this.DataContext;
+                vm.VisualStateChangeEvent += this.OnVisualStateChange;
                 vm.OnNavigatedTo(e, NavigationContext, NavigationService);
             }
         }

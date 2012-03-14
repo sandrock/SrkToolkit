@@ -11,6 +11,9 @@ namespace SrkToolkit.Mvvm
 {
     partial class InteractionViewModelBase
     {
+        [CLSCompliant(false)]
+        private NavigationService navigationService;
+        
         #region Phone stuff
 
         #region Navigate Command
@@ -36,9 +39,12 @@ namespace SrkToolkit.Mvvm
         {
             get
             {
-                if (_navigateCommand == null)
+                if (this._navigateCommand == null)
                 {
-                    _navigateCommand = new RelayCommand<object>(OnNavigate);
+                    if (this.baseViewModel != null && this.baseViewModel._navigateCommand != null)
+                        return this.baseViewModel._navigateCommand;
+
+                    this._navigateCommand = new RelayCommand<object>(this.OnNavigate);
                 }
                 return _navigateCommand;
             }
@@ -70,8 +76,8 @@ namespace SrkToolkit.Mvvm
         ///   this.NavigateBack("/Pages/MainPage.xaml");
         /// </example>
         protected void NavigateBack(string fallbackUri) {
-            if (NavigationService.CanGoBack) {
-                NavigationService.GoBack();
+            if (this.NavigationService.CanGoBack) {
+                this.NavigationService.GoBack();
             } else if (fallbackUri != null) {
                 if (fallbackUri == null)
                     throw new ArgumentNullException("fallbackUri");
@@ -88,13 +94,13 @@ namespace SrkToolkit.Mvvm
         /// </param>
         protected void NavigateBack(Uri fallbackUri)
         {
-            if (NavigationService.CanGoBack) {
-                NavigationService.GoBack();
+            if (this.NavigationService.CanGoBack) {
+                this.NavigationService.GoBack();
             } else if (fallbackUri != null) {
                 if (fallbackUri == null)
                     throw new ArgumentNullException("fallbackUri");
 
-                NavigationService.Navigate(fallbackUri);
+                this.NavigationService.Navigate(fallbackUri);
             }
         }
 
@@ -112,6 +118,9 @@ namespace SrkToolkit.Mvvm
             {
                 if (_linkCommand == null)
                 {
+                    if (this.baseViewModel != null && this.baseViewModel._linkCommand != null)
+                        return this.baseViewModel._linkCommand;
+
                     _linkCommand = new RelayCommand<object>(OnWebLinkPrivate);
                 }
                 return _linkCommand;
@@ -157,7 +166,11 @@ namespace SrkToolkit.Mvvm
         /// Nice for navigation.
         /// </summary>
         [CLSCompliant(false)]
-        protected NavigationService NavigationService { get; private set; }
+        protected NavigationService NavigationService
+        {
+            get { return this.navigationService ?? (this.baseViewModel != null && this.baseViewModel.navigationService != null ? this.baseViewModel.navigationService : null); }
+            private set { this.navigationService = value; }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether this page is deactivated.
@@ -173,9 +186,9 @@ namespace SrkToolkit.Mvvm
                 if (System.Diagnostics.Debugger.IsAttached && _isPageDeactivated)
                     System.Diagnostics.Debugger.Break(); // breaking here means a page still works even if no more displayed
 #endif
-                return _isPageDeactivated;
+                return this._isPageDeactivated;
             }
-            set { _isPageDeactivated = value; }
+            set { this._isPageDeactivated = value; }
         }
         private bool _isPageDeactivated;
 
@@ -198,8 +211,8 @@ namespace SrkToolkit.Mvvm
         [CLSCompliant(false)]
         internal protected virtual void OnNavigatedTo(NavigationEventArgs e, NavigationContext context, NavigationService navigationService)
         {
-            NavigationService = navigationService;
-            IsPageDeactivated = false;
+            this.NavigationService = navigationService;
+            this.IsPageDeactivated = false;
         }
 
         /// <summary>

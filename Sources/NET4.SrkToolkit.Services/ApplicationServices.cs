@@ -54,7 +54,7 @@ namespace SrkToolkit.Services
                     throw new ArgumentException("Service of type '" + type.Name + "' is already registered");
 
                 services.Add(id, service);
-                TraceEx.Info("ApplicationService", "Registered instance for " + type.Name);
+                TraceEx.Info("ApplicationServices", "Registered instance for " + type.Name);
             }
         }
 
@@ -78,7 +78,7 @@ namespace SrkToolkit.Services
                     throw new ArgumentException("Service of type '" + type.Name + "' is already registered");
 
                 services.Add(id, service);
-                TraceEx.Info("ApplicationService", "Registered instance for " + type.Name);
+                TraceEx.Info("ApplicationServices", "Registered instance for " + type.Name);
             }
         }
 
@@ -102,7 +102,7 @@ namespace SrkToolkit.Services
                     throw new ArgumentException("Service of type '" + type.Name + "' is already registered");
 
                 services.Add(id, new LazyEmptyService(implType));
-                TraceEx.Info("ApplicationService", "Registered implementation for " + type.Name);
+                TraceEx.Info("ApplicationServices", "Registered implementation for " + type.Name);
             }
         }
 
@@ -127,7 +127,7 @@ namespace SrkToolkit.Services
 #else
                 services.Add(id, new LazyFactoryService(factory));
 #endif
-                TraceEx.Info("ApplicationService", "Registered factory for " + type.Name);
+                TraceEx.Info("ApplicationServices", "Registered factory for " + type.Name);
             }
         }
 
@@ -145,7 +145,7 @@ namespace SrkToolkit.Services
                 if (services.ContainsKey(id))
                 {
                     services.Remove(id);
-                    TraceEx.Info("ApplicationService", "Removed instance for " + type.Name);
+                    TraceEx.Info("ApplicationServices", "Removed instance for " + type.Name);
                 }
             }
         }
@@ -167,7 +167,7 @@ namespace SrkToolkit.Services
                     if (item.Value == obj)
                     {
                         services.Remove(item.Key);
-                        TraceEx.Info("ApplicationService", "Removed instance for " + (item.Value != null ? item.Value.ToString() : item.Key.ToString()));
+                        TraceEx.Info("ApplicationServices", "Removed instance for " + (item.Value != null ? item.Value.ToString() : item.Key.ToString()));
                     }
                 }
             }
@@ -270,7 +270,7 @@ namespace SrkToolkit.Services
                 }
 
                 services.Clear();
-                TraceEx.Info("ApplicationService", "Cleared");
+                TraceEx.Info("ApplicationServices", "Cleared");
             }
         }
 

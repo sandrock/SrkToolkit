@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System;
 
 [assembly: AssemblyTitle("SrkToolkit.Mvvm")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("SrkToolkit.Mvvm for WP 7.0")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Srk")]
 [assembly: AssemblyProduct("SrkToolkit.Mvvm")]

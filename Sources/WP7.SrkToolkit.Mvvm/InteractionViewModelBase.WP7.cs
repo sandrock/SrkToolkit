@@ -11,10 +11,9 @@ namespace SrkToolkit.Mvvm
 {
     partial class InteractionViewModelBase
     {
-        [CLSCompliant(false)]
         private NavigationService navigationService;
         
-        #region Phone stuff
+        #region Phone commands
 
         #region Navigate Command
 
@@ -53,15 +52,13 @@ namespace SrkToolkit.Mvvm
 
         private void OnNavigate(object param)
         {
-            Uri uri = null;
-            if (param is string)
-            {
+            Uri uri = param as Uri;
+
+            if (uri == null && param is string) {
                 uri = new Uri((string)param, UriKind.Relative);
             }
-            if (param is Uri)
-                uri = (Uri)param;
-            if (uri != null)
-            {
+
+            if (uri != null) {
                 RootVisual.Navigate(uri);
             }
         }
@@ -198,7 +195,7 @@ namespace SrkToolkit.Mvvm
         /// <param name="e">An object that contains the event data.</param>
         internal protected virtual void OnNavigatedFrom(NavigationEventArgs e)
         {
-            IsPageDeactivated = true;
+            this.IsPageDeactivated = true;
         }
 
         /// <summary>
@@ -219,7 +216,7 @@ namespace SrkToolkit.Mvvm
         /// Called just before a page is no longer the active page in a frame.
         /// </summary>
         /// <param name="e">An object that contains the event data.</param>
-        internal protected void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        internal protected virtual void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
         }
 
@@ -228,7 +225,7 @@ namespace SrkToolkit.Mvvm
         /// </summary>
         /// <param name="e">An object that contains the event data.</param>
         [CLSCompliant(false)]
-        internal protected void OnFragmentNavigation(FragmentNavigationEventArgs e)
+        internal protected virtual void OnFragmentNavigation(FragmentNavigationEventArgs e)
         {
         }
 
@@ -236,7 +233,7 @@ namespace SrkToolkit.Mvvm
         /// This method is called when the hardware back key is pressed.
         /// </summary>
         /// <param name="e">Set e.Cancel to true to indicate that the request was handled by the application.</param>
-        internal protected void OnBackKeyPress(CancelEventArgs e)
+        internal protected virtual void OnBackKeyPress(CancelEventArgs e)
         {
         }
 

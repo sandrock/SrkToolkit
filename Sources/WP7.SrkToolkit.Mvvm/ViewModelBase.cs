@@ -11,6 +11,7 @@ namespace SrkToolkit.Mvvm {
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
+        /// Make sure you instantiate this in the UI thread so that the dispatcher can attach.
         /// </summary>
         protected ViewModelBase() {
             if (Deployment.Current != null) {

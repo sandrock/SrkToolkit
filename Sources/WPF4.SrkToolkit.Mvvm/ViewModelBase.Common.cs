@@ -15,7 +15,20 @@ namespace SrkToolkit.Mvvm {
 
         #region Threading
 
-        private Dispatcher Dispatcher;
+        /// <summary>
+        /// Contains the UI Dispatcher.
+        /// Use the property <see cref="Dispatcher"/> instead.
+        /// </summary>
+        private Dispatcher dispatcher;
+        
+        /// <summary>
+        /// Gets or sets the UI Dispatcher.
+        /// </summary>
+        public Dispatcher Dispatcher
+        {
+            get { return this.dispatcher; }
+            set { this.dispatcher = value; }
+        }
 
         /// <summary>
         /// Executes the specified delegate asynchronously on the thread the <see cref="Dispatcher"/> is associated with.
@@ -24,7 +37,7 @@ namespace SrkToolkit.Mvvm {
         /// A delegate to a method that takes no arguments and does not return a value, which is pushed onto the <see cref="Dispatcher"/> event queue.
         /// </param>
         protected void Dispatch(Action action) {
-            Dispatcher.BeginInvoke(action, null);
+            this.Dispatcher.BeginInvoke(action, null);
         }
 
         #endregion
@@ -51,25 +64,27 @@ namespace SrkToolkit.Mvvm {
         #region Property change notification
 
         /// <summary>
-        /// Change a property's value and notify the view.
+        /// Changes a property's value and notifies the view.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">the property type</typeparam>
         /// <param name="property">a reference to a field</param>
         /// <param name="value">the new value</param>
         /// <param name="propertyName">the public property name for change notification</param>
-        /// <returns>returns true if the new value is different from the old one</returns>
+        /// <returns>
+        /// returns true if the new value is different from the old one
+        /// </returns>
         protected bool SetValue<T>(ref T property, T value, string propertyName) {
-            if (Object.Equals(property, value)) {
+            if (Object.Equals(property, value))
                 return false;
-            }
             property = value;
-
-            RaisePropertyChanged(propertyName);
-
+            this.RaisePropertyChanged(propertyName);
             return true;
-
         }
 
+        /// <summary>
+        /// Raises the property changed.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This cannot be an event")]
         protected virtual void RaisePropertyChanged(string propertyName) {
             this.VerifyPropertyName(propertyName);
@@ -93,6 +108,9 @@ namespace SrkToolkit.Mvvm {
         #region INotifyPropertyChanged Members
 #pragma warning disable 1591
 
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
 #pragma warning restore 1591

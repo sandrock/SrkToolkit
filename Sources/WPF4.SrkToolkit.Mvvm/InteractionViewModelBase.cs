@@ -29,12 +29,14 @@ namespace SrkToolkit.Mvvm {
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InteractionViewModelBase"/> class.
+        /// Make sure you instantiate this in the UI thread so that the dispatcher can attach.
         /// </summary>
         public InteractionViewModelBase() : base() {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InteractionViewModelBase"/> class.
+        /// Make sure you instantiate this in the UI thread so that the dispatcher can attach.
         /// </summary>
         public InteractionViewModelBase(InteractionViewModelBase interactionViewModelBase)
             : base()
@@ -56,7 +58,7 @@ namespace SrkToolkit.Mvvm {
             if (task != null) {
                 throw new ArgumentException("a task with this key already exists", "key");
             } else {
-                Tasks.Add(new BusyTask {
+                this.Tasks.Add(new BusyTask {
                     IsGlobal = isGlobal,
                     Key = key
                 });
@@ -71,11 +73,11 @@ namespace SrkToolkit.Mvvm {
         /// <param name="type"></param>
         /// <param name="message"></param>
         protected void UpdateTask(string key, bool isProcessing = false, string message = null, BusyTaskType type = BusyTaskType.Default) {
-            var task = Tasks[key];
+            var task = this.Tasks[key];
             if (task != null) {
-                Tasks.Update(key, message, isProcessing, type);
+                this.Tasks.Update(key, message, isProcessing, type);
             } else {
-                Tasks.Add(new BusyTask {
+                this.Tasks.Add(new BusyTask {
                     Key = key,
                     IsGlobal = false,
                     IsProcessing = isProcessing,
@@ -140,6 +142,5 @@ namespace SrkToolkit.Mvvm {
         private IMessageBoxService _mbox;
 
         #endregion
-        
     }
 }

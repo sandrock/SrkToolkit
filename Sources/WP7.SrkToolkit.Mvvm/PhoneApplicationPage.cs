@@ -46,13 +46,13 @@ namespace SrkToolkit.Mvvm {
         /// </summary>
         /// <param name="e">An object that contains the event data.</param>
         protected override void OnNavigatedFrom(NavigationEventArgs e) {
-            base.OnNavigatedFrom(e);
-
             if (this.DataContext != null && this.DataContext is InteractionViewModelBase) {
                 var vm = (InteractionViewModelBase)this.DataContext;
                 vm.VisualStateChangeEvent -= this.OnVisualStateChange;
                 vm.OnNavigatedFrom(e);
             }
+
+            base.OnNavigatedFrom(e);
         }
 
         /// <summary>

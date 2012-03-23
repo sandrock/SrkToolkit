@@ -16,12 +16,12 @@ namespace SrkToolkit.Mvvm.Tools {
         /// Permits to disable the whole UI for a blocking task.
         /// </summary>
         public bool IsBusy {
-            get { return _isBusy; }
+            get { return this._isBusy; }
             set {
-                if (_isBusy != value) {
-                    _isBusy = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("IsBusy"));
-                    OnPropertyChanged(new PropertyChangedEventArgs("IsNotBusy"));
+                if (this._isBusy != value) {
+                    this._isBusy = value;
+                    this.OnPropertyChanged(new PropertyChangedEventArgs("IsBusy"));
+                    this.OnPropertyChanged(new PropertyChangedEventArgs("IsNotBusy"));
                 }
             }
         }
@@ -35,12 +35,12 @@ namespace SrkToolkit.Mvvm.Tools {
         /// Permits to show the user a background task is performing.
         /// </summary>
         public bool IsProcessing {
-            get { return _isProcessing; }
+            get { return this._isProcessing; }
             set {
-                if (_isProcessing != value) {
-                    _isProcessing = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("IsProcessing"));
-                    OnPropertyChanged(new PropertyChangedEventArgs("IsNotProcessing"));
+                if (this._isProcessing != value) {
+                    this._isProcessing = value;
+                    this.OnPropertyChanged(new PropertyChangedEventArgs("IsProcessing"));
+                    this.OnPropertyChanged(new PropertyChangedEventArgs("IsNotProcessing"));
                 }
             }
         }
@@ -48,7 +48,7 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <summary>
         /// Permits to show the user a background task is performing.
         /// </summary>
-        public bool IsNotProcessing { get { return !_isProcessing; } }
+        public bool IsNotProcessing { get { return !this._isProcessing; } }
 
         /// <summary>
         /// Get a task by key.
@@ -108,6 +108,9 @@ namespace SrkToolkit.Mvvm.Tools {
 
         #endregion
 
+        /// <summary>
+        /// Occurs when a task state changed.
+        /// </summary>
         public event EventHandler StateChangedEvent;
 
         #region Public methods
@@ -118,7 +121,7 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <param name="key"></param>
         /// <param name="isGlobal">pass true to freeze the UI when processing</param>
         public void Add(string key, bool isGlobal) {
-            Add(new BusyTask {
+            this.Add(new BusyTask {
                 Key = key,
                 IsGlobal = isGlobal
             });
@@ -127,60 +130,79 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <summary>
         /// Create a task.
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">The task key.</param>
         /// <param name="isGlobal">pass true to freeze the UI when processing</param>
         public void Add(Enum key, bool isGlobal) {
-            Add(key.ToString(), isGlobal);
+            this.Add(key.ToString(), isGlobal);
         }
 
+        /// <summary>
+        /// Updates the specified key.
+        /// </summary>
+        /// <param name="key">The task key.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="isProcessing">if set to <c>true</c> [is processing].</param>
+        /// <param name="type">The type.</param>
         public void Update(string key, string message, bool isProcessing, BusyTaskType type) {
             var task = this[key];
             task.Message = message;
             task.IsProcessing = isProcessing;
             task.Type = type;
-            OnPropertyChanged(new PropertyChangedEventArgs("AggregateMessage"));
+            this.OnPropertyChanged(new PropertyChangedEventArgs("AggregateMessage"));
         }
 
         #endregion
 
         #region Overrides
 
+        /// <summary>
+        /// Inserts the item.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <param name="item">The item.</param>
         protected override void InsertItem(int index, BusyTask item) {
             base.InsertItem(index, item);
 
-            item.PropertyChanged += item_PropertyChanged;
+            item.PropertyChanged += OnItemPropertyChanged;
 
-            ComputeStatus();
+            this.ComputeStatus();
         }
 
+        /// <summary>
+        /// Removes the item.
+        /// </summary>
+        /// <param name="index">The index.</param>
         protected override void RemoveItem(int index) {
             if (this[index] != null)
-                this[index].PropertyChanged -= item_PropertyChanged;
+                this[index].PropertyChanged -= OnItemPropertyChanged;
 
             base.RemoveItem(index);
 
-            ComputeStatus();
+            this.ComputeStatus();
         }
 
+        /// <summary>
+        /// Clears the items.
+        /// </summary>
         protected override void ClearItems() {
             foreach (var item in this) {
-                item.PropertyChanged -= item_PropertyChanged;
+                item.PropertyChanged -= OnItemPropertyChanged;
             }
 
             base.ClearItems();
 
-            ComputeStatus();
+            this.ComputeStatus();
         }
 
         #endregion
 
         #region Internal stuff
 
-        private void item_PropertyChanged(object sender, PropertyChangedEventArgs e) {
+        private void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e) {
             var item = sender as BusyTask;
 
             if (item != null && e.PropertyName == "IsProcessing") {
-                ComputeStatus();
+                this.ComputeStatus();
             }
         }
 
@@ -193,9 +215,9 @@ namespace SrkToolkit.Mvvm.Tools {
                 isbusy |= item.IsGlobal && item.IsProcessing;
             }
 
-            IsBusy = isbusy;
-            IsProcessing = isprocessing;
-            OnPropertyChanged(new PropertyChangedEventArgs("AggregateMessage"));
+            this.IsBusy = isbusy;
+            this.IsProcessing = isprocessing;
+            this.OnPropertyChanged(new PropertyChangedEventArgs("AggregateMessage"));
         
             var handler = this.StateChangedEvent;
             if (handler != null)

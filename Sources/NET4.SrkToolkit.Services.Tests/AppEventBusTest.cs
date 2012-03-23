@@ -23,7 +23,7 @@ namespace SrkToolkit.Services.Tests
                 new AppEventBus().Register(action, null);
             }
 
-            [TestMethod]
+            [TestMethod, TestCategory(Category.Unit)]
             public void ReturnsDisposable0() {
                 Action<object, DateTime> action = (s, e) => { };
                 var result = new AppEventBus().Register(action);
@@ -33,7 +33,7 @@ namespace SrkToolkit.Services.Tests
                 Assert.IsTrue(result.IsDisposed);
             }
 
-            [TestMethod]
+            [TestMethod, TestCategory(Category.Unit)]
             public void ReturnsDisposable1() {
                 Action<object, DateTime> action = (s, e) => { };
                 var result = new AppEventBus().Register(action, new object());
@@ -46,12 +46,12 @@ namespace SrkToolkit.Services.Tests
 
         [TestClass]
         public class PublishMethod {
-            [TestMethod]
+            [TestMethod, TestCategory(Category.Unit)]
             public void DoesNothingIfNoRegistrations() {
                 new AppEventBus().Publish(new object(), new object());
             }
 
-            [TestMethod]
+            [TestMethod, TestCategory(Category.Unit)]
             public void PublishesToAllRegistered() {
                 // prepare
                 bool a = false, b = false;
@@ -67,7 +67,7 @@ namespace SrkToolkit.Services.Tests
                 Assert.IsTrue(b);
             }
 
-            [TestMethod]
+            [TestMethod, TestCategory(Category.Unit)]
             public void DoesNotPublishToOthers() {
                 // prepare
                 bool a = false, b = false, c = false;
@@ -85,7 +85,7 @@ namespace SrkToolkit.Services.Tests
                 Assert.IsFalse(c);
             }
 
-            [TestMethod]
+            [TestMethod, TestCategory(Category.Unit)]
             public void DoesNotPublishToSelf() {
                 // prepare
                 object o1 = new object();
@@ -104,7 +104,7 @@ namespace SrkToolkit.Services.Tests
                 Assert.IsTrue(c);
             }
 
-            [TestMethod]
+            [TestMethod, TestCategory(Category.Unit)]
             public void WorksManyTimes() {
                 // prepare
                 object o1 = new object();

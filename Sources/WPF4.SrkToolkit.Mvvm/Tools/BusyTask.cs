@@ -11,6 +11,15 @@ namespace SrkToolkit.Mvvm.Tools {
         private string _message;
         private BusyTaskType _type;
 
+        public BusyTask()
+        {
+        }
+
+        public BusyTask(string key)
+        {
+            this.Key = key;
+        }
+
         /// <summary>
         /// Message to display like "Downloading data... ".
         /// </summary>

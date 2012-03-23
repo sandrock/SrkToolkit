@@ -3,8 +3,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System;
 
-[assembly: AssemblyTitle("NET4.SrkToolkit.Services.Tests")]
+[assembly: AssemblyTitle("NET4.SrkToolkit.Mvvm.Tests")]
 [assembly: AssemblyDescription("")]
 
-[assembly: CLSCompliant(true)]
-[assembly: Guid("c6a97db0-ab55-4419-a45c-6a4b5d3a589c")]
+[assembly: CLSCompliant(false)]
+[assembly: Guid("1ec88377-dd13-4acb-9d04-8d84d00ce2b7")]

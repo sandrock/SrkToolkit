@@ -1,5 +1,5 @@
 ﻿
-namespace SrkToolkit.Services.Tests
+namespace System
 {
     public static class Category
     {

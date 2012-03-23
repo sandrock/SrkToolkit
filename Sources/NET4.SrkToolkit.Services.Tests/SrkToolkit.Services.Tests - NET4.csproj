@@ -51,6 +51,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SrkToolkit.Services.AssemblyInfo.cs">
+      <Link>SrkToolkit.Services.AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="ApplicationServicesTests.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

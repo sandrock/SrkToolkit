@@ -15,7 +15,7 @@ namespace SrkToolkit.Mvvm {
         /// </summary>
         protected ViewModelBase() {
             if (Deployment.Current != null) {
-                Dispatcher = Deployment.Current.Dispatcher;
+                this.Dispatcher = Deployment.Current.Dispatcher;
             }
         }
 

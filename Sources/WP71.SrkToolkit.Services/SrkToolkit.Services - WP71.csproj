@@ -35,11 +35,12 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>Bin\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;MANGO</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Release\SrkToolkit.Services.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Windows" />
@@ -54,6 +55,9 @@
     </Compile>
     <Compile Include="..\NET4.SrkToolkit.Services\System\IDisposed.cs">
       <Link>System\IDisposed.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Services.AssemblyInfo.cs">
+      <Link>SrkToolkit.Services.AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="..\WP7.SrkToolkit.Services\ApplicationServices.cs">
       <Link>ApplicationServices.cs</Link>

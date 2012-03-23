@@ -37,11 +37,12 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>Bin\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;MANGO</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Release\SrkToolkit.Mvvm.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Phone" />
@@ -52,6 +53,9 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs">
+      <Link>SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\WP7.SrkToolkit.Mvvm\Commands\RelayCommand.cs">
       <Link>Commands\RelayCommand.cs</Link>
     </Compile>
@@ -72,6 +76,9 @@
     </Compile>
     <Compile Include="..\WP7.SrkToolkit.Mvvm\ViewModelBase.cs">
       <Link>ViewModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\WP7.SrkToolkit.Mvvm\VisualStateChangeEventArgs.cs">
+      <Link>VisualStateChangeEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\WPF4.SrkToolkit.Mvvm\InteractionViewModelBase.cs">
       <Link>InteractionViewModelBase.cs</Link>

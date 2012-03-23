@@ -34,6 +34,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Debug\SrkToolkit.Mvvm.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,6 +45,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Release\SrkToolkit.Mvvm.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -61,8 +63,8 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\srktoolkit.base\ICleanup.cs">
-      <Link>Base\ICleanup.cs</Link>
+    <Compile Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs">
+      <Link>SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="..\WP7.SrkToolkit.Mvvm\ViewModelBase.cs">
       <Link>ViewModelBase.cs</Link>
@@ -75,6 +77,9 @@
     </Compile>
     <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\BusyTaskType.cs">
       <Link>Tools\BusyTaskType.cs</Link>
+    </Compile>
+    <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\IMessageBoxService.cs">
+      <Link>Tools\IMessageBoxService.cs</Link>
     </Compile>
     <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\MessageBoxService.cs">
       <Link>Tools\MessageBoxService.cs</Link>

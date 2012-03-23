@@ -11,16 +11,20 @@ namespace SrkToolkit.Mvvm {
 
         #region Threading
 
-        public ViewModelBase() {
-            Dispatcher = Dispatcher.CurrentDispatcher;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
+        /// Make sure you instantiate this in the UI thread so that the dispatcher can attach.
+        /// </summary>
+        protected ViewModelBase() {
+            this.Dispatcher = Dispatcher.CurrentDispatcher;
         }
 
         protected void DispatchBackground(Action action) {
-            Dispatcher.BeginInvoke(action, DispatcherPriority.Background, null);
+            this.Dispatcher.BeginInvoke(action, DispatcherPriority.Background, null);
         }
 
         protected void DispatchApplicationIdle(Action action) {
-            Dispatcher.BeginInvoke(action, DispatcherPriority.ApplicationIdle, null);
+            this.Dispatcher.BeginInvoke(action, DispatcherPriority.ApplicationIdle, null);
         }
 
         #endregion

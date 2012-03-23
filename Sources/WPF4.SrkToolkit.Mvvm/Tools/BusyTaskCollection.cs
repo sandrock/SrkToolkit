@@ -10,6 +10,13 @@ namespace SrkToolkit.Mvvm.Tools {
     /// </summary>
     public class BusyTaskCollection : ObservableCollection<BusyTask> {
 
+        #region Private fields
+
+        private bool _isBusy;
+        private bool _isProcessing;
+
+        #endregion
+
         #region Public properties
 
         /// <summary>
@@ -88,13 +95,6 @@ namespace SrkToolkit.Mvvm.Tools {
                 return message;
             }
         }
-
-        #endregion
-
-        #region Private fields
-
-        private bool _isBusy;
-        private bool _isProcessing;
 
         #endregion
 

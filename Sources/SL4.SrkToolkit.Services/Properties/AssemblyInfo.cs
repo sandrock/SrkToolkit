@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System;
 
 [assembly: AssemblyTitle("SrkToolkit.Services")]
-[assembly: AssemblyDescription("SrkToolkit.Services for WP 7.0")]
+[assembly: AssemblyDescription("SrkToolkit.Services for SL4")]
 
 [assembly: CLSCompliant(true)]
-[assembly: Guid("df962ba2-6f56-4c0d-877b-bbdf9f29d433")]
+[assembly: Guid("c64bf78f-3d77-44dc-a8a2-ca864c7e2c54")]

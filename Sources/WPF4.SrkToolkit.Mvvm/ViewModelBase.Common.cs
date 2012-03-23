@@ -101,7 +101,7 @@ namespace SrkToolkit.Mvvm {
         [Conditional("DEBUG"), DebuggerStepThrough]
         public void VerifyPropertyName(string propertyName) {
             if (base.GetType().GetProperty(propertyName) == null) {
-                throw new ArgumentException("Property not found", propertyName);
+                throw new ArgumentException("Property'" + propertyName + "' not found on " + this.GetType().FullName, propertyName);
             }
         }
 

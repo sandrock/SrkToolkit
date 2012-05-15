@@ -50,6 +50,7 @@ namespace SrkToolkit.Mvvm {
                 var vm = (InteractionViewModelBase)this.DataContext;
                 vm.VisualStateChangeEvent -= this.OnVisualStateChange;
                 vm.OnNavigatedFrom(e);
+                vm.PageState = null;
             }
 
             base.OnNavigatedFrom(e);
@@ -65,6 +66,7 @@ namespace SrkToolkit.Mvvm {
             if (this.DataContext != null && this.DataContext is InteractionViewModelBase) {
                 var vm = (InteractionViewModelBase)this.DataContext;
                 vm.VisualStateChangeEvent += this.OnVisualStateChange;
+                vm.PageState = this.State;
                 vm.OnNavigatedTo(e, NavigationContext, NavigationService);
             }
         }
@@ -78,7 +80,9 @@ namespace SrkToolkit.Mvvm {
             base.OnFragmentNavigation(e);
 
             if (this.DataContext != null && this.DataContext is InteractionViewModelBase) {
-                ((InteractionViewModelBase)this.DataContext).OnFragmentNavigation(e);
+                var vm = (InteractionViewModelBase)this.DataContext;
+                vm.PageState = this.State;
+                vm.OnFragmentNavigation(e);
             }
         }
 
@@ -88,7 +92,9 @@ namespace SrkToolkit.Mvvm {
         /// <param name="e">An object that contains the event data.</param>
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
             if (this.DataContext != null && this.DataContext is InteractionViewModelBase) {
-                ((InteractionViewModelBase)this.DataContext).OnNavigatingFrom(e);
+                var vm = (InteractionViewModelBase)this.DataContext;
+                ////vm.PageState = this.State;
+                vm.OnNavigatingFrom(e);
             }
 
             base.OnNavigatingFrom(e);

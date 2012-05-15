@@ -256,6 +256,44 @@ namespace SrkToolkit.Services
         }
 
         /// <summary>
+        /// Executes an action on a service if it's registered and has been initialized.
+        /// </summary>
+        /// <typeparam name="TInterface">The type of the interface.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <returns>
+        ///   <b>true</b> if the action was executed; otherwise, <b>false</b>
+        /// </returns>
+        [DebuggerStepThrough]
+        public static bool ExecuteIfReady<T>(Action<T> action)
+            where T : class
+        {
+            var type = typeof(T);
+            var id = type.FullName;
+            lock (internals)
+            {
+                if (services.ContainsKey(id))
+                {
+                    var obj = services[id];
+                    if (obj == null)
+                    {
+                        return false;
+                    }
+                    else if (obj is IFactory)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        action((T)services[id]);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Clears all instances and factories (and calls <see cref="IDisposable.Dispose"/>).
         /// </summary>
         public static void Clear()

@@ -92,7 +92,7 @@ namespace SrkToolkit.Mvvm.Tools {
                         sep = Environment.NewLine;
                     }
                 }
-                return message;
+                return string.IsNullOrEmpty(message) ? null : message.Trim();
             }
         }
 

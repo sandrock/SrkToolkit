@@ -144,10 +144,18 @@ namespace SrkToolkit.Mvvm {
         /// <summary>
         /// Dispose method to free resources.
         /// The object will not be usable anymore.
-        /// Always call the parent method. 
+        /// Always call the parent method.
+        /// Clears the <see cref="ViewModelBase.Dispatcher"/>.
+        /// Clears the <see cref="ViewModelBase.PropertyChanged"/> event handler.
         /// </summary>
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing) {
+            if (disposing)
+            {
+                this.dispatcher = null;
+                this.PropertyChanged = null;
+            }
+
             this._disposed = true;
         }
 

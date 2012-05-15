@@ -108,9 +108,135 @@ namespace SrkToolkit.Services.Tests
             Assert.AreSame(resolved1, resolved);
         }
 
-        interface InterfaceA { }
+        [TestClass]
+        public class ExecuteIfRegisteredMethod
+        {
+            [TestCleanup]
+            public void Cleanup()
+            {
+                ApplicationServices.Clear();
+            }
+
+            [TestMethod]
+            public void DoesNothingIfNotRegistered()
+            {
+                // prepare
+                bool result = false;
+
+                // execute
+                result = ApplicationServices.ExecuteIfRegistered<InterfaceA>(a => a.Run());
+
+                // verify
+                Assert.IsFalse(result);
+            }
+
+            [TestMethod]
+            public void WorksIfRegistered()
+            {
+                // prepare
+                var instance = new ClassA();
+                Func<InterfaceA> subject = () => instance;
+                bool result = false;
+
+                // execute
+                ApplicationServices.Register<InterfaceA>(subject);
+                result = ApplicationServices.ExecuteIfRegistered<InterfaceA>(a => a.Run());
+
+                // verify
+                Assert.IsTrue(result);
+                Assert.IsTrue(instance.Ran);
+            }
+
+            [TestMethod]
+            public void WorksIfInstantiated()
+            {
+                // prepare
+                var instance = new ClassA();
+                Func<InterfaceA> subject = () => instance;
+                bool result = false;
+
+                // execute
+                ApplicationServices.Register<InterfaceA>(subject);
+                var resolved = ApplicationServices.Resolve<InterfaceA>();
+                result = ApplicationServices.ExecuteIfRegistered<InterfaceA>(a => a.Run());
+
+                // verify
+                Assert.IsTrue(result);
+                Assert.IsTrue(instance.Ran);
+            }
+        }
+
+        [TestClass]
+        public class ExecuteIfReadyMethod
+        {
+            [TestCleanup]
+            public void Cleanup()
+            {
+                ApplicationServices.Clear();
+            }
+
+            [TestMethod]
+            public void DoesNothingIfNotRegistered()
+            {
+                // prepare
+                bool result = false;
+
+                // execute
+                result = ApplicationServices.ExecuteIfReady<InterfaceA>(a => a.Run());
+
+                // verify
+                Assert.IsFalse(result);
+            }
+
+            [TestMethod]
+            public void DoesNothingIfRegisteredAndNotReady()
+            {
+                // prepare
+                var instance = new ClassA();
+                Func<InterfaceA> subject = () => instance;
+                bool result = false;
+
+                // execute
+                ApplicationServices.Register<InterfaceA>(subject);
+                result = ApplicationServices.ExecuteIfReady<InterfaceA>(a => a.Run());
+
+                // verify
+                Assert.IsFalse(result);
+                Assert.IsFalse(instance.Ran);
+            }
+
+            [TestMethod]
+            public void WorksIfInstantiated()
+            {
+                // prepare
+                var instance = new ClassA();
+                Func<InterfaceA> subject = () => instance;
+                bool result = false;
+
+                // execute
+                ApplicationServices.Register<InterfaceA>(subject);
+                var resolved = ApplicationServices.Resolve<InterfaceA>();
+                result = ApplicationServices.ExecuteIfReady<InterfaceA>(a => a.Run());
+
+                // verify
+                Assert.IsTrue(result);
+                Assert.IsTrue(instance.Ran);
+            }
+        }
+
+        interface InterfaceA {
+            void Run();
+        }
         interface InterfaceB { }
-        class ClassA : InterfaceA { }
+        class ClassA : InterfaceA
+        {
+            private bool ran;
+            internal bool Ran { get { return this.ran; } }
+            public void Run()
+            {
+                this.ran = true;
+            }
+        }
         class ClassB : InterfaceB { }
     }
 }

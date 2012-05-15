@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -12,6 +13,30 @@ namespace SrkToolkit.Mvvm
     partial class InteractionViewModelBase
     {
         private NavigationService navigationService;
+
+        /// <summary>
+        /// This property allows you to save transient state data on your page.
+        /// </summary>
+        /// <value>
+        /// The state of the page.
+        /// </value>
+        internal protected IDictionary<string, object> PageState { get; internal set; }
+
+        /// <summary>
+        /// Gets the number of times <see cref="OnNavigatedTo"/> was invoked.
+        /// </summary>
+        protected int Navigations { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is navigated for the first time (just created).
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is navigated for the first time (just created); otherwise, <c>false</c>.
+        /// </value>
+        protected bool IsFirstPageInstanceNavigation
+        {
+            get { return this.Navigations == 1; }
+        }
         
         #region Phone commands
 
@@ -208,6 +233,7 @@ namespace SrkToolkit.Mvvm
         [CLSCompliant(false)]
         internal protected virtual void OnNavigatedTo(NavigationEventArgs e, NavigationContext context, NavigationService navigationService)
         {
+            this.Navigations++;
             this.NavigationService = navigationService;
             this.IsPageDeactivated = false;
         }

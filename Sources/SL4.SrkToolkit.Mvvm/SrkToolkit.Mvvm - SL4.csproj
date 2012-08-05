@@ -69,6 +69,9 @@
     <Compile Include="..\WP7.SrkToolkit.Mvvm\ViewModelBase.cs">
       <Link>ViewModelBase.cs</Link>
     </Compile>
+    <Compile Include="..\WPF4.SrkToolkit.Mvvm\InteractionViewModelBase.cs">
+      <Link>InteractionViewModelBase.cs</Link>
+    </Compile>
     <Compile Include="..\WPF4.SrkToolkit.Mvvm\Tools\BusyTask.cs">
       <Link>Tools\BusyTask.cs</Link>
     </Compile>
@@ -100,11 +103,4 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

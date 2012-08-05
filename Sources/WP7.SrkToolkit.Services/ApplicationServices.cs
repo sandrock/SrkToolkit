@@ -10,14 +10,18 @@ namespace SrkToolkit.Services
     /// </summary>
     public static class ApplicationServices
     {
+        private static readonly Dictionary<string, IFactory> factories = new Dictionary<string, IFactory>();
         private static readonly Dictionary<string, object> services = new Dictionary<string, object>();
 
+        /// <summary>
+        /// The lock reference to access <see cref="services"/> and <see cref="factories"/>.
+        /// </summary>
         private static readonly object internals = new object();
 
         /// <summary>
-        /// Determines whether a service is registered.
+        /// Determines whether a service is registered (the factory exists).
         /// </summary>
-        /// <typeparam name="TInterface">The type of the interface.</typeparam>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
         /// <returns>
         ///   <c>true</c> if a service has been registered with the specified interface; otherwise, <c>false</c>.
         /// </returns>
@@ -29,16 +33,38 @@ namespace SrkToolkit.Services
             var id = type.FullName;
             lock (internals)
             {
-                return services.ContainsKey(id); 
+                return factories.ContainsKey(id) && factories[id] != null; 
             }
         }
 
         /// <summary>
-        /// Registers the a service with a specified interface type.
+        /// Determines whether a service is instantiated (the instance exists).
         /// </summary>
-        /// <typeparam name="TInterface">The type of the interface.</typeparam>
-        /// <typeparam name="TImplementation">The type of the implementation.</typeparam>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
+        /// <returns>
+        ///   <c>true</c> if a service has been registered with the specified interface; otherwise, <c>false</c>.
+        /// </returns>
+        [DebuggerStepThrough]
+        public static bool IsReady<TInterface>()
+            where TInterface : class
+        {
+            var type = typeof(TInterface);
+            var id = type.FullName;
+            lock (internals)
+            {
+                return services.ContainsKey(id) && services[id] != null;
+            }
+        }
+
+        /// <summary>
+        /// Registers the a service instance with a specified interface type.
+        /// No factory is registered.
+        /// </summary>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
+        /// <typeparam name="TImplementation">The type of the implementation (for internal consistency).</typeparam>
         /// <param name="service">The reference to the service instance.</param>
+        /// <exception cref="ArgumentException">If service or factory already exists</exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void Register<TInterface, TImplementation>(TImplementation service)
             where TInterface : class
             where TImplementation : class, TInterface
@@ -50,8 +76,7 @@ namespace SrkToolkit.Services
             var id = type.FullName;
             lock (internals)
             {
-                if (services.ContainsKey(id))
-                    throw new ArgumentException("Service of type '" + type.Name + "' is already registered");
+                ThrowIfRegisteredOrInstanciated(type, id);
 
                 services.Add(id, service);
                 TraceEx.Info("ApplicationServices", "Registered instance for " + type.Name);
@@ -59,11 +84,12 @@ namespace SrkToolkit.Services
         }
 
         /// <summary>
-        /// Registers the a service with a specified interface type.
+        /// Registers a service with a specified resolving type and instance.
         /// </summary>
-        /// <typeparam name="TInterface">The type of the interface.</typeparam>
-        /// <typeparam name="TImplementation">The type of the implementation.</typeparam>
+        /// <typeparam name="TImplementation">The resolving type (interface).</typeparam>
         /// <param name="service">The reference to the service instance.</param>
+        /// <exception cref="ArgumentException">If service or factory already exists</exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void Register<TImplementation>(TImplementation service)
             where TImplementation : class
         {
@@ -74,8 +100,7 @@ namespace SrkToolkit.Services
             var id = type.FullName;
             lock (internals)
             {
-                if (services.ContainsKey(id))
-                    throw new ArgumentException("Service of type '" + type.Name + "' is already registered");
+                ThrowIfRegisteredOrInstanciated(type, id);
 
                 services.Add(id, service);
                 TraceEx.Info("ApplicationServices", "Registered instance for " + type.Name);
@@ -83,12 +108,12 @@ namespace SrkToolkit.Services
         }
 
         /// <summary>
-        /// Registers the a service with a specified interface type.
-        /// The service is automatically instanciated on the first call to it.
+        /// Registers a service with a specified interface type.
+        /// The service is automatically instanciated on the first call to it using the default constructor.
         /// </summary>
-        /// <typeparam name="TInterface">The type of the interface.</typeparam>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
         /// <typeparam name="TImplementation">The type of the implementation.</typeparam>
-        /// <param name="service">The reference to the service instance.</param>
+        /// <exception cref="ArgumentException">If service or factory already exists</exception>
         public static void Register<TInterface, TImplementation>()
             where TInterface : class
             where TImplementation : class, TInterface, new()
@@ -98,20 +123,20 @@ namespace SrkToolkit.Services
             var id = type.FullName;
             lock (internals)
             {
-                if (services.ContainsKey(id))
-                    throw new ArgumentException("Service of type '" + type.Name + "' is already registered");
+                ThrowIfRegisteredOrInstanciated(type, id);
 
-                services.Add(id, new LazyEmptyService(implType));
-                TraceEx.Info("ApplicationServices", "Registered implementation for " + type.Name);
+                factories.Add(id, new LazyEmptyService(implType));
+                TraceEx.Info("ApplicationServices", "Registered factory for " + type.Name);
             }
         }
 
         /// <summary>
-        /// Registers the a service with a specified interface type.
+        /// Registers a service with a specified interface type.
         /// The service is automatically instanciated on the first call to it.
         /// </summary>
-        /// <typeparam name="TInterface">The type of the interface.</typeparam>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
         /// <param name="factory">The factory for the instantiation.</param>
+        /// <exception cref="ArgumentException">If service or factory already exists</exception>
         public static void Register<TInterface>(Func<TInterface> factory)
             where TInterface : class
         {
@@ -119,13 +144,12 @@ namespace SrkToolkit.Services
             var id = type.FullName;
             lock (internals)
             {
-                if (services.ContainsKey(id))
-                    throw new ArgumentException("Service of type '" + type.Name + "' is already registered");
+                ThrowIfRegisteredOrInstanciated(type, id);
 
 #if SILVERLIGHT
-                services.Add(id, new LazyFactoryService(() => factory()));
+                factories.Add(id, new LazyFactoryService(() => factory()));
 #else
-                services.Add(id, new LazyFactoryService(factory));
+                factories.Add(id, new LazyFactoryService(factory));
 #endif
                 TraceEx.Info("ApplicationServices", "Registered factory for " + type.Name);
             }
@@ -133,8 +157,9 @@ namespace SrkToolkit.Services
 
         /// <summary>
         /// Unregisters a service with from specified interface type.
+        /// Drops the instance if it exists (does not call <see cref="IDisposable.Dispose"/>).
         /// </summary>
-        /// <typeparam name="TInterface">The type of the interface.</typeparam>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
         public static void Unregister<TInterface>()
             where TInterface : class
         {
@@ -147,15 +172,35 @@ namespace SrkToolkit.Services
                     services.Remove(id);
                     TraceEx.Info("ApplicationServices", "Removed instance for " + type.Name);
                 }
+
+                if (factories.ContainsKey(id))
+                {
+                    factories.Remove(id);
+                    TraceEx.Info("ApplicationServices", "Removed factory for " + type.Name);
+                }
             }
         }
 
         /// <summary>
-        /// Unregisters a service with the specified reference.
+        /// Drops an instance of a service with the specified reference (does not call <see cref="IDisposable.Dispose"/>).
+        /// Does not unregister the factory (the object will be recreated if resolved).
+        /// Internaly calls <see cref="DropInstance"/>.
         /// </summary>
         /// <param name="obj">The object to unregister.</param>
         /// <exception cref="ArgumentNullException">if the argument is null</exception>
+        [Obsolete("Use the DropInstance method or any overload. The behavior of this method has changed!")]
         public static void Unregister(object obj)
+        {
+            DropInstance(obj);
+        }
+
+        /// <summary>
+        /// Drops an instance of a service with the specified reference (does not call <see cref="IDisposable.Dispose"/>).
+        /// Does not unregister the factory (the object will be recreated if resolved).
+        /// </summary>
+        /// <param name="obj">The object to drop.</param>
+        /// <exception cref="ArgumentNullException">if the argument is null</exception>
+        public static void DropInstance(object obj)
         {
             if (obj == null)
                 throw new ArgumentNullException("obj");
@@ -174,9 +219,29 @@ namespace SrkToolkit.Services
         }
 
         /// <summary>
+        /// Drops the instance of a service registered with the TInterface type.
+        /// Does not unregister the factory (the object will be recreated if resolved).
+        /// </summary>
+        public static void DropInstance<TInterface>()
+            where TInterface : class
+        {
+            var type = typeof(TInterface);
+            var id = type.FullName;
+            lock (internals)
+            {
+                if (services.ContainsKey(id))
+                {
+                    var instance = services[id];
+                    services[id] = null;
+                    TraceEx.Info("ApplicationServices", "Removed instance of " + (instance != null ? instance.ToString() : id));
+                }
+            }
+        }
+
+        /// <summary>
         /// Resolves a service instance with a specified interface type.
         /// </summary>
-        /// <typeparam name="TInterface">The type of the interface.</typeparam>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
         /// <returns>
         ///   if a service has been registered with the specified interface, the reference is returned; otherwise, null is returned.
         /// </returns>
@@ -188,23 +253,18 @@ namespace SrkToolkit.Services
             var id = type.FullName;
             lock (internals)
             {
-                if (services.ContainsKey(id))
+                object obj;
+                IFactory factory;
+                if (services.ContainsKey(id) && (obj = services[id]) != null)
                 {
-                    var obj = services[id];
-                    if (obj == null)
-                    {
-                        return null;
-                    }
-                    else if (obj is IFactory)
-                    {
-                        var instance = ((IFactory)obj).Create();
-                        services[id] = instance;
-                        return (TInterface)instance;
-                    }
-                    else
-                    {
-                        return (TInterface)services[id];
-                    }
+                    return (TInterface)services[id];
+                }
+                else if (factories.ContainsKey(id) && (factory = factories[id]) != null)
+                {
+                    var instance = factory.Create();
+                    services[id] = instance;
+                    TraceEx.Info("ApplicationServices", "Created instance of " + (instance != null ? instance.ToString() : id));
+                    return (TInterface)instance;
                 }
             }
 
@@ -214,7 +274,7 @@ namespace SrkToolkit.Services
         /// <summary>
         /// Resolves a service instance with a specified interface type.
         /// </summary>
-        /// <typeparam name="TInterface">The type of the interface.</typeparam>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
         /// <returns>
         ///   if a service has been registered with the specified interface, the reference is returned; otherwise, null is returned.
         /// </returns>
@@ -228,13 +288,14 @@ namespace SrkToolkit.Services
             var obj = Resolve<TInterface>();
             if (obj != null)
                 return obj;
+
             throw new ArgumentException("No service of type '" + typeof(TInterface).FullName + "' is registered");
         }
 
         /// <summary>
         /// Executes an action on a service if its registered.
         /// </summary>
-        /// <typeparam name="TInterface">The type of the interface.</typeparam>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
         /// <param name="action">The action.</param>
         /// <returns>
         ///   <b>true</b> if the action was executed; otherwise, <b>false</b>
@@ -258,7 +319,7 @@ namespace SrkToolkit.Services
         /// <summary>
         /// Executes an action on a service if it's registered and has been initialized.
         /// </summary>
-        /// <typeparam name="TInterface">The type of the interface.</typeparam>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
         /// <param name="action">The action.</param>
         /// <returns>
         ///   <b>true</b> if the action was executed; otherwise, <b>false</b>
@@ -278,10 +339,6 @@ namespace SrkToolkit.Services
                     {
                         return false;
                     }
-                    else if (obj is IFactory)
-                    {
-                        return false;
-                    }
                     else
                     {
                         action((T)services[id]);
@@ -291,6 +348,28 @@ namespace SrkToolkit.Services
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Clears all instances (and calls <see cref="IDisposable.Dispose"/>).
+        /// </summary>
+        public static void ClearInstances()
+        {
+            lock (internals)
+            {
+                if (services.Count > 0)
+                {
+                    foreach (var item in services.Values)
+                    {
+                        var disposable = item as IDisposable;
+                        if (disposable != null)
+                            disposable.Dispose();
+                    }
+                }
+
+                services.Clear();
+                TraceEx.Info("ApplicationServices", "Cleared");
+            }
         }
 
         /// <summary>
@@ -311,17 +390,37 @@ namespace SrkToolkit.Services
                 }
 
                 services.Clear();
+                factories.Clear();
                 TraceEx.Info("ApplicationServices", "Cleared");
             }
         }
 
+        private static void ThrowIfRegisteredOrInstanciated(Type type, string id)
+        {
+            if (services.ContainsKey(id))
+                throw new ArgumentException("Service of type '" + type.Name + "' is already registered. Use DropInstance, IsReady or Unregister method.");
+
+            if (factories.ContainsKey(id))
+                throw new ArgumentException("Service of type '" + type.Name + "' is already registered. Use DropInstance, IsRegistered or Unregister method.");
+        }
+
         #region Internals
 
+        /// <summary>
+        /// Contract to create new service instances.
+        /// </summary>
         interface IFactory
         {
+            /// <summary>
+            /// Creates an instance.
+            /// </summary>
+            /// <returns></returns>
             object Create();
         }
 
+        /// <summary>
+        /// Instantiates a service using <see cref="System.Activator"/> and the default constructor.
+        /// </summary>
         class LazyEmptyService : IFactory
         {
             private readonly Type type;
@@ -337,6 +436,9 @@ namespace SrkToolkit.Services
             }
         }
 
+        /// <summary>
+        /// Instantiates a service using a delegate.
+        /// </summary>
         class LazyFactoryService : IFactory
         {
             private readonly Func<object> factory;

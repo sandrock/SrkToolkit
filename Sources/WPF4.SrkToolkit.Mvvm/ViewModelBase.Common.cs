@@ -32,12 +32,21 @@ namespace SrkToolkit.Mvvm {
 
         /// <summary>
         /// Executes the specified delegate asynchronously on the thread the <see cref="Dispatcher"/> is associated with.
+        /// Will do nothing if <see cref="ViewModelBase.Dispatcher"/> is null or <see cref="ViewModelBase.Disposed"/> is true.
         /// </summary>
         /// <param name="action">
         /// A delegate to a method that takes no arguments and does not return a value, which is pushed onto the <see cref="Dispatcher"/> event queue.
         /// </param>
+        //// <exception cref="ObjectDisposedException"></exception>
+        //// <exception cref="ArgumentException"></exception>
         protected void Dispatch(Action action) {
-            this.Dispatcher.BeginInvoke(action, null);
+            ////if (this.Disposed)
+            ////    throw new ObjectDisposedException(this.GetType().Name);
+            ////if (this.Dispatcher == null)
+            ////    throw new ArgumentException("Dispatcher is not set");
+		
+            if (this.Dispatcher != null && !this.Disposed && action != null)
+                this.Dispatcher.BeginInvoke(action, null);
         }
 
         #endregion
@@ -152,7 +161,6 @@ namespace SrkToolkit.Mvvm {
         protected virtual void Dispose(bool disposing) {
             if (disposing)
             {
-                this.dispatcher = null;
                 this.PropertyChanged = null;
             }
 

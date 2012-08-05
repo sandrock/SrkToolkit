@@ -10,6 +10,8 @@ namespace SrkToolkit.Mvvm.Commands {
     public class RelayCommand : ICommand {
 
         private readonly Action _executeAction;
+        private readonly Func<bool> _canExecuteFunc;
+        private readonly bool canExecutePreventsExecute;
 
         /// <summary>
         /// Event for the CanExecute feature.
@@ -30,13 +32,29 @@ namespace SrkToolkit.Mvvm.Commands {
         }
 
         /// <summary>
+        /// Initializes a new instance of the RelayCommand class.
+        /// </summary>
+        /// <param name="execute">The execution logic.</param>
+        /// <param name="canExecute">The execution status logic.</param>
+        /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
+        [DebuggerStepThrough]
+        public RelayCommand(Action execute, Func<bool> canExecute, bool canExecutePreventsExecute) {
+            if (execute == null) {
+                throw new ArgumentNullException("execute");
+            }
+            this._executeAction = execute;
+            this._canExecuteFunc = canExecute;
+            this.canExecutePreventsExecute = canExecutePreventsExecute;
+        }
+
+        /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.
         /// </summary>
         /// <param name="parameter">This parameter will always be ignored.</param>
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         [DebuggerStepThrough]
         public bool CanExecute(object parameter) {
-            return true;
+            return ((this._canExecuteFunc == null) ? true : this._canExecuteFunc.Invoke());
         }
 
         /// <summary>
@@ -46,8 +64,8 @@ namespace SrkToolkit.Mvvm.Commands {
         [DebuggerStepThrough]
         public void Execute(object parameter)
         {
-            this._executeAction.Invoke();
+            if (_canExecuteFunc == null || (this.canExecutePreventsExecute && _canExecuteFunc()))
+                this._executeAction.Invoke();
         }
     }
-
 }

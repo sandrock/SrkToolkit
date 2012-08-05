@@ -4,8 +4,10 @@ namespace System.Diagnostics
     /// <summary>
     /// Extended methods for the <see cref="Debug."/>
     /// </summary>
-    public class TraceEx
+    public partial class TraceEx
     {
+        public static EventHandler<TraceEventArgs> NewEvent;
+
         private static string Time
         {
             get
@@ -20,23 +22,28 @@ namespace System.Diagnostics
         public static void Info(string message)
         {
             Debug.WriteLine("Information: " + Time + " " + message);
+            RaiseEvent("Info", null, message, null);
         }
 
         [Conditional("TRACE")]
         public static void Info(string message, Exception ex)
         {
-            if (ex == null)
-                Info(message);
-            else
+            if (ex != null)
+            {
                 Debug.WriteLine("Information: " + Time + " " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
+                RaiseEvent("Info", null, message, ex);
+            }
+            else
+                Info(message);
         }
 
         [Conditional("TRACE")]
         public static void Info(string objectName, string message)
         {
             Debug.WriteLine("Information: " + Time + " " + objectName + ": " + message);
+            RaiseEvent("Info", objectName, message, null);
         }
 
         [Conditional("TRACE")]
@@ -45,26 +52,12 @@ namespace System.Diagnostics
             if (ex == null)
                 Info(objectName, message);
             else
+            {
                 Debug.WriteLine("Information: " + Time + " " + objectName + ": " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message);
+                RaiseEvent("Info", objectName, message, ex);
+            }
         }
-
-        //[Conditional("TRACE")]
-        //public static void Info(object inObject, string message)
-        //{
-        //    Debug.WriteLine("Information: " + Time + " " + inObject.GetType().Name + ": " + message);
-        //}
-
-        //[Conditional("TRACE")]
-        //public static void Info(object inObject, string message, Exception ex)
-        //{
-        //    if (ex == null)
-        //        Info(inObject, message);
-        //    else
-        //        Debug.WriteLine("Information: " + Time + " " + inObject.GetType().Name + ": " + message +
-        //            Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
-        //            Environment.NewLine + ex.StackTrace);
-        //}
 
         #endregion
 
@@ -74,6 +67,7 @@ namespace System.Diagnostics
         public static void Warning(string message)
         {
             Debug.WriteLine("Warning: " + Time + " " + message);
+            RaiseEvent("Warning", null, message, null);
         }
 
         [Conditional("TRACE")]
@@ -82,15 +76,19 @@ namespace System.Diagnostics
             if (ex == null)
                 Warning(message);
             else
+            {
                 Debug.WriteLine("Warning: " + Time + " " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
+                RaiseEvent("Warning", null, message, ex);
+            }
         }
 
         [Conditional("TRACE")]
         public static void Warning(string objectName, string message)
         {
             Debug.WriteLine("Warning: " + Time + " " + objectName + ": " + message);
+            RaiseEvent("Warning", objectName, message, null);
         }
 
         [Conditional("TRACE")]
@@ -99,26 +97,12 @@ namespace System.Diagnostics
             if (ex == null)
                 Warning(objectName, message);
             else
+            {
                 Debug.WriteLine("Warning: " + Time + " " + objectName + ": " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message);
+                RaiseEvent("Warning", objectName, message, ex);
+            }
         }
-
-        //[Conditional("TRACE")]
-        //public static void Warning(object inObject, string message)
-        //{
-        //    Debug.WriteLine("Warning: " + Time + " " + inObject.GetType().Name + ": " + message);
-        //}
-
-        //[Conditional("TRACE")]
-        //public static void Warning(object inObject, string message, Exception ex)
-        //{
-        //    if (ex == null)
-        //        Warning(inObject, message);
-        //    else
-        //        Debug.WriteLine("Warning: " + Time + " " + inObject.GetType().Name + ": " + message +
-        //            Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
-        //            Environment.NewLine + ex.StackTrace);
-        //}
 
         #endregion
 
@@ -128,6 +112,7 @@ namespace System.Diagnostics
         public static void Error(string message)
         {
             Debug.WriteLine("Error: " + Time + " " + message);
+            RaiseEvent("Error", null, message, null);
         }
 
         [Conditional("TRACE")]
@@ -136,31 +121,19 @@ namespace System.Diagnostics
             if (ex == null)
                 Error(message);
             else
+            {
                 Debug.WriteLine("Error: " + Time + " " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
+                RaiseEvent("Error", null, message, ex);
+            }
         }
-
-        //[Conditional("TRACE")]
-        //public static void Error(object inObject, string message)
-        //{
-        //    Debug.WriteLine("Error: " + Time + " " + inObject.GetType().Name + ": " + message);
-        //}
-
-        //[Conditional("TRACE")]
-        //public static void Error(object inObject, string message, Exception ex)
-        //{
-        //    if (ex == null)
-        //        Error(inObject, message);
-        //    else
-        //        Debug.WriteLine("Error: " + Time + " " + inObject.GetType().Name + ": " + message +
-        //            Environment.NewLine + ex.GetType().Name + ": " + ex.Message);
-        //}
 
         [Conditional("TRACE")]
         public static void Error(string objectName, string message)
         {
             Debug.WriteLine("Error: " + Time + " " + objectName + ": " + message);
+            RaiseEvent("Error", objectName, message, null);
         }
 
         [Conditional("TRACE")]
@@ -169,11 +142,33 @@ namespace System.Diagnostics
             if (ex == null)
                 Error(objectName, message);
             else
+            {
                 Debug.WriteLine("Error: " + Time + " " + objectName + ": " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
+                RaiseEvent("Error", objectName, message, ex);
+            }
         }
 
         #endregion
+        private static void RaiseEvent(string kind, string objectName, string message, Exception exception)
+        {
+            var handler = NewEvent;
+            if (handler != null)
+                handler(null, new TraceEventArgs
+                {
+                    ObjectName = objectName,
+                    Message = message,
+                    Exception = exception,
+                });
+        }
+    }
+
+    public class TraceEventArgs : EventArgs
+    {
+        public string Kind { get; set; }
+        public string ObjectName { get; set; }
+        public string Message { get; set; }
+        public Exception Exception { get; set; }
     }
 }

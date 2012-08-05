@@ -11,6 +11,7 @@ namespace SrkToolkit.Mvvm.Commands {
 
         private readonly Predicate<T> _canExecuteFunc;
         private readonly Action<T> _executeAction;
+        private readonly bool canExecutePreventsExecute;
 
         /// <summary>
         /// Event for the CanExecute feature.
@@ -33,8 +34,9 @@ namespace SrkToolkit.Mvvm.Commands {
         /// </summary>
         /// <param name="execute">the action to execute</param>
         /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
+        [DebuggerStepThrough]
         public RelayCommand(Action<T> execute)
-            : this(execute, null) {
+            : this(execute, null, false) {
         }
 
         /// <summary>
@@ -43,12 +45,14 @@ namespace SrkToolkit.Mvvm.Commands {
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
         /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
-        public RelayCommand(Action<T> execute, Predicate<T> canExecute) {
+        [DebuggerStepThrough]
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute, bool canExecutePreventsExecute) {
             if (execute == null) {
                 throw new ArgumentNullException("execute");
             }
             this._executeAction = execute;
             this._canExecuteFunc = canExecute;
+            this.canExecutePreventsExecute = canExecutePreventsExecute;
         }
 
         /// <summary>
@@ -65,8 +69,14 @@ namespace SrkToolkit.Mvvm.Commands {
         /// Defines the method to be called when the command is invoked. 
         /// </summary>
         /// <param name="parameter">This parameter will always be ignored.</param>
+        [DebuggerStepThrough]
         public void Execute(object parameter) {
-            this._executeAction.Invoke((T)parameter);
+            if (this.canExecutePreventsExecute && this._canExecuteFunc != null) {
+                if (this._canExecuteFunc((T)parameter))
+                    this._executeAction.Invoke((T)parameter);
+            } else {
+                this._executeAction.Invoke((T)parameter);
+            }
         }
 
         /// <summary>
@@ -76,5 +86,4 @@ namespace SrkToolkit.Mvvm.Commands {
             CommandManager.InvalidateRequerySuggested();
         }
     }
-
 }

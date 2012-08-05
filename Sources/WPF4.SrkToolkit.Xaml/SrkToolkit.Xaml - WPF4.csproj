@@ -65,7 +65,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DateTimeDateConverter.cs" />
     <Compile Include="Converters\NotNullToVisibilityConverter.cs" />
-    <Compile Include="RelayCommand.cs" />
+    <None Include="RelayCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\OppositeBoolConverter.cs" />

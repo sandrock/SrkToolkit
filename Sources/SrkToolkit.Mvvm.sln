@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkit.Mvvm - WP7", "WP7.SrkToolkit.Mvvm\SrkToolkit.Mvvm - WP7.csproj", "{DE760EB5-95B4-4E56-89FB-48A38DDDC80A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkit.Mvvm - WPF4", "WPF4.SrkToolkit.Mvvm\SrkToolkit.Mvvm - WPF4.csproj", "{A842E52E-4001-4BD8-BDCD-C95630D984D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkit.Mvvm - SL4", "SL4.SrkToolkit.Mvvm\SrkToolkit.Mvvm - SL4.csproj", "{09CD285E-A097-4C38-8598-5A9BE0557030}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkit.Mvvm - WP71", "WP71.SrkToolkit.Mvvm\SrkToolkit.Mvvm - WP71.csproj", "{011FCD78-30C5-42BC-9499-AA4B4CDD7897}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{563E54B0-9127-47DF-AC4A-F461F8EC490E}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		SrkToolkit.vsmdi = SrkToolkit.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkit.Mvvm.Tests - NET4", "NET4.SrkToolkit.Mvvm.Tests\SrkToolkit.Mvvm.Tests - NET4.csproj", "{9C42B357-7E5D-4192-850D-190EAEC0416A}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = SrkToolkit.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE760EB5-95B4-4E56-89FB-48A38DDDC80A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE760EB5-95B4-4E56-89FB-48A38DDDC80A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE760EB5-95B4-4E56-89FB-48A38DDDC80A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE760EB5-95B4-4E56-89FB-48A38DDDC80A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A842E52E-4001-4BD8-BDCD-C95630D984D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A842E52E-4001-4BD8-BDCD-C95630D984D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A842E52E-4001-4BD8-BDCD-C95630D984D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A842E52E-4001-4BD8-BDCD-C95630D984D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09CD285E-A097-4C38-8598-5A9BE0557030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09CD285E-A097-4C38-8598-5A9BE0557030}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09CD285E-A097-4C38-8598-5A9BE0557030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09CD285E-A097-4C38-8598-5A9BE0557030}.Release|Any CPU.Build.0 = Release|Any CPU
+		{011FCD78-30C5-42BC-9499-AA4B4CDD7897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{011FCD78-30C5-42BC-9499-AA4B4CDD7897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{011FCD78-30C5-42BC-9499-AA4B4CDD7897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{011FCD78-30C5-42BC-9499-AA4B4CDD7897}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C42B357-7E5D-4192-850D-190EAEC0416A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C42B357-7E5D-4192-850D-190EAEC0416A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C42B357-7E5D-4192-850D-190EAEC0416A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C42B357-7E5D-4192-850D-190EAEC0416A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

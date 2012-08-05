@@ -9,7 +9,9 @@ namespace SrkToolkit.Mvvm.Commands {
     /// </summary>
     public class RelayCommand<T> : ICommand {
 
+        private readonly Predicate<T> _canExecuteFunc;
         private readonly Action<T> _executeAction;
+        private readonly bool canExecutePreventsExecute;
 
         /// <summary>
         /// Event for the CanExecute feature.
@@ -31,13 +33,29 @@ namespace SrkToolkit.Mvvm.Commands {
         }
 
         /// <summary>
+        /// Initializes a new instance of the RelayCommand class.
+        /// </summary>
+        /// <param name="execute">The execution logic.</param>
+        /// <param name="canExecute">The execution status logic.</param>
+        /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
+        [DebuggerStepThrough]
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute, bool canExecutePreventsExecute) {
+            if (execute == null) {
+                throw new ArgumentNullException("execute");
+            }
+            this._executeAction = execute;
+            this._canExecuteFunc = canExecute;
+            this.canExecutePreventsExecute = canExecutePreventsExecute;
+        }
+
+        /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.
         /// </summary>
         /// <param name="parameter">This parameter will always be ignored.</param>
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         [DebuggerStepThrough]
         public bool CanExecute(object parameter) {
-            return true;
+            return ((this._canExecuteFunc == null) ? true : this._canExecuteFunc.Invoke((T)parameter));
         }
 
         /// <summary>
@@ -45,10 +63,13 @@ namespace SrkToolkit.Mvvm.Commands {
         /// </summary>
         /// <param name="parameter">This parameter will always be ignored.</param>
         [DebuggerStepThrough]
-        public void Execute(object parameter)
-        {
-            this._executeAction.Invoke((T)parameter);
+        public void Execute(object parameter) {
+            if (this.canExecutePreventsExecute && this._canExecuteFunc != null) {
+                if (this._canExecuteFunc((T)parameter))
+                    this._executeAction.Invoke((T)parameter);
+            } else {
+                this._executeAction.Invoke((T)parameter);
+            }
         }
     }
-
 }

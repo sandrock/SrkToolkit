@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using System;
 
 [assembly: AssemblyTitle("SrkToolkit.WildServiceRef")]
 [assembly: AssemblyDescription("")]
@@ -11,6 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
+[assembly: CLSCompliant(true)]
 
 [assembly: Guid("0e89bb74-840f-4acf-8bea-44ba30839de1")]
 

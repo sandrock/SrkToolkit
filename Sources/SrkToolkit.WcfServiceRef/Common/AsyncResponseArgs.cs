@@ -18,7 +18,6 @@ namespace SrkToolkit.WcfServiceRef.Common {
         /// <summary>
         /// Class .ctor to mark the response as a success with no data.
         /// </summary>
-        /// <param name="succeed"></param>
         public AsyncResponseArgs() : this(true, null) { }
 
         /// <summary>

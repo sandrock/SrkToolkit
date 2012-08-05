@@ -103,7 +103,7 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <summary>
         /// Initializes a new instance of the <see cref="BusyTaskCollection"/> class.
         /// </summary>
-        internal BusyTaskCollection() : base() {
+        public BusyTaskCollection() : base() {
         }
 
         #endregion

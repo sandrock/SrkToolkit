@@ -11,6 +11,7 @@ namespace SrkToolkit.Xaml.Commands {
 
         private readonly Func<bool> _canExecuteFunc;
         private readonly Action _executeAction;
+        private readonly bool canExecutePreventsExecute;
 
         /// <summary>
         /// Event for the CanExecute feature.
@@ -33,8 +34,9 @@ namespace SrkToolkit.Xaml.Commands {
         /// </summary>
         /// <param name="execute">the action to execute</param>
         /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
+        [DebuggerStepThrough]
         public RelayCommand(Action execute)
-            : this(execute, null) {
+            : this(execute, null, false) {
         }
 
         /// <summary>
@@ -43,12 +45,14 @@ namespace SrkToolkit.Xaml.Commands {
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
         /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
-        public RelayCommand(Action execute, Func<bool> canExecute) {
+        [DebuggerStepThrough]
+        public RelayCommand(Action execute, Func<bool> canExecute, bool canExecutePreventsExecute) {
             if (execute == null) {
                 throw new ArgumentNullException("execute");
             }
             this._executeAction = execute;
             this._canExecuteFunc = canExecute;
+            this.canExecutePreventsExecute = canExecutePreventsExecute;
         }
 
         /// <summary>
@@ -65,8 +69,14 @@ namespace SrkToolkit.Xaml.Commands {
         /// Defines the method to be called when the command is invoked. 
         /// </summary>
         /// <param name="parameter">This parameter will always be ignored.</param>
+        [DebuggerStepThrough]
         public void Execute(object parameter) {
-            this._executeAction.Invoke();
+            if (this.canExecutePreventsExecute && this._canExecuteFunc != null) {
+                if (this._canExecuteFunc())
+                    this._executeAction.Invoke();
+            } else {
+                this._executeAction.Invoke();
+            }
         }
 
         /// <summary>
@@ -76,5 +86,4 @@ namespace SrkToolkit.Xaml.Commands {
             CommandManager.InvalidateRequerySuggested();
         }
     }
-
 }

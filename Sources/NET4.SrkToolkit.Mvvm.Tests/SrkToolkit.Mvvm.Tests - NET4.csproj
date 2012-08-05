@@ -63,6 +63,7 @@
     <Compile Include="BusyTaskCollectionTests.cs" />
     <Compile Include="InteractionViewModelBaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelayCommandTests.cs" />
     <Compile Include="ViewModelBaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,11 +76,4 @@
     <None Include="SrkToolkit.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

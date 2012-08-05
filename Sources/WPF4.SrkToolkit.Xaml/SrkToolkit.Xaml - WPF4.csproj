@@ -44,15 +44,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity">
       <HintPath>..\Lib\FX40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -77,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SrkToolkit.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WPF4.SrkToolkit.Mvvm\SrkToolkit.Mvvm - WPF4.csproj">
+      <Project>{A842E52E-4001-4BD8-BDCD-C95630D984D4}</Project>
+      <Name>SrkToolkit.Mvvm - WPF4</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

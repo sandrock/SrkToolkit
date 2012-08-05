@@ -7,7 +7,7 @@ namespace SrkToolkit.Mvvm.Commands {
     /// <summary>
     /// Classic RelayCommand implementation for the MVVM pattern.
     /// </summary>
-    internal class RelayCommand : ICommand {
+    public class RelayCommand : ICommand {
 
         private readonly Func<bool> _canExecuteFunc;
         private readonly Action _executeAction;

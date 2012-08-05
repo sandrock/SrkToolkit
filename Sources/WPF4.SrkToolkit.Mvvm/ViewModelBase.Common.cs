@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Threading;
 using SrkToolkit.Mvvm.Tools;
+using System.Runtime.CompilerServices;
 
 namespace SrkToolkit.Mvvm {
 
@@ -37,16 +38,14 @@ namespace SrkToolkit.Mvvm {
         /// <param name="action">
         /// A delegate to a method that takes no arguments and does not return a value, which is pushed onto the <see cref="Dispatcher"/> event queue.
         /// </param>
-        //// <exception cref="ObjectDisposedException"></exception>
-        //// <exception cref="ArgumentException"></exception>
-        protected void Dispatch(Action action) {
+        protected internal void Dispatch(Action action) {
             ////if (this.Disposed)
             ////    throw new ObjectDisposedException(this.GetType().Name);
             ////if (this.Dispatcher == null)
             ////    throw new ArgumentException("Dispatcher is not set");
-		
+        
             if (this.Dispatcher != null && !this.Disposed && action != null)
-                this.Dispatcher.BeginInvoke(action, null);
+            this.Dispatcher.BeginInvoke(action, null);
         }
 
         #endregion
@@ -136,7 +135,7 @@ namespace SrkToolkit.Mvvm {
         ///   <c>true</c> if disposed; otherwise, <c>false</c>.
         /// </value>
         protected bool Disposed {
-            get { return _disposed; }
+            get { return this._disposed; }
         }
 
         #region IDisposable Members

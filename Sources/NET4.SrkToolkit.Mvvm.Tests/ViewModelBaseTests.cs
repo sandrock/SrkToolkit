@@ -54,6 +54,18 @@ namespace NET4.SrkToolkit.Mvvm.Tests
             }
         }
 
+        [TestClass]
+        public class DispatchMethod
+        {
+            [TestMethod]
+            public void DoesNotThrowWhenDispatcherIsNull()
+            {
+                var target = new ViewModelA();
+                target.Dispatcher = null;
+                target.Dispatch(() => { });
+            }
+        }
+
         public class ViewModelA : ViewModelBase
         {
             private bool viaSetValue;

@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Threading;
-using SrkToolkit.Xaml.Commands;
+using SrkToolkit.Mvvm.Commands;
 
 namespace SrkToolkit.Xaml.Behaviors {
     /// <summary>
@@ -211,7 +211,7 @@ namespace SrkToolkit.Xaml.Behaviors {
         /// </summary>
         public ICommand MaximizeCommand {
             [System.Diagnostics.DebuggerStepThrough]
-            get { return this.maximizeCommand ?? (this.maximizeCommand = new RelayCommand(OnMaximize)); }
+            get { return this.maximizeCommand ?? (this.maximizeCommand = new RelayCommand(this.OnMaximize)); }
         }
         private ICommand maximizeCommand;
 
@@ -226,7 +226,7 @@ namespace SrkToolkit.Xaml.Behaviors {
         /// </summary>
         public ICommand MinimizeCommand {
             [System.Diagnostics.DebuggerStepThrough]
-            get { return this.minimizeCommand ?? (this.minimizeCommand = new RelayCommand(OnMinimize)); }
+            get { return this.minimizeCommand ?? (this.minimizeCommand = new RelayCommand(this.OnMinimize)); }
         }
         private ICommand minimizeCommand;
 
@@ -241,7 +241,7 @@ namespace SrkToolkit.Xaml.Behaviors {
         /// </summary>
         public ICommand CloseCommand {
             [System.Diagnostics.DebuggerStepThrough]
-            get { return this.closeCommand ?? (this.closeCommand = new RelayCommand(OnClose)); }
+            get { return this.closeCommand ?? (this.closeCommand = new RelayCommand(this.OnClose)); }
         }
         private ICommand closeCommand;
 

@@ -7,6 +7,7 @@ namespace SrkToolkit.Xaml.Behaviors
     using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Interactivity;
+    using System.Windows.Threading;
 
     /// <summary>
     /// Permits to focus the next input control when pressing enter.
@@ -257,7 +258,11 @@ namespace SrkToolkit.Xaml.Behaviors
         /// <param name="e">The event args.</param>
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
+#if WINDOWS_PHONE
             var isEnterKey = e.Key == Key.Enter || e.PlatformKeyCode == 10;
+#else
+            var isEnterKey = e.Key == Key.Enter;
+#endif
             bool isEmpty = false;
 
             var inputTb = this.AssociatedObject as TextBox;
@@ -274,10 +279,16 @@ namespace SrkToolkit.Xaml.Behaviors
             // force databinding
             BindingExpression binding = null;
             if (inputTb != null)
+            {
                 binding = inputTb.GetBindingExpression(TextBox.TextProperty);
+            }
             else if (inputPb != null)
+            {
+#if SILVERLIGHT
                 binding = inputPb.GetBindingExpression(PasswordBox.PasswordProperty);
-            if (binding != null)
+#endif
+            }
+                if (binding != null)
                 binding.UpdateSource();
 
             // if any enter key is pressed

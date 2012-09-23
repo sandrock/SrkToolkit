@@ -160,6 +160,7 @@ namespace System.Diagnostics
                     ObjectName = objectName,
                     Message = message,
                     Exception = exception,
+                    Kind = kind,
                 });
         }
     }

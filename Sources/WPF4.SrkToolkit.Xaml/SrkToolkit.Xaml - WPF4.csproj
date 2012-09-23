@@ -59,6 +59,21 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SL4.SrkToolkit.Xaml\Behaviors\InputEnterBehavior.cs">
+      <Link>Behaviors\InputEnterBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\SL4.SrkToolkit.Xaml\Behaviors\ListBoxScrollBehavior.cs">
+      <Link>Behaviors\ListBoxScrollBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\SL4.SrkToolkit.Xaml\Extensions\DependencyObjectExtensions.cs">
+      <Link>Extensions\DependencyObjectExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SL4.SrkToolkit.Xaml\Internal\CompositeDisposable.cs">
+      <Link>Internal\CompositeDisposable.cs</Link>
+    </Compile>
+    <None Include="..\SL4.SrkToolkit.Xaml\Internal\DisposableEventHandler.cs">
+      <Link>Internal\DisposableEventHandler.cs</Link>
+    </None>
     <Compile Include="Behaviors\WindowControls.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DateTimeDateConverter.cs" />
@@ -69,6 +84,7 @@
     <Compile Include="Converters\OppositeBoolConverter.cs" />
     <Compile Include="Converters\ToLowerConverter.cs" />
     <Compile Include="Converters\ToUpperConverter.cs" />
+    <None Include="Extensions\DispatcherExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

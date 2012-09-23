@@ -1,12 +1,14 @@
-﻿using System;
-using SrkToolkit.Mvvm.Tools;
-
-namespace SrkToolkit.Mvvm {
+﻿
+namespace SrkToolkit.Mvvm
+{
+    using System;
+    using SrkToolkit.Mvvm.Tools;
 
     /// <summary>
     /// Higher-level ViewModel base with tasks and MessageBox abstraction.
     /// </summary>
-    public partial class InteractionViewModelBase : ViewModelBase {
+    public partial class InteractionViewModelBase : ViewModelBase
+    {
         private InteractionViewModelBase baseViewModel;
 
         #region View properties
@@ -18,7 +20,8 @@ namespace SrkToolkit.Mvvm {
         ///   - {Binding Tasks[AutoLogin].IsProcessing}
         ///   - {Binding Tasks[AutoLogin].Message}
         /// </summary>
-        public BusyTaskCollection Tasks {
+        public BusyTaskCollection Tasks
+        {
             get { return _tasks; }
         }
         private readonly BusyTaskCollection _tasks = new BusyTaskCollection();
@@ -31,7 +34,9 @@ namespace SrkToolkit.Mvvm {
         /// Initializes a new instance of the <see cref="InteractionViewModelBase"/> class.
         /// Make sure you instantiate this in the UI thread so that the dispatcher can attach.
         /// </summary>
-        public InteractionViewModelBase() : base() {
+        public InteractionViewModelBase()
+            : base()
+        {
         }
 
         /// <summary>
@@ -53,12 +58,17 @@ namespace SrkToolkit.Mvvm {
         /// </summary>
         /// <param name="key"></param>
         /// <param name="isGlobal"></param>
-        protected void CreateTask(string key, bool isGlobal) {
+        protected void CreateTask(string key, bool isGlobal)
+        {
             var task = Tasks[key];
-            if (task != null) {
+            if (task != null)
+            {
                 throw new ArgumentException("a task with this key already exists", "key");
-            } else {
-                this.Tasks.Add(new BusyTask {
+            }
+            else
+            {
+                this.Tasks.Add(new BusyTask
+                {
                     IsGlobal = isGlobal,
                     Key = key
                 });
@@ -72,12 +82,17 @@ namespace SrkToolkit.Mvvm {
         /// <param name="isProcessing"></param>
         /// <param name="type"></param>
         /// <param name="message"></param>
-        protected void UpdateTask(string key, bool isProcessing = false, string message = null, BusyTaskType type = BusyTaskType.Default) {
+        protected void UpdateTask(string key, bool isProcessing = false, string message = null, BusyTaskType type = BusyTaskType.Default)
+        {
             var task = this.Tasks[key];
-            if (task != null) {
+            if (task != null)
+            {
                 this.Tasks.Update(key, message, isProcessing, type);
-            } else {
-                this.Tasks.Add(new BusyTask {
+            }
+            else
+            {
+                this.Tasks.Add(new BusyTask
+                {
                     Key = key,
                     IsGlobal = false,
                     IsProcessing = isProcessing,
@@ -93,12 +108,17 @@ namespace SrkToolkit.Mvvm {
         /// <param name="isProcessing"></param>
         /// <param name="type"></param>
         /// <param name="message"></param>
-        protected void UpdateTask(string key, string message = null, bool isProcessing = false, BusyTaskType type = BusyTaskType.Default) {
+        protected void UpdateTask(string key, string message = null, bool isProcessing = false, BusyTaskType type = BusyTaskType.Default)
+        {
             var task = Tasks[key];
-            if (task != null) {
+            if (task != null)
+            {
                 Tasks.Update(key, message, isProcessing, type);
-            } else {
-                Tasks.Add(new BusyTask {
+            }
+            else
+            {
+                Tasks.Add(new BusyTask
+                {
                     Key = key,
                     IsGlobal = false,
                     IsProcessing = isProcessing,
@@ -115,14 +135,18 @@ namespace SrkToolkit.Mvvm {
         /// <param name="message">The message.</param>
         /// <param name="isProcessing">if set to <c>true</c> [is processing].</param>
         /// <param name="type">The type.</param>
-        protected void UpdateTask(string key, Exception exception, string message = null, bool isProcessing = false, BusyTaskType type = BusyTaskType.Error) {
-            if (exception != null) {
+        protected void UpdateTask(string key, Exception exception, string message = null, bool isProcessing = false, BusyTaskType type = BusyTaskType.Error)
+        {
+            if (exception != null)
+            {
 #if DEBUG
                 UpdateTask(key, isProcessing, message ?? exception.Message, type);
 #else
                 UpdateTask(key, isProcessing, message ?? "An error occured. ", type);
 #endif
-            } else {
+            }
+            else
+            {
                 UpdateTask(key, isProcessing, message, BusyTaskType.Default);
             }
         }
@@ -135,7 +159,8 @@ namespace SrkToolkit.Mvvm {
         /// MessageBox abstraction.
         /// You can replace this for unit-testing.
         /// </summary>
-        protected IMessageBoxService Mbox {
+        protected IMessageBoxService Mbox
+        {
             get { return _mbox ?? (_mbox = new MessageBoxService()); }
             set { _mbox = value; }
         }

@@ -224,6 +224,39 @@ namespace SrkToolkit.Services.Tests
             }
         }
 
+        [TestClass]
+        public class RegisterFactoryMethod
+        {
+            [TestCleanup]
+            public void Cleanup()
+            {
+                ApplicationServices.Clear();
+            }
+
+            [TestMethod]
+            public void ResolvesNewInstanceAtEachResolveCall()
+            {
+                // prepare
+                Func<ClassA> subject = () => new ClassA();
+                object resolved = null;
+                object resolved1 = null;
+
+                // execute
+                ApplicationServices.RegisterFactory<InterfaceA>(subject);
+                resolved = ApplicationServices.Resolve<InterfaceA>();
+
+                // verify
+                Assert.IsNotNull(resolved);
+                Assert.IsInstanceOfType(resolved, typeof(ClassA));
+
+                // execute again
+                resolved1 = ApplicationServices.Resolve<InterfaceA>();
+
+                // verify
+                Assert.AreNotSame(resolved1, resolved);
+            }
+        }
+
         interface InterfaceA {
             void Run();
         }

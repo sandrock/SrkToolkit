@@ -29,6 +29,23 @@ namespace SrkToolkit.Mvvm.Tools {
         }
 
         /// <summary>
+        /// Gets or sets a description.
+        /// Not used by the BusyTask framework.
+        /// </summary>
+        public string Description
+        {
+            get { return this.description; }
+            set { this.SetValue(ref this.description, value, "Description"); }
+        }
+
+        /// <summary>
+        /// Contains a description.
+        /// Use the property <see cref="Description"/> instead.
+        /// </summary>
+        private string description;
+        
+
+        /// <summary>
         /// Gets or sets a value indicating whether the task currently processing.
         /// Will set <see cref="IsQueued"/> to false.
         /// </summary>

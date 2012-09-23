@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\OppositeBoolConverter.cs" />
+    <Compile Include="Converters\ToLowerConverter.cs" />
+    <Compile Include="Converters\ToUpperConverter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

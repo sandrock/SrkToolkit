@@ -49,7 +49,9 @@
     <Compile Include="..\SrkToolkit.Services.AssemblyInfo.cs">
       <Link>SrkToolkit.Services.AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ApplicationServices.cs" />
+    <Compile Include="..\WP7.SrkToolkit.Services\ApplicationServices.cs">
+      <Link>ApplicationServices.cs</Link>
+    </Compile>
     <Compile Include="Diagnostics\FileTraceListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Diagnostics\TraceEx.cs" />

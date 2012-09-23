@@ -1,11 +1,17 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Data;
+﻿
+namespace SrkToolkit.Xaml.Converters
+{
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
+    using System.Windows;
+    using System.Windows.Data;
 
-namespace SrkToolkit.Xaml.Converters {
-
-    public class NotNullToVisibilityConverter : IValueConverter {
-
+    /// <summary>
+    /// Converts a value to a <see cref="Visibility"/> depending on the "nullability" of it.
+    /// </summary>
+    public class NotNullToVisibilityConverter : IValueConverter
+    {
         #region IValueConverter Members
 
         /// <summary>
@@ -22,36 +28,50 @@ namespace SrkToolkit.Xaml.Converters {
         /// </param>
         /// <param name="culture"></param>
         /// <returns></returns>
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
+        [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily", Justification = "CA is wrong")]
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
             bool reverse = false;
             bool hide = false;
             var vHide = Visibility.Collapsed;
 
             // parse parameter
-            if (parameter is string) {
+            if (parameter is string)
+            {
                 string strparam = (string)parameter;
-                if (strparam.Length > 0) {
+                if (strparam.Length > 0)
+                {
                     reverse = strparam[0] == '!';
                     hide = strparam.IndexOf('H') >= 0;
-                } else {
+                }
+                else
+                {
                     reverse = false;
                 }
-            } else if (parameter is bool)
+            }
+            else if (parameter is bool)
                 reverse = (bool)parameter;
-            else if (parameter is bool?) {
+            else if (parameter is bool?)
+            {
                 bool? p = ((bool?)parameter);
                 reverse = p.HasValue && p.Value;
             }
+
+#if !SILVERLIGHT
             if (hide)
                 vHide = Visibility.Hidden;
+#endif
 
             // parse value
-            if (value is string) {
+            if (value is string)
+            {
                 if (reverse)
                     return string.IsNullOrEmpty((string)value) ? Visibility.Visible : vHide;
                 else
                     return !string.IsNullOrEmpty((string)value) ? Visibility.Visible : vHide;
-            } else {
+            }
+            else
+            {
                 if (reverse)
                     return value == null ? Visibility.Visible : vHide;
                 else
@@ -59,11 +79,21 @@ namespace SrkToolkit.Xaml.Converters {
             }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Modifies the target data before passing it to the source object.  This method is called only in <see cref="F:System.Windows.Data.BindingMode.TwoWay"/> bindings.
+        /// </summary>
+        /// <param name="value">The target data being passed to the source.</param>
+        /// <param name="targetType">The <see cref="T:System.Type"/> of data expected by the source object.</param>
+        /// <param name="parameter">An optional parameter to be used in the converter logic.</param>
+        /// <param name="culture">The culture of the conversion.</param>
+        /// <returns>
+        /// The value to be passed to the source object.
+        /// </returns>
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
         }
 
         #endregion
-
     }
 }

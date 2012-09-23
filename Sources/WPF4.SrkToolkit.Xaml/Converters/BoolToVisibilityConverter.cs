@@ -1,11 +1,17 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Data;
+﻿
+namespace SrkToolkit.Xaml.Converters
+{
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
+    using System.Windows;
+    using System.Windows.Data;
 
-namespace SrkToolkit.Xaml.Converters {
-
-    public class BoolToVisibilityConverter : IValueConverter {
-
+    /// <summary>
+    /// Converts a boolean to a <see cref="Visibility"/>.
+    /// </summary>
+    public class BoolToVisibilityConverter : IValueConverter
+    {
         #region IValueConverter Members
 
         /// <summary>
@@ -23,58 +29,90 @@ namespace SrkToolkit.Xaml.Converters {
         /// </param>
         /// <param name="culture"></param>
         /// <returns></returns>
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
+        [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily", Justification = "CA is wrong")]
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
             bool reverse = false;
             bool val = false;
             bool showIfNull = false;
             bool hide = false;
-            var vHide = Visibility.Collapsed;
+            var valueForHide = Visibility.Collapsed;
 
             // parse parameter
-            if (parameter is string) {
+            if (parameter is string)
+            {
                 string strparam = (string)parameter;
-                if (strparam.Length > 0) {
+                if (strparam.Length > 0)
+                {
                     reverse = strparam[0] == '!';
                     showIfNull = strparam.IndexOf('N') >= 0;
                     hide = strparam.IndexOf('H') >= 0;
-                } else {
+                }
+                else
+                {
                     reverse = false;
                 }
-            } else if (parameter is bool)
+            }
+            else if (parameter is bool)
+            {
                 reverse = (bool)parameter;
-            else if (parameter is bool?) {
+            }
+            else if (parameter is bool?)
+            {
                 bool? p = ((bool?)parameter);
                 reverse = p.HasValue && p.Value;
             }
+
+#if !SILVERLIGHT
+            // Hidden instead of Collapsed?
+            // Silverlight doesn't support this :)
             if (hide)
-                vHide = Visibility.Hidden;
+                valueForHide = Visibility.Hidden;
+#endif
 
             // parse value
-            if (value == null) {
-                return showIfNull ? Visibility.Visible : vHide;
-            } else if (value is string) {
+            if (value == null)
+            {
+                return showIfNull ? Visibility.Visible : valueForHide;
+            }
+            else if (value is string)
+            {
                 val = bool.Parse((string)value);
-            } else if (value is bool) {
+            }
+            else if (value is bool)
+            {
                 val = (bool)value;
-            } else if (value is bool?) {
+            }
+            else if (value is bool?)
+            {
                 bool? p = (bool?)value;
                 if (p.HasValue)
                     val = p.Value;
                 else
-                    return showIfNull ? Visibility.Visible : vHide;
+                    return showIfNull ? Visibility.Visible : valueForHide;
             }
 
             if (reverse)
-                return !val ? Visibility.Visible : vHide;
+                return !val ? Visibility.Visible : valueForHide;
             else
-                return val ? Visibility.Visible : vHide;
+                return val ? Visibility.Visible : valueForHide;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
-            throw new NotImplementedException();
+        /// <summary>
+        /// Modifies the target data before passing it to the source object.  This method is called only in <see cref="F:System.Windows.Data.BindingMode.TwoWay"/> bindings.
+        /// </summary>
+        /// <param name="value">The target data being passed to the source.</param>
+        /// <param name="targetType">The <see cref="T:System.Type"/> of data expected by the source object.</param>
+        /// <param name="parameter">An optional parameter to be used in the converter logic.</param>
+        /// <param name="culture">The culture of the conversion.</param>
+        /// <returns>
+        /// The value to be passed to the source object.
+        /// </returns>
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
         }
 
         #endregion
-
     }
 }

@@ -10,8 +10,13 @@ namespace SrkToolkit.Services
     /// </summary>
     public static class ApplicationServices
     {
+#if SILVERLIGHT
         private static readonly Dictionary<string, IFactory> factories = new Dictionary<string, IFactory>();
         private static readonly Dictionary<string, object> services = new Dictionary<string, object>();
+#else
+        private static readonly Dictionary<Guid, IFactory> factories = new Dictionary<Guid, IFactory>();
+        private static readonly Dictionary<Guid, object> services = new Dictionary<Guid, object>();
+#endif
 
         /// <summary>
         /// The lock reference to access <see cref="services"/> and <see cref="factories"/>.
@@ -30,10 +35,10 @@ namespace SrkToolkit.Services
             where TInterface : class
         {
             var type = typeof(TInterface);
-            var id = type.FullName;
+            var id = GetTypeId(type);
             lock (internals)
             {
-                return factories.ContainsKey(id) && factories[id] != null; 
+                return factories.ContainsKey(id) && factories[id] != null;
             }
         }
 
@@ -49,7 +54,7 @@ namespace SrkToolkit.Services
             where TInterface : class
         {
             var type = typeof(TInterface);
-            var id = type.FullName;
+            var id = GetTypeId(type);
             lock (internals)
             {
                 return services.ContainsKey(id) && services[id] != null;
@@ -73,7 +78,7 @@ namespace SrkToolkit.Services
                 throw new ArgumentNullException("service");
 
             var type = typeof(TInterface);
-            var id = type.FullName;
+            var id = GetTypeId(type);
             lock (internals)
             {
                 ThrowIfRegisteredOrInstanciated(type, id);
@@ -97,7 +102,7 @@ namespace SrkToolkit.Services
                 throw new ArgumentNullException("service");
 
             var type = typeof(TImplementation);
-            var id = type.FullName;
+            var id = GetTypeId(type);
             lock (internals)
             {
                 ThrowIfRegisteredOrInstanciated(type, id);
@@ -120,7 +125,7 @@ namespace SrkToolkit.Services
         {
             var type = typeof(TInterface);
             var implType = typeof(TImplementation);
-            var id = type.FullName;
+            var id = GetTypeId(type);
             lock (internals)
             {
                 ThrowIfRegisteredOrInstanciated(type, id);
@@ -141,7 +146,7 @@ namespace SrkToolkit.Services
             where TInterface : class
         {
             var type = typeof(TInterface);
-            var id = type.FullName;
+            var id = GetTypeId(type);
             lock (internals)
             {
                 ThrowIfRegisteredOrInstanciated(type, id);
@@ -156,6 +161,31 @@ namespace SrkToolkit.Services
         }
 
         /// <summary>
+        /// Registers a service with a specified interface type.
+        /// The service is automatically instanciated on ALL call to it.
+        /// </summary>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
+        /// <param name="factory">The factory for the instantiation.</param>
+        /// <exception cref="ArgumentException">If service or factory already exists</exception>
+        public static void RegisterFactory<TInterface>(Func<TInterface> factory)
+            where TInterface : class
+        {
+            var type = typeof(TInterface);
+            var id = GetTypeId(type);
+            lock (internals)
+            {
+                ThrowIfRegisteredOrInstanciated(type, id);
+
+#if SILVERLIGHT
+                factories.Add(id, new FactoryFactoryService(() => factory()));
+#else
+                factories.Add(id, new FactoryFactoryService(factory));
+#endif
+                TraceEx.Info("ApplicationServices", "Registered factory for " + type.Name);
+            }
+        }
+
+        /// <summary>
         /// Unregisters a service with from specified interface type.
         /// Drops the instance if it exists (does not call <see cref="IDisposable.Dispose"/>).
         /// </summary>
@@ -164,7 +194,7 @@ namespace SrkToolkit.Services
             where TInterface : class
         {
             var type = typeof(TInterface);
-            var id = type.FullName;
+            var id = GetTypeId(type);
             lock (internals)
             {
                 if (services.ContainsKey(id))
@@ -219,21 +249,21 @@ namespace SrkToolkit.Services
         }
 
         /// <summary>
-        /// Drops the instance of a service registered with the TInterface type.
+        /// Drops the instance of a service registered with the TInterface type (does not call <see cref="IDisposable.Dispose"/>).
         /// Does not unregister the factory (the object will be recreated if resolved).
         /// </summary>
         public static void DropInstance<TInterface>()
             where TInterface : class
         {
             var type = typeof(TInterface);
-            var id = type.FullName;
+            var id = GetTypeId(type);
             lock (internals)
             {
                 if (services.ContainsKey(id))
                 {
                     var instance = services[id];
                     services[id] = null;
-                    TraceEx.Info("ApplicationServices", "Removed instance of " + (instance != null ? instance.ToString() : id));
+                    TraceEx.Info("ApplicationServices", "Removed instance of " + (instance != null ? instance.ToString() : id.ToString()));
                 }
             }
         }
@@ -250,7 +280,7 @@ namespace SrkToolkit.Services
             where TInterface : class
         {
             var type = typeof(TInterface);
-            var id = type.FullName;
+            var id = GetTypeId(type);
             lock (internals)
             {
                 object obj;
@@ -262,8 +292,9 @@ namespace SrkToolkit.Services
                 else if (factories.ContainsKey(id) && (factory = factories[id]) != null)
                 {
                     var instance = factory.Create();
-                    services[id] = instance;
-                    TraceEx.Info("ApplicationServices", "Created instance of " + (instance != null ? instance.ToString() : id));
+                    if (!(factory is FactoryFactoryService))
+                        services[id] = instance;
+                    TraceEx.Info("ApplicationServices", "Created instance of " + (instance != null ? instance.ToString() : id.ToString()));
                     return (TInterface)instance;
                 }
             }
@@ -329,7 +360,7 @@ namespace SrkToolkit.Services
             where T : class
         {
             var type = typeof(T);
-            var id = type.FullName;
+            var id = GetTypeId(type);
             lock (internals)
             {
                 if (services.ContainsKey(id))
@@ -395,7 +426,11 @@ namespace SrkToolkit.Services
             }
         }
 
+#if SILVERLIGHT
         private static void ThrowIfRegisteredOrInstanciated(Type type, string id)
+#else
+        private static void ThrowIfRegisteredOrInstanciated(Type type, Guid id)
+#endif
         {
             if (services.ContainsKey(id))
                 throw new ArgumentException("Service of type '" + type.Name + "' is already registered. Use DropInstance, IsReady or Unregister method.");
@@ -403,6 +438,20 @@ namespace SrkToolkit.Services
             if (factories.ContainsKey(id))
                 throw new ArgumentException("Service of type '" + type.Name + "' is already registered. Use DropInstance, IsRegistered or Unregister method.");
         }
+
+#if SILVERLIGHT
+        private static string GetTypeId(Type type)
+        {
+            var id = type.FullName;
+            return id;
+        }
+#else
+        private static Guid GetTypeId(Type type)
+        {
+            var id = type.GUID;
+            return id;
+        }
+#endif
 
         #region Internals
 
@@ -444,6 +493,24 @@ namespace SrkToolkit.Services
             private readonly Func<object> factory;
 
             public LazyFactoryService(Func<object> factory)
+            {
+                this.factory = factory;
+            }
+
+            object IFactory.Create()
+            {
+                return this.factory();
+            }
+        }
+
+        /// <summary>
+        /// Instantiates a service using a delegate.
+        /// </summary>
+        class FactoryFactoryService : IFactory
+        {
+            private readonly Func<object> factory;
+
+            public FactoryFactoryService(Func<object> factory)
             {
                 this.factory = factory;
             }

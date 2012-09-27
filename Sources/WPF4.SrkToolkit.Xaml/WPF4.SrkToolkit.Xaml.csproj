@@ -31,7 +31,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\Binaries\WPF4\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -95,9 +95,9 @@
     <None Include="SrkToolkit.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WPF4.SrkToolkit.Mvvm\SrkToolkit.Mvvm - WPF4.csproj">
+    <ProjectReference Include="..\WPF4.SrkToolkit.Mvvm\WPF4.SrkToolkit.Mvvm.csproj">
       <Project>{A842E52E-4001-4BD8-BDCD-C95630D984D4}</Project>
-      <Name>SrkToolkit.Mvvm - WPF4</Name>
+      <Name>WPF4.SrkToolkit.Mvvm</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

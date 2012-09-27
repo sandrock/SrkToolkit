@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\Binaries\WPF45\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -91,7 +91,7 @@
     <None Include="SrkToolkit.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WPF45.SrkToolkit.Mvvm\SrkToolkit.Mvvm - WPF45.csproj">
+    <ProjectReference Include="..\WPF45.SrkToolkit.Mvvm\WPF45.SrkToolkit.Mvvm.csproj">
       <Project>{175b67be-9042-45ee-a8df-d96fe8b75561}</Project>
       <Name>SrkToolkit.Mvvm - WPF45</Name>
     </ProjectReference>

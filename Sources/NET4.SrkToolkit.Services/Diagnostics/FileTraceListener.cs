@@ -1,10 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-
+﻿
 namespace SrkToolkit.Services.Diagnostics
 {
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Text;
+
     /// <summary>
     /// Writes <see cref="Trace"/> events in a log file.
     /// </summary>
@@ -87,16 +88,36 @@ namespace SrkToolkit.Services.Diagnostics
             this.fileName = fileName;
         }
 
+        /// <summary>
+        /// When overridden in a derived class, writes the specified message to the listener you create in the derived class.
+        /// </summary>
+        /// <param name="message">A message to write.</param>
         public override void Write(string message)
         {
             // this is not required
         }
 
+        /// <summary>
+        /// When overridden in a derived class, writes a message to the listener you create in the derived class, followed by a line terminator.
+        /// </summary>
+        /// <param name="message">A message to write.</param>
         public override void WriteLine(string message)
         {
             // this is not required
         }
 
+        /// <summary>
+        /// Writes trace information, a message, and event information to the listener specific output.
+        /// </summary>
+        /// <param name="eventCache">A <see cref="T:System.Diagnostics.TraceEventCache"/> object that contains the current process ID, thread ID, and stack trace information.</param>
+        /// <param name="source">A name used to identify the output, typically the name of the application that generated the trace event.</param>
+        /// <param name="eventType">One of the <see cref="T:System.Diagnostics.TraceEventType"/> values specifying the type of event that has caused the trace.</param>
+        /// <param name="id">A numeric identifier for the event.</param>
+        /// <param name="message">A message to write.</param>
+        /// <PermissionSet>
+        ///   <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/>
+        ///   <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode"/>
+        ///   </PermissionSet>
         public override void TraceEvent(TraceEventCache eventCache, string source, TraceEventType eventType, int id, string message)
         {
             lock (this.fileLock)
@@ -125,6 +146,9 @@ namespace SrkToolkit.Services.Diagnostics
             }
         }
 
+        /// <summary>
+        /// When overridden in a derived class, flushes the output buffer.
+        /// </summary>
         public override void Flush()
         {
             if (this.fstream != null)
@@ -133,6 +157,10 @@ namespace SrkToolkit.Services.Diagnostics
             base.Flush();
         }
 
+        /// <summary>
+        /// Releases the unmanaged resources used by the <see cref="T:System.Diagnostics.TraceListener"/> and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

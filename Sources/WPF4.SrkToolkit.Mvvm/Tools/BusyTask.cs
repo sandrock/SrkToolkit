@@ -11,10 +11,17 @@ namespace SrkToolkit.Mvvm.Tools {
         private string _message;
         private BusyTaskType _type;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BusyTask"/> class.
+        /// </summary>
         public BusyTask()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BusyTask"/> class.
+        /// </summary>
+        /// <param name="key">The key.</param>
         public BusyTask(string key)
         {
             this.Key = key;

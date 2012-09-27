@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0E5AD562-FA5E-443F-A773-7C992E54209E}</ProjectGuid>
+    <ProjectGuid>{F156F957-A86C-43BD-8957-29F464BFBED0}</ProjectGuid>
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SrkToolkit.Services</RootNamespace>
-    <AssemblyName>SrkToolkit.Services</AssemblyName>
+    <RootNamespace>SrkToolkit.Xaml</RootNamespace>
+    <AssemblyName>SrkToolkit.Xaml</AssemblyName>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
@@ -34,55 +34,55 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin\Debug\SrkToolkit.Services.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin\Release</OutputPath>
+    <OutputPath>..\..\Binaries\SL4\</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin\Release\SrkToolkit.Services.XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>SrkToolkit.snk</AssemblyOriginatorKeyFile>
+    <DocumentationFile>Bin\Release\SrkToolkit.Xaml.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\NET4.SrkToolkit.Services\AppEventBus.cs">
-      <Link>AppEventBus.cs</Link>
+    <Compile Include="..\WPF4.SrkToolkit.Xaml\Converters\BoolToVisibilityConverter.cs">
+      <Link>Converters\BoolToVisibilityConverter.cs</Link>
     </Compile>
-    <Compile Include="..\NET4.SrkToolkit.Services\System\IDisposed.cs">
-      <Link>System\IDisposed.cs</Link>
+    <Compile Include="..\WPF4.SrkToolkit.Xaml\Converters\DateTimeDateConverter.cs">
+      <Link>Converters\DateTimeDateConverter.cs</Link>
     </Compile>
-    <Compile Include="..\SrkToolkit.Services.AssemblyInfo.cs">
-      <Link>SrkToolkit.Services.AssemblyInfo.cs</Link>
+    <Compile Include="..\WPF4.SrkToolkit.Xaml\Converters\NotNullToVisibilityConverter.cs">
+      <Link>Converters\NotNullToVisibilityConverter.cs</Link>
     </Compile>
-    <Compile Include="..\WP7.SrkToolkit.Services\ApplicationServices.cs">
-      <Link>ApplicationServices.cs</Link>
+    <Compile Include="..\WPF4.SrkToolkit.Xaml\Converters\OppositeBoolConverter.cs">
+      <Link>Converters\OppositeBoolConverter.cs</Link>
     </Compile>
-    <Compile Include="..\WP7.SrkToolkit.Services\Diagnostics\TraceEx.cs">
-      <Link>Diagnostics\TraceEx.cs</Link>
+    <Compile Include="..\WPF4.SrkToolkit.Xaml\Converters\ToLowerConverter.cs">
+      <Link>Converters\ToLowerConverter.cs</Link>
     </Compile>
+    <Compile Include="..\WPF4.SrkToolkit.Xaml\Converters\ToUpperConverter.cs">
+      <Link>Converters\ToUpperConverter.cs</Link>
+    </Compile>
+    <Compile Include="Behaviors\InputEnterBehavior.cs" />
+    <Compile Include="Behaviors\ListBoxScrollBehavior.cs" />
+    <Compile Include="Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="Internal\CompositeDisposable.cs" />
+    <None Include="Internal\DisposableEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="SrkToolkit.snk" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

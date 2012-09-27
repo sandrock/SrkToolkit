@@ -6,12 +6,14 @@ using System.Windows.Threading;
 using SrkToolkit.Mvvm.Tools;
 using System.Runtime.CompilerServices;
 
-namespace SrkToolkit.Mvvm {
+namespace SrkToolkit.Mvvm
+{
 
     /// <summary>
     /// A base class for the ViewModel classes in the MVVM pattern.
     /// </summary>
-    public partial class ViewModelBase : INotifyPropertyChanged, IDisposable {
+    public partial class ViewModelBase : INotifyPropertyChanged, IDisposable
+    {
         private bool _disposed;
 
         #region Threading
@@ -21,7 +23,7 @@ namespace SrkToolkit.Mvvm {
         /// Use the property <see cref="Dispatcher"/> instead.
         /// </summary>
         private Dispatcher dispatcher;
-        
+
         /// <summary>
         /// Gets or sets the UI Dispatcher.
         /// </summary>
@@ -38,14 +40,15 @@ namespace SrkToolkit.Mvvm {
         /// <param name="action">
         /// A delegate to a method that takes no arguments and does not return a value, which is pushed onto the <see cref="Dispatcher"/> event queue.
         /// </param>
-        protected internal void Dispatch(Action action) {
+        protected internal void Dispatch(Action action)
+        {
             ////if (this.Disposed)
             ////    throw new ObjectDisposedException(this.GetType().Name);
             ////if (this.Dispatcher == null)
             ////    throw new ArgumentException("Dispatcher is not set");
-        
+
             if (this.Dispatcher != null && !this.Disposed && action != null)
-            this.Dispatcher.BeginInvoke(action, null);
+                this.Dispatcher.BeginInvoke(action, null);
         }
 
         #endregion
@@ -61,8 +64,10 @@ namespace SrkToolkit.Mvvm {
         /// <c>true</c> if is in design mode static; otherwise, <c>false</c>.
         /// </value>
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Non static member needed for data binding")]
-        public bool IsInDesignMode {
-            get {
+        public bool IsInDesignMode
+        {
+            get
+            {
                 return IsInDesignModeStatic;
             }
         }
@@ -81,7 +86,8 @@ namespace SrkToolkit.Mvvm {
         /// <returns>
         /// returns true if the new value is different from the old one
         /// </returns>
-        protected bool SetValue<T>(ref T property, T value, string propertyName) {
+        protected bool SetValue<T>(ref T property, T value, string propertyName)
+        {
             if (Object.Equals(property, value))
                 return false;
             property = value;
@@ -94,10 +100,12 @@ namespace SrkToolkit.Mvvm {
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This cannot be an event")]
-        protected virtual void RaisePropertyChanged(string propertyName) {
+        protected virtual void RaisePropertyChanged(string propertyName)
+        {
             this.VerifyPropertyName(propertyName);
             PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if (propertyChanged != null) {
+            if (propertyChanged != null)
+            {
                 propertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
@@ -107,8 +115,10 @@ namespace SrkToolkit.Mvvm {
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         [Conditional("DEBUG"), DebuggerStepThrough]
-        public void VerifyPropertyName(string propertyName) {
-            if (base.GetType().GetProperty(propertyName) == null) {
+        public void VerifyPropertyName(string propertyName)
+        {
+            if (base.GetType().GetProperty(propertyName) == null)
+            {
                 throw new ArgumentException("Property'" + propertyName + "' not found on " + this.GetType().FullName, propertyName);
             }
         }
@@ -134,14 +144,16 @@ namespace SrkToolkit.Mvvm {
         /// <value>
         ///   <c>true</c> if disposed; otherwise, <c>false</c>.
         /// </value>
-        protected bool Disposed {
+        protected bool Disposed
+        {
             get { return this._disposed; }
         }
 
         #region IDisposable Members
 #pragma warning disable 1591
 
-        public void Dispose() {
+        public void Dispose()
+        {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
@@ -157,7 +169,8 @@ namespace SrkToolkit.Mvvm {
         /// Clears the <see cref="ViewModelBase.PropertyChanged"/> event handler.
         /// </summary>
         /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing) {
+        protected virtual void Dispose(bool disposing)
+        {
             if (disposing)
             {
                 this.PropertyChanged = null;

@@ -44,6 +44,7 @@ namespace SrkToolkit.Mvvm.Commands {
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
+        /// <param name="canExecutePreventsExecute">if set to <c>true</c> the canExecute predicate prevents execution.</param>
         /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
         [DebuggerStepThrough]
         public RelayCommand(Action execute, Func<bool> canExecute, bool canExecutePreventsExecute) {

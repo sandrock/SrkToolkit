@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C0B51E2B-E18C-4F3E-B7E6-40F322029EDA}</ProjectGuid>
+    <ProjectGuid>{53D43F26-87EC-4217-A53D-33C1BFC9E778}</ProjectGuid>
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -13,7 +13,7 @@
     <AssemblyName>SrkToolkit.Services</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
-    <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
@@ -34,13 +34,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <OutputPath>..\..\Binaries\WP71\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;MANGO</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin\Release\SrkToolkit.Services.XML</DocumentationFile>
+    <DocumentationFile>Bin\Release\SrkToolkit.Services.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Windows" />
@@ -53,14 +53,18 @@
     <Compile Include="..\NET4.SrkToolkit.Services\AppEventBus.cs">
       <Link>AppEventBus.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Services\Diagnostics\TraceEx.cs">
+      <Link>Diagnostics\TraceEx.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Services\System\IDisposed.cs">
       <Link>System\IDisposed.cs</Link>
     </Compile>
     <Compile Include="..\SrkToolkit.Services.AssemblyInfo.cs">
       <Link>SrkToolkit.Services.AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ApplicationServices.cs" />
-    <Compile Include="Diagnostics\TraceEx.cs" />
+    <Compile Include="..\WP7.SrkToolkit.Services\ApplicationServices.cs">
+      <Link>ApplicationServices.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

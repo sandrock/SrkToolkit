@@ -2,7 +2,7 @@
 namespace System.Diagnostics
 {
     /// <summary>
-    /// Extended methods for the <see cref="Trace."/>
+    /// Extended methods for the <see cref="Trace"/> class.
     /// </summary>
     public class TraceEx
     {
@@ -10,176 +10,288 @@ namespace System.Diagnostics
         {
             get
             {
-                return DateTime.Now.ToString();
+                return DateTime.UtcNow.ToString("s");
             }
         }
 
         #region Info
 
+        /// <summary>
+        /// Writes an informational message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Info(string message)
         {
+#if SILVERLIGHT
+            Debug.WriteLine("Information: " + Time + " " + message);
+#else
             Trace.TraceInformation(Time + " " + message);
+#endif
         }
 
+        /// <summary>
+        /// Writes an informational message with an exception.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="ex">The exception (can be null).</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Info(string message, Exception ex)
         {
             if (ex == null)
+            {
                 Info(message);
+            }
             else
+            {
+#if SILVERLIGHT
+                Debug.WriteLine("Information: " + Time + " " + message +
+                    Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
+                    Environment.NewLine + ex.StackTrace);
+#else
                 Trace.TraceInformation(Time + " " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
+#endif
+            }
         }
 
+        /// <summary>
+        /// Writes an informational message.
+        /// </summary>
+        /// <param name="objectName">Name of the object.</param>
+        /// <param name="message">The message.</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Info(string objectName, string message)
         {
+#if SILVERLIGHT
+            Debug.WriteLine("Information: " + Time + " " + objectName + ": " + message);
+#else
             Trace.TraceInformation(Time + " " + objectName + ": " + message);
+#endif
         }
 
+        /// <summary>
+        /// Writes an informational message with an exception.
+        /// </summary>
+        /// <param name="objectName">Name of the object.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="ex">The exception (can be null).</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Info(string objectName, string message, Exception ex)
         {
             if (ex == null)
                 Info(objectName, message);
             else
+            {
+#if SILVERLIGHT
+                Debug.WriteLine("Information: " + Time + " " + objectName + ": " + message +
+                    Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
+                    Environment.NewLine + ex.StackTrace);
+#else
                 Trace.TraceInformation(Time + " " + objectName + ": " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message);
+#endif
+            }
         }
-
-        //[Conditional("TRACE")]
-        //public static void Info(object inObject, string message)
-        //{
-        //    Trace.TraceInformation(Time + " " + inObject.GetType().Name + ": " + message);
-        //}
-
-        //[Conditional("TRACE")]
-        //public static void Info(object inObject, string message, Exception ex)
-        //{
-        //    if (ex == null)
-        //        Info(inObject, message);
-        //    else
-        //        Trace.TraceInformation(Time + " " + inObject.GetType().Name + ": " + message +
-        //            Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
-        //            Environment.NewLine + ex.StackTrace);
-        //}
 
         #endregion
 
         #region Warn
 
+        /// <summary>
+        /// Writes a warning message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Warning(string message)
         {
+#if SILVERLIGHT
+            Debug.WriteLine("Warning: " + Time + " " + message);
+#else
             Trace.TraceWarning(Time + " " + message);
+#endif
         }
 
+        /// <summary>
+        /// Writes a warning message with an exception.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="ex">The exception (can be null).</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Warning(string message, Exception ex)
         {
             if (ex == null)
                 Warning(message);
             else
+            {
+#if SILVERLIGHT
+                Debug.WriteLine("Warning: " + Time + " " + message +
+                    Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
+                    Environment.NewLine + ex.StackTrace);
+#else
                 Trace.TraceWarning(Time + " " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
+#endif
+            }
         }
 
+        /// <summary>
+        /// Writes a warning message.
+        /// </summary>
+        /// <param name="objectName">Name of the object.</param>
+        /// <param name="message">The message.</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Warning(string objectName, string message)
         {
+#if SILVERLIGHT
+            Debug.WriteLine("Warning: " + Time + " " + objectName + ": " + message);
+#else
             Trace.TraceWarning(Time + " " + objectName + ": " + message);
+#endif
         }
 
+        /// <summary>
+        /// Writes a warning message with an exception.
+        /// </summary>
+        /// <param name="objectName">Name of the object.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="ex">The exception (can be null).</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Warning(string objectName, string message, Exception ex)
         {
             if (ex == null)
                 Warning(objectName, message);
             else
+            {
+#if SILVERLIGHT
+                Debug.WriteLine("Warning: " + Time + " " + objectName + ": " + message +
+                    Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
+                    Environment.NewLine + ex.StackTrace);
+#else
                 Trace.TraceWarning(Time + " " + objectName + ": " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message);
+#endif
+            }
         }
-
-        //[Conditional("TRACE")]
-        //public static void Warning(object inObject, string message)
-        //{
-        //    Trace.TraceWarning(Time + " " + inObject.GetType().Name + ": " + message);
-        //}
-
-        //[Conditional("TRACE")]
-        //public static void Warning(object inObject, string message, Exception ex)
-        //{
-        //    if (ex == null)
-        //        Warning(inObject, message);
-        //    else
-        //        Trace.TraceWarning(Time + " " + inObject.GetType().Name + ": " + message +
-        //            Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
-        //            Environment.NewLine + ex.StackTrace);
-        //}
 
         #endregion
 
         #region Error
 
+        /// <summary>
+        /// Writes an error message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Error(string message)
         {
+#if SILVERLIGHT
+            Debug.WriteLine("ERROR: " + Time + " " + message);
+#else
             Trace.TraceError(Time + " " + message);
+#endif
         }
 
+        /// <summary>
+        /// Writes an error message with an exception.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="ex">The exception (can be null).</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Error(string message, Exception ex)
         {
             if (ex == null)
                 Error(message);
             else
+            {
+#if SILVERLIGHT
+                Debug.WriteLine("ERROR: " + Time + " " + message +
+                    Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
+                    Environment.NewLine + ex.StackTrace);
+#else
                 Trace.TraceError(Time + " " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
+#endif
+            }
         }
 
-        //[Conditional("TRACE")]
-        //public static void Error(object inObject, string message)
-        //{
-        //    Trace.TraceError(Time + " " + inObject.GetType().Name + ": " + message);
-        //}
-
-        //[Conditional("TRACE")]
-        //public static void Error(object inObject, string message, Exception ex)
-        //{
-        //    if (ex == null)
-        //        Error(inObject, message);
-        //    else
-        //        Trace.TraceError(Time + " " + inObject.GetType().Name + ": " + message +
-        //            Environment.NewLine + ex.GetType().Name + ": " + ex.Message);
-        //}
-
+        /// <summary>
+        /// Writes an error message.
+        /// </summary>
+        /// <param name="objectName">Name of the object.</param>
+        /// <param name="message">The message.</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Error(string objectName, string message)
         {
+#if SILVERLIGHT
+            Debug.WriteLine("ERROR: " + Time + " " + objectName + ": " + message);
+#else
             Trace.TraceError(Time + " " + objectName + ": " + message);
+#endif
         }
 
+        /// <summary>
+        /// Writes an error message with an exception.
+        /// </summary>
+        /// <param name="objectName">Name of the object.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="ex">The exception (can be null).</param>
+#if !SILVERLIGHT
         [Conditional("TRACE")]
+#endif
         public static void Error(string objectName, string message, Exception ex)
         {
             if (ex == null)
                 Error(objectName, message);
             else
-                Trace.TraceError(Time + " " + objectName + ": " + message +
+            {
+#if SILVERLIGHT
+                Debug.WriteLine("ERROR: " + Time + " " + objectName + ": " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
+#else
+                Trace.TraceError(Time + " " + objectName + ": " + message +
+                    Environment.NewLine + ex.GetType().Name + ": " + ex.Message);
+#endif
+            }
         }
 
         #endregion
 
+#if !SILVERLIGHT
+        /// <summary>
+        /// Flushes the output buffer.
+        /// </summary>
         [Conditional("TRACE")]
         public static void Flush()
         {
             Trace.Flush();
         }
+#endif
     }
 }

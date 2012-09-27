@@ -326,7 +326,7 @@ namespace SrkToolkit.Services
         /// <summary>
         /// Executes an action on a service if its registered.
         /// </summary>
-        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
+        /// <typeparam name="T">The resolving type (interface).</typeparam>
         /// <param name="action">The action.</param>
         /// <returns>
         ///   <b>true</b> if the action was executed; otherwise, <b>false</b>
@@ -350,7 +350,7 @@ namespace SrkToolkit.Services
         /// <summary>
         /// Executes an action on a service if it's registered and has been initialized.
         /// </summary>
-        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
+        /// <typeparam name="T">The resolving type (interface).</typeparam>
         /// <param name="action">The action.</param>
         /// <returns>
         ///   <b>true</b> if the action was executed; otherwise, <b>false</b>

@@ -58,7 +58,7 @@ namespace SrkToolkit.Mvvm
         /// </summary>
         /// <param name="key"></param>
         /// <param name="isGlobal"></param>
-        protected void CreateTask(string key, bool isGlobal)
+        protected BusyTask CreateTask(string key, bool isGlobal)
         {
             var task = Tasks[key];
             if (task != null)
@@ -67,11 +67,39 @@ namespace SrkToolkit.Mvvm
             }
             else
             {
-                this.Tasks.Add(new BusyTask
+                task = new BusyTask
                 {
                     IsGlobal = isGlobal,
-                    Key = key
-                });
+                    Key = key,
+                };
+                this.Tasks.Add(task);
+                return task;
+            }
+        }
+
+        /// <summary>
+        /// Initialize a task.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="isGlobal"></param>
+        /// <param name="name">the display name</param>
+        protected BusyTask CreateTask(string key, bool isGlobal, string name)
+        {
+            var task = Tasks[key];
+            if (task != null)
+            {
+                throw new ArgumentException("a task with this key already exists", "key");
+            }
+            else
+            {
+                task = new BusyTask
+                {
+                    IsGlobal = isGlobal,
+                    Key = key,
+                    Name = name,
+                };
+                this.Tasks.Add(task);
+                return task;
             }
         }
 
@@ -91,13 +119,14 @@ namespace SrkToolkit.Mvvm
             }
             else
             {
-                this.Tasks.Add(new BusyTask
+                task = new BusyTask
                 {
                     Key = key,
                     IsGlobal = false,
                     IsProcessing = isProcessing,
                     Message = message,
-                });
+                };
+                this.Tasks.Add(task);
             }
         }
 
@@ -117,13 +146,14 @@ namespace SrkToolkit.Mvvm
             }
             else
             {
-                Tasks.Add(new BusyTask
+                task = new BusyTask
                 {
                     Key = key,
                     IsGlobal = false,
                     IsProcessing = isProcessing,
                     Message = message,
-                });
+                };
+                Tasks.Add(task);
             }
         }
 

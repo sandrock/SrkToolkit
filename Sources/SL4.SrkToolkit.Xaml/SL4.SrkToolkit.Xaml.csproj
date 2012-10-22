@@ -57,6 +57,9 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SrkToolkit.Xaml.AssemblyInfo.cs">
+      <Link>SrkToolkit.Xaml.AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\WPF4.SrkToolkit.Xaml\Converters\BoolToVisibilityConverter.cs">
       <Link>Converters\BoolToVisibilityConverter.cs</Link>
     </Compile>
@@ -91,11 +94,4 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -197,7 +197,7 @@ namespace SrkToolkit.Xaml.Behaviors
             }
             else
             {
-                Debug.WriteLine("ListBoxScrollBehavior: Could not find ScrollViever in associated ListBox");
+                Trace.TraceWarning("ListBoxScrollBehavior: Could not find ScrollViever in associated ListBox");
                 //throw new InvalidOperationException("Could not find ScrollViever in associated ListBox");
                 return;
             }
@@ -216,11 +216,11 @@ namespace SrkToolkit.Xaml.Behaviors
                 // this is why I use an arbitrary margin
                 double margin = this.scrollViewer.ScrollableHeight / 20D;
                 if (this.scrollViewer.VerticalOffset >= this.scrollViewer.ScrollableHeight
-                 ||     this.scrollViewer.VerticalOffset > margin
-                    && (this.scrollViewer.VerticalOffset + margin) > this.scrollViewer.ScrollableHeight)
+                 || this.scrollViewer.VerticalOffset > margin
+                 && (this.scrollViewer.VerticalOffset + margin) > this.scrollViewer.ScrollableHeight)
                 {
                     // command not-null test
-                    var command = GetReachedBottomCommand(this.AssociatedObject);
+                    var command = GetReachedBottomCommand(this);
                     if (command != null)
                     {
                         // command invocation

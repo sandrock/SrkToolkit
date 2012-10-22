@@ -12,6 +12,18 @@ namespace SrkToolkit.Mvvm.Tools {
         private BusyTaskType _type;
 
         /// <summary>
+        /// Contains a description.
+        /// Use the property <see cref="Description"/> instead.
+        /// </summary>
+        private string description;
+
+        /// <summary>
+        /// Contains the display name.
+        /// Use the property <see cref="Name"/> instead.
+        /// </summary>
+        private string name;
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="BusyTask"/> class.
         /// </summary>
         public BusyTask()
@@ -46,11 +58,13 @@ namespace SrkToolkit.Mvvm.Tools {
         }
 
         /// <summary>
-        /// Contains a description.
-        /// Use the property <see cref="Description"/> instead.
+        /// Gets or sets the display name.
         /// </summary>
-        private string description;
-        
+        public string Name
+        {
+            get { return this.name; }
+            set { this.SetValue(ref this.name, value, "Name"); }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the task currently processing.

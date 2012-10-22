@@ -268,12 +268,12 @@ namespace SrkToolkit.Xaml.Behaviors
             var inputTb = this.AssociatedObject as TextBox;
             if (!this.AcceptsEmpty && inputTb != null)
             {
-                isEmpty = string.IsNullOrWhiteSpace(inputTb.Text);
+                isEmpty = string.IsNullOrEmpty(inputTb.Text);
             }
             var inputPb = this.AssociatedObject as PasswordBox;
             if (!this.AcceptsEmpty && inputPb != null)
             {
-                isEmpty = string.IsNullOrWhiteSpace(inputPb.Password);
+                isEmpty = string.IsNullOrEmpty(inputPb.Password);
             }
 
             // force databinding

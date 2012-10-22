@@ -26,7 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>bin\Debug\SrkToolkit.Xaml.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\SrkToolkit.Xaml.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -74,6 +74,9 @@
     <None Include="..\SL4.SrkToolkit.Xaml\Internal\DisposableEventHandler.cs">
       <Link>Internal\DisposableEventHandler.cs</Link>
     </None>
+    <Compile Include="..\SrkToolkit.Xaml.AssemblyInfo.cs">
+      <Link>SrkToolkit.Xaml.AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Behaviors\WindowControls.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DateTimeDateConverter.cs" />

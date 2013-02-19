@@ -5,6 +5,5 @@ using System;
 [assembly: AssemblyTitle("SrkToolkit.Xaml")]
 [assembly: AssemblyDescription("XAML utilities for .NET4")]
 
-[assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
 

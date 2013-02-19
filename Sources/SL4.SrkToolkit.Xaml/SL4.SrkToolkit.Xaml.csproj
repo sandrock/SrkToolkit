@@ -60,6 +60,9 @@
     <Compile Include="..\SrkToolkit.Xaml.AssemblyInfo.cs">
       <Link>SrkToolkit.Xaml.AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\WP7.SrkToolkit.Xaml\Internal\Trace.cs">
+      <Link>Internal\Trace.cs</Link>
+    </Compile>
     <Compile Include="..\WPF4.SrkToolkit.Xaml\Converters\BoolToVisibilityConverter.cs">
       <Link>Converters\BoolToVisibilityConverter.cs</Link>
     </Compile>

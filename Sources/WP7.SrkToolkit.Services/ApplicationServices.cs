@@ -10,7 +10,7 @@ namespace SrkToolkit.Services
     /// </summary>
     public static class ApplicationServices
     {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
         private static readonly Dictionary<string, IFactory> factories = new Dictionary<string, IFactory>();
         private static readonly Dictionary<string, object> services = new Dictionary<string, object>();
 #else
@@ -151,7 +151,7 @@ namespace SrkToolkit.Services
             {
                 ThrowIfRegisteredOrInstanciated(type, id);
 
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
                 factories.Add(id, new LazyFactoryService(() => factory()));
 #else
                 factories.Add(id, new LazyFactoryService(factory));
@@ -176,7 +176,7 @@ namespace SrkToolkit.Services
             {
                 ThrowIfRegisteredOrInstanciated(type, id);
 
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
                 factories.Add(id, new FactoryFactoryService(() => factory()));
 #else
                 factories.Add(id, new FactoryFactoryService(factory));
@@ -426,7 +426,7 @@ namespace SrkToolkit.Services
             }
         }
 
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
         private static void ThrowIfRegisteredOrInstanciated(Type type, string id)
 #else
         private static void ThrowIfRegisteredOrInstanciated(Type type, Guid id)
@@ -439,7 +439,7 @@ namespace SrkToolkit.Services
                 throw new ArgumentException("Service of type '" + type.Name + "' is already registered. Use DropInstance, IsRegistered or Unregister method.");
         }
 
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
         private static string GetTypeId(Type type)
         {
             var id = type.FullName;

@@ -13,7 +13,11 @@ namespace SrkToolkit.Services
         /// </summary>
         internal class Subscription : IDisposed
         {
+#if SILVERLIGHT || NETFX_CORE
+            internal string EventType { get; set; }
+#else
             internal Guid EventType { get; set; }
+#endif
             internal object Action { get; set; }
             internal AppEventBus Bus { get; set; }
             internal object Registree { get; set; }
@@ -33,7 +37,11 @@ namespace SrkToolkit.Services
 
         private static AppEventBus instance;
 
+#if SILVERLIGHT || NETFX_CORE
+        private readonly Dictionary<string, List<Subscription>> subscriptions = new Dictionary<string, List<Subscription>>();
+#else
         private readonly Dictionary<Guid, List<Subscription>> subscriptions = new Dictionary<Guid, List<Subscription>>();
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AppEventBus"/> class.
@@ -58,8 +66,8 @@ namespace SrkToolkit.Services
         /// <param name="args">The arguments.</param>
         public void Publish<T>(object sender, T args)
         {
-            var id = typeof(T).GUID;
-
+            var id = GetTypeId(typeof(T));
+            
             foreach (var item in this.GetListForType(id))
             {
                 if (item.Registree != null && item.Registree == sender)
@@ -82,12 +90,12 @@ namespace SrkToolkit.Services
             if (action == null)
                 throw new ArgumentNullException("action");
 
-            var id = typeof(T).GUID;
+            var id = GetTypeId(typeof(T));
             var reg = new Subscription
             {
                 Bus = this,
                 Action = action,
-                EventType = id
+                EventType = id,
             };
             this.GetListForType(id).Add(reg);
 
@@ -109,7 +117,7 @@ namespace SrkToolkit.Services
             if (registree == null)
                 throw new ArgumentNullException("registree");
 
-            var id = typeof(T).GUID;
+            var id = GetTypeId(typeof(T));
             var reg = new Subscription
             {
                 Bus = this,
@@ -133,11 +141,34 @@ namespace SrkToolkit.Services
                 list.Remove(subscription);
         }
 
+#if SILVERLIGHT || NETFX_CORE
+        private List<Subscription> GetListForType(string id)
+        {
+            if (!subscriptions.ContainsKey(id))
+                subscriptions[id] = new List<Subscription>();
+            return subscriptions[id];
+        }
+#else
         private List<Subscription> GetListForType(Guid id)
         {
             if (!subscriptions.ContainsKey(id))
                 subscriptions[id] = new List<Subscription>();
             return subscriptions[id];
         }
+#endif
+
+#if SILVERLIGHT || NETFX_CORE
+        private static string GetTypeId(Type type)
+        {
+            var id = type.FullName;
+            return id;
+        }
+#else
+        private static Guid GetTypeId(Type type)
+        {
+            var id = type.GUID;
+            return id;
+        }
+#endif
     }
 }

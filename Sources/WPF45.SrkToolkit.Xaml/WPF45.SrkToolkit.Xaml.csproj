@@ -29,7 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SrkToolkit.Xaml.xml</DocumentationFile>
+    <DocumentationFile>..\..\Binaries\WPF45\SrkToolkit.Xaml.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -64,6 +64,9 @@
     <Compile Include="..\SL4.SrkToolkit.Xaml\Internal\CompositeDisposable.cs">
       <Link>Internal\CompositeDisposable.cs</Link>
     </Compile>
+    <Compile Include="..\SrkToolkit.Xaml.AssemblyInfo.cs">
+      <Link>SrkToolkit.Xaml.AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\WPF4.SrkToolkit.Xaml\Behaviors\WindowControls.cs">
       <Link>Behaviors\WindowControls.cs</Link>
     </Compile>
@@ -93,15 +96,8 @@
   <ItemGroup>
     <ProjectReference Include="..\WPF45.SrkToolkit.Mvvm\WPF45.SrkToolkit.Mvvm.csproj">
       <Project>{175b67be-9042-45ee-a8df-d96fe8b75561}</Project>
-      <Name>SrkToolkit.Mvvm - WPF45</Name>
+      <Name>WPF45.SrkToolkit.Mvvm</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

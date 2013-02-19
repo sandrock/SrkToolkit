@@ -42,7 +42,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin\Release\SrkToolkit.Mvvm.xml</DocumentationFile>
+    <DocumentationFile>..\..\Binaries\WP71\SrkToolkit.Mvvm.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Phone" />

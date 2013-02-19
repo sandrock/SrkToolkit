@@ -20,12 +20,12 @@ namespace System.Diagnostics
         /// Writes an informational message.
         /// </summary>
         /// <param name="message">The message.</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Info(string message)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
             Debug.WriteLine("Information: " + Time + " " + message);
 #else
             Trace.TraceInformation(Time + " " + message);
@@ -37,7 +37,7 @@ namespace System.Diagnostics
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="ex">The exception (can be null).</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Info(string message, Exception ex)
@@ -48,7 +48,7 @@ namespace System.Diagnostics
             }
             else
             {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
                 Debug.WriteLine("Information: " + Time + " " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
@@ -65,12 +65,12 @@ namespace System.Diagnostics
         /// </summary>
         /// <param name="objectName">Name of the object.</param>
         /// <param name="message">The message.</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Info(string objectName, string message)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
             Debug.WriteLine("Information: " + Time + " " + objectName + ": " + message);
 #else
             Trace.TraceInformation(Time + " " + objectName + ": " + message);
@@ -83,7 +83,7 @@ namespace System.Diagnostics
         /// <param name="objectName">Name of the object.</param>
         /// <param name="message">The message.</param>
         /// <param name="ex">The exception (can be null).</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Info(string objectName, string message, Exception ex)
@@ -92,7 +92,7 @@ namespace System.Diagnostics
                 Info(objectName, message);
             else
             {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
                 Debug.WriteLine("Information: " + Time + " " + objectName + ": " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
@@ -111,12 +111,12 @@ namespace System.Diagnostics
         /// Writes a warning message.
         /// </summary>
         /// <param name="message">The message.</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Warning(string message)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
             Debug.WriteLine("Warning: " + Time + " " + message);
 #else
             Trace.TraceWarning(Time + " " + message);
@@ -128,7 +128,7 @@ namespace System.Diagnostics
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="ex">The exception (can be null).</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Warning(string message, Exception ex)
@@ -137,7 +137,7 @@ namespace System.Diagnostics
                 Warning(message);
             else
             {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
                 Debug.WriteLine("Warning: " + Time + " " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
@@ -154,12 +154,12 @@ namespace System.Diagnostics
         /// </summary>
         /// <param name="objectName">Name of the object.</param>
         /// <param name="message">The message.</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Warning(string objectName, string message)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
             Debug.WriteLine("Warning: " + Time + " " + objectName + ": " + message);
 #else
             Trace.TraceWarning(Time + " " + objectName + ": " + message);
@@ -172,7 +172,7 @@ namespace System.Diagnostics
         /// <param name="objectName">Name of the object.</param>
         /// <param name="message">The message.</param>
         /// <param name="ex">The exception (can be null).</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Warning(string objectName, string message, Exception ex)
@@ -181,7 +181,7 @@ namespace System.Diagnostics
                 Warning(objectName, message);
             else
             {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
                 Debug.WriteLine("Warning: " + Time + " " + objectName + ": " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
@@ -200,12 +200,12 @@ namespace System.Diagnostics
         /// Writes an error message.
         /// </summary>
         /// <param name="message">The message.</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Error(string message)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
             Debug.WriteLine("ERROR: " + Time + " " + message);
 #else
             Trace.TraceError(Time + " " + message);
@@ -217,7 +217,7 @@ namespace System.Diagnostics
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="ex">The exception (can be null).</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Error(string message, Exception ex)
@@ -226,7 +226,7 @@ namespace System.Diagnostics
                 Error(message);
             else
             {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
                 Debug.WriteLine("ERROR: " + Time + " " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
@@ -243,12 +243,12 @@ namespace System.Diagnostics
         /// </summary>
         /// <param name="objectName">Name of the object.</param>
         /// <param name="message">The message.</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Error(string objectName, string message)
         {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
             Debug.WriteLine("ERROR: " + Time + " " + objectName + ": " + message);
 #else
             Trace.TraceError(Time + " " + objectName + ": " + message);
@@ -261,7 +261,7 @@ namespace System.Diagnostics
         /// <param name="objectName">Name of the object.</param>
         /// <param name="message">The message.</param>
         /// <param name="ex">The exception (can be null).</param>
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         [Conditional("TRACE")]
 #endif
         public static void Error(string objectName, string message, Exception ex)
@@ -270,7 +270,7 @@ namespace System.Diagnostics
                 Error(objectName, message);
             else
             {
-#if SILVERLIGHT
+#if SILVERLIGHT || NETFX_CORE
                 Debug.WriteLine("ERROR: " + Time + " " + objectName + ": " + message +
                     Environment.NewLine + ex.GetType().Name + ": " + ex.Message +
                     Environment.NewLine + ex.StackTrace);
@@ -283,7 +283,7 @@ namespace System.Diagnostics
 
         #endregion
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
         /// <summary>
         /// Flushes the output buffer.
         /// </summary>

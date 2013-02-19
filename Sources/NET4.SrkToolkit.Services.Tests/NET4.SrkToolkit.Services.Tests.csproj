@@ -65,7 +65,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NET4.SrkToolkit.Services\NET4.SrkToolkit.Services.csproj">
       <Project>{CFDFCEA2-BAFB-455E-BEF4-40343DE968CF}</Project>
-      <Name>SrkToolkit.Services - NET4</Name>
+      <Name>NET4.SrkToolkit.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

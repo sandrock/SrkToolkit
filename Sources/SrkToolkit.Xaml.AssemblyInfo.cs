@@ -4,9 +4,11 @@ using System.Runtime.InteropServices;
 
 #if DEBUG
 [assembly: AssemblyConfiguration("DEBUG")]
-#elif RELEASE
+#endif
+#if RELEASE
 [assembly: AssemblyConfiguration("RELEASE")]
 #endif
+
 [assembly: AssemblyCompany("SandRock")]
 [assembly: AssemblyProduct("SrkToolkit")]
 [assembly: AssemblyCopyright("Copyright © SandRock 2011")]

@@ -19,7 +19,7 @@ namespace SrkToolkit.Web.HttpErrors
             };
         }
 
-        public static void Handle(HttpContext context, IErrorController errorController, bool includeExceptionDetails)
+        public static Exception Handle(HttpContext context, IErrorController errorController, bool includeExceptionDetails)
         {
             Trace.TraceInformation("Application_Error: begin");
 
@@ -84,6 +84,8 @@ namespace SrkToolkit.Web.HttpErrors
             }
 
             Trace.TraceInformation("Application_Error: end");
+
+            return exception;
         }
     }
 }

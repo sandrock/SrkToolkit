@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{893A7FD4-62E6-4F7A-8FF9-EA502ADA88FA}</ProjectGuid>
+    <ProjectGuid>{19727F77-249A-4AC9-859C-8441E5BD41C4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SrkToolkit.Domain</RootNamespace>
-    <AssemblyName>SrkToolkit.Domain</AssemblyName>
+    <RootNamespace>SrkToolkit.Common</RootNamespace>
+    <AssemblyName>SrkToolkit.Common.Unsafe</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,7 +29,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Binaries\NET4\SrkToolkit.Domain.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\Binaries\NET4\SrkToolkit.Common.Unsafe.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -40,8 +41,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -50,20 +49,12 @@
     <Compile Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs">
       <Link>Properties\SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BaseRequest.cs" />
-    <Compile Include="BaseResult.cs" />
+    <Compile Include="MimeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResultError.cs" />
+    <Compile Include="urlmon\NativeMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SrkToolkit.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -74,6 +74,12 @@ namespace SrkToolkit.Web.HttpErrors
             msg.UrlPath = Request.Url.PathAndQuery;
             msg.ErrorAction = action;
 
+            var message = RouteData.Values["message"] as string;
+            if (message != null)
+            {
+                msg.Message = message;
+            }
+
             if (this.IncludeExceptionDetails)
             {
                 msg.Exception = RouteData.Values.ContainsKey("error") ? RouteData.Values["error"] as Exception : null;

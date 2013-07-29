@@ -71,18 +71,18 @@
     <Compile Include="Services\BaseSessionService.cs" />
     <Compile Include="Services\HttpBaseSessionServiceSource.cs" />
     <Compile Include="Services\ISessionServiceSource.cs" />
+    <Compile Include="System.Web.Mvc\SrkHtmlExtensions.cs" />
+    <Compile Include="System.Web.Mvc\SrkUrlHelperExtensions.cs" />
     <Compile Include="System.Web.Mvc\SrkViewExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SrkToolkit.snk" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\NET4.SrkToolkit.Common\NET4.SrkToolkit.Common.csproj">
+      <Project>{19495A45-67A8-460D-806C-CF158B96BBE9}</Project>
+      <Name>NET4.SrkToolkit.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -14,11 +14,20 @@ namespace SrkToolkit.Web.Services
     {
         private readonly HttpSessionStateBase source;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpBaseSessionServiceSource"/> class.
+        /// </summary>
+        /// <param name="source">The source.</param>
         public HttpBaseSessionServiceSource(HttpSessionStateBase source)
         {
             this.source = source;
         }
 
+        /// <summary>
+        /// Gets on object by its key.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public object Get(string key)
         {
             if (this.source == null)
@@ -27,6 +36,10 @@ namespace SrkToolkit.Web.Services
             return this.source[key];
         }
 
+        /// <summary>
+        /// Clears an object from session.
+        /// </summary>
+        /// <param name="key"></param>
         public void Clear(string key)
         {
             if (this.source == null)
@@ -35,6 +48,11 @@ namespace SrkToolkit.Web.Services
             this.source.Remove(key);
         }
 
+        /// <summary>
+        /// Set an object in session.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void Set(string key, object value)
         {
             if (this.source == null)
@@ -43,6 +61,9 @@ namespace SrkToolkit.Web.Services
             this.source[key] = value;
         }
 
+        /// <summary>
+        /// Clears the session.
+        /// </summary>
         public void Clear()
         {
             if (this.source == null)

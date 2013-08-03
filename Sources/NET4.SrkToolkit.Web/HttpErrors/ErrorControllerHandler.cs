@@ -7,18 +7,36 @@ namespace SrkToolkit.Web.HttpErrors
     using System.Text;
     using System.Diagnostics;
     using System.Web.Routing;
+    using SrkToolkit.Web.Services;
 
+    /// <summary>
+    /// Helps configure a <see cref="IErrorController"/> to handle all HTTP errors as nice proper HTML pages.
+    /// </summary>
     public static class ErrorControllerHandler
     {
+        /// <summary>
+        /// Registers the specified app for error handling.
+        /// </summary>
+        /// <typeparam name="TErrorController">The type of the error controller (you should inherit from <see cref="BaseErrorController"/> or <see cref="IErrorController"/>).</typeparam>
+        /// <param name="app">The application.</param>
+        /// <param name="includeExceptionDetails">if set to <c>true</c> [include exception details].</param>
         public static void Register<TErrorController>(HttpApplication app, bool includeExceptionDetails)
             where TErrorController : IErrorController, new()
         {
             app.Error += (s, e) =>
             {
-                Handle(HttpContext.Current, new TErrorController(), includeExceptionDetails);
+                var context = HttpContext.Current;
+                Handle(context, new TErrorController(), includeExceptionDetails);
             };
         }
 
+        /// <summary>
+        /// Handles the specified HTTP errorfull context (typically in Application_Error).
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="errorController">The error controller.</param>
+        /// <param name="includeExceptionDetails">if set to <c>true</c> [include exception details].</param>
+        /// <returns></returns>
         public static Exception Handle(HttpContext context, IErrorController errorController, bool includeExceptionDetails)
         {
             Trace.TraceInformation("Application_Error: begin");

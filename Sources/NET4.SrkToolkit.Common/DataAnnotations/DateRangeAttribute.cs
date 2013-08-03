@@ -19,6 +19,11 @@ namespace SrkToolkit.DataAnnotations
     /// </summary>
     public class DateRangeAttribute : ValidationAttribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateRangeAttribute"/> class.
+        /// </summary>
+        /// <param name="Minimum">The minimum.</param>
+        /// <param name="Maximum">The maximum.</param>
         public DateRangeAttribute(string Minimum = null, string Maximum = null)
         {
             this.Minimum = Minimum;
@@ -27,9 +32,23 @@ namespace SrkToolkit.DataAnnotations
             this.ErrorMessageResourceType = typeof(Strings);
         }
 
+        /// <summary>
+        /// Gets or sets the minimum date.
+        /// </summary>
         public string Minimum { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum date.
+        /// </summary>
         public string Maximum { get; set; }
 
+        /// <summary>
+        /// Determines whether the specified value of the object is valid.
+        /// </summary>
+        /// <param name="value">The value of the object to validate.</param>
+        /// <returns>
+        /// true if the specified value is valid; otherwise, false.
+        /// </returns>
         public override bool IsValid(object value)
         {
             if (value == null)
@@ -64,6 +83,13 @@ namespace SrkToolkit.DataAnnotations
             return true;
         }
 
+        /// <summary>
+        /// Applies formatting to an error message, based on the data field where the error occurred.
+        /// </summary>
+        /// <param name="name">The name to include in the formatted message.</param>
+        /// <returns>
+        /// An instance of the formatted error message.
+        /// </returns>
         public override string FormatErrorMessage(string name)
         {
             if (this.Minimum != null && this.Maximum != null)

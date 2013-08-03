@@ -9,7 +9,7 @@ namespace SrkToolkit.Web
     using System.Web.Mvc;
 
     /// <summary>
-    /// 
+    /// A <see cref="ActionResult"/> implementation provider-oriented to render JSON responses.
     /// </summary>
     /// <remarks>
     /// To use Newtonwoft.Json, call
@@ -27,18 +27,50 @@ namespace SrkToolkit.Web
     /// </remarks>
     public class JsonNetResult : ActionResult
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonNetResult"/> class.
+        /// </summary>
         public JsonNetResult()
         {
         }
 
+        /// <summary>
+        /// Gets or sets the JSON serializer.
+        /// Defaults to <see cref="DataContractJsonSerializer"/>.
+        /// Easily replacable by any other.
+        /// </summary>
+        /// <value>
+        /// The JSON serializer.
+        /// </value>
         public static Action<object, HttpResponseBase> Serializer { get; set; }
 
+        /// <summary>
+        /// Gets or sets the content encoding.
+        /// Defaults to unicode is not specified.
+        /// </summary>
+        /// <value>
+        /// The content encoding.
+        /// </value>
         public Encoding ContentEncoding { get; set; }
 
+        /// <summary>
+        /// Gets or sets the type of the content.
+        /// Defaults to application/jsonif this value is null.
+        /// </summary>
+        /// <value>
+        /// The type of the content.
+        /// </value>
         public string ContentType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the data to serialize.
+        /// </summary>
         public object Data { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is in debug mode.
+        /// Debug mode will instruct the serializer to indent JSON.
+        /// </summary>
         public static bool IsDebug
         {
             get
@@ -64,8 +96,8 @@ namespace SrkToolkit.Web
             HttpResponseBase response = context.HttpContext.Response;
 
             response.ContentType = !string.IsNullOrEmpty(this.ContentType)
-              ? ContentType
-              : "application/json";
+                                 ? ContentType
+                                 : "application/json";
 
             if (this.ContentEncoding != null)
                 response.ContentEncoding = this.ContentEncoding;

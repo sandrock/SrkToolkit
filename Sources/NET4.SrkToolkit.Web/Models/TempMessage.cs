@@ -16,10 +16,19 @@ namespace SrkToolkit.Web.Models
         /// </summary>
         public const string TempDataKey = "TempMessages";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TempMessage"/> class.
+        /// </summary>
         public TempMessage()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TempMessage"/> class.
+        /// </summary>
+        /// <param name="kind">The kind.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="isMarkup">if set to <c>true</c> the <see cref="Message"/> contains HTML markup.</param>
         public TempMessage(TempMessageKind kind, string message, bool isMarkup)
         {
             this.Kind = kind;
@@ -38,7 +47,7 @@ namespace SrkToolkit.Web.Models
         public TempMessageKind Kind { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the <see cref="Message"/> contains markup.
+        /// Gets or sets a value indicating whether the <see cref="Message"/> contains HTML markup.
         /// </summary>
         public bool IsMarkup { get; set; }
     }

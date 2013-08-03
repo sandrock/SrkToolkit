@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
+﻿
 namespace SrkToolkit.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+
     /// <summary>
     /// Permits to store references to application-wide services.
     /// </summary>
@@ -39,6 +40,30 @@ namespace SrkToolkit.Services
             lock (internals)
             {
                 return factories.ContainsKey(id) && factories[id] != null;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether a service is registered (the factory exists).
+        /// </summary>
+        /// <typeparam name="TInterface">The resolving type (interface).</typeparam>
+        /// <returns>
+        ///   <c>true</c> if a service has been registered with the specified interface; otherwise, <c>false</c>.
+        /// </returns>
+        [DebuggerStepThrough]
+        public static bool IsRegistered<TInterface>(Action<bool> action)
+            where TInterface : class
+        {
+            if (action == null)
+                throw new ArgumentNullException("action");
+
+            var type = typeof(TInterface);
+            var id = GetTypeId(type);
+            lock (internals)
+            {
+                var result = factories.ContainsKey(id) && factories[id] != null;
+                action(result);
+                return result;
             }
         }
 

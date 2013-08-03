@@ -65,12 +65,15 @@
     <Compile Include="Models\HttpErrorModel.cs" />
     <Compile Include="Services\IResultService.cs" />
     <Compile Include="Services\ResultService.cs" />
+    <Compile Include="Services\ResultServiceBase.cs" />
+    <Compile Include="SrkRequestExtensions.cs" />
     <Compile Include="SrkTempDataDictionaryExtensions.cs" />
     <Compile Include="Models\TempMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BaseSessionService.cs" />
     <Compile Include="Services\HttpBaseSessionServiceSource.cs" />
     <Compile Include="Services\ISessionServiceSource.cs" />
+    <Compile Include="SrkControllerExtensions.cs" />
     <Compile Include="System.Web.Mvc\SrkHtmlExtensions.cs" />
     <Compile Include="System.Web.Mvc\SrkUrlHelperExtensions.cs" />
     <Compile Include="System.Web.Mvc\SrkViewExtensions.cs" />

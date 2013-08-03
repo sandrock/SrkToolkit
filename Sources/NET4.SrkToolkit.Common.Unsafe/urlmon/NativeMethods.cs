@@ -8,6 +8,9 @@ namespace SrkToolkit.Common.urlmon
     using System.Runtime.InteropServices;
     using System.IO;
 
+    /// <summary>
+    /// Contains P/Invoke code.
+    /// </summary>
     public static class NativeMethods
     {
         /// <summary>
@@ -36,7 +39,7 @@ namespace SrkToolkit.Common.urlmon
         ///         Internet Explorer 9. Returns image/png and image/jpeg instead of image/x-png and image/pjpeg. 
         /// </param>
         /// <param name="ppwzMimeOut">The address of a string value that receives the suggested MIME type.</param>
-        /// <param name="dwReserverd">Reserved. Must be set to 0.</param>
+        /// <param name="dwReserved">Reserved. Must be set to 0.</param>
         /// <returns>
         ///   Returns one of the following values.
         ///     S_OK 	The operation completed successfully.
@@ -56,6 +59,12 @@ namespace SrkToolkit.Common.urlmon
             int dwReserved
         );
 
+        /// <summary>
+        /// Wraps a call to urlmon.dll/GetMimeFromFile.
+        /// </summary>
+        /// <param name="buffer">The buffer.</param>
+        /// <param name="filename">The filename.</param>
+        /// <returns></returns>
         public static string GetMimeFromFile(byte[] buffer, string filename)
         {
             try

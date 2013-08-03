@@ -146,17 +146,25 @@ namespace System.Web.Mvc
         #region Display text
 
         /// <summary>
-        /// Replaces new lines by line breaks (<&lt;br /&gt;)
+        /// Replaces new lines by line breaks (&lt;br /&gt;)
         /// </summary>
         /// <param name="html">The HTML.</param>
         /// <param name="content">The content.</param>
+        /// <param name="makeLinks">if set to <c>true</c> make links from URLs and email addresses.</param>
+        /// <param name="linkClasses">The class attribute to associate to &lt;a&gt; tags (defaults to "external").</param>
+        /// <param name="linkTarget">The target attribute to associate to &lt;a&gt; tags (default to "_blank").</param>
         /// <returns></returns>
-        public static MvcHtmlString LineBreaks(this HtmlHelper html, string content)
+        public static MvcHtmlString LineBreaks(this HtmlHelper html, string content, bool makeLinks = false, string linkClasses = "external accentColor", string linkTarget = "_self")
         {
             if (content == null)
                 return MvcHtmlString.Create(string.Empty);
 
             content = html.Encode(content);
+
+            if (makeLinks)
+            {
+                content = content.LinksAsHtml(linkClasses: linkClasses, linkTarget: linkTarget);
+            }
 
             content = content.AddHtmlLineBreaks();
 
@@ -188,6 +196,8 @@ namespace System.Web.Mvc
         /// <param name="makeParagraphs">if set to <c>true</c> make paragraphs from groups of text (separated by multiple lines).</param>
         /// <param name="makeLineBreaks">if set to <c>true</c> make line breaks from new lines.</param>
         /// <param name="twitterLinks">if set to <c>true</c> make twitter links from @mentions and #hashes.</param>
+        /// <param name="linksClass">The class attribute to associate to &lt;a&gt; tags (defaults to "external").</param>
+        /// <param name="linksTarget">The target attribute to associate to &lt;a&gt; tags (default to "_blank").</param>
         /// <returns>
         /// an escaped HTML string
         /// </returns>
@@ -196,7 +206,6 @@ namespace System.Web.Mvc
             if (content == null)
                 return MvcHtmlString.Create(string.Empty);
 
-            ////content = html.Encode(content);
             content = content.ProperHtmlEscape();
 
             if (makeLinks)
@@ -217,6 +226,15 @@ namespace System.Web.Mvc
 
         #region Forms
 
+        /// <summary>
+        /// Returns many HTML radio buttons for the specified list and selected value.
+        /// </summary>
+        /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        /// <param name="expression">The model expression.</param>
+        /// <param name="listOfValues">The list of values.</param>
+        /// <returns></returns>
         public static MvcHtmlString RadioButtonSelectList<TModel, TProperty>(
             this HtmlHelper<TModel> htmlHelper,
             Expression<Func<TModel, TProperty>> expression,
@@ -279,11 +297,64 @@ namespace System.Web.Mvc
         /// </summary>
         /// <param name="htmlHelper">The HTML helper.</param>
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
-        /// <returns>An opening <form> tag.</returns>
+        /// <returns>An opening &lt;form&gt; tag.</returns>
         public static MvcForm BeginFormEx(this HtmlHelper htmlHelper, object htmlAttributes)
         {
             string rawUrl = htmlHelper.ViewContext.HttpContext.Request.RawUrl;
             return htmlHelper.BeginForm(null, null, htmlHelper.ViewContext.RouteData.Values, FormMethod.Post, new RouteValueDictionary(htmlAttributes) as IDictionary<string, object>);
+        }
+
+        #endregion
+
+        #region Submit
+
+        /// <summary>
+        /// Returns a submit input element by using the specified HTML helper and the name of the form field.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>An input element whose type attribute is set to "submit".</returns>
+        public static MvcHtmlString Submit(this HtmlHelper html, string value)
+        {
+            var builder = new TagBuilder("input");
+            builder.MergeAttribute("type", "submit");
+            builder.MergeAttribute("value", value);
+            return new MvcHtmlString(builder.ToString(TagRenderMode.SelfClosing));
+        }
+
+        /// <summary>
+        /// Returns a submit input element by using the specified HTML helper and the name of the form field.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="name">The name.</param>
+        /// <returns>An input element whose type attribute is set to "submit".</returns>
+        public static MvcHtmlString Submit(this HtmlHelper html, string value, string name)
+        {
+            var builder = new TagBuilder("input");
+            builder.MergeAttribute("type", "submit");
+            builder.MergeAttribute("name", "name");
+            builder.MergeAttribute("value", value);
+            return new MvcHtmlString(builder.ToString(TagRenderMode.SelfClosing));
+        }
+
+        /// <summary>
+        /// Returns a submit input element by using the specified HTML helper and the name of the form field.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <returns>An input element whose type attribute is set to "submit".</returns>
+        public static MvcHtmlString Submit(this HtmlHelper html, string value, string name, object htmlAttributes)
+        {
+            var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            var builder = new TagBuilder("input");
+            builder.MergeAttributes<string, object>(attributes);
+            builder.MergeAttribute("type", "submit");
+            builder.MergeAttribute("name", "name");
+            builder.MergeAttribute("value", value);
+            return new MvcHtmlString(builder.ToString(TagRenderMode.SelfClosing));
         }
 
         #endregion

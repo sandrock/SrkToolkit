@@ -7,16 +7,25 @@ namespace SrkToolkit.Web.Services
     using System.Web.Routing;
     using SrkToolkit.Web.HttpErrors;
 
-    public class ResultService<TErrorController> : IResultService
+    /// <summary>
+    /// Helps return generic HTTP responses.
+    /// </summary>
+    /// <typeparam name="TErrorController">The type of the error controller.</typeparam>
+    public class ResultService<TErrorController> : ResultServiceBase, IResultService
         where TErrorController : IErrorController, new()
     {
-        private readonly HttpContextBase httpContext;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResultService{TErrorController}"/> class.
+        /// </summary>
+        /// <param name="httpContext">The HTTP context.</param>
         public ResultService(HttpContextBase httpContext)
+            : base(httpContext)
         {
-            this.httpContext = httpContext;
         }
 
+        /// <summary>
+        /// Gets the route to the "forbidden" page.
+        /// </summary>
         public static RouteData ForbiddenRoute
         {
             get
@@ -28,6 +37,9 @@ namespace SrkToolkit.Web.Services
             }
         }
 
+        /// <summary>
+        /// Gets the route to the "not found" page.
+        /// </summary>
         public static RouteData NotFoundRoute
         {
             get
@@ -39,6 +51,9 @@ namespace SrkToolkit.Web.Services
             }
         }
 
+        /// <summary>
+        /// Gets the route to the "bad request" page.
+        /// </summary>
         public static RouteData BadRequestRoute
         {
             get
@@ -50,6 +65,9 @@ namespace SrkToolkit.Web.Services
             }
         }
 
+        /// <summary>
+        /// Gets the route to the "internal error" page.
+        /// </summary>
         public static RouteData InternalRoute
         {
             get
@@ -67,10 +85,10 @@ namespace SrkToolkit.Web.Services
         /// <param name="message">a custom message can be specified. leave null for random message.</param>
         public ActionResult Forbidden(string message = null)
         {
-            this.httpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
+            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
 
             var ctrlContext = new ControllerContext();
-            ctrlContext.HttpContext = this.httpContext;
+            ctrlContext.HttpContext = this.HttpContext;
             ctrlContext.RouteData = ForbiddenRoute;
             if (message != null)
             {
@@ -80,7 +98,7 @@ namespace SrkToolkit.Web.Services
 
             IController ctrl = new TErrorController();
 
-            ctrl.Execute(new RequestContext(this.httpContext, ctrlContext.RouteData));
+            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
             return null;
         }
 
@@ -90,10 +108,10 @@ namespace SrkToolkit.Web.Services
         /// <param name="message">a custom message can be specified. leave null for standard message.</param>
         public ActionResult Error(string message)
         {
-            this.httpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
+            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
 
             var ctrlContext = new ControllerContext();
-            ctrlContext.HttpContext = this.httpContext;
+            ctrlContext.HttpContext = this.HttpContext;
             ctrlContext.RouteData = InternalRoute;
             ctrlContext.RouteData.Values["error"] = new Exception(message);
             if (message != null)
@@ -107,7 +125,7 @@ namespace SrkToolkit.Web.Services
                 ControllerContext = ctrlContext,
             };
 
-            ctrl.Execute(new RequestContext(this.httpContext, ctrlContext.RouteData));
+            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
             return null;
         }
 
@@ -118,10 +136,10 @@ namespace SrkToolkit.Web.Services
         /// <returns></returns>
         public ActionResult NotFound(string message = null)
         {
-            this.httpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
+            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
 
             var ctrlContext = new ControllerContext();
-            ctrlContext.HttpContext = this.httpContext;
+            ctrlContext.HttpContext = this.HttpContext;
             ctrlContext.RouteData = NotFoundRoute;
             if (message != null)
             {
@@ -134,7 +152,7 @@ namespace SrkToolkit.Web.Services
                 ControllerContext = ctrlContext,
             };
 
-            ctrl.Execute(new RequestContext(this.httpContext, ctrlContext.RouteData));
+            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
 
             return null;
         }
@@ -144,10 +162,10 @@ namespace SrkToolkit.Web.Services
         /// </summary>
         public ActionResult BadRequest(string message = null)
         {
-            this.httpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
+            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
 
             var ctrlContext = new ControllerContext();
-            ctrlContext.HttpContext = this.httpContext;
+            ctrlContext.HttpContext = this.HttpContext;
             ctrlContext.RouteData = BadRequestRoute;
             if (message != null)
             {
@@ -160,99 +178,9 @@ namespace SrkToolkit.Web.Services
                 ControllerContext = ctrlContext,
             };
 
-            ctrl.Execute(new RequestContext(this.httpContext, ctrlContext.RouteData));
+            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
 
             return null;
-        }
-
-        /// <summary>
-        /// Returns a standard JSON result for a successful operation.
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult JsonSuccess()
-        {
-            return new JsonNetResult
-            {
-                Data = new
-                {
-                    Success = true,
-                    ErrorCode = default(string),
-                    ErrorMessage = default(string),
-                },
-            };
-        }
-
-        /// <summary>
-        /// Returns a standard JSON result containing data.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public ActionResult JsonSuccess(object data)
-        {
-            return new JsonNetResult
-            {
-                Data = new
-                {
-                    Success = true,
-                    ErrorCode = default(string),
-                    ErrorMessage = default(string),
-                    Data = data,
-                },
-            };
-        }
-
-        /// <summary>
-        /// Returns a standard JSON result containing an error.
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult JsonError()
-        {
-            return new JsonNetResult
-            {
-                Data = new
-                {
-                    Success = false,
-                    ErrorCode = default(string),
-                    ErrorMessage = default(string),
-                },
-            };
-        }
-
-        /// <summary>
-        /// Returns a standard JSON result containing an error.
-        /// </summary>
-        /// <param name="errorCode">helps identify the the error</param>
-        /// <returns></returns>
-        public ActionResult JsonError(string errorCode)
-        {
-            return new JsonNetResult
-            {
-                Data = new
-                {
-                    Success = false,
-                    ErrorCode = errorCode,
-                    ErrorMessage = default(string),
-                },
-            };
-        }
-
-        /// <summary>
-        /// Returns a standard JSON result containing an error.
-        /// </summary>
-        /// <param name="errorCode">helps identify the the error</param>
-        /// <param name="errorMessage">the translated error message to display</param>
-        /// <returns></returns>
-        public ActionResult JsonError(string errorCode, string errorMessage)
-        {
-            return new JsonNetResult
-            {
-                Data = new
-                {
-                    Success = false,
-                    ErrorCode = errorCode,
-                    ErrorMessage = errorMessage,
-                },
-            };
         }
     }
 }

@@ -58,6 +58,11 @@ namespace SrkToolkit.Common.Validation
             return new EmailAddress(valid, true);
         }
 
+        /// <summary>
+        /// Implicitly converts a string to an <see cref="EmailAddress"/>.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <returns></returns>
         public static implicit operator EmailAddress(string address)
         {
             return new EmailAddress(address);

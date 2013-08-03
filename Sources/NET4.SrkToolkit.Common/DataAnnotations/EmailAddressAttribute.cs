@@ -11,8 +11,11 @@ namespace SrkToolkit.DataAnnotations
     /// Validates an email address.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public sealed class EmailAddressAttribute : ValidationAttribute
+    public class EmailAddressAttribute : ValidationAttribute
     {
+        /// <summary>
+        /// The regex pattern to match an email address.
+        /// </summary>
         public const string RegexPattern = "^[a-z0-9_\\+-]+(\\.[a-z0-9_\\+-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*\\.([a-z]{2,4})$";
 
         /// <summary>

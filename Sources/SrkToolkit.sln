@@ -60,6 +60,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET4.SrkToolkit.Common.Unsa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET4.SrkToolkit.Common.Tests", "NET4.SrkToolkit.Common.Tests\NET4.SrkToolkit.Common.Tests.csproj", "{51E43E76-A342-42D3-A8AD-ABC45CEBD9C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET4.SrkToolkit.Web.Mvc3", "NET4.SrkToolkit.Web.Mvc3\NET4.SrkToolkit.Web.Mvc3.csproj", "{C7CB8AC5-E948-4738-B440-ECAE8656667F}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SrkToolkit.vsmdi
@@ -149,6 +151,10 @@ Global
 		{51E43E76-A342-42D3-A8AD-ABC45CEBD9C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51E43E76-A342-42D3-A8AD-ABC45CEBD9C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51E43E76-A342-42D3-A8AD-ABC45CEBD9C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7CB8AC5-E948-4738-B440-ECAE8656667F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7CB8AC5-E948-4738-B440-ECAE8656667F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7CB8AC5-E948-4738-B440-ECAE8656667F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7CB8AC5-E948-4738-B440-ECAE8656667F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -175,5 +181,6 @@ Global
 		{19727F77-249A-4AC9-859C-8441E5BD41C4} = {955C529B-A44B-4176-B49A-C0430D78A08C}
 		{51E43E76-A342-42D3-A8AD-ABC45CEBD9C5} = {955C529B-A44B-4176-B49A-C0430D78A08C}
 		{1D73A9E4-7F61-4288-BDE1-E13CC63872C0} = {D1C680C8-2F64-48D3-98F6-FC6F41B37939}
+		{C7CB8AC5-E948-4738-B440-ECAE8656667F} = {D1C680C8-2F64-48D3-98F6-FC6F41B37939}
 	EndGlobalSection
 EndGlobal

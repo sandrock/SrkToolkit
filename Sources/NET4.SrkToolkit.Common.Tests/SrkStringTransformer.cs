@@ -443,6 +443,39 @@ p3</p>";
 
                 Assert.AreEqual(expected, result);
             }
+
+            [TestMethod]
+            public void NoPreserveCase()
+            {
+                string input = "Hello guys,   this is SandRock from http://sparklenetworks.com.    ";
+                string expected = "hello-guys-this-is-sandrock-from-http-sparklenetworks-com";
+
+                string result = input.MakeUrlFriendly(false);
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void PreserveCase1()
+            {
+                string input = "Hello guys,   this is SandRock from http://sparklenetworks.com.    ";
+                string expected = "Hello-guys-this-is-SandRock-from-http-sparklenetworks-com";
+
+                string result = input.MakeUrlFriendly(true);
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void PreserveCaseAndChars()
+            {
+                string input = "Hello guys,   this is SandRock from http://sparklenetworks.com.    ";
+                string expected = "Hello-guys,-this-is-SandRock-from-http-sparklenetworks.com.";
+
+                string result = input.MakeUrlFriendly(true, preserveChars: new char[]{ '.', ',', });
+
+                Assert.AreEqual(expected, result);
+            }
         }
 
         [TestClass]

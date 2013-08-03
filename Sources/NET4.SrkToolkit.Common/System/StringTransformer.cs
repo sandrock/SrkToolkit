@@ -151,7 +151,8 @@ namespace System
         /// <summary>
         /// Inserts HTML paragraphs between grouped newlines.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">The text.</param>
+        /// <param name="makeLineBreaks">if set to <c>true</c> inserts HTML line breaks (&lt;br /&gt;) before all newlines.</param>
         /// <returns></returns>
         public static string HtmlParagraphizify(this string text, bool makeLineBreaks = false)
         {
@@ -255,6 +256,11 @@ namespace System
             return sb.ToString().Normalize(NormalizationForm.FormC);
         }
 
+        /// <summary>
+        /// UNTESTED! Removes the empty characters.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns></returns>
         public static string RemoveSpaces(this string input)
         {
             if (input == null)
@@ -362,10 +368,12 @@ namespace System
         /// </summary>
         /// <param name="input">The input.</param>
         /// <param name="preserveCase">if set to <c>true</c> [preserve case].</param>
+        /// <param name="preserveChars">Characters to preserve.</param>
         /// <returns></returns>
-        public static string MakeUrlFriendly(this string input, bool preserveCase)
+        public static string MakeUrlFriendly(this string input, bool preserveCase, char[] preserveChars = null)
         {
             var val = input.RemoveDiacritics();
+            preserveChars = preserveChars ?? new char[0];
 
             var sb = new StringBuilder();
 
@@ -374,6 +382,12 @@ namespace System
             for (int i = 0; i < val.Length; i++)
             {
                 char ch = val[i];
+                if (preserveChars.Contains(ch))
+                {
+                    sb.Append(ch);
+                    continue;
+                }
+
                 var charInfo = CharUnicodeInfo.GetUnicodeCategory(ch);
                 switch (charInfo)
                 {

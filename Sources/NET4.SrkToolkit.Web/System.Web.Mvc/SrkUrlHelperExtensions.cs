@@ -12,7 +12,7 @@ namespace System.Web.Mvc
     using System.Text;
 
     /// <summary>
-    /// TODO: Update summary.
+    /// Extension methods for the <see cref="UrlHelper"/> class.
     /// </summary>
     public static class SrkUrlHelperExtensions
     {
@@ -20,9 +20,10 @@ namespace System.Web.Mvc
         /// Replaces or adds a value in the query string of the specified url.
         /// </summary>
         /// <param name="helper">The helper.</param>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
+        /// <param name="url">The orifinal URL.</param>
+        /// <param name="key">The key to add or set.</param>
+        /// <param name="value">The value for the specified key.</param>
+        /// <returns>the modified URL</returns>
         public static string SetQueryString(this UrlHelper helper, string url, string key, string value)
         {
             bool found = false;

@@ -20,7 +20,6 @@ namespace System
         const string linkFormat = "<a href=\"{0}\" title=\"{0}\" target=\"{2}\" class=\"{3}\">{1}</a>";
 
         private static Regex linksAsHtmlRegex;
-        private static Regex replaceLinkRegex;
         private static Regex twitterHasLinkRegex = new Regex("\\#\\w+");
         private static Regex twitterUsernameLinkRegex = new Regex("@[A-Za-z0-9_]{1,20}");
 
@@ -28,8 +27,8 @@ namespace System
         /// Replaces all URLs in a string with HTML links.
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="linkClasses"></param>
-        /// <param name="linkTarget"></param>
+        /// <param name="linkClasses">The class attribute to associate to &lt;a&gt; tags (defaults to "external").</param>
+        /// <param name="linkTarget">The target attribute to associate to &lt;a&gt; tags (default to "_blank").</param>
         /// <returns></returns>
         public static string LinksAsHtml(this string text, string linkClasses = "external", string linkTarget = "_self")
         {
@@ -79,7 +78,14 @@ namespace System
             return text;
         }
 
-        public static string TwitterLinksAsHtml(this string text, string linkClasses = "external", string linkTarget = "_self")
+        /// <summary>
+        /// Replaces all @mentions and #hashes in a string with HTML links to Twitter.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="linkClasses">The class attribute to associate to &lt;a&gt; tags (defaults to "external twitter").</param>
+        /// <param name="linkTarget">The target attribute to associate to &lt;a&gt; tags (default to "_blank").</param>
+        /// <returns></returns>
+        public static string TwitterLinksAsHtml(this string text, string linkClasses = "external twitter", string linkTarget = "_self")
         {
             var results = new List<Match>();
             var hashResults = twitterHasLinkRegex.Matches(text);

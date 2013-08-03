@@ -13,6 +13,9 @@ namespace SrkToolkit.Common
     using System.IO;
     using System.Diagnostics;
 
+    /// <summary>
+    /// Helps file the MIME type of files.
+    /// </summary>
     public static class MimeType
     {
         #region Static content
@@ -390,6 +393,10 @@ namespace SrkToolkit.Common
 
         private static Dictionary<string, string> extensionsToMime;
 
+        /// <summary>
+        /// Gets the "extensions to MIME" internal dictionary.
+        /// You may search, add, remove or change extensions during runtime but this is not thread-safe.
+        /// </summary>
         public static Dictionary<string, string> ExtensionsToMime
         {
             get
@@ -416,10 +423,16 @@ namespace SrkToolkit.Common
             }
         }
 
+        /// <summary>
+        /// Gets the MIME from file based on native urlmon.dll P/Invoke with a fallback on an internal file-extension to MIME dictionary.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        /// <returns>a MIME type or null if nothing was recognized</returns>
+        /// <exception cref="System.IO.FileNotFoundException"></exception>
         public static string GetMimeFromFile(string filename)
         {
             if (!File.Exists(filename))
-                throw new FileNotFoundException(filename + " not found");
+                throw new FileNotFoundException(filename + " cannot be found");
 
             byte[] buffer = new byte[256];
             using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -433,6 +446,11 @@ namespace SrkToolkit.Common
             return GetMimeFromFileHead(buffer, filename);
         }
 
+        /// <summary>
+        /// Gets the MIME from file based on native urlmon.dll P/Invoke with a fallback on an internal file-extension to MIME dictionary.
+        /// </summary>
+        /// <param name="first256bytes">The first 256 bytes of the file.</param>
+        /// <returns></returns>
         public static string GetMimeFromFileHead(byte[] first256bytes)
         {
             return GetMimeFromFileHead(first256bytes, null);

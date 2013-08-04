@@ -20,7 +20,7 @@ namespace System.Web.Mvc
         /// Replaces or adds a value in the query string of the specified url.
         /// </summary>
         /// <param name="helper">The helper.</param>
-        /// <param name="url">The orifinal URL.</param>
+        /// <param name="url">The original URL.</param>
         /// <param name="key">The key to add or set.</param>
         /// <param name="value">The value for the specified key.</param>
         /// <returns>the modified URL</returns>
@@ -28,25 +28,40 @@ namespace System.Web.Mvc
         {
             bool found = false;
             string sep = "?";
-            foreach (string item in helper.RequestContext.HttpContext.Request.QueryString.Keys)
+            string path = url;
+            string query = "";
+            var values = new Dictionary<string, string>();
+            var markPos = url.IndexOf('?');
+            if (markPos >= 0)
             {
-                string itemValue = helper.RequestContext.HttpContext.Request.QueryString[item];
+                path = url.Substring(0, markPos);
+                var parts = url.Substring(markPos + 1).Split(new char[] { '?', '&', }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var part in parts)
+                {
+                    var subparts = part.Split(new char[] { '=', });
+                    values.Add(subparts[0], subparts.Length > 1 ? subparts[1] : string.Empty);
+                }
+            }
+
+            foreach (string item in values.Keys)
+            {
+                string itemValue = values[item];
                 if (key == item && !found)
                 {
                     found = true;
                     itemValue = value;
                 }
 
-                url += sep + Uri.EscapeDataString(item) + "=" + Uri.EscapeDataString(itemValue);
+                query += sep + Uri.EscapeDataString(item) + "=" + Uri.EscapeDataString(itemValue);
                 sep = "&";
             }
 
             if (!found)
             {
-                url += sep + Uri.EscapeDataString(key) + "=" + Uri.EscapeDataString(value);
+                query += sep + Uri.EscapeDataString(key) + "=" + Uri.EscapeDataString(value);
             }
 
-            return url;
+            return path + query;;
         }
     }
 }

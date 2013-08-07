@@ -12,22 +12,37 @@ namespace SrkToolkit.Domain
     using System.Text;
 
     /// <summary>
-    /// TODO: Update summary.
+    /// Allows a domain request to be validated before processing.
     /// </summary>
     public class BaseRequest
     {
         private Dictionary<string, List<string>> validationErrors;
         private bool? validated;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseRequest"/> class.
+        /// </summary>
         public BaseRequest()
         {
         }
 
+        /// <summary>
+        /// Gets all validation errors.
+        /// </summary>
+        /// <value>
+        /// All validation errors.
+        /// </value>
         public IEnumerable<string> AllValidationErrors
         {
             get { return validationErrors.SelectMany(x => x.Value); }
         }
 
+        /// <summary>
+        /// Gets the validation errors grouped by property.
+        /// </summary>
+        /// <value>
+        /// The validation errors grouped by property.
+        /// </value>
         public IEnumerable<KeyValuePair<string, IEnumerable<string>>> ValidationErrors
         {
             get
@@ -61,12 +76,22 @@ namespace SrkToolkit.Domain
         /// <summary>
         /// Executes the validation for this model.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Indicates whether the model is valid</returns>
         public bool Validate()
         {
             this.ValidationErrorList.Clear();
             this.validated = this.ValidateCore() && this.validationErrors.Count == 0;
             return this.validated.Value;
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> if invalid.
+        /// </summary>
+        /// <exception cref="System.InvalidOperationException">The request has validation errors. Refer to the ValidationErrors property.</exception>
+        public void ThrowIfInvalid()
+        {
+            if (!this.IsValid)
+                throw new InvalidOperationException("The request has validation errors. Refer to the ValidationErrors property.");
         }
 
         /// <summary>

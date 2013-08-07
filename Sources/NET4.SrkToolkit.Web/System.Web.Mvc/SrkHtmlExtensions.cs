@@ -333,7 +333,7 @@ namespace System.Web.Mvc
         {
             var builder = new TagBuilder("input");
             builder.MergeAttribute("type", "submit");
-            builder.MergeAttribute("name", "name");
+            builder.MergeAttribute("name", name);
             builder.MergeAttribute("value", value);
             return new MvcHtmlString(builder.ToString(TagRenderMode.SelfClosing));
         }
@@ -352,8 +352,45 @@ namespace System.Web.Mvc
             var builder = new TagBuilder("input");
             builder.MergeAttributes<string, object>(attributes);
             builder.MergeAttribute("type", "submit");
-            builder.MergeAttribute("name", "name");
+            builder.MergeAttribute("name", name);
             builder.MergeAttribute("value", value);
+            return new MvcHtmlString(builder.ToString(TagRenderMode.SelfClosing));
+        }
+
+        #endregion
+
+        #region File
+
+        /// <summary>
+        /// Returns a file input element by using the specified HTML helper and the name of the form field.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="name">The name.</param>
+        /// <returns>An input element whose type attribute is set to "file".</returns>
+        public static MvcHtmlString File(this HtmlHelper html, string name)
+        {
+            var builder = new TagBuilder("input");
+            builder.MergeAttribute("type", "file");
+            builder.MergeAttribute("name", name);
+            return new MvcHtmlString(builder.ToString(TagRenderMode.SelfClosing));
+        }
+
+        /// <summary>
+        /// Returns a file input element by using the specified HTML helper and the name of the form field.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <returns>An input element whose type attribute is set to "file".</returns>
+        public static MvcHtmlString File(this HtmlHelper html, string name, object htmlAttributes)
+        {
+            var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            var builder = new TagBuilder("input");
+            builder.MergeAttributes<string, object>(attributes);
+            builder.MergeAttribute("type", "file");
+            builder.MergeAttribute("name", name);
             return new MvcHtmlString(builder.ToString(TagRenderMode.SelfClosing));
         }
 

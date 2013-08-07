@@ -481,7 +481,7 @@ namespace SrkToolkit.Common
             return mime ?? "unknown/unknown";
         }
 
-        private static string FindMimeFromExtension(string filename)
+        public static string FindMimeFromExtension(string filename)
         {
             var extension = Path.GetExtension(filename);
             var mime = ExtensionsToMime[extension];

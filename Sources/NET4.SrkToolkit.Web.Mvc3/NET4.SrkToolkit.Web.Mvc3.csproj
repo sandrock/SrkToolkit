@@ -77,6 +77,9 @@
     <Compile Include="..\NET4.SrkToolkit.Web\Models\TempMessage.cs">
       <Link>Models\TempMessage.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Mvc\DecimalModelBinder.cs">
+      <Link>Mvc\DecimalModelBinder.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Web\Services\BaseSessionService.cs">
       <Link>Services\BaseSessionService.cs</Link>
     </Compile>
@@ -130,7 +133,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProjectLinkReference="1d73a9e4-7f61-4288-bde1-e13cc63872c0" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="1d73a9e4-7f61-4288-bde1-e13cc63872c0" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

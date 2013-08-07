@@ -1,5 +1,5 @@
 ﻿
-namespace NET4.SrkToolkit.Web.Tests
+namespace SrkToolkit.Web.Tests
 {
     using System;
     using System.Collections.Generic;

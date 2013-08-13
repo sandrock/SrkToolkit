@@ -150,6 +150,30 @@ EOD";
                 bool valid = content.Contains(expected1);
                 Assert.IsTrue(valid, "should contain '" + expected1 + "'");
             }
+
+
+            /// <summary>
+            /// Bug where the same link appear multiple time in a string.
+            /// At the end there is only one &lt;a&gt; with a href attribute containing all urls.
+            /// </summary>
+            [TestMethod]
+            public void MethodName()
+            {
+                // prepare
+                string input = @"http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20
+
+http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20
+http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20
+
+http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20";
+
+                // execute
+                string result = input.LinksAsHtml();
+
+                // verify
+                Assert.IsTrue(result.Count(c => c == '<') > 2);
+            }
+        
         }
 
         [TestClass]

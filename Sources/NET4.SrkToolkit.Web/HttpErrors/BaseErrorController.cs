@@ -113,7 +113,7 @@ namespace SrkToolkit.Web.HttpErrors
         /// <returns></returns>
         public ActionResult Internal()
         {
-            return this.Work("BadRequest", this.InternalModel, 500);
+            return this.Work("Internal", this.InternalModel, 500);
         }
 
         /// <summary>

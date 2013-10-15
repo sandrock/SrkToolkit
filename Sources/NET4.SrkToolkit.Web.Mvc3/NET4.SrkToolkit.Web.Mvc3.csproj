@@ -80,6 +80,21 @@
     <Compile Include="..\NET4.SrkToolkit.Web\Mvc\DecimalModelBinder.cs">
       <Link>Mvc\DecimalModelBinder.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphName.cs">
+      <Link>Open\OpenGraphName.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphNamespace.cs">
+      <Link>Open\OpenGraphNamespace.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphObject.cs">
+      <Link>Open\OpenGraphObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphTag.cs">
+      <Link>Open\OpenGraphTag.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\SrkOpenGraphHtmlExtensions.cs">
+      <Link>Open\SrkOpenGraphHtmlExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Web\Services\BaseSessionService.cs">
       <Link>Services\BaseSessionService.cs</Link>
     </Compile>

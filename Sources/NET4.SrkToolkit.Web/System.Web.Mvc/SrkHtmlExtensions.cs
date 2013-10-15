@@ -13,6 +13,7 @@ namespace System.Web.Mvc
     using System.Linq.Expressions;
     using System.Web.Mvc.Html;
     using System.Web.Routing;
+    using SrkToolkit.Web.Open;
 
     /// <summary>
     /// HTML extensions. 
@@ -39,16 +40,35 @@ namespace System.Web.Mvc
             if (useTimeTag)
             {
                 string tag = string.Format(
-                    "<time datetime=\"{1}\" title=\"{2}\">{0}</time>",
+                    "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
                     display,
                     date.ToString("O"),
-                    date.ToUniversalTime().ToString("R"));
+                    date.ToUniversalTime().ToString("R"),
+                    GetDateClasses(date) + "display-datetime");
                 return MvcHtmlString.Create(tag);
             }
             else
             {
                 return MvcHtmlString.Create(display);
             }
+        }
+
+        private static string GetDateClasses(DateTime date)
+        {
+            string classes = "";
+            if (date.Kind == DateTimeKind.Utc)
+            {
+                classes += date > DateTime.UtcNow ? "past " : "future ";
+                classes += date.IsEqualTo(DateTime.UtcNow, DateTimePrecision.Day) ? "today " : "not-today ";
+            }
+
+            if (date.Kind == DateTimeKind.Local)
+            {
+                classes += date > DateTime.Now ? "past " : "future ";
+                classes += date.IsEqualTo(DateTime.Now, DateTimePrecision.Day) ? "today " : "not-today ";
+            }
+
+            return classes;
         }
 
         /// <summary>
@@ -69,10 +89,11 @@ namespace System.Web.Mvc
             if (useTimeTag)
             {
                 string tag = string.Format(
-                    "<time datetime=\"{1}\" title=\"{2}\">{0}</time>",
+                    "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
                     display,
                     date.ToString("D"),
-                    date.ToUniversalTime().ToString("D"));
+                    date.ToUniversalTime().ToString("D"),
+                    GetDateClasses(date) + "display-date");
                 return MvcHtmlString.Create(tag);
             }
             else
@@ -99,10 +120,11 @@ namespace System.Web.Mvc
             if (useTimeTag)
             {
                 string tag = string.Format(
-                    "<time datetime=\"{1}\" title=\"{2}\">{0}</time>",
+                    "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
                     display,
                     date.ToString("O"),
-                    date.ToUniversalTime().ToString("R"));
+                    date.ToUniversalTime().ToString("R"),
+                    GetDateClasses(date) + "display-time");
                 return MvcHtmlString.Create(tag);
             }
             else
@@ -129,16 +151,29 @@ namespace System.Web.Mvc
             if (useTimeTag)
             {
                 string tag = string.Format(
-                    "<time datetime=\"{1}\" title=\"{2}\">{0}</time>",
+                    "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
                     display,
                     date.ToString("c"),
-                    date.ToString("c"));
+                    date.ToString("c"),
+                    "display-time");
                 return MvcHtmlString.Create(tag);
             }
             else
             {
                 return MvcHtmlString.Create(display);
             }
+        }
+
+        public static MvcHtmlString JsDate(this HtmlHelper html, DateTime date, DateTimePrecision precision = DateTimePrecision.Second)
+        {
+            string value = "new Date("
+                + date.Year + ", "
+                + (date.Month - 1) + ", "
+                + date.Day + ", "
+                + (precision >= DateTimePrecision.Hour ? date.Hour : 0) + ", "
+                + (precision >= DateTimePrecision.Minute ? date.Minute : 0) + ", "
+                + (precision >= DateTimePrecision.Second ? date.Second : 0) + ")";
+            return MvcHtmlString.Create(value);
         }
 
         #endregion
@@ -393,6 +428,17 @@ namespace System.Web.Mvc
             builder.MergeAttribute("name", name);
             return new MvcHtmlString(builder.ToString(TagRenderMode.SelfClosing));
         }
+
+        #endregion
+
+        #region OpenGraph
+
+        public static SrkOpenGraphHtmlExtensions OpenGraph(this HtmlHelper html)
+        {
+            return new SrkOpenGraphHtmlExtensions(html);
+        }
+
+
 
         #endregion
     }

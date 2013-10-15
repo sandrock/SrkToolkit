@@ -16,26 +16,85 @@ namespace System.Web.Mvc
     /// </summary>
     public static class SrkUrlHelperExtensions
     {
+        /////// <summary>
+        /////// Replaces or adds a value in the query string of the specified url.
+        /////// </summary>
+        /////// <param name="helper">The helper.</param>
+        /////// <param name="url">The original URL.</param>
+        /////// <param name="key">The key to add or set.</param>
+        /////// <param name="value">The value for the specified key.</param>
+        /////// <returns>the modified URL</returns>
+        ////public static string SetQueryString(this UrlHelper helper, string url, string key, string value)
+        ////{
+        ////    bool found = false;
+        ////    string sep = "?";
+        ////    string path = url;
+        ////    string query = "";
+        ////    var values = new Dictionary<string, string>();
+        ////    var markPos = url.IndexOf('?');
+        ////    if (markPos >= 0)
+        ////    {
+        ////        path = url.Substring(0, markPos);
+        ////        var parts = url.Substring(markPos + 1).Split(new char[] { '?', '&', }, StringSplitOptions.RemoveEmptyEntries);
+        ////        foreach (var part in parts)
+        ////        {
+        ////            var subparts = part.Split(new char[] { '=', });
+        ////            values.Add(subparts[0], subparts.Length > 1 ? subparts[1] : string.Empty);
+        ////        }
+        ////    }
+
+        ////    foreach (string item in values.Keys)
+        ////    {
+        ////        string itemValue = values[item];
+        ////        if (key == item && !found)
+        ////        {
+        ////            found = true;
+        ////            itemValue = value;
+        ////        }
+
+        ////        query += sep + Uri.EscapeDataString(item) + "=" + Uri.EscapeDataString(itemValue);
+        ////        sep = "&";
+        ////    }
+
+        ////    if (!found)
+        ////    {
+        ////        query += sep + Uri.EscapeDataString(key) + "=" + Uri.EscapeDataString(value);
+        ////    }
+
+        ////    return path + query; ;
+        ////}
+
         /// <summary>
         /// Replaces or adds a value in the query string of the specified url.
         /// </summary>
         /// <param name="helper">The helper.</param>
         /// <param name="url">The original URL.</param>
-        /// <param name="key">The key to add or set.</param>
-        /// <param name="value">The value for the specified key.</param>
-        /// <returns>the modified URL</returns>
-        public static string SetQueryString(this UrlHelper helper, string url, string key, string value)
+        /// <param name="keysAndValues">Pairs of key and value to add/replace.</param>
+        /// <returns>
+        /// the modified URL
+        /// </returns>
+        /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
+        public static string SetQueryString(this UrlHelper helper, string url, params string[] keysAndValues)
         {
-            bool found = false;
-            string sep = "?";
+            if (keysAndValues.Length % 2 != 0)
+                throw new ArgumentException("keysAndValues must be contain pairs of key and value", "keysAndValues");
+
+            // The plan:
+            // - parse queyr and strings from url into dictionary
+            // - update dictionary from keysAndValues
+            // - build url
+
             string path = url;
-            string query = "";
             var values = new Dictionary<string, string>();
+
+            // parse query
+            string query = "";
             var markPos = url.IndexOf('?');
             if (markPos >= 0)
             {
                 path = url.Substring(0, markPos);
-                var parts = url.Substring(markPos + 1).Split(new char[] { '?', '&', }, StringSplitOptions.RemoveEmptyEntries);
+                query = url.Substring(markPos + 1);
+                var parts = query.Split(new char[] { '?', '&', }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var part in parts)
                 {
                     var subparts = part.Split(new char[] { '=', });
@@ -43,25 +102,47 @@ namespace System.Web.Mvc
                 }
             }
 
+            // make a dictionary out of keysAndValues
+            var kvs = new Dictionary<string, string>();
+            string theKey = null;
+            for (int i = 0; i < keysAndValues.Length; i++)
+            {
+                if (theKey == null)
+                {
+                    theKey = keysAndValues[i];
+                }
+                else
+                {
+                    kvs.Add(theKey, keysAndValues[i]);
+                    theKey = null;
+                }
+            }
+
+            // update dictionary from keysAndValues
+            foreach (var kv in kvs)
+            {
+                string key = kv.Key;
+                string value = kv.Value;
+                bool found = false;
+                values[key] = value;
+            }
+
+            // build url
+            string sep = "?";
+            var builder = new StringBuilder();
+            builder.Append(path);
+            
             foreach (string item in values.Keys)
             {
                 string itemValue = values[item];
-                if (key == item && !found)
-                {
-                    found = true;
-                    itemValue = value;
-                }
-
-                query += sep + Uri.EscapeDataString(item) + "=" + Uri.EscapeDataString(itemValue);
+                builder.Append(sep);
+                builder.Append(Uri.EscapeDataString(item));
+                builder.Append("=");
+                builder.Append(Uri.EscapeDataString(itemValue));
                 sep = "&";
             }
 
-            if (!found)
-            {
-                query += sep + Uri.EscapeDataString(key) + "=" + Uri.EscapeDataString(value);
-            }
-
-            return path + query;;
+            return builder.ToString();
         }
     }
 }

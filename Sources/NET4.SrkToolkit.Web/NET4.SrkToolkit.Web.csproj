@@ -65,6 +65,11 @@
     <Compile Include="Models\HttpErrorModel.cs" />
     <Compile Include="Mvc\IntegerModelBinder.cs" />
     <Compile Include="Mvc\DecimalModelBinder.cs" />
+    <Compile Include="Open\OpenGraphName.cs" />
+    <Compile Include="Open\OpenGraphNamespace.cs" />
+    <Compile Include="Open\OpenGraphObject.cs" />
+    <Compile Include="Open\OpenGraphTag.cs" />
+    <Compile Include="Open\SrkOpenGraphHtmlExtensions.cs" />
     <Compile Include="Services\IResultService.cs" />
     <Compile Include="Services\ResultService.cs" />
     <Compile Include="Services\ResultServiceBase.cs" />

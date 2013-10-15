@@ -93,8 +93,38 @@ namespace SrkToolkit.Web.Tests
                 // verify
                 Assert.AreEqual(expected, actual);
             }
-        
-            
+
+            [TestMethod]
+            public void MultipleValues()
+            {
+                // prepare
+                string path = "/path";
+                string input = path;
+                string expected = "/path?k1=v111&k2=v2";
+                var helper = GetHelper(path, "");
+
+                // execute
+                string actual = helper.SetQueryString(input, "k1", "v111", "k2", "v2");
+
+                // verify
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
+            public void MultipleValuesOneSet()
+            {
+                // prepare
+                string path = "/path?k1=v1";
+                string input = path;
+                string expected = "/path?k1=v111&k2=v2";
+                var helper = GetHelper(path, "");
+
+                // execute
+                string actual = helper.SetQueryString(input, "k1", "v111", "k2", "v2");
+
+                // verify
+                Assert.AreEqual(expected, actual);
+            }
         }
     }
 }

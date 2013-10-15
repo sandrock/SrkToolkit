@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="System.Collections.Specialized\SrkNameValueCollectionExtensions.cs" />
     <Compile Include="System.Diagnostics\StopwatchExtensions.cs" />
+    <Compile Include="System\DateTimePrecision.cs" />
     <Compile Include="System\SrkDateTimeExtensions.cs" />
     <Compile Include="System\StringTransformer.Urls.cs" />
     <Compile Include="System\StringTransformer.cs" />

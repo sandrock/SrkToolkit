@@ -157,7 +157,7 @@ EOD";
             /// At the end there is only one &lt;a&gt; with a href attribute containing all urls.
             /// </summary>
             [TestMethod]
-            public void MethodName()
+            public void Bug1()
             {
                 // prepare
                 string input = @"http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20
@@ -173,7 +173,18 @@ http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20http://test.local/Fil
                 // verify
                 Assert.IsTrue(result.Count(c => c == '<') > 2);
             }
-        
+
+            /// <summary>
+            /// URLs containing the symbol &amp; should not be double escaped.
+            /// </summary>
+            [TestMethod]
+            public void Bug2()
+            {
+                string input = "http://site.com/Complex/path.php?key1=val1&key2=value2&openlink=1";
+                string result = input.LinksAsHtml();
+
+                this.Test(result, input);
+            }
         }
 
         [TestClass]
@@ -399,6 +410,58 @@ p3</p>";
                 string result = input.TrimTextRight(15);
 
                 Assert.AreEqual(expected, result);
+            }
+        }
+
+        [TestClass]
+        public class TrimTextLeftMethod
+        {
+            [TestMethod]
+            public void ShorterText()
+            {
+                string input = "hello world";
+                string expected = input;
+
+                string result = input.TrimTextLeft(12);
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void ExactLengthText()
+            {
+                string input = "hello world";
+                string expected = input;
+
+                string result = input.TrimTextLeft(11);
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void LongerText()
+            {//                    123456789012 456789
+                string input =    "hello greater world";
+                string expected = "...ter world";
+                int length = 12;
+
+                string result = input.TrimTextLeft(length);
+
+                Assert.AreEqual(expected, result);
+                Assert.IsTrue(result.Length <= length);
+            }
+
+            [TestMethod]
+            public void LongerTextOnSpace()
+            {//                    123456789012345 789
+                string input =    "hello great world";
+                string expected = "...great world";
+                int length = 15;
+
+                string result = input.TrimTextLeft(length);
+
+                Assert.AreEqual(expected, result);
+                Assert.IsTrue(result.Length <= length);
             }
         }
 

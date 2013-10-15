@@ -54,10 +54,19 @@
     <Compile Include="ChangeCurrentCulture.cs" />
     <Compile Include="IntegerModelBinderTests.cs" />
     <Compile Include="DecimalModelBinderTests.cs" />
+    <Compile Include="OpenGraphNamespaceTests.cs" />
+    <Compile Include="OpenGraphNameTests.cs" />
+    <Compile Include="OpenGraphObjectTests.cs" />
+    <Compile Include="OpenGraphTagTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SrkHtmlExtensionsTests.cs" />
     <Compile Include="SrkUrlHelperExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NET4.SrkToolkit.Common\NET4.SrkToolkit.Common.csproj">
+      <Project>{19495A45-67A8-460D-806C-CF158B96BBE9}</Project>
+      <Name>NET4.SrkToolkit.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NET4.SrkToolkit.Web\NET4.SrkToolkit.Web.csproj">
       <Project>{1D73A9E4-7F61-4288-BDE1-E13CC63872C0}</Project>
       <Name>NET4.SrkToolkit.Web</Name>

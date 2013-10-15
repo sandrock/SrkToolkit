@@ -103,16 +103,52 @@ namespace System
             if (string.IsNullOrWhiteSpace(text))
                 return string.Empty;
 
+            if (text.Length <= chars)
+                return text;
+
             text = text.Trim();
             if (text.Length <= (chars))
                 return text;
 
             var trimmed = text.Substring(0, chars - ending.Length);
+            return TrimTextToWord(ending, true, ref trimmed);
+        }
+
+        /// <summary>
+        /// Trims the text from the left, leaving the specified number of characters.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="chars">The chars.</param>
+        /// <param name="ending">The ending.</param>
+        /// <returns></returns>
+        public static string TrimTextLeft(this string text, int chars, string ending = "...")
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return string.Empty;
+            
+            if (text.Length <= chars)
+                return text;
+
+            text = text.Trim();
+            if (text.Length <= (chars))
+                return text;
+
+            var trimmed = text.Substring(text.Length - chars + ending.Length);
+            return TrimTextToWord(ending, false, ref trimmed);
+        }
+
+        private static string TrimTextToWord(string ending, bool trimFromRight, ref string trimmed)
+        {
             var white = new char[] { ' ', '\t', '\n', '\r', };
 
+            char last;
             while (trimmed.Length > 1)
             {
-                char last = trimmed[trimmed.Length - 1];
+                if (trimFromRight)
+                    last = trimmed[trimmed.Length - 1];
+                else
+                    last = trimmed[0];
+
                 switch (CharUnicodeInfo.GetUnicodeCategory(last))
                 {
                     case UnicodeCategory.Control:
@@ -137,10 +173,13 @@ namespace System
                     case UnicodeCategory.Surrogate:
                     case UnicodeCategory.TitlecaseLetter:
                     case UnicodeCategory.UppercaseLetter:
-                        return trimmed + ending;
+                        return (trimFromRight ? "" : ending) + trimmed + (trimFromRight ? ending : "");
 
                     default:
-                        trimmed = trimmed.Substring(0, trimmed.Length - 1);
+                        if (trimFromRight)
+                            trimmed = trimmed.Substring(0, trimmed.Length - 1);
+                        else
+                            trimmed = trimmed.Substring(1);
                         break;
                 }
             }

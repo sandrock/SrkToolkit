@@ -23,7 +23,7 @@ namespace SrkToolkit.Web.Filters
         /// <param name="filterContext">Encapsulates the information for using <see cref="T:System.Web.Mvc.AuthorizeAttribute" />. The <paramref name="filterContext" /> object contains the controller, HTTP context, request context, action result, and route data.</param>
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            if (filterContext.HttpContext.User.Identity.IsAuthenticated)
+            if (filterContext != null && filterContext.HttpContext != null && filterContext.HttpContext.User != null && filterContext.HttpContext.User.Identity != null && filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 // if authenticated, display a forbidden page
                 filterContext.Result = new HttpStatusCodeResult(403, "Forbidden");

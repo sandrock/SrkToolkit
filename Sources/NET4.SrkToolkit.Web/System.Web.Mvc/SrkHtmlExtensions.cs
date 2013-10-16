@@ -42,8 +42,8 @@ namespace System.Web.Mvc
                 string tag = string.Format(
                     "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
                     display,
-                    date.ToString("O"),
-                    date.ToUniversalTime().ToString("R"),
+                    date.ToUniversalTime().ToString("O"),
+                    date.ToLocalTime().ToString("G"),
                     GetDateClasses(date) + "display-datetime");
                 return MvcHtmlString.Create(tag);
             }
@@ -91,8 +91,8 @@ namespace System.Web.Mvc
                 string tag = string.Format(
                     "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
                     display,
-                    date.ToString("D"),
-                    date.ToUniversalTime().ToString("D"),
+                    date.ToUniversalTime().ToString("O"),
+                    date.ToLocalTime().ToString("D"),
                     GetDateClasses(date) + "display-date");
                 return MvcHtmlString.Create(tag);
             }
@@ -122,8 +122,8 @@ namespace System.Web.Mvc
                 string tag = string.Format(
                     "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
                     display,
-                    date.ToString("O"),
-                    date.ToUniversalTime().ToString("R"),
+                    date.ToUniversalTime().ToString("O"),
+                    date.ToLocalTime().ToString("R"),
                     GetDateClasses(date) + "display-time");
                 return MvcHtmlString.Create(tag);
             }
@@ -174,6 +174,34 @@ namespace System.Web.Mvc
                 + (precision >= DateTimePrecision.Minute ? date.Minute : 0) + ", "
                 + (precision >= DateTimePrecision.Second ? date.Second : 0) + ")";
             return MvcHtmlString.Create(value);
+        }
+
+        /// <summary>
+        /// Displays a time.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="date">The date value.</param>
+        /// <param name="useTimeTag">if set to <c>true</c> the date will be enclsoed in a &lt;time&gt; tag.</param>
+        /// <param name="display">The display value (use to manualy set the display value).</param>
+        /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
+        /// <returns></returns>
+        public static MvcHtmlString DisplayShortTime(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null)
+        {
+            return html.DisplayTime(date, useTimeTag, display, displayDateFormat: "t");
+        }
+
+        /// <summary>
+        /// Displays a time.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="date">The date value.</param>
+        /// <param name="useTimeTag">if set to <c>true</c> the date will be enclsoed in a &lt;time&gt; tag.</param>
+        /// <param name="display">The display value (use to manualy set the display value).</param>
+        /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
+        /// <returns></returns>
+        public static MvcHtmlString DisplayShortTime(this HtmlHelper html, TimeSpan date, bool useTimeTag = true, string display = null)
+        {
+            return html.DisplayTime(date, useTimeTag, display, displayDateFormat: "t");
         }
 
         #endregion
@@ -436,10 +464,10 @@ namespace System.Web.Mvc
         public static SrkOpenGraphHtmlExtensions OpenGraph(this HtmlHelper html)
         {
             return new SrkOpenGraphHtmlExtensions(html);
-        }
+    }
 
 
 
         #endregion
-    }
+}
 }

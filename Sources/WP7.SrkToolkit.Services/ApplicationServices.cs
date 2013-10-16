@@ -5,6 +5,7 @@ namespace SrkToolkit.Services
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading;
 
     /// <summary>
     /// Permits to store references to application-wide services.
@@ -23,6 +24,17 @@ namespace SrkToolkit.Services
         /// The lock reference to access <see cref="services"/> and <see cref="factories"/>.
         /// </summary>
         private static readonly object internals = new object();
+        private static readonly object syncRoot = new object();
+
+        /// <summary>
+        /// Returns a lock cookie to allow thread-safe manipulations.
+        /// </summary>
+        /// <returns></returns>
+        public static IDisposable SyncRoot()
+        {
+            Monitor.Enter(syncRoot);
+            return new Lock(() => Monitor.Exit(syncRoot));
+        }
 
         /// <summary>
         /// Determines whether a service is registered (the factory exists).
@@ -39,7 +51,7 @@ namespace SrkToolkit.Services
             var id = GetTypeId(type);
             lock (internals)
             {
-                return factories.ContainsKey(id) && factories[id] != null;
+                return factories.ContainsKey(id) && factories[id] != null || services.ContainsKey(id) && services[id] != null;
             }
         }
 
@@ -543,6 +555,38 @@ namespace SrkToolkit.Services
             object IFactory.Create()
             {
                 return this.factory();
+            }
+        }
+
+        sealed class Lock : IDisposable
+        {
+            private Action action;
+            private bool isDisposed;
+
+            public Lock(Action action)
+            {
+                this.action = action;
+            }
+
+            public void Dispose()
+            {
+                this.Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            private void Dispose(bool disposing)
+            {
+                if (!this.isDisposed)
+                {
+                    if (disposing)
+                    {
+                        if (this.action != null)
+                            this.action();
+                        this.action = null;
+                    }
+
+                    this.isDisposed = true;
+                }
             }
         }
 

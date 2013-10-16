@@ -84,7 +84,7 @@ namespace SrkToolkit.Web.HttpErrors
         /// Returns a 401 Forbidden page.
         /// </summary>
         /// <returns></returns>
-        public ActionResult Forbidden()
+        public virtual ActionResult Forbidden()
         {
             return this.Work("Forbidden", this.ForbiddenModel, 403);
         }
@@ -93,7 +93,7 @@ namespace SrkToolkit.Web.HttpErrors
         /// Returns a 404 Not found page.
         /// </summary>
         /// <returns></returns>
-        public ActionResult NotFound()
+        public virtual ActionResult NotFound()
         {
             return this.Work("NotFound", this.NotFoundModel, 404);
         }
@@ -102,7 +102,7 @@ namespace SrkToolkit.Web.HttpErrors
         /// Returns a 400 Bad request page.
         /// </summary>
         /// <returns></returns>
-        public ActionResult BadRequest()
+        public virtual ActionResult BadRequest()
         {
             return this.Work("BadRequest", this.BadRequestModel, 400);
         }
@@ -111,7 +111,7 @@ namespace SrkToolkit.Web.HttpErrors
         /// Returns a 500 Internal error page.
         /// </summary>
         /// <returns></returns>
-        public ActionResult Internal()
+        public virtual ActionResult Internal()
         {
             return this.Work("Internal", this.InternalModel, 500);
         }

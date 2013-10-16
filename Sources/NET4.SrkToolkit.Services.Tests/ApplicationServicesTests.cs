@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SrkToolkit.Services.Tests
 {
@@ -254,6 +256,40 @@ namespace SrkToolkit.Services.Tests
 
                 // verify
                 Assert.AreNotSame(resolved1, resolved);
+            }
+        }
+
+        [TestClass]
+        public class SyncRootMethod
+        {
+            [TestCleanup]
+            public void Cleanup()
+            {
+                ApplicationServices.Clear();
+            }
+
+            [TestMethod]
+            public void AllowThreadSafeRegistration()
+            {
+                // prepare
+                var taskDelegate = new Action(() =>
+                {
+                    using (ApplicationServices.SyncRoot())
+                    {
+                        if (!ApplicationServices.IsRegistered<InterfaceA>())
+                            ApplicationServices.Register<InterfaceA>(new ClassA());
+                    }
+                });
+
+                // execute
+                var tasks = Enumerable.Range(0, 100).Select(i => new Task(taskDelegate)).ToArray();
+                for (int i = 0; i < tasks.Length; i++)
+                    tasks[i].Start();
+                Task.WaitAll(tasks);
+
+                // verify
+                var resolved1 = ApplicationServices.Resolve<InterfaceA>();
+                Assert.IsNotNull(resolved1);
             }
         }
 

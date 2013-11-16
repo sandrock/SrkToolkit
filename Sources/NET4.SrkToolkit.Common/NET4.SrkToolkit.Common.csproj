@@ -65,6 +65,7 @@
     <Compile Include="System.Diagnostics\StopwatchExtensions.cs" />
     <Compile Include="System\DateTimePrecision.cs" />
     <Compile Include="System\SrkDateTimeExtensions.cs" />
+    <Compile Include="System\SrkStringExtensions.cs" />
     <Compile Include="System\StringTransformer.Urls.cs" />
     <Compile Include="System\StringTransformer.cs" />
     <Compile Include="System.Collections.ObjectModel\SrkObservableCollectionExtensions.cs" />

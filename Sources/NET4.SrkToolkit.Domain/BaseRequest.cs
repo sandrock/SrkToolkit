@@ -79,8 +79,12 @@ namespace SrkToolkit.Domain
         /// <returns>Indicates whether the model is valid</returns>
         public bool Validate()
         {
-            this.ValidationErrorList.Clear();
-            this.validated = this.ValidateCore() && this.validationErrors.Count == 0;
+            if (this.validated != null)
+            {
+                this.ValidationErrorList.Clear();
+            }
+
+            this.validated = this.ValidateCore() && this.ValidationErrorList.Count == 0;
             return this.validated.Value;
         }
 
@@ -99,7 +103,7 @@ namespace SrkToolkit.Domain
         /// </summary>
         /// <param name="key">specify the key name or null</param>
         /// <param name="message"></param>
-        protected void AddValidationError(string key, string message)
+        public void AddValidationError(string key, string message)
         {
             if (key == null)
                 throw new ArgumentNullException("key");
@@ -113,7 +117,6 @@ namespace SrkToolkit.Domain
             else
                 this.ValidationErrorList.Add(key, col = new List<string>());
 
-
             col.Add(message);
         }
 
@@ -121,7 +124,7 @@ namespace SrkToolkit.Domain
         /// Adds a validation error.
         /// </summary>
         /// <param name="message"></param>
-        protected void AddValidationError(string message)
+        public void AddValidationError(string message)
         {
             if (message == null)
                 throw new ArgumentNullException("message");

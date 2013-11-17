@@ -718,6 +718,17 @@ p3</p>";
 
                 Assert.AreEqual(expected, result);
             }
+
+            [TestMethod]
+            public void NullArg()
+            {
+                string input = null;
+                string expected = null;
+
+                string result = input.ProperHtmlEscape();
+
+                Assert.AreEqual(expected, result);
+            }
         }
 
         [TestClass]
@@ -730,6 +741,17 @@ p3</p>";
                 string expected = "helo &lt;b class=&quot;test&quot; style=&apos;o&apos;&gt;w &amp; or &amp;amp; ld&lt;/b&gt;";
 
                 string result = input.ProperHtmlAttributeEscape();
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void NullArg()
+            {
+                string input = null;
+                string expected = null;
+
+                string result = input.ProperHtmlEscape();
 
                 Assert.AreEqual(expected, result);
             }

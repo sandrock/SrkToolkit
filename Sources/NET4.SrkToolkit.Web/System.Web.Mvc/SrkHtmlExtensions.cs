@@ -20,6 +20,18 @@ namespace System.Web.Mvc
     /// </summary>
     public static class SrkHtmlExtensions
     {
+        public static HtmlHelper SetTimezone(this HtmlHelper html, string timeZoneName)
+        {
+            SrkHtmlExtensions.SetTimezone(html, TimeZoneInfo.FindSystemTimeZoneById(timeZoneName));
+            return html;
+        }
+
+        public static HtmlHelper SetTimezone(this HtmlHelper html, TimeZoneInfo timeZone)
+        {
+            html.ViewData["Timezone"] = timeZone;
+            return html;
+        }
+
         #region Display date/time
 
         /// <summary>
@@ -469,5 +481,27 @@ namespace System.Web.Mvc
 
 
         #endregion
-}
+
+        #region ActionLink
+
+        /// <summary>
+        /// Returns an anchor element (a element) that contains the virtual path of the specified action.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper instance that this method extends.</param>
+        /// <param name="linkText">The inner text of the anchor element.</param>
+        /// <param name="actionName"></param>
+        /// <param name="routeValues">An object that contains the parameters for a route. The parameters are retrieved through reflection by examining the properties of the object. The object is typically created by using object initializer syntax.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <param name="fragment">The URL fragment name (the anchor name).</param>
+        /// <param name="controllerName">The name of the controller.</param>
+        /// <param name="protocol">The protocol for the URL, such as "http" or "https".</param>
+        /// <param name="hostName">The host name for the URL.</param>
+        /// <returns></returns>
+        public static MvcHtmlString ActionLink(this HtmlHelper htmlHelper, string linkText, string actionName, object routeValues, object htmlAttributes = null, string fragment = null, string controllerName = null, string protocol = null, string hostName = null)
+        {
+            return htmlHelper.ActionLink(linkText, actionName, controllerName, protocol, hostName, fragment, routeValues, htmlAttributes);
+        }
+
+        #endregion
+    }
 }

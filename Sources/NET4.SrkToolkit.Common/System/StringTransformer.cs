@@ -332,6 +332,9 @@ namespace System
         /// <returns></returns>
         public static string ProperHtmlEscape(this string content)
         {
+            if (content == null)
+                return null;
+
             var builder = new StringBuilder();
             for (int i = 0; i < content.Length; i++)
             {
@@ -366,6 +369,9 @@ namespace System
         /// <returns></returns>
         public static string ProperHtmlAttributeEscape(this string content)
         {
+            if (content == null)
+                return null;
+
             var builder = new StringBuilder();
             for (int i = 0; i < content.Length; i++)
             {

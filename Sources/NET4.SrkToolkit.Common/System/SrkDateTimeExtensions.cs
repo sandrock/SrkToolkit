@@ -75,5 +75,35 @@ namespace System
         {
             return value.ToPrecision(precision) == dateTime.ToPrecision(precision);
         }
+
+        /// <summary>
+        /// Returns the date with the same values and a <see cref="DateTime.Kind"/> set to <see cref="DateTimeKind.Local"/>
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>the date with the same values and a <see cref="DateTime.Kind"/> set to <see cref="DateTimeKind.Local"/></returns>
+        public static DateTime AsLocal(this DateTime value)
+        {
+            return new DateTime(value.Ticks, DateTimeKind.Local);
+        }
+
+        /// <summary>
+        /// Returns the date with the same values and a <see cref="DateTime.Kind"/> set to <see cref="DateTimeKind.Utc"/>
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>the date with the same values and a <see cref="DateTime.Kind"/> set to <see cref="DateTimeKind.Utc"/></returns>
+        public static DateTime AsUtc(this DateTime value)
+        {
+            return new DateTime(value.Ticks, DateTimeKind.Utc);
+        }
+
+        /// <summary>
+        /// Returns the date with the same values and a <see cref="DateTime.Kind"/> set to <see cref="DateTimeKind.Unspecified"/>
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>the date with the same values and a <see cref="DateTime.Kind"/> set to <see cref="DateTimeKind.Unspecified"/></returns>
+        public static DateTime AsUnspecified(this DateTime value)
+        {
+            return new DateTime(value.Ticks, DateTimeKind.Unspecified);
+        }
     }
 }

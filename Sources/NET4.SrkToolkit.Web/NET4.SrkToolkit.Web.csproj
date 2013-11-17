@@ -63,6 +63,7 @@
     <Compile Include="HttpErrors\IErrorController.cs" />
     <Compile Include="JsonNetResult.cs" />
     <Compile Include="Models\HttpErrorModel.cs" />
+    <Compile Include="Modules\CrawlerGhostingModule.cs" />
     <Compile Include="Mvc\IntegerModelBinder.cs" />
     <Compile Include="Mvc\DecimalModelBinder.cs" />
     <Compile Include="Open\OpenGraphName.cs" />

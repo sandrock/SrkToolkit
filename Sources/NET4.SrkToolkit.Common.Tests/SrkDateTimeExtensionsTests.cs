@@ -278,5 +278,74 @@ namespace SrkToolkit.Common.Tests
                 Assert.IsTrue(result);
             }
         }
+
+        [TestClass]
+        public class AsLocalMethod
+        {
+            [TestMethod]
+            public void SameValues()
+            {
+                // prepare
+                var date = new DateTime(1234, 5, 6, 7, 8, 9, 123, DateTimeKind.Unspecified);
+                var result = SrkDateTimeExtensions.AsLocal(date);
+
+                // verify
+                Assert.AreEqual(date.Year, result.Year);
+                Assert.AreEqual(date.Month, result.Month);
+                Assert.AreEqual(date.Day, result.Day);
+                Assert.AreEqual(date.Hour, result.Hour);
+                Assert.AreEqual(date.Minute, result.Minute);
+                Assert.AreEqual(date.Second, result.Second);
+                Assert.AreEqual(date.Millisecond, result.Millisecond);
+                Assert.AreEqual(date.Ticks, result.Ticks);
+                Assert.AreEqual(DateTimeKind.Local, result.Kind);
+            }
+        }
+
+        [TestClass]
+        public class AsUtcMethod
+        {
+            [TestMethod]
+            public void SameValues()
+            {
+                // prepare
+                var date = new DateTime(1234, 5, 6, 7, 8, 9, 123, DateTimeKind.Unspecified);
+                var result = SrkDateTimeExtensions.AsUtc(date);
+
+                // verify
+                Assert.AreEqual(date.Year, result.Year);
+                Assert.AreEqual(date.Month, result.Month);
+                Assert.AreEqual(date.Day, result.Day);
+                Assert.AreEqual(date.Hour, result.Hour);
+                Assert.AreEqual(date.Minute, result.Minute);
+                Assert.AreEqual(date.Second, result.Second);
+                Assert.AreEqual(date.Millisecond, result.Millisecond);
+                Assert.AreEqual(date.Ticks, result.Ticks);
+                Assert.AreEqual(DateTimeKind.Utc, result.Kind);
+            }
+        }
+
+        [TestClass]
+        public class AsUnspecifiedMethod
+        {
+            [TestMethod]
+            public void SameValues()
+            {
+                // prepare
+                var date = new DateTime(1234, 5, 6, 7, 8, 9, 123, DateTimeKind.Local);
+                var result = SrkDateTimeExtensions.AsUnspecified(date);
+
+                // verify
+                Assert.AreEqual(date.Year, result.Year);
+                Assert.AreEqual(date.Month, result.Month);
+                Assert.AreEqual(date.Day, result.Day);
+                Assert.AreEqual(date.Hour, result.Hour);
+                Assert.AreEqual(date.Minute, result.Minute);
+                Assert.AreEqual(date.Second, result.Second);
+                Assert.AreEqual(date.Millisecond, result.Millisecond);
+                Assert.AreEqual(date.Ticks, result.Ticks);
+                Assert.AreEqual(DateTimeKind.Unspecified, result.Kind);
+            }
+        }
     }
 }

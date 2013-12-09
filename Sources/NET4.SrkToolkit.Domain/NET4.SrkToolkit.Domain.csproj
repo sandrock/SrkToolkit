@@ -52,6 +52,7 @@
     <Compile Include="BaseRequest.cs" />
     <Compile Include="BaseResult.cs" />
     <Compile Include="BasicResult.cs" />
+    <Compile Include="BasicResult.TResultCode.cs" />
     <Compile Include="BasicResultError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultError.cs" />

@@ -13,6 +13,7 @@ namespace SrkToolkit.Domain
 
     /// <summary>
     /// Result for a domain request.
+    /// Incudes a basic error list and a success boolean.
     /// </summary>
     public class BasicResult
     {

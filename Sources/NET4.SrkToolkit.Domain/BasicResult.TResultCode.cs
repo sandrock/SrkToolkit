@@ -1,9 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="BaseResult.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
+﻿
 namespace SrkToolkit.Domain
 {
     using System;
@@ -13,34 +8,18 @@ namespace SrkToolkit.Domain
 
     /// <summary>
     /// Result for a domain request.
-    /// Incudes a request store, a code-based error list and a success boolean.
+    /// Incudes a code-based error list and a success boolean.
     /// </summary>
-    public class BaseResult<TRequest, TResultCode>
-        where TRequest : class
+    public class BasicResult<TResultCode>
         where TResultCode : struct
     {
-        private readonly TRequest request;
-
         private IList<ResultError<TResultCode>> errors;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseResult{TRequest, TResultCode}"/> class.
         /// </summary>
-        /// <param name="request">The request.</param>
-        public BaseResult(TRequest request)
+        public BasicResult()
         {
-            this.request = request;
-        }
-
-        /// <summary>
-        /// Gets the request.
-        /// </summary>
-        /// <value>
-        /// The request.
-        /// </value>
-        public TRequest Request
-        {
-            get { return this.request; }
         }
 
         /// <summary>

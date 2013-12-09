@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;ASPWF</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -26,7 +26,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\Binaries\NET4\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;ASPWF</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\Binaries\NET4\SrkToolkit.WebForms.xml</DocumentationFile>
@@ -48,6 +48,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphName.cs">
+      <Link>Open\OpenGraphName.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphNamespace.cs">
+      <Link>Open\OpenGraphNamespace.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphObject.cs">
+      <Link>Open\OpenGraphObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphTag.cs">
+      <Link>Open\OpenGraphTag.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkRequestExtensions.cs">
+      <Link>SrkRequestExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs">
       <Link>Properties\SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
     </Compile>

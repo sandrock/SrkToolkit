@@ -80,5 +80,48 @@ namespace SrkToolkit.Common.Tests
                 Assert.AreEqual("hello", SrkStringExtensions.NullIfEmptyOrWhitespace(value, true));
             }
         }
+
+        [TestClass]
+        public class TrimToLengthMethod
+        {
+            [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public void SubstringThrowsIfNotLongEnough()
+            {
+                string value = "hello";
+                value.Substring(10);
+            }
+
+            [TestMethod]
+            public void TrimToLengthCutsToDesiredLength4()
+            {
+                string value = "hello";
+                var result = value.TrimToLength(4);
+                Assert.AreEqual("hell", result);
+            }
+
+            [TestMethod]
+            public void TrimToLengthCutsToDesiredLength5()
+            {
+                string value = "hello";
+                var result = value.TrimToLength(5);
+                Assert.AreEqual("hello", result);
+            }
+
+            [TestMethod]
+            public void TrimToLengthCutsToDesiredLength6()
+            {
+                string value = "hello";
+                var result = value.TrimToLength(6);
+                Assert.AreEqual("hello", result);
+            }
+
+            [TestMethod]
+            public void TrimToLengthCutsToDesiredLength7()
+            {
+                string value = "hello";
+                var result = value.TrimToLength(10);
+                Assert.AreEqual("hello", result);
+            }
+        }
     }
 }

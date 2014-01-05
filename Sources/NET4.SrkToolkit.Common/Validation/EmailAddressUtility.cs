@@ -20,12 +20,58 @@ namespace SrkToolkit.Common.Validation
 
         /// <summary>
         /// Creates a new <see cref="EmailAddress"/> using the specified email address.
+        /// Parts of an email address are: AccountPart@DomainPart.
+        /// Sub-parts of an email address are: LocalPart+TagPart@DomainPart
         /// </summary>
         /// <param name="address"></param>
         /// <exception cref="ArgumentException">argument is invalid</exception>
         public EmailAddress(string address)
             : this(address, false)
         {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="EmailAddress"/> using the specified email address parts.
+        /// </summary>
+        /// <param name="accountPart">The account part (required).</param>
+        /// <param name="tagPart">The tag part.</param>
+        /// <param name="domainPart">The domain part (required).</param>
+        /// <exception cref="System.ArgumentException">
+        /// The value cannot be empty;localPart
+        /// or
+        /// The value cannot be empty;domainPart
+        /// or
+        /// Invalid email address;address
+        /// </exception>
+        public EmailAddress(string accountPart, string tagPart, string domainPart)
+        {
+            if (string.IsNullOrEmpty(accountPart))
+                throw new ArgumentException("The value cannot be empty", "localPart");
+            if (string.IsNullOrEmpty(domainPart))
+                throw new ArgumentException("The value cannot be empty", "domainPart");
+
+            this.domainPart = domainPart;
+            this.accountPart = accountPart;
+
+            string address;
+            if (string.IsNullOrWhiteSpace(tagPart))
+            {
+                this.tagPart = null;
+                this.localPart = accountPart;
+                address = accountPart + "@" + domainPart;
+            }
+            else
+            {
+                this.tagPart = tagPart.Trim();
+                this.localPart = accountPart + "+" + this.tagPart;
+                address = accountPart + "+" + tagPart + "@" + domainPart;
+            }
+
+            address = Validate.EmailAddress(address);
+            if (address == null)
+                throw new ArgumentException("Invalid email address", "address");
+
+            this.address = address;
         }
 
         private EmailAddress(string address, bool skipValidation)
@@ -46,6 +92,7 @@ namespace SrkToolkit.Common.Validation
             this.domainPart = GetDomainPart(address);
             this.accountPart = GetAccountPart(this.localPart);
             this.tagPart = GetTagPart(this.localPart);
+            
         }
 
         /// <summary>
@@ -111,7 +158,7 @@ namespace SrkToolkit.Common.Validation
         }
 
         /// <summary>
-        /// Returns the validated lower-cased address.
+        /// Returns the validated lower-cased address without the tag.
         /// </summary>
         public string ValueWithoutTag
         {
@@ -148,6 +195,14 @@ namespace SrkToolkit.Common.Validation
         public string TagPart
         {
             get { return this.tagPart; }
+        }
+
+        /// <summary>
+        /// Gets the original string that was passed to the <see cref="EmailAddress"/> constructor.
+        /// </summary>
+        public string OriginalString
+        {
+            get { return this.original; }
         }
 
         /// <summary>

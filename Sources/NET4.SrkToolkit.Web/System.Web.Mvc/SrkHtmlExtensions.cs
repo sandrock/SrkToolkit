@@ -367,6 +367,12 @@ namespace System.Web.Mvc
             return helper.ViewData.ModelMetadata.Properties.Single(p => p.PropertyName == propertyName).DisplayName;
         }
 
+        public static string DescriptionFor<TModel, TProperty>(this HtmlHelper<TModel> helper, Expression<Func<TModel, TProperty>> expression)
+        {
+            var meta = ModelMetadata.FromLambdaExpression(expression, helper.ViewData);
+            return meta.Description;
+        }
+
         /// <summary>
         /// Writes an opening &lt;form&gt; tag to the response. When the user submits the form, the request will be processed by an action method.
         /// </summary>

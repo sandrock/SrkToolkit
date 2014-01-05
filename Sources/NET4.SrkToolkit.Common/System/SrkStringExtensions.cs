@@ -38,5 +38,16 @@ namespace System
                 return value.Trim();
             return value;
         }
+
+        public static string TrimToLength(this string value, int length)
+        {
+            if (value == null)
+                return null;
+
+            if (value.Length <= length)
+                return value;
+
+            return value.Substring(0, length);
+        }
     }
 }

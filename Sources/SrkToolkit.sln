@@ -68,6 +68,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET4.SrkToolkit.Domain.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET4.SrkToolkit.WebForms", "NET4.SrkToolkit.WebForms\NET4.SrkToolkit.WebForms.csproj", "{42AB07F9-CEB2-4A5B-A8FC-B7A85AD4DFD3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 Samples", "99 Samples", "{F9C87A08-EAF0-4DB2-B3DB-4C516BA5348A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkit.MvcSamples", "SrkToolkit.MvcSamples\SrkToolkit.MvcSamples.csproj", "{C46DD3B8-4E28-4BC8-9302-7BA20C056BFF}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SrkToolkit.vsmdi
@@ -173,6 +177,10 @@ Global
 		{42AB07F9-CEB2-4A5B-A8FC-B7A85AD4DFD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42AB07F9-CEB2-4A5B-A8FC-B7A85AD4DFD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42AB07F9-CEB2-4A5B-A8FC-B7A85AD4DFD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C46DD3B8-4E28-4BC8-9302-7BA20C056BFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C46DD3B8-4E28-4BC8-9302-7BA20C056BFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C46DD3B8-4E28-4BC8-9302-7BA20C056BFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C46DD3B8-4E28-4BC8-9302-7BA20C056BFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -203,5 +211,6 @@ Global
 		{C7CB8AC5-E948-4738-B440-ECAE8656667F} = {D1C680C8-2F64-48D3-98F6-FC6F41B37939}
 		{E0D59BBD-CF69-40E9-8023-C113DCEBC0AF} = {D1C680C8-2F64-48D3-98F6-FC6F41B37939}
 		{42AB07F9-CEB2-4A5B-A8FC-B7A85AD4DFD3} = {D1C680C8-2F64-48D3-98F6-FC6F41B37939}
+		{C46DD3B8-4E28-4BC8-9302-7BA20C056BFF} = {F9C87A08-EAF0-4DB2-B3DB-4C516BA5348A}
 	EndGlobalSection
 EndGlobal

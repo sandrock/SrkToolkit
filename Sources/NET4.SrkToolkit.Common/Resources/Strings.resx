@@ -73,4 +73,19 @@
   <data name="EmailAddressAttribute_ErrorMessage" xml:space="preserve">
     <value>A valid email address is required.</value>
   </data>
+  <data name="EmailAddressAttribute_ErrorMessage_MultipleMaximumAddresses" xml:space="preserve">
+    <value>There are {0} email addresses; a maximum of {1} can be accepted.</value>
+  </data>
+  <data name="EmailAddressAttribute_ErrorMessage_MultipleMinimumAddresses" xml:space="preserve">
+    <value>There are only {0} email addresses; a minimum of {1} are expected.</value>
+  </data>
+  <data name="ValidationAttribute_NeedBothResourceTypeAndResourceName" xml:space="preserve">
+    <value>Both ErrorMessageResourceType and ErrorMessageResourceName need to be set on this attribute.</value>
+  </data>
+  <data name="ValidationAttribute_ResourcePropertyNotStringType" xml:space="preserve">
+    <value>The property '{0}' on resource type '{1}' is not a string type.</value>
+  </data>
+  <data name="ValidationAttribute_ResourceTypeDoesNotHaveProperty" xml:space="preserve">
+    <value>The resource type '{0}' does not have an accessible static property named '{1}'.</value>
+  </data>
 </root>

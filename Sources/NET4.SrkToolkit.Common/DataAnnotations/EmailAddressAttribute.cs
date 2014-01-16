@@ -6,9 +6,10 @@ namespace SrkToolkit.DataAnnotations
     using System.Globalization;
     using System.Text.RegularExpressions;
     using SrkToolkit.Resources;
+    using System.Reflection;
 
     /// <summary>
-    /// Validates an email address.
+    /// Validates an email address field (one or multiple addresses).
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class EmailAddressAttribute : ValidationAttribute
@@ -16,7 +17,9 @@ namespace SrkToolkit.DataAnnotations
         /// <summary>
         /// The regex pattern to match an email address.
         /// </summary>
-        public const string RegexPattern = "^[a-z0-9_\\+-]+(\\.[a-z0-9_\\+-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*\\.([a-z]{2,4})$";
+        public const string SingleRegexPattern = "^[a-z0-9_\\+-]+(\\.[a-z0-9_\\+-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*\\.([a-z]{2,4})$";
+        
+        private Func<string>[] errorMessageAccessors;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailAddressAttribute"/> class.
@@ -28,6 +31,21 @@ namespace SrkToolkit.DataAnnotations
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to allow multiple addresses in a single field. Default is false. Use <see cref="SrkToolkit.Common.Validation.Validate.ManyEmailAddresses"/> to parse addresses.
+        /// </summary>
+        public bool AllowMultiple { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minimum number of addresses (when AllowMultiple is true).
+        /// </summary>
+        public int MinimumAddresses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum number of addresses (when AllowMultiple is true).
+        /// </summary>
+        public int MaximumAddresses { get; set; }
+
+        /// <summary>
         /// Gets or sets the regex.
         /// </summary>
         /// <value>
@@ -35,33 +53,127 @@ namespace SrkToolkit.DataAnnotations
         /// </value>
         protected Regex Regex { get; set; }
 
-        /// <summary>
-        /// Determines whether the specified value of the object is valid.
-        /// </summary>
-        /// <param name="value">The value of the object to validate.</param>
-        /// <returns>
-        /// true if the specified value is valid; otherwise, false.
-        /// </returns>
-        public override bool IsValid(object value)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             this.SetupRegex();
+            this.SetResourceAccessorByPropertyLookup();
 
             string text = Convert.ToString(value, CultureInfo.CurrentCulture);
-            if (string.IsNullOrEmpty(text))
+            if (this.AllowMultiple)
             {
-                return true;
-            }
+                var addresses = SrkToolkit.Common.Validation.Validate.ManyEmailAddresses(text);
+                int count = 0;
+                foreach (var address in addresses)
+                {
+                    count++;
+                }
 
-            Match match = this.Regex.Match(text);
-            return match.Success && match.Index == 0 && match.Length == text.Length;
+                if (count < this.MinimumAddresses)
+                {
+                    return new ValidationResult(string.Format(
+                        this.errorMessageAccessors[1](),
+                        count,
+                        this.MinimumAddresses));
+                }
+
+                if (this.MaximumAddresses > 0 && count > this.MaximumAddresses)
+                {
+                    return new ValidationResult(string.Format(
+                        this.errorMessageAccessors[2](),
+                        count,
+                        this.MaximumAddresses));
+                }
+
+                return null;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(text))
+                {
+                    return null;
+                }
+
+                Match match = this.Regex.Match(text);
+                if (match.Success && match.Index == 0 && match.Length == text.Length)
+                {
+                    return null;
+                }
+                else
+                {
+                    return new ValidationResult(this.ErrorMessageString);
+                }
+            }
         }
 
         private void SetupRegex()
         {
             if (this.Regex == null)
             {
-                this.Regex = new Regex(RegexPattern, RegexOptions.IgnoreCase);
+                this.Regex = new Regex(SingleRegexPattern, RegexOptions.IgnoreCase);
             }
+        }
+
+        private void SetResourceAccessorByPropertyLookup()
+        {
+            // this attribute may give 3 different error messages
+            // this method sets up 3 lookups for resources
+            // inspired from ValidationAttribute's SetResourceAccessorByPropertyLookup method
+
+            if (!(this.ErrorMessageResourceType != null) || string.IsNullOrEmpty(this.ErrorMessageResourceName))
+            {
+                throw new InvalidOperationException(Strings.ValidationAttribute_NeedBothResourceTypeAndResourceName);
+            }
+
+            string[] properties = new string[]
+            {
+                this.ErrorMessageResourceName, // single mode, invalid address
+                this.ErrorMessageResourceName + "_MultipleMinimumAddresses", // multi mode, not enough addresses
+                this.ErrorMessageResourceName + "_MultipleMaximumAddresses", // multi mode, too many addresses
+            };
+
+            var accessors = new Func<string>[3];
+
+            for (int i = 0; i < properties.Length; i++)
+            {
+                string propertyName = properties[i];
+                PropertyInfo property = this.ErrorMessageResourceType.GetProperty(propertyName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+
+                if (property != null)
+                {
+                    MethodInfo getMethod = property.GetGetMethod(true);
+                    if (getMethod == null || (!getMethod.IsAssembly && !getMethod.IsPublic))
+                    {
+                        property = null;
+                    }
+                }
+
+                if (property == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Strings.ValidationAttribute_ResourceTypeDoesNotHaveProperty, new object[]
+                    {
+                        this.ErrorMessageResourceType.FullName,
+                        propertyName
+                    }));
+                }
+
+                if (property.PropertyType != typeof(string))
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Strings.ValidationAttribute_ResourcePropertyNotStringType, new object[]
+                        {
+                            property.Name,
+                            this.ErrorMessageResourceType.FullName
+                        }));
+                }
+
+                accessors[i] = new Func<string>(() => (string)property.GetValue(null, null));
+            }
+
+            this.errorMessageAccessors = accessors;
+        }
+
+        public ValidationResult GetIsValid(object value, ValidationContext context)
+        {
+            return this.IsValid(value, context);
         }
     }
 }

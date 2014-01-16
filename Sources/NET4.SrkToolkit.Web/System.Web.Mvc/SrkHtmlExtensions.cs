@@ -83,6 +83,11 @@ namespace System.Web.Mvc
             return classes;
         }
 
+        private static string GetDateClasses(DateTimeOffset date)
+        {
+            return GetDateClasses(date.UtcDateTime);
+        }
+
         /// <summary>
         /// Displays a date.
         /// </summary>
@@ -115,6 +120,37 @@ namespace System.Web.Mvc
         }
 
         /// <summary>
+        /// Displays a date.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="date">The date value.</param>
+        /// <param name="useTimeTag">if set to <c>true</c> the date will be enclsoed in a &lt;time&gt; tag.</param>
+        /// <param name="display">The display value (use to manualy set the display value).</param>
+        /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
+        /// <returns></returns>
+        public static MvcHtmlString DisplayDate(this HtmlHelper html, DateTimeOffset date, bool useTimeTag = true, string display = null, string displayDateFormat = "D zzz")
+        {
+            string displayTime = date.ToString(displayDateFormat ?? "D zzz");
+            if (display == null)
+                display = displayTime;
+
+            if (useTimeTag)
+            {
+                string tag = string.Format(
+                    "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
+                    display,
+                    date.ToUniversalTime().ToString("O"),
+                    date.ToString("D zzz"),
+                    GetDateClasses(date) + "display-date");
+                return MvcHtmlString.Create(tag);
+            }
+            else
+            {
+                return MvcHtmlString.Create(display);
+            }
+        }
+
+        /// <summary>
         /// Displays a time.
         /// </summary>
         /// <param name="html">The HTML.</param>
@@ -136,6 +172,37 @@ namespace System.Web.Mvc
                     display,
                     date.ToUniversalTime().ToString("O"),
                     date.ToLocalTime().ToString("R"),
+                    GetDateClasses(date) + "display-time");
+                return MvcHtmlString.Create(tag);
+            }
+            else
+            {
+                return MvcHtmlString.Create(display);
+            }
+        }
+
+        /// <summary>
+        /// Displays a time.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="date">The date value.</param>
+        /// <param name="useTimeTag">if set to <c>true</c> the date will be enclsoed in a &lt;time&gt; tag.</param>
+        /// <param name="display">The display value (use to manualy set the display value).</param>
+        /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
+        /// <returns></returns>
+        public static MvcHtmlString DisplayTime(this HtmlHelper html, DateTimeOffset date, bool useTimeTag = true, string display = null, string displayDateFormat = "T zzz")
+        {
+            string displayTime = date.ToLocalTime().ToString(displayDateFormat ?? "T zzz");
+            if (display == null)
+                display = displayTime;
+
+            if (useTimeTag)
+            {
+                string tag = string.Format(
+                    "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
+                    display,
+                    date.ToUniversalTime().ToString("O"),
+                    date.ToString("R"),
                     GetDateClasses(date) + "display-time");
                 return MvcHtmlString.Create(tag);
             }

@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="CompositeDisposableTests.cs" />
     <Compile Include="CultureInfoHelperTests.cs" />
+    <Compile Include="EmailAddressAttributeTests.cs" />
     <Compile Include="EmailAddressTests.cs" />
     <Compile Include="ObservableCollectionExtensionsTests.cs" />
     <Compile Include="DisaposableOnceTests.cs" />

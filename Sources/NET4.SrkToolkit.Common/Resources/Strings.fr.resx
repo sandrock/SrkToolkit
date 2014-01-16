@@ -73,4 +73,10 @@
   <data name="EmailAddressAttribute_ErrorMessage" xml:space="preserve">
     <value>Une adresse email valide est requise.</value>
   </data>
+  <data name="EmailAddressAttribute_ErrorMessage_MultipleMaximumAddresses" xml:space="preserve">
+    <value>Vous avez saisi {0} adresses email ; un maximum de {1} adresses peuvent être acceptées.</value>
+  </data>
+  <data name="EmailAddressAttribute_ErrorMessage_MultipleMinimumAddresses" xml:space="preserve">
+    <value>Vous n'avez saisi que {0} adresses email ; un minimum de {1} est attendu.</value>
+  </data>
 </root>

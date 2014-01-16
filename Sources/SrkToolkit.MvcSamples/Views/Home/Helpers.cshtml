@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Index";
+    var dates = new DateTime[]
+    {
+        new DateTime(2013, 4, 19, 16,12,9, DateTimeKind.Utc),
+        new DateTime(2013, 4, 19, 16,12,9, DateTimeKind.Local),
+        new DateTime(2013, 4, 19, 16,12,9, DateTimeKind.Unspecified),
+    };
+
+    var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
+}
+
+<h1>Index</h1>
+
+<p>Here is a date with the 3 kinds available (UTC, Local (bad), Unspecified).</p>
+
+@for (int i = 0; i < dates.Length; i++)
+{
+    <h2>@dates[i].Kind</h2>
+    <code>var datetime = new DateTime(@dates[i].ToString("yyy, MM, dd, HH, mm, ss"), @dates[i].Kind);</code>
+<table>
+<thead>
+    <tr>
+        <th>Method</th>
+        <th>Options</th>
+        <th>Result</th>
+        <th>Result (HTML)</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>Html.DisplayDate</td>
+        <td></td>
+        <td>@Html.DisplayDate(dates[i])</td>
+        <td><code>@Html.DisplayDate(dates[i]).ToHtmlString()</code></td>
+    </tr>
+    <tr>
+        <td>Html.DisplayTime</td>
+        <td></td>
+        <td>@Html.DisplayTime(dates[i])</td>
+        <td><code>@Html.DisplayTime(dates[i]).ToHtmlString()</code></td>
+    </tr>
+    <tr>
+        <td>Html.DisplayDateTime</td>
+        <td></td>
+        <td>@Html.DisplayDateTime(dates[i])</td>
+        <td><code>@Html.DisplayDateTime(dates[i]).ToHtmlString()</code></td>
+    </tr>
+</tbody>
+</table>
+}

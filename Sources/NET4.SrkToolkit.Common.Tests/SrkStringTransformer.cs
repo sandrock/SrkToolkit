@@ -12,7 +12,7 @@ namespace SrkToolkit.Common.Tests
     using System.Text;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    public class SrkStringTransformer
+    public class SrkStringTransformerTests
     {
         [TestClass]
         public class LinksAsHtmlMethod
@@ -184,6 +184,26 @@ http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20http://test.local/Fil
                 string result = input.LinksAsHtml();
 
                 this.Test(result, input);
+            }
+
+            [TestMethod]
+            public void LongUrlSpanTruncate()
+            {
+                var input = @"hello, http://verylongsub.domain.rules.com/this/is/a/very/long/url/from/hell/and/other/dark/places/and-finaly/a-page.html?with=arguments&and=more&arguments=all&over=the&workd :D";
+                var expected = ">http://verylongsub.domain<span class=\"link-trim\">.rules.com/this/is/a/very/long/url/from/hell/and/other/dark/places/and-finaly/a-page.html?with=arguments&amp;and=more&amp;ar</span>guments=all&amp;over=the&amp;workd<";
+                var result = input.LinksAsHtml(avoidDoubleEscape: false);
+
+                Assert.IsTrue(result.Contains(expected));
+            }
+
+            [TestMethod]
+            public void LongUrlSpanTruncateNoEsc()
+            {
+                var input = @"hello, http://verylongsub.domain.rules.com/this/is/a/very/long/url/from/hell/and/other/dark/places/and-finaly/a-page.html?with=arguments&and=more&arguments=all&over=the&workd :D";
+                var expected = ">http://verylongsub.domain<span class=\"link-trim\">.rules.com/this/is/a/very/long/url/from/hell/and/other/dark/places/and-finaly/a-page.html?with=arguments&and=more&ar</span>guments=all&over=the&workd<";
+                var result = input.LinksAsHtml(avoidDoubleEscape: true);
+
+                Assert.IsTrue(result.Contains(expected));
             }
         }
 

@@ -30,7 +30,7 @@ namespace System
         /// <param name="linkClasses">The class attribute to associate to &lt;a&gt; tags (defaults to "external").</param>
         /// <param name="linkTarget">The target attribute to associate to &lt;a&gt; tags (default to "_blank").</param>
         /// <returns></returns>
-        public static string LinksAsHtml(this string text, string linkClasses = "external", string linkTarget = "_self")
+        public static string LinksAsHtml(this string text, string linkClasses = "external", string linkTarget = "_self", bool avoidDoubleEscape = false)
         {
             if (linksAsHtmlRegex == null)
             {
@@ -47,6 +47,7 @@ namespace System
             var results = linksAsHtmlRegex.Matches(text);
             var list = new List<string>();
             var matches = new List<Match>();
+            var escape = new Func<string, string>(val => avoidDoubleEscape ? val : val.ProperHtmlEscape());
 
             foreach (Match item in results)
             {
@@ -60,17 +61,32 @@ namespace System
                 list.Add(match.Value);
 
                 string full = match.Value, friendly = full;
+                string cssClass = linkClasses;
                 if (match.Groups[1].Value.Length > 1 && match.Groups[1].Value.EndsWith("@"))
+                {
                     full = "mailto:" + full;
+                    cssClass += " mailto";
+                }
                 else if (string.IsNullOrEmpty(match.Groups[1].Value))
+                {
                     full = "http://" + full;
+                }
+
                 if (friendly.Length > 50)
-                    friendly = full.Substring(0, 25) + "..." + full.Substring(full.Length - 26);
+                {
+                    friendly =
+                        escape(full.Substring(0, 25)) +
+                        "<span class=\"link-trim\">" + escape(full.Substring(25, full.Length - 26 - 25)) + "</span>" +
+                        escape(full.Substring(full.Length - 26));
+                }
+                else
+                {
+                    friendly = escape(friendly);
+                }
 
-                full = full.ProperHtmlAttributeEscape();
-                friendly = friendly.ProperHtmlEscape();
+                full = escape(full);
 
-                string link = string.Format(CultureInfo.InvariantCulture, linkFormat, full, friendly, linkTarget, linkClasses);
+                string link = string.Format(CultureInfo.InvariantCulture, linkFormat, full, friendly, linkTarget, cssClass);
 
                 text = text.Replace(match.Value, link);
             }

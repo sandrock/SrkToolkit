@@ -351,10 +351,10 @@ namespace System.Web.Mvc
             content = content.ProperHtmlEscape();
 
             if (makeLinks)
-                content = content.LinksAsHtml(linkClasses: linksClass, linkTarget: linksTarget);
+                content = content.LinksAsHtml(linkClasses: linksClass, linkTarget: linksTarget, avoidDoubleEscape: true);
 
             if (twitterLinks)
-                content = content.TwitterLinksAsHtml(linkClasses: linksClass, linkTarget: linksTarget);
+                content = content.TwitterLinksAsHtml(linkClasses: linksClass + " twitter", linkTarget: linksTarget);
 
             if (makeParagraphs)
                 content = content.HtmlParagraphizify(makeLineBreaks: makeLineBreaks);

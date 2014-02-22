@@ -372,7 +372,7 @@ namespace System.Web.Mvc
             if (content == null)
                 return MvcHtmlString.Create(string.Empty);
 
-            content = html.Encode(content);
+            content = content.ProperHtmlEscape();
 
             if (makeLinks)
             {

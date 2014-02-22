@@ -347,5 +347,17 @@ namespace SrkToolkit.Common.Tests
                 Assert.AreEqual(DateTimeKind.Unspecified, result.Kind);
             }
         }
+
+        [TestClass]
+        public class ToUnixTimeMethod
+        {
+            [TestMethod]
+            public void UtcTime()
+            {
+                DateTime time = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
+                long result = time.ToUnixTime();
+                Assert.AreEqual(1359466101, result);
+            }
+        }
     }
 }

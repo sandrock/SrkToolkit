@@ -32,6 +32,56 @@ namespace System.Web.Mvc
             return html;
         }
 
+        public static TimeZoneInfo GetTimezone(this HtmlHelper html)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+
+            return (TimeZoneInfo)html.ViewData["Timezone"] ?? TimeZoneInfo.Utc;
+        }
+
+        public static DateTime GetUserDate(this HtmlHelper html, DateTime date, out DateTime utcDate)
+        {
+            var tz = html.GetTimezone();
+            if (date.Kind == DateTimeKind.Utc)
+            {
+                utcDate = date;
+                return tz.ConvertFromUtc(date);
+            }
+            else if (date.Kind == DateTimeKind.Local)
+            {
+                utcDate = date.ToUniversalTime();
+                return tz.ConvertFromUtc(utcDate);
+            }
+            else if (date.Kind == DateTimeKind.Unspecified)
+            {
+                utcDate = tz.ConvertToUtc(date);
+                return date;
+            }
+
+            utcDate = DateTime.MinValue;
+            return utcDate;
+        }
+
+        public static DateTime GetUtcDate(this HtmlHelper html, DateTime date)
+        {
+            if (date.Kind == DateTimeKind.Utc)
+            {
+                return date;
+            }
+            else if (date.Kind == DateTimeKind.Local)
+            {
+                return date.ToUniversalTime();
+            }
+            else if (date.Kind == DateTimeKind.Unspecified)
+            {
+                var tz = html.GetTimezone();
+                return tz.ConvertToUtc(date);
+            }
+
+            throw new NotImplementedException("DateTime.Kind '" + date.Kind + "' is not supported");
+        }
+
         #region Display date/time
 
         /// <summary>
@@ -45,7 +95,9 @@ namespace System.Web.Mvc
         /// <returns></returns>
         public static MvcHtmlString DisplayDateTime(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null, string displayDateFormat = "F")
         {
-            string displayTime = date.ToLocalTime().ToString(displayDateFormat ?? "F");
+            DateTime utc;
+            DateTime userDate = html.GetUserDate(date, out utc);
+            string displayTime = userDate.ToString(displayDateFormat ?? "F");
             if (display == null)
                 display = displayTime;
 
@@ -54,9 +106,9 @@ namespace System.Web.Mvc
                 string tag = string.Format(
                     "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
                     display,
-                    date.ToUniversalTime().ToString("O"),
-                    date.ToLocalTime().ToString("G"),
-                    GetDateClasses(date) + "display-datetime");
+                    utc.ToString("O"),
+                    userDate.ToString("G"),
+                    GetDateClasses(utc) + "display-datetime");
                 return MvcHtmlString.Create(tag);
             }
             else
@@ -70,13 +122,13 @@ namespace System.Web.Mvc
             string classes = "";
             if (date.Kind == DateTimeKind.Utc)
             {
-                classes += date > DateTime.UtcNow ? "past " : "future ";
+                classes += date > DateTime.UtcNow ? "future " : "past ";
                 classes += date.IsEqualTo(DateTime.UtcNow, DateTimePrecision.Day) ? "today " : "not-today ";
             }
 
             if (date.Kind == DateTimeKind.Local)
             {
-                classes += date > DateTime.Now ? "past " : "future ";
+                classes += date > DateTime.Now ? "future " : "past ";
                 classes += date.IsEqualTo(DateTime.Now, DateTimePrecision.Day) ? "today " : "not-today ";
             }
 
@@ -99,7 +151,9 @@ namespace System.Web.Mvc
         /// <returns></returns>
         public static MvcHtmlString DisplayDate(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null, string displayDateFormat = "D")
         {
-            string displayTime = date.ToLocalTime().ToString(displayDateFormat ?? "D");
+            DateTime utc;
+            DateTime userDate = html.GetUserDate(date, out utc);
+            string displayTime = userDate.ToString(displayDateFormat ?? "D");
             if (display == null)
                 display = displayTime;
 
@@ -108,9 +162,9 @@ namespace System.Web.Mvc
                 string tag = string.Format(
                     "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
                     display,
-                    date.ToUniversalTime().ToString("O"),
-                    date.ToLocalTime().ToString("D"),
-                    GetDateClasses(date) + "display-date");
+                    utc.ToString("O"),
+                    userDate.ToString("D"),
+                    GetDateClasses(utc) + "display-date");
                 return MvcHtmlString.Create(tag);
             }
             else
@@ -161,7 +215,9 @@ namespace System.Web.Mvc
         /// <returns></returns>
         public static MvcHtmlString DisplayTime(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null, string displayDateFormat = "T")
         {
-            string displayTime = date.ToLocalTime().ToString(displayDateFormat ?? "T");
+            DateTime utc;
+            DateTime userDate = html.GetUserDate(date, out utc);
+            string displayTime = userDate.ToString(displayDateFormat ?? "T");
             if (display == null)
                 display = displayTime;
 
@@ -170,9 +226,9 @@ namespace System.Web.Mvc
                 string tag = string.Format(
                     "<time datetime=\"{1}\" title=\"{2}\" class=\"{3}\">{0}</time>",
                     display,
-                    date.ToUniversalTime().ToString("O"),
-                    date.ToLocalTime().ToString("R"),
-                    GetDateClasses(date) + "display-time");
+                    utc.ToString("O"),
+                    userDate.ToString("G"),
+                    GetDateClasses(utc) + "display-time");
                 return MvcHtmlString.Create(tag);
             }
             else
@@ -243,15 +299,30 @@ namespace System.Web.Mvc
             }
         }
 
+        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+
+        /// <summary>
+        /// Returns the date (to UTC) in JavaScript format like 'new Date(123456789000)'.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="date">The date.</param>
+        /// <param name="precision">The precision.</param>
+        /// <returns></returns>
         public static MvcHtmlString JsDate(this HtmlHelper html, DateTime date, DateTimePrecision precision = DateTimePrecision.Second)
         {
+            DateTime utc = SrkHtmlExtensions.GetUtcDate(html, date);
+            /* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+             *   new Date(value); 
+             *     value: Integer value representing the number of milliseconds since 1 January 1970 00:00:00 UTC (Unix Epoch)
+             * 
+             * I use this constructor because it accepts a UTC date.
+             * The other constructors use a local date so we can't rely on them.
+             * 
+             * ToString("F0") is important to avoid the exponential notation.
+             */
             string value = "new Date("
-                + date.Year + ", "
-                + (date.Month - 1) + ", "
-                + date.Day + ", "
-                + (precision >= DateTimePrecision.Hour ? date.Hour : 0) + ", "
-                + (precision >= DateTimePrecision.Minute ? date.Minute : 0) + ", "
-                + (precision >= DateTimePrecision.Second ? date.Second : 0) + ")";
+                + (utc.ToPrecision(precision).Subtract(UnixEpoch).TotalMilliseconds).ToString("F0")
+                + ")";
             return MvcHtmlString.Create(value);
         }
 

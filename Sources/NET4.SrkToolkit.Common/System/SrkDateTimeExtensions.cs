@@ -105,5 +105,10 @@ namespace System
         {
             return new DateTime(value.Ticks, DateTimeKind.Unspecified);
         }
+
+        public static long ToUnixTime(this DateTime value)
+        {
+            return (long)value.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+        }
     }
 }

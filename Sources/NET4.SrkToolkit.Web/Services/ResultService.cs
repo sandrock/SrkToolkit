@@ -52,6 +52,20 @@ namespace SrkToolkit.Web.Services
         }
 
         /// <summary>
+        /// Gets the route to the "gone" page.
+        /// </summary>
+        public static RouteData GoneRoute
+        {
+            get
+            {
+                RouteData routeData = new RouteData();
+                routeData.Values.Add("controller", "Error");
+                routeData.Values.Add("action", "Gone");
+                return routeData;
+            }
+        }
+
+        /// <summary>
         /// Gets the route to the "bad request" page.
         /// </summary>
         public static RouteData BadRequestRoute
@@ -92,8 +106,8 @@ namespace SrkToolkit.Web.Services
             ctrlContext.RouteData = ForbiddenRoute;
             if (message != null)
             {
-                ctrlContext.RouteData.Values["message"] = message;
-                ctrlContext.RouteData.DataTokens["message"] = message;
+                ctrlContext.RouteData.Values[ResultServiceBase.RouteDataMessageKey] = message;
+                ctrlContext.RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] = message;
             }
 
             IController ctrl = new TErrorController();
@@ -116,8 +130,8 @@ namespace SrkToolkit.Web.Services
             ctrlContext.RouteData.Values["error"] = new Exception(message);
             if (message != null)
             {
-                ctrlContext.RouteData.Values["message"] = message;
-                ctrlContext.RouteData.DataTokens["message"] = message;
+                ctrlContext.RouteData.Values[ResultServiceBase.RouteDataMessageKey] = message;
+                ctrlContext.RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] = message;
             }
 
             IController ctrl = new BaseErrorController
@@ -143,8 +157,36 @@ namespace SrkToolkit.Web.Services
             ctrlContext.RouteData = NotFoundRoute;
             if (message != null)
             {
-                ctrlContext.RouteData.Values["message"] = message;
-                ctrlContext.RouteData.DataTokens["message"] = message;
+                ctrlContext.RouteData.Values[ResultServiceBase.RouteDataMessageKey] = message;
+                ctrlContext.RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] = message;
+            }
+
+            IController ctrl = new BaseErrorController
+            {
+                ControllerContext = ctrlContext,
+            };
+
+            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
+
+            return null;
+        }
+
+        /// <summary>
+        /// Shows a 410 page.
+        /// </summary>
+        /// <param name="message">a custom message can be specified. leave null for random message.</param>
+        /// <returns></returns>
+        public ActionResult Gone(string message = null)
+        {
+            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
+
+            var ctrlContext = new ControllerContext();
+            ctrlContext.HttpContext = this.HttpContext;
+            ctrlContext.RouteData = GoneRoute;
+            if (message != null)
+            {
+                ctrlContext.RouteData.Values[ResultServiceBase.RouteDataMessageKey] = message;
+                ctrlContext.RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] = message;
             }
 
             IController ctrl = new BaseErrorController
@@ -169,8 +211,8 @@ namespace SrkToolkit.Web.Services
             ctrlContext.RouteData = BadRequestRoute;
             if (message != null)
             {
-                ctrlContext.RouteData.Values["message"] = message;
-                ctrlContext.RouteData.DataTokens["message"] = message;
+                ctrlContext.RouteData.Values[ResultServiceBase.RouteDataMessageKey] = message;
+                ctrlContext.RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] = message;
             }
 
             IController ctrl = new BaseErrorController

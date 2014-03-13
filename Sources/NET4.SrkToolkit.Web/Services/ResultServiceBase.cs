@@ -14,6 +14,10 @@ namespace SrkToolkit.Web.Services
     {
         private readonly HttpContextBase httpContext;
 
+        public const string RouteDataExceptionKey = "error";
+        public const string RouteDataMessageKey = "message";
+        public const string RouteDataHttpCodeKey = "http code";
+
         public ResultServiceBase(HttpContextBase httpContext)
         {
             this.httpContext = httpContext;

@@ -12,9 +12,13 @@ namespace SrkToolkit.Web.Tests
     using System.Web;
     using System.IO;
     using System.Diagnostics;
+    using System.Threading;
+    using System.Globalization;
 
     public class SrkHtmlExtensionsTests
     {
+        public static readonly CultureInfo TestCulture1 = new CultureInfo("en-GB");
+
         public static HtmlHelper CreateHtmlHelper(ViewDataDictionary vd)
         {
             var mockViewContext = new Mock<ViewContext>(
@@ -185,6 +189,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsUtc_ArgIsUtc_ResultIsUtc()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T13:28:21.0010000Z\" title=\"29 January 2013\" class=\"past not-today display-date\">29 January 2013</time>";
@@ -199,6 +204,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsUtc_ArgIsLocal_ResultIsUtc()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 var localTz = TimeZoneInfo.Local;
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime source = orig.ToLocalTime();
@@ -216,6 +222,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsUtc_ArgIsUser_ResultIsUtc()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Unspecified);
                 Debug.Assert(source.Kind == DateTimeKind.Unspecified);
                 TimeZoneInfo tz = null;
@@ -231,6 +238,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsRomance_ArgIsUtc_ResultIsRomance()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime romance = tz.ConvertFromUtc(source);
@@ -246,6 +254,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsRomance_ArgIsLocal_ResultIsRomance()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 var localTz = TimeZoneInfo.Local;
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
@@ -264,6 +273,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsRomance_ArgIsUser_ResultIsRomance()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Unspecified);
                 DateTime utc = tz.ConvertToUtc(source);
@@ -284,6 +294,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsUtc_ArgIsUtc_ResultIsUtc()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T13:28:21.0010000Z\" title=\"29/01/2013 13:28:21\" class=\"past not-today display-datetime\">29 January 2013 13:28:21</time>";
@@ -298,6 +309,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsUtc_ArgIsLocal_ResultIsUtc()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 var localTz = TimeZoneInfo.Local;
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime source = orig.ToLocalTime();
@@ -315,6 +327,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsUtc_ArgIsUser_ResultIsUtc()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Unspecified);
                 Debug.Assert(source.Kind == DateTimeKind.Unspecified);
                 TimeZoneInfo tz = null;
@@ -330,6 +343,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsRomance_ArgIsUtc_ResultIsRomance()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime romance = tz.ConvertFromUtc(source);
@@ -345,6 +359,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsRomance_ArgIsLocal_ResultIsRomance()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 var localTz = TimeZoneInfo.Local;
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
@@ -363,6 +378,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsRomance_ArgIsUser_ResultIsRomance()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Unspecified);
                 DateTime utc = tz.ConvertToUtc(source);
@@ -383,6 +399,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsUtc_ArgIsUtc_ResultIsUtc()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T13:28:21.0010000Z\" title=\"29/01/2013 13:28:21\" class=\"past not-today display-time\">13:28:21</time>";
@@ -397,6 +414,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsUtc_ArgIsLocal_ResultIsUtc()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 var localTz = TimeZoneInfo.Local;
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime source = orig.ToLocalTime();
@@ -414,6 +432,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsUtc_ArgIsUser_ResultIsUtc()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Unspecified);
                 Debug.Assert(source.Kind == DateTimeKind.Unspecified);
                 TimeZoneInfo tz = null;
@@ -429,6 +448,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsRomance_ArgIsUtc_ResultIsRomance()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime romance = tz.ConvertFromUtc(source);
@@ -444,6 +464,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsRomance_ArgIsLocal_ResultIsRomance()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 var localTz = TimeZoneInfo.Local;
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
@@ -462,6 +483,7 @@ namespace SrkToolkit.Web.Tests
             [TestMethod]
             public void UserIsRomance_ArgIsUser_ResultIsRomance()
             {
+                Thread.CurrentThread.CurrentCulture = TestCulture1;
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Unspecified);
                 DateTime utc = tz.ConvertToUtc(source);

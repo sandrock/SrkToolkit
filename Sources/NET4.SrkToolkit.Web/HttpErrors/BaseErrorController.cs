@@ -20,25 +20,31 @@ namespace SrkToolkit.Web.HttpErrors
         /// Gets the built-in "forbidden" model.
         /// </summary>
         protected static HttpErrorModel DefaultForbiddenModel =
-            new HttpErrorModel("Forbidden", "You are not allowed to access the requested page.");
+            HttpErrorModel.Create(403, "Forbidden", "You are not allowed to access the requested page.");
 
         /// <summary>
         /// Gets the built-in "not found" model.
         /// </summary>
         protected static HttpErrorModel DefaultNotFoundModel =
-            new HttpErrorModel("Page not found", "The requested page does not exist.");
+            HttpErrorModel.Create(404, "Page not found", "The requested page does not exist.");
+
+        /// <summary>
+        /// Gets the built-in "gone" model.
+        /// </summary>
+        protected static HttpErrorModel DefaultGoneModel =
+            HttpErrorModel.Create(410, "Gone", "The resource requested is no longer available and will not be available again.");
 
         /// <summary>
         /// Gets the built-in "bad request" model.
         /// </summary>
         protected static HttpErrorModel DefaultBadRequestModel =
-            new HttpErrorModel("Bad request", "The request is not valid and cannot be handled.");
+            HttpErrorModel.Create(400, "Bad request", "The request is not valid and cannot be handled.");
 
         /// <summary>
         /// Gets the built-in "internal error" model.
         /// </summary>
         protected static HttpErrorModel DefaultInternalModel =
-            new HttpErrorModel("Internal Server Error", "Sorry, an error occurred while processing your request.");
+            HttpErrorModel.Create(500, "Internal Server Error", "Sorry, an error occurred while processing your request.");
 
         /// <summary>
         /// Gets the "forbidden" model.
@@ -54,6 +60,14 @@ namespace SrkToolkit.Web.HttpErrors
         public virtual HttpErrorModel NotFoundModel
         {
             get { return DefaultNotFoundModel; }
+        }
+
+        /// <summary>
+        /// Gets the "gone" model.
+        /// </summary>
+        public virtual HttpErrorModel GoneModel
+        {
+            get { return DefaultGoneModel; }
         }
 
         /// <summary>
@@ -95,7 +109,24 @@ namespace SrkToolkit.Web.HttpErrors
         /// <returns></returns>
         public virtual ActionResult NotFound()
         {
-            return this.Work("NotFound", this.NotFoundModel, 404);
+            var code = this.RouteData.Values.ContainsKey(ResultServiceBase.RouteDataHttpCodeKey)
+                     ? (int)this.RouteData.Values[ResultServiceBase.RouteDataHttpCodeKey]
+                     : 404;
+            var model = this.NotFoundModel;
+            return this.Work("NotFound", model, code);
+        }
+
+        /// <summary>
+        /// Returns a 410 Gone page.
+        /// </summary>
+        /// <returns></returns>
+        public virtual ActionResult Gone()
+        {
+            var code = this.RouteData.Values.ContainsKey(ResultServiceBase.RouteDataHttpCodeKey)
+                     ? (int)this.RouteData.Values[ResultServiceBase.RouteDataHttpCodeKey]
+                     : 410;
+            var model = this.GoneModel;
+            return this.Work("Gone", model, code);
         }
 
         /// <summary>
@@ -127,15 +158,15 @@ namespace SrkToolkit.Web.HttpErrors
         {
             Trace.TraceInformation("ErrorController." + action + ": begin");
 
-            var ex = RouteData.Values["error"] as Exception;
-            var httpex = RouteData.Values["error"] as HttpException;
+            var ex = RouteData.Values[ResultServiceBase.RouteDataExceptionKey] as Exception;
+            var httpex = RouteData.Values[ResultServiceBase.RouteDataExceptionKey] as HttpException;
 
             var msg = model;
             msg.Code = httpex != null ? httpex.GetHttpCode() : code;
             msg.UrlPath = Request.Url.PathAndQuery;
             msg.ErrorAction = action;
 
-            var message = RouteData.Values["message"] as string;
+            var message = RouteData.Values[ResultServiceBase.RouteDataMessageKey] as string;
             if (message != null)
             {
                 msg.Message = message;
@@ -143,7 +174,7 @@ namespace SrkToolkit.Web.HttpErrors
 
             if (this.IncludeExceptionDetails)
             {
-                msg.Exception = RouteData.Values.ContainsKey("error") ? RouteData.Values["error"] as Exception : null;
+                msg.Exception = RouteData.Values.ContainsKey(ResultServiceBase.RouteDataExceptionKey) ? RouteData.Values[ResultServiceBase.RouteDataExceptionKey] as Exception : null;
             }
 
             this.Response.StatusCode = msg.Code;

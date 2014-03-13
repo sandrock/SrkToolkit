@@ -33,6 +33,12 @@ namespace SrkToolkit.Web.HttpErrors
         ActionResult NotFound();
 
         /// <summary>
+        /// Returns a 410 Gone page.
+        /// </summary>
+        /// <returns></returns>
+        ActionResult Gone();
+
+        /// <summary>
         /// Returns a 400 Bad request page.
         /// </summary>
         /// <returns></returns>

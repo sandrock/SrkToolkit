@@ -96,7 +96,7 @@ namespace SrkToolkit.Web.HttpErrors
                 Trace.TraceError(ex.ToString());
 
                 if (includeExceptionDetails)
-                    BasicHttpErrorResponse.Execute(context, httpException, ex);
+                    BasicHttpErrorResponse.Execute(context, exception, ex);
                 else
                     BasicHttpErrorResponse.Execute(context, null);
             }

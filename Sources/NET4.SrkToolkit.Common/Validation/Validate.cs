@@ -34,6 +34,9 @@ namespace SrkToolkit.Common.Validation
         /// <returns></returns>
         public static IEnumerable<string> ManyEmailAddresses(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                yield break;
+
             var matches = emailsRegex.Matches(input);
 
             foreach (Match match in matches) {

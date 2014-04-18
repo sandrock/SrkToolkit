@@ -47,7 +47,8 @@ namespace System
             var results = linksAsHtmlRegex.Matches(text);
             var list = new List<string>();
             var matches = new List<Match>();
-            var escape = new Func<string, string>(val => avoidDoubleEscape ? val : val.ProperHtmlEscape());
+            var attrEscape = new Func<string, string>(val => avoidDoubleEscape ? val : val.ProperHtmlAttributeEscape());
+            var htmlEscape = new Func<string, string>(val => avoidDoubleEscape ? val : val.ProperHtmlEscape());
 
             foreach (Match item in results)
             {
@@ -75,16 +76,16 @@ namespace System
                 if (friendly.Length > 50)
                 {
                     friendly =
-                        escape(full.Substring(0, 25)) +
-                        "<span class=\"link-trim\">" + escape(full.Substring(25, full.Length - 26 - 25)) + "</span>" +
-                        escape(full.Substring(full.Length - 26));
+                        htmlEscape(full.Substring(0, 25)) +
+                        "<span class=\"link-trim\">" + htmlEscape(full.Substring(25, full.Length - 26 - 25)) + "</span>" +
+                        htmlEscape(full.Substring(full.Length - 26));
                 }
                 else
                 {
-                    friendly = escape(friendly);
+                    friendly = htmlEscape(friendly);
                 }
 
-                full = escape(full);
+                full = attrEscape(full);
 
                 string link = string.Format(CultureInfo.InvariantCulture, linkFormat, full, friendly, linkTarget, cssClass);
 

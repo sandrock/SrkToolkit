@@ -36,7 +36,7 @@ namespace SrkToolkit.Web.Tests
         public void BasicObjectRendersNamespaces()
         {
             var obj = new OpenGraphObject("my super title", new Uri("http://test.org/my-super-title"));
-            var expected = " xmlns:og=\"http://ogp.me/ns#\" ";
+            var expected = " xmlns:og=\"http:&#x2F;&#x2F;ogp.me&#x2F;ns#\" ";
             Assert.AreEqual(expected, obj.ToHtmlAttributeNamespaces());
         }
 
@@ -45,7 +45,7 @@ namespace SrkToolkit.Web.Tests
         {
             var obj = new OpenGraphObject("my super title", new Uri("http://test.org/my-super-title"));
             obj.Add(new OpenGraphTag(new OpenGraphName("key", "xxx", "http://xxx/aaa/#"), "value"));
-            var expected = " xmlns:og=\"http://ogp.me/ns#\"  xmlns:xxx=\"http://xxx/aaa/#\" ";
+            var expected = " xmlns:og=\"http:&#x2F;&#x2F;ogp.me&#x2F;ns#\"  xmlns:xxx=\"http:&#x2F;&#x2F;xxx&#x2F;aaa&#x2F;#\" ";
             Assert.AreEqual(expected, obj.ToHtmlAttributeNamespaces());
         }
 
@@ -64,7 +64,7 @@ namespace SrkToolkit.Web.Tests
 
         private string Meta(string key, string value)
         {
-            return "<meta property=\"" + HttpUtility.HtmlAttributeEncode(key) + "\" content=\"" + HttpUtility.HtmlAttributeEncode(value) + "\" />";
+            return "<meta property=\"" + key.ProperHtmlAttributeEscape() + "\" content=\"" + value.ProperHtmlAttributeEscape() + "\" />";
         }
     }
 }

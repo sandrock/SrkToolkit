@@ -56,6 +56,12 @@
     <Compile Include="CultureInfoHelperTests.cs" />
     <Compile Include="EmailAddressAttributeTests.cs" />
     <Compile Include="EmailAddressTests.cs" />
+    <Compile Include="EnumStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnumStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="EnumToolsTests.cs" />
     <Compile Include="ObservableCollectionExtensionsTests.cs" />
     <Compile Include="DisaposableOnceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,6 +84,13 @@
       <Project>{19495A45-67A8-460D-806C-CF158B96BBE9}</Project>
       <Name>NET4.SrkToolkit.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EnumStrings.fr.resx" />
+    <EmbeddedResource Include="EnumStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EnumStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

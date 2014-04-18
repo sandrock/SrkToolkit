@@ -123,8 +123,15 @@ namespace System.Web.Mvc
             {
                 string key = kv.Key;
                 string value = kv.Value;
-                bool found = false;
-                values[key] = value;
+                if (value != null)
+                {
+                    values[key] = value;
+                }
+                else
+                {
+                    if (values.ContainsKey(key))
+                        values.Remove(key);
+                }
             }
 
             // build url

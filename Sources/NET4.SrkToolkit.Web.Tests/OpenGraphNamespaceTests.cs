@@ -37,7 +37,7 @@ namespace SrkToolkit.Web.Tests
         {
             var nsName  = "test";
             var ns = new OpenGraphNamespace(nsName, "http://myns.me/test");
-            var expected = " xmlns:test=\"http://myns.me/test\" ";
+            var expected = " xmlns:test=\"http:&#x2F;&#x2F;myns.me&#x2F;test\" ";
             Assert.AreEqual(expected, ns.ToHtmlAttributeString());
         }
 
@@ -45,7 +45,7 @@ namespace SrkToolkit.Web.Tests
         public void DefaultRendersHtmlAttribute()
         {
             var name = new OpenGraphName("test");
-            var expected = " xmlns:og=\"http://ogp.me/ns#\" ";
+            var expected = " xmlns:og=\"http:&#x2F;&#x2F;ogp.me&#x2F;ns#\" ";
             Assert.AreEqual(expected, name.Namespace.ToHtmlAttributeString());
         }
     }

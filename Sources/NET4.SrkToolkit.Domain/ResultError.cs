@@ -38,7 +38,7 @@ namespace SrkToolkit.Domain
         public ResultError(TEnum code, ResourceManager enumResourceManager)
         {
             this.Code = code;
-            this.DisplayMessage = this.MessageFromEnum(code, enumResourceManager);
+            this.DisplayMessage = ResultError.MessageFromEnum(code, enumResourceManager);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace SrkToolkit.Domain
         public ResultError(TEnum code, ResourceManager enumResourceManager, CultureInfo culture)
         {
             this.Code = code;
-            this.DisplayMessage = this.MessageFromEnum(code, enumResourceManager, culture);
+            this.DisplayMessage = ResultError.MessageFromEnum(code, enumResourceManager, culture);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace SrkToolkit.Domain
         public ResultError(TEnum code, ResourceManager enumResourceManager, CultureInfo culture, params object[] args)
         {
             this.Code = code;
-            this.DisplayMessage = string.Format(this.MessageFromEnum(code, enumResourceManager, culture), args);
+            this.DisplayMessage = string.Format(ResultError.MessageFromEnum(code, enumResourceManager, culture), args);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace SrkToolkit.Domain
         public ResultError(TEnum code, ResourceManager enumResourceManager, params object[] args)
         {
             this.Code = code;
-            this.DisplayMessage = string.Format(this.MessageFromEnum(code, enumResourceManager), args);
+            this.DisplayMessage = string.Format(ResultError.MessageFromEnum(code, enumResourceManager), args);
         }
 
         /// <summary>
@@ -105,19 +105,32 @@ namespace SrkToolkit.Domain
         /// The display message.
         /// </value>
         public string DisplayMessage { get; set; }
+    }
 
-        private string MessageFromEnum(TEnum code, ResourceManager enumResourceManager, CultureInfo culture)
+    public static class ResultError
+    {
+        internal static string MessageFromEnum(object code, ResourceManager enumResourceManager, CultureInfo culture)
         {
             var key = code.GetType().Name + "_" + code.ToString();
             var value = enumResourceManager.GetString(key, culture);
             return value ?? code.ToString();
         }
 
-        private string MessageFromEnum(TEnum code, ResourceManager enumResourceManager)
+        internal static string MessageFromEnum(object code, ResourceManager enumResourceManager)
         {
             var key = code.GetType().Name + "_" + code.ToString();
             var value = enumResourceManager.GetString(key);
             return value ?? code.ToString();
+        }
+
+        public static string GetMessageFromEnum(object code, ResourceManager resourceManager, CultureInfo culture)
+        {
+            return MessageFromEnum(code, resourceManager, culture);
+        }
+
+        public static string GetMessageFromEnum(object code, ResourceManager resourceManager)
+        {
+            return MessageFromEnum(code, resourceManager);
         }
     }
 
@@ -219,6 +232,109 @@ namespace SrkToolkit.Domain
         {
             collection.Add(new ResultError<TEnum>(code, enumResourceManager, args));
             return collection;
+        }
+
+        public static PostProcessWrapper<TEnum> WithPostProcess<TEnum>(this IList<ResultError<TEnum>> collection, Func<string, string> postProcess)
+            where TEnum : struct
+        {
+            return new PostProcessWrapper<TEnum>(collection, postProcess);
+        }
+
+        public class PostProcessWrapper<TEnum>
+            where TEnum : struct
+        {
+            private readonly IList<ResultError<TEnum>> collection;
+            private readonly Func<string, string> postProcess;
+
+            internal PostProcessWrapper(IList<ResultError<TEnum>> collection, Func<string, string> postProcess)
+            {
+                this.collection = collection;
+                this.postProcess = postProcess;
+            }
+
+            /// <summary>
+            /// Adds the specified collection.
+            /// </summary>
+            /// <param name="code">The code.</param>
+            /// <param name="displayMessage">The display message.</param>
+            /// <returns></returns>
+            public PostProcessWrapper<TEnum> Add(TEnum code, string displayMessage)
+            {
+                collection.Add(new ResultError<TEnum>(code, this.postProcess(displayMessage)));
+                return this;
+            }
+
+            /// <summary>
+            /// Adds the specified collection.
+            /// </summary>
+            /// <param name="code">The code.</param>
+            /// <param name="enumResourceManager">The ResourceManager in which to find a translation for the code.</param>
+            /// <param name="culture">The culture.</param>
+            /// <returns></returns>
+            public PostProcessWrapper<TEnum> Add(TEnum code, ResourceManager enumResourceManager, CultureInfo culture)
+            {
+                var message = this.postProcess(ResultError.GetMessageFromEnum(code, enumResourceManager, culture));
+                collection.Add(new ResultError<TEnum>(code, message));
+                return this;
+            }
+
+            /// <summary>
+            /// Adds the specified collection.
+            /// </summary>
+            /// <param name="code">The code.</param>
+            /// <param name="enumResourceManager">The ResourceManager in which to find a translation for the code.</param>
+            /// <returns></returns>
+            public PostProcessWrapper<TEnum> Add(TEnum code, ResourceManager enumResourceManager)
+            {
+                var message = this.postProcess(ResultError.GetMessageFromEnum(code, enumResourceManager));
+                collection.Add(new ResultError<TEnum>(code, message));
+                return this;
+            }
+
+            /// <summary>
+            /// Adds the specified collection.
+            /// </summary>
+            /// <typeparam name="TEnum">The type of the enum.</typeparam>
+            /// <param name="collection">The collection.</param>
+            /// <param name="code">The code.</param>
+            /// <param name="displayMessageFormat">The display message format.</param>
+            /// <param name="args">The args.</param>
+            /// <returns></returns>
+            public PostProcessWrapper<TEnum> Add(TEnum code, string displayMessageFormat, params object[] args)
+            {
+                var message = this.postProcess(string.Format(displayMessageFormat, args));
+                collection.Add(new ResultError<TEnum>(code, message));
+                return this;
+            }
+
+            /// <summary>
+            /// Adds the specified collection.
+            /// </summary>
+            /// <param name="code">The code.</param>
+            /// <param name="enumResourceManager">The ResourceManager in which to find a translation for the code.</param>
+            /// <param name="culture">The culture.</param>
+            /// <param name="args">The args.</param>
+            /// <returns></returns>
+            public PostProcessWrapper<TEnum> Add(TEnum code, ResourceManager enumResourceManager, CultureInfo culture, params object[] args)
+            {
+                var message = this.postProcess(string.Format(ResultError.GetMessageFromEnum(code, enumResourceManager, culture), args));
+                collection.Add(new ResultError<TEnum>(code, message));
+                return this;
+            }
+
+            /// <summary>
+            /// Adds the specified collection.
+            /// </summary>
+            /// <param name="code">The code.</param>
+            /// <param name="enumResourceManager">The ResourceManager in which to find a translation for the code.</param>
+            /// <param name="args">The args.</param>
+            /// <returns></returns>
+            public PostProcessWrapper<TEnum> Add(TEnum code, ResourceManager enumResourceManager, params object[] args)
+            {
+                var message = this.postProcess(string.Format(ResultError.GetMessageFromEnum(code, enumResourceManager), args));
+                collection.Add(new ResultError<TEnum>(code, message));
+                return this;
+            }
         }
     }
 }

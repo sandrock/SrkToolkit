@@ -181,6 +181,8 @@ namespace SrkToolkit.Web.HttpErrors
 
             Trace.TraceInformation("ErrorController." + action + ": end");
 
+            this.Response.Charset = "utf-8";
+
             if (this.Request.IsXmlHttpRequest())
             {
                 return new ResultServiceBase(this.HttpContext).JsonError(action, model.Message ?? "Unknown error.");

@@ -66,6 +66,7 @@
     <Compile Include="DisaposableOnceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SrkDateTimeExtensionsTests.cs" />
+    <Compile Include="SrkIDictionaryExtensionsTests.cs" />
     <Compile Include="SrkNameValueCollectionExtensions.cs" />
     <Compile Include="SrkStringExtensionsTests.cs" />
     <Compile Include="SrkStringTransformer.cs" />

@@ -523,6 +523,19 @@ namespace System.Web.Mvc
             return htmlHelper.BeginForm(null, null, htmlHelper.ViewContext.RouteData.Values, FormMethod.Post, new RouteValueDictionary(htmlAttributes) as IDictionary<string, object>);
         }
 
+        /// <summary>
+        /// Writes an opening &lt;form&gt; tag to the response. When the user submits the form, the request will be processed by an action method.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <param name="routeValues">An object that contains the parameters for a route. The parameters are retrieved through reflection by examining the properties of the object. This object is typically created by using object initializer syntax.</param>
+        /// <returns>An opening &lt;form&gt; tag.</returns>
+        public static MvcForm BeginFormEx(this HtmlHelper htmlHelper, object htmlAttributes, object routeValues)
+        {
+            string rawUrl = htmlHelper.ViewContext.HttpContext.Request.RawUrl;
+            return htmlHelper.BeginForm(null, null, routeValues, FormMethod.Post, htmlAttributes);
+        }
+
         #endregion
 
         #region Submit

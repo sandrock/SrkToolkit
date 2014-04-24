@@ -36,6 +36,7 @@ namespace SrkToolkit.Web.Services
                     Success = true,
                     ErrorCode = default(string),
                     ErrorMessage = default(string),
+                    Data = default(string),
                 },
             };
         }
@@ -72,6 +73,7 @@ namespace SrkToolkit.Web.Services
                     Success = false,
                     ErrorCode = default(string),
                     ErrorMessage = default(string),
+                    Data = default(string),
                 },
             };
         }
@@ -90,6 +92,7 @@ namespace SrkToolkit.Web.Services
                     Success = false,
                     ErrorCode = errorCode,
                     ErrorMessage = default(string),
+                    Data = default(string),
                 },
             };
         }
@@ -109,6 +112,27 @@ namespace SrkToolkit.Web.Services
                     Success = false,
                     ErrorCode = errorCode,
                     ErrorMessage = errorMessage,
+                    Data = default(string),
+                },
+            };
+        }
+
+        /// <summary>
+        /// Returns a standard JSON result containing an error.
+        /// </summary>
+        /// <param name="errorCode">helps identify the the error</param>
+        /// <param name="errorMessage">the translated error message to display</param>
+        /// <returns></returns>
+        public ActionResult JsonError(string errorCode, string errorMessage, object data)
+        {
+            return new JsonNetResult
+            {
+                Data = new
+                {
+                    Success = false,
+                    ErrorCode = errorCode,
+                    ErrorMessage = errorMessage,
+                    Data = data,
                 },
             };
         }

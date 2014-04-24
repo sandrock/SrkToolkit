@@ -52,6 +52,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssertTests.cs" />
     <Compile Include="CompositeDisposableTests.cs" />
     <Compile Include="CultureInfoHelperTests.cs" />
     <Compile Include="EmailAddressAttributeTests.cs" />

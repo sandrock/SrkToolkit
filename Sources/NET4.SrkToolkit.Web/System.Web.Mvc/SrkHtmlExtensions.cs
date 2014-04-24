@@ -414,7 +414,7 @@ namespace System.Web.Mvc
         /// <returns>
         /// an escaped HTML string
         /// </returns>
-        public static MvcHtmlString DisplayText(this HtmlHelper html, string content, bool makeLinks = true, bool makeParagraphs = true, bool makeLineBreaks = true, bool twitterLinks = false, string linksClass = "external", string linksTarget = "_blank")
+        public static MvcHtmlString DisplayText(this HtmlHelper html, string content, bool makeLinks = true, bool makeParagraphs = true, bool makeLineBreaks = true, bool twitterLinks = false, string linksClass = "external", string linksTarget = "_blank", string wrapClass = null)
         {
             if (content == null)
                 return MvcHtmlString.Create(string.Empty);
@@ -432,7 +432,10 @@ namespace System.Web.Mvc
             else if (makeLineBreaks)
                 content = content.AddHtmlLineBreaks();
 
-            return MvcHtmlString.Create(content);
+            if (wrapClass == null)
+                return MvcHtmlString.Create(content);
+            else
+                return MvcHtmlString.Create("<div class=\"" + wrapClass.ProperHtmlAttributeEscape() + "\">" + content + "</div>");
         }
 
         #endregion

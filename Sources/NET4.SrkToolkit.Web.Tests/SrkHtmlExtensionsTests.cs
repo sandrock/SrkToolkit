@@ -539,5 +539,18 @@ namespace SrkToolkit.Web.Tests
                 Assert.AreEqual(expected, result.ToString());
             }
         }
+
+        [TestClass]
+        public class DisplayTextMethod
+        {
+            [TestMethod]
+            public void BugWithSingleQuoteAndTwotter()
+            {
+                var input = "J'ai ajouté une";
+                var expected = "J&#x27;ai ajouté une";
+                var result = SrkHtmlExtensions.DisplayText(null, input, twitterLinks: true, makeParagraphs: false);
+                SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
+            }
+        }
     }
 }

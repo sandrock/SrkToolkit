@@ -20,7 +20,7 @@ namespace System
         const string linkFormat = "<a href=\"{0}\" title=\"{0}\" target=\"{2}\" class=\"{3}\">{1}</a>";
 
         private static Regex linksAsHtmlRegex;
-        private static Regex twitterHasLinkRegex = new Regex("\\#\\w+");
+        private static Regex twitterHasLinkRegex = new Regex("\\#\\w+;?");
         private static Regex twitterUsernameLinkRegex = new Regex("@[A-Za-z0-9_]{1,20}");
 
         /// <summary>
@@ -125,18 +125,30 @@ namespace System
                 list.Add(match.Value);
 
                 string full = null;
-                if (match.Groups[0].Value[0] == '#')
+                string value = match.Groups[0].Value;
+                string suffix = value[value.Length - 1] == ';' ? ";" : "";
+                if (suffix == ";")
+                    value = value.Substring(0, value.Length - 1);
+                if (value[0] == '#')
                 {
-                    full = "https://twitter.com/search/realtime?q=%23" + Uri.EscapeDataString(match.Groups[0].Value.Substring(1)) + "&src=hash";
+                    if (value.Length == 4 && (value[1] == 'x' || value[1] == 'X') && suffix == ";")
+                    {
+                        // this is a html entity like &#x27;
+                        continue;
+                    }
+                    else
+                    {
+                        full = "https://twitter.com/search/realtime?q=%23" + Uri.EscapeDataString(value.Substring(1)) + "&src=hash";
+                    }
                 }
-                else if (match.Groups[0].Value[0] == '@')
+                else if (value[0] == '@')
                 {
-                    full = "https://twitter.com/" + match.Groups[0].Value.Substring(1);
+                    full = "https://twitter.com/" + value.Substring(1);
                 }
 
                 full = full.ProperHtmlEscape();
 
-                string link = string.Format(CultureInfo.InvariantCulture, linkFormat, full, match.Groups[0].Value, linkTarget, linkClasses);
+                string link = string.Format(CultureInfo.InvariantCulture, linkFormat, full, value, linkTarget, linkClasses);
 
                 text = text.Replace(match.Value, link);
             }

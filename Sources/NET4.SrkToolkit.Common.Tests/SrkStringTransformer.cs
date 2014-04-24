@@ -190,7 +190,7 @@ http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20http://test.local/Fil
             public void LongUrlSpanTruncate()
             {
                 var input = @"hello, http://verylongsub.domain.rules.com/this/is/a/very/long/url/from/hell/and/other/dark/places/and-finaly/a-page.html?with=arguments&and=more&arguments=all&over=the&workd :D";
-                var expected = ">http:&#x2F;&#x2F;verylongsub.domain<span class=\"link-trim\">.rules.com&#x2F;this&#x2F;is&#x2F;a&#x2F;very&#x2F;long&#x2F;url&#x2F;from&#x2F;hell&#x2F;and&#x2F;other&#x2F;dark&#x2F;places&#x2F;and-finaly&#x2F;a-page.html?with=arguments&amp;and=more&amp;ar</span>guments=all&amp;over=the&amp;workd<";
+                var expected = ">http://verylongsub.domain<span class=\"link-trim\">.rules.com&#x2F;this&#x2F;is&#x2F;a&#x2F;very&#x2F;long&#x2F;url&#x2F;from&#x2F;hell&#x2F;and&#x2F;other&#x2F;dark&#x2F;places&#x2F;and-finaly&#x2F;a-page.html?with=arguments&amp;and=more&amp;ar</span>guments=all&amp;over=the&amp;workd<";
                 var result = input.LinksAsHtml(avoidDoubleEscape: false);
 
                 Assert.IsTrue(result.Contains(expected));
@@ -306,6 +306,7 @@ p3</p>";
                 var text = "c'est cool de regarder #tf1 à 20h";
                 var result = text.TwitterLinksAsHtml();
                 Test(result, "https://twitter.com/search/realtime?q=%23tf1&src=hash");
+                Assert.IsTrue(result.Contains("c'est"));
                 Assert.IsTrue(result.Contains("regarder <a"));
                 Assert.IsTrue(result.Contains(">#tf1</a> à"));
             }
@@ -732,7 +733,7 @@ p3</p>";
             public void Test()
             {
                 string input = "helo <b class=\"test\" style='o'>w & or &amp; ld</b>";
-                string expected = "helo &lt;b class=&quot;test&quot; style=&#x27;o&#x27;&gt;w &amp; or &amp;amp; ld&lt;&#x2F;b&gt;";
+                string expected = "helo &lt;b class=&quot;test&quot; style=&#x27;o&#x27;&gt;w &amp; or &amp;amp; ld&lt;/b&gt;";
 
                 string result = input.ProperHtmlEscape();
 
@@ -754,7 +755,7 @@ p3</p>";
             public void AllCharsEscaped()
             {
                 string input = "&<>\"'/";
-                string expected = "&amp;&lt;&gt;&quot;&#x27;&#x2F;";
+                string expected = "&amp;&lt;&gt;&quot;&#x27;/";
 
                 string result = input.ProperHtmlEscape();
 

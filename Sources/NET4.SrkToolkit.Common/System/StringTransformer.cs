@@ -364,9 +364,9 @@ namespace System
                         builder.Append("&#x27;");
                         break;
 
-                    case '/':
-                        builder.Append("&#x2F;");
-                        break;
+                    ////case '/':
+                    ////    builder.Append("&#x2F;");
+                    ////    break;
 
                     default:
                         builder.Append(content[i]);

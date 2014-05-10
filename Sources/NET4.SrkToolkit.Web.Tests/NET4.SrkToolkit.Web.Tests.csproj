@@ -63,6 +63,7 @@
     <Compile Include="OpenGraphTagTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SrkHtmlExtensionsTests.cs" />
+    <Compile Include="SrkMvcCollectionExtensionsTests.cs" />
     <Compile Include="SrkRequestExtensionsTests.cs" />
     <Compile Include="SrkUrlHelperExtensionsTests.cs" />
   </ItemGroup>

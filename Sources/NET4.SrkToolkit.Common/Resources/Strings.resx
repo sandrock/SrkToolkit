@@ -79,6 +79,9 @@
   <data name="EmailAddressAttribute_ErrorMessage_MultipleMinimumAddresses" xml:space="preserve">
     <value>There are only {0} email addresses; a minimum of {1} are expected.</value>
   </data>
+  <data name="TimezoneAttribute_ErrorMessage" xml:space="preserve">
+    <value>The timezone is not valid.</value>
+  </data>
   <data name="ValidationAttribute_NeedBothResourceTypeAndResourceName" xml:space="preserve">
     <value>Both ErrorMessageResourceType and ErrorMessageResourceName need to be set on this attribute.</value>
   </data>

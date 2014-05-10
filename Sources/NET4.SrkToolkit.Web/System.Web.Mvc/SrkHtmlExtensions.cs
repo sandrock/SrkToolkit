@@ -663,5 +663,17 @@ namespace System.Web.Mvc
         }
 
         #endregion
+
+        public static string CssClass(this HtmlHelper html, bool condition, string classTrue, string classFalse = null)
+        {
+            return condition ? classTrue : classFalse;
+        }
+
+        public static string CssClass(this HtmlHelper html, bool? condition, string classTrue, string classFalse = null, string classNull = null)
+        {
+            if (condition != null)
+                return condition.Value ? classTrue : classFalse;
+            return classNull;
+        }
     }
 }

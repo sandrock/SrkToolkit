@@ -193,7 +193,7 @@ http://test.local/File/b214cb9e-8f67-43c9-9ee1-84f7a1e19b20http://test.local/Fil
                 var expected = ">http://verylongsub.domain<span class=\"link-trim\">.rules.com&#x2F;this&#x2F;is&#x2F;a&#x2F;very&#x2F;long&#x2F;url&#x2F;from&#x2F;hell&#x2F;and&#x2F;other&#x2F;dark&#x2F;places&#x2F;and-finaly&#x2F;a-page.html?with=arguments&amp;and=more&amp;ar</span>guments=all&amp;over=the&amp;workd<";
                 var result = input.LinksAsHtml(avoidDoubleEscape: false);
 
-                Assert.IsTrue(result.Contains(expected));
+                SrkToolkit.Testing.Assert.Contains(expected, result);
             }
 
             [TestMethod]

@@ -185,7 +185,7 @@ namespace SrkToolkit.Web.HttpErrors
 
             if (this.Request.IsXmlHttpRequest())
             {
-                return new ResultServiceBase(this.HttpContext).JsonError(action, model.Message ?? "Unknown error.");
+                return new ResultServiceBase(this.HttpContext).JsonErrorWithException(action, model.Message ?? "Unknown error.", ex);
             }
             else
             {

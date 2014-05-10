@@ -16,20 +16,6 @@ namespace SrkToolkit.Domain.Tests
     public class ResultErrorTests
     {
         [TestClass]
-        public class GetMessageFromEnumMethod
-        {
-            [TestMethod]
-            public void MyTestMethod()
-            {
-                var value = Lalala.One;
-                var resourceManager = Strings.ResourceManager;
-                var expected = "Hello World";
-                var result = ResultError.GetMessageFromEnum(value, resourceManager);
-                Assert.AreEqual(expected, result);
-            }
-        }
-
-        [TestClass]
         public class AddExtension
         {
             [TestMethod]

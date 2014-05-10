@@ -22,7 +22,7 @@ namespace System.Web.Mvc
             if (view.TempData == null)
                 return new List<TempMessage>();
 
-            var list = view.TempData["TempMessages"] as IList<TempMessage>;
+            var list = view.TempData[TempMessage.TempDataKey] as IList<TempMessage>;
             return list ?? new List<TempMessage>();
         }
     }

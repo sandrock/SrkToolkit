@@ -141,5 +141,38 @@ namespace SrkToolkit.Web.Services
         {
             get { return this.httpContext; }
         }
+
+        internal ActionResult JsonErrorWithException(string errorCode, string errorMessage, Exception exception)
+        {
+            return new JsonNetResult
+            {
+                Data = new
+                {
+                    Success = false,
+                    ErrorCode = errorCode,
+                    ErrorMessage = errorMessage,
+                    Data = default(string),
+                    Exception = DescribeException(exception),
+                },
+            };
+        }
+
+        private object DescribeException(Exception exception)
+        {
+            if (exception != null)
+            {
+                return new
+                {
+                    Type = exception.GetType().FullName,
+                    Message = exception.Message,
+                    StackTrace = exception.StackTrace,
+                    Inner = DescribeException(exception.InnerException),
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

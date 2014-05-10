@@ -83,6 +83,7 @@
     <Compile Include="Services\ISessionServiceSource.cs" />
     <Compile Include="SrkControllerExtensions.cs" />
     <Compile Include="System.Web.Mvc\SrkHtmlExtensions.cs" />
+    <Compile Include="System.Web.Mvc\SrkMvcCollectionExtensions.cs" />
     <Compile Include="System.Web.Mvc\SrkUrlHelperExtensions.cs" />
     <Compile Include="System.Web.Mvc\SrkViewExtensions.cs" />
   </ItemGroup>

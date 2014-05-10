@@ -54,5 +54,92 @@ namespace SrkToolkit.Testing
                 }
             }
         }
+
+        public static void Contains(string search, string value)
+        {
+            if (string.IsNullOrEmpty(search))
+                throw new ArgumentException("The value cannot be empty", "search");
+            if (string.IsNullOrEmpty(value))
+                throw new ArgumentException("The value cannot be empty", "value");
+
+            var matches = new List<ContainsMatch>();
+            for (int i = 0; i < value.Length; i++)
+            {
+                if (value[i] == search[0])
+                {
+                    // begining of a match
+                    var match = new ContainsMatch
+                    {
+                        ValueIndex = i,
+                    };
+                    matches.Add(match);
+                }
+
+                // iterate matches
+                for (int m = 0; m < matches.Count; m++)
+                {
+                    var match = matches[m];
+                    int index = i - match.ValueIndex;
+                    if (index < search.Length)
+                    {
+                        if (value[i] == search[index])
+                        {
+                            match.Length = index + 1;
+                        }
+                    }
+                    else
+                    {
+                        match.IsValid = match.Length == search.Length;
+
+                        if (match.IsValid)
+                            return;
+                    }
+                }
+            }
+
+            for (int m = 0; m < matches.Count; m++)
+            {
+                var match = matches[m];
+                if (match.Length == search.Length)
+                {
+                    match.IsValid = true;
+                    return;
+                }
+                else if ((match.ValueIndex + search.Length) > (value.Length))
+                {
+
+                }
+            }
+
+            var bestMatch = matches.OrderByDescending(m => m.Length).FirstOrDefault();
+
+            if (bestMatch != null)
+            {
+                string msg = "Searched string was not found. Best partial match:\r\n";
+                int quoteAt1 = Math.Max(0, bestMatch.ValueIndex + bestMatch.Length - 10);
+                int quoteLength1 = Math.Min(value.Length - quoteAt1, quoteAt1 + 20);
+                int quoteAt2 = Math.Max(0, bestMatch.Length - 10);
+                int quoteLength2 = Math.Min(search.Length - quoteAt2, quoteAt2 + 20);
+                int quoteDiff = Math.Max(0, bestMatch.ValueIndex - quoteAt1);
+                msg += "V> " + value.Substring(quoteAt1, quoteLength1) + "\r\n";
+                msg += "S> " + string.Concat(Enumerable.Repeat("-", quoteDiff)) + search.Substring(quoteAt2, quoteLength2) + "\r\n";
+                msg += "   " + string.Concat(Enumerable.Repeat(" ", quoteDiff)) + "^" + (bestMatch.Length > 2 ? (string.Concat(Enumerable.Repeat("-", quoteLength2 - 2)) + "^") : bestMatch.Length == 2 ? "^" : "");
+                throw new ArgumentException(msg);
+            }
+            else
+            {
+                string msg = "Searched string was not found";
+                throw new ArgumentException(msg);
+            }
+        }
+
+        internal class ContainsMatch
+        {
+            public int ValueIndex { get; set; }
+
+            public int Length { get; set; }
+
+            public bool IsValid { get; set; }
+        }
     }
 }

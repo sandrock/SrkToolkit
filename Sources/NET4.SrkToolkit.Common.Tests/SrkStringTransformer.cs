@@ -788,5 +788,42 @@ p3</p>";
                 Assert.AreEqual(expected, result);
             }
         }
+
+        [TestClass]
+        public class UnescapeUnicodeSequencesMethod
+        {
+            [TestMethod]
+            public void WorksOn0x3D()
+            {
+                string input = @"\x3D";
+                string expected = "=";
+
+                string result = SrkStringTransformer.UnescapeUnicodeSequences(input);
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void WorksOnStringWith0x3D()
+            {
+                string input = @"aaaa\x3Daaaa";
+                string expected = "aaaa=aaaa";
+
+                string result = SrkStringTransformer.UnescapeUnicodeSequences(input);
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void WorksOnStringWith0x3DDouble()
+            {
+                string input = @"aaaa\x3Daaaa\x3Daaaa";
+                string expected = "aaaa=aaaa=aaaa";
+
+                string result = SrkStringTransformer.UnescapeUnicodeSequences(input);
+
+                Assert.AreEqual(expected, result);
+            }
+        }
     }
 }

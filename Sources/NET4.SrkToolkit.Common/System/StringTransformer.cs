@@ -636,5 +636,70 @@ namespace System
                     .Aggregate((s1, s2) => s1 + "</p>" + Environment.NewLine + "<p>" + s2)
                 + "</p>";
         }
+
+        public static string UnescapeUnicodeSequences(string input)
+        {
+            var sb = new StringBuilder();
+
+            bool backSlash = false, havex = false, havea = false, haveb = false;
+            char a = ' ', b;
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (input[i] == '\\')
+                {
+                    backSlash = true;
+                }
+                else
+                {
+                    if (backSlash)
+                    {
+                        if (input[i] == 'x' || input[i] == 'X')
+                        {
+                            havex = true;
+                        }
+                        else
+                        {
+                            if (havex)
+                            {
+                                if (havea)
+                                {
+                                    {
+                                        b = input[i];
+                                        haveb = true;
+
+                                        var numberAsString = new string(new char[] { a, b, });
+                                        ushort number;
+                                        if (ushort.TryParse(numberAsString, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out number))
+                                        {
+                                            sb.Remove(sb.Length - 3, 3);
+                                            sb.Append((char)number);
+                                            haveb = backSlash = havea = havex = false;
+                                            continue;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    a = input[i];
+                                    havea = true;
+                                }
+                            }
+                            else
+                            {
+                                havex = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        backSlash = false;
+                    }
+                }
+
+                sb.Append(input[i]);
+            }
+
+            return sb.ToString();
+        }
     }
 }

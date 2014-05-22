@@ -61,9 +61,6 @@
     <Compile Include="..\SL4.SrkToolkit.Xaml\Extensions\DependencyObjectExtensions.cs">
       <Link>Extensions\DependencyObjectExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\SL4.SrkToolkit.Xaml\Internal\CompositeDisposable.cs">
-      <Link>Internal\CompositeDisposable.cs</Link>
-    </Compile>
     <Compile Include="..\SrkToolkit.Xaml.AssemblyInfo.cs">
       <Link>SrkToolkit.Xaml.AssemblyInfo.cs</Link>
     </Compile>
@@ -98,6 +95,9 @@
       <Project>{175b67be-9042-45ee-a8df-d96fe8b75561}</Project>
       <Name>WPF45.SrkToolkit.Mvvm</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Internal\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

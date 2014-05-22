@@ -637,16 +637,61 @@ namespace System
                 + "</p>";
         }
 
-        public static string UnescapeUnicodeSequences(string input)
+        /// <summary>
+        /// Unescapes the unicode sequences (\x00-\xFF) in the given string.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns></returns>
+        public static string UnescapeUnicodeSequences(this string input)
+        {
+            var sb = new StringBuilder(input.Length);
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (input[i] == '\\')
+                {
+                    if (input.Length > i + 3
+                     && (input[i + 1] == 'x' || input[i + 1] == 'X')
+                     && IsHex(input[i + 2])
+                     && IsHex(input[i + 3]))
+                    {
+                        ushort number;
+                        if (ushort.TryParse(input.Substring(i + 2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out number))
+                        {
+                            var bytes = BitConverter.GetBytes(number);
+                            var str = Encoding.Unicode.GetString(bytes);
+                            sb.Append(str);
+                            i += 3;
+                            continue;
+                        }
+                    }
+                }
+
+                sb.Append(input[i]);
+            }
+
+            return sb.ToString();
+        }
+        /*
+         * this is wrong
+         * https://en.wikipedia.org/wiki/UTF8#Description
+         * 
+        public static string UnescapeUTF8Sequences(this string input)
         {
             var sb = new StringBuilder();
 
             bool backSlash = false, havex = false, havea = false, haveb = false;
             char a = ' ', b;
+            char[] chars = new char[4];
+            byte nchars = 0;
+            bool ready = false;
             for (int i = 0; i < input.Length; i++)
             {
                 if (input[i] == '\\')
                 {
+                    nchars = 0;
+                    havex = false;
+                    ready = false;
                     backSlash = true;
                 }
                 else
@@ -656,32 +701,67 @@ namespace System
                         if (input[i] == 'x' || input[i] == 'X')
                         {
                             havex = true;
+                            chars = new char[4];
                         }
                         else
                         {
                             if (havex)
                             {
-                                if (havea)
+                                if (input[i] >= 0x30 && input[i] <= 0x39 || input[i] >= 0x41 && input[i] <= 0x5A && nchars < 4)
                                 {
+                                    if (nchars == 0)
                                     {
-                                        b = input[i];
-                                        haveb = true;
-
-                                        var numberAsString = new string(new char[] { a, b, });
-                                        ushort number;
-                                        if (ushort.TryParse(numberAsString, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out number))
-                                        {
-                                            sb.Remove(sb.Length - 3, 3);
-                                            sb.Append((char)number);
-                                            haveb = backSlash = havea = havex = false;
-                                            continue;
-                                        }
+                                        nchars++;
+                                        chars[0] = input[i];
+                                    }
+                                    else if (nchars == 1)
+                                    {
+                                        nchars++;
+                                        chars[1] = input[i];
+                                        ready = !IsHex(input[i + 1]) || !IsHex(input[i + 2]);
+                                    }
+                                    else if (nchars == 2)
+                                    {
+                                        nchars++;
+                                        chars[2] = input[i];
+                                    }
+                                    else if (nchars == 3)
+                                    {
+                                        nchars++;
+                                        chars[3] = input[i];
+                                        ready = true;
                                     }
                                 }
-                                else
+                                
+                                if (ready)
                                 {
-                                    a = input[i];
-                                    havea = true;
+                                    uint number;
+                                    if (uint.TryParse(new string(chars, 0, nchars), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out number))
+                                    {
+                                        sb.Remove(sb.Length + 1 - nchars - 2, 2 + nchars - 1);
+                                        var uintAsBytes = BitConverter.GetBytes(number);
+                                        byte size = checked((byte)uintAsBytes.Length);
+                                        for (byte j = 0; j < uintAsBytes.Length; j++)
+                                        {
+                                            if (uintAsBytes[uintAsBytes.Length-j-1] != 0)
+                                            {
+                                                size = checked((byte)(uintAsBytes.Length - j));
+                                                break;
+                                            }
+                                        }
+                                        var bytes = new byte[size];
+                                        for (byte j = 0; j < size; j++)
+                                        {
+                                            bytes[j] = uintAsBytes[j];
+                                        }
+
+                                        var str = Encoding.UTF8.GetString(bytes);
+                                        sb.Append(str);
+                                        backSlash = havex = false;
+                                        nchars = 0;
+                                        ready = false;
+                                        continue;
+                                    }
                                 }
                             }
                             else
@@ -700,6 +780,11 @@ namespace System
             }
 
             return sb.ToString();
+        }
+        */
+        private static bool IsHex(char value)
+        {
+            return value >= 0x30 && value <= 0x39 || value >= 0x41 && value <= 0x5A;
         }
     }
 }

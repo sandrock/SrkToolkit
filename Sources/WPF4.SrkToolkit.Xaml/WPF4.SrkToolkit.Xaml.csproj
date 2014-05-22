@@ -68,9 +68,6 @@
     <Compile Include="..\SL4.SrkToolkit.Xaml\Extensions\DependencyObjectExtensions.cs">
       <Link>Extensions\DependencyObjectExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\SL4.SrkToolkit.Xaml\Internal\CompositeDisposable.cs">
-      <Link>Internal\CompositeDisposable.cs</Link>
-    </Compile>
     <None Include="..\SL4.SrkToolkit.Xaml\Internal\DisposableEventHandler.cs">
       <Link>Internal\DisposableEventHandler.cs</Link>
     </None>

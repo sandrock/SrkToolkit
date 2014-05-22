@@ -797,8 +797,66 @@ p3</p>";
             {
                 string input = @"\x3D";
                 string expected = "=";
-
                 string result = SrkStringTransformer.UnescapeUnicodeSequences(input);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void WorksOnStringWith0x3D()
+            {
+                string input = @"aaaa\x3Daaaa";
+                string expected = "aaaa=aaaa";
+                string result = SrkStringTransformer.UnescapeUnicodeSequences(input);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void WorksOnStringWith0x3DDouble()
+            {
+                string input = @"aaaa\x3Daaaa\x3Daaaa";
+                string expected = "aaaa=aaaa=aaaa";
+                string result = SrkStringTransformer.UnescapeUnicodeSequences(input);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void WorksOnStringWithHeart()
+            {
+                string input = @"aaaa\xE9aaaa";
+                string expected = "aaaaéaaaa";
+                string result = SrkStringTransformer.UnescapeUnicodeSequences(input);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void AtStart()
+            {
+                string input = @"\x3Daaaa";
+                string expected = "=aaaa";
+                string result = SrkStringTransformer.UnescapeUnicodeSequences(input);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void AtEnd()
+            {
+                string input = @"aaaa\x3D";
+                string expected = "aaaa=";
+                string result = SrkStringTransformer.UnescapeUnicodeSequences(input);
+                Assert.AreEqual(expected, result);
+            }
+        }
+        /*
+        [TestClass]
+        public class UnescapeUTF8SequencesMethod
+        {
+            [TestMethod]
+            public void WorksOn0x3D()
+            {
+                string input = @"\x3D";
+                string expected = "=";
+
+                string result = SrkStringTransformer.UnescapeUTF8Sequences(input);
 
                 Assert.AreEqual(expected, result);
             }
@@ -809,7 +867,7 @@ p3</p>";
                 string input = @"aaaa\x3Daaaa";
                 string expected = "aaaa=aaaa";
 
-                string result = SrkStringTransformer.UnescapeUnicodeSequences(input);
+                string result = SrkStringTransformer.UnescapeUTF8Sequences(input);
 
                 Assert.AreEqual(expected, result);
             }
@@ -820,10 +878,55 @@ p3</p>";
                 string input = @"aaaa\x3Daaaa\x3Daaaa";
                 string expected = "aaaa=aaaa=aaaa";
 
-                string result = SrkStringTransformer.UnescapeUnicodeSequences(input);
+                string result = SrkStringTransformer.UnescapeUTF8Sequences(input);
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void WorksOnStringWithHeart()
+            {
+                string input = @"aaaa\xE9aaaa";
+                string expected = "aaaaéaaaa";
+
+                string result = SrkStringTransformer.UnescapeUTF8Sequences(input);
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void WorksOnStringWith0021()
+            {
+                string input = @"aaaa\x0021\x21aaaa";
+                string expected = "aaaa!!aaaa";
+
+                string result = SrkStringTransformer.UnescapeUTF8Sequences(input);
+
+                Assert.AreEqual(expected, result);
+            }
+            
+            [TestMethod]
+            public void WorksOnStringWith0100()
+            {
+                string input = @"aaaa\x0100aaaa";
+                string expected = "aaaaĀaaaa";
+
+                string result = SrkStringTransformer.UnescapeUTF8Sequences(input);
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void WorksOnStringWithAD9D()
+            {
+                string input = @"aaaa\xAD9Daaaa";
+                string expected = "aaaa궝aaaa";
+
+                string result = SrkStringTransformer.UnescapeUTF8Sequences(input);
 
                 Assert.AreEqual(expected, result);
             }
         }
+        */
     }
 }

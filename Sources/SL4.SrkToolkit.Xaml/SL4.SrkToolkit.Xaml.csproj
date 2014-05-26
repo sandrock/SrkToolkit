@@ -84,7 +84,6 @@
     <Compile Include="Behaviors\InputEnterBehavior.cs" />
     <Compile Include="Behaviors\ListBoxScrollBehavior.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
-    <Compile Include="Internal\CompositeDisposable.cs" />
     <None Include="Internal\DisposableEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

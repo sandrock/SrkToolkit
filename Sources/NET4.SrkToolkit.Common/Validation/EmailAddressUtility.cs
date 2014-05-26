@@ -9,7 +9,7 @@ namespace SrkToolkit.Common.Validation
     /// <summary>
     /// Represents an email address.
     /// </summary>
-    public class EmailAddress
+    public class EmailAddress : IEquatable<EmailAddress>
     {
         private readonly string original;
         private readonly string address;
@@ -214,6 +214,63 @@ namespace SrkToolkit.Common.Validation
         public override string ToString()
         {
             return this.address;
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+        /// </returns>
+        public bool Equals(EmailAddress other)
+        {
+            if ((object)other == (object)null)
+                return false;
+
+            return string.Equals(other.Value, this.Value, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is EmailAddress))
+                return false;
+
+            return this.Equals((EmailAddress)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Value.GetHashCode();
+        }
+
+        public static bool operator ==(EmailAddress left, EmailAddress right)
+        {
+            if ((object)left == (object)null && (object)right == (object)null)
+                return true;
+
+            if ((object)left == (object)null)
+                return false;
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(EmailAddress left, EmailAddress right)
+        {
+            if ((object)left == (object)null && (object)right == (object)null)
+                return false;
+
+            if ((object)left == (object)null)
+                return true;
+
+            return !left.Equals(right);
         }
     }
 }

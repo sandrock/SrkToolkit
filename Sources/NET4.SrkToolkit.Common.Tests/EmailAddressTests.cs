@@ -285,5 +285,165 @@ namespace SrkToolkit.Common.Tests
                 Assert.AreEqual(expected, email.ValueWithoutTag);
             }
         }
+
+        [TestClass]
+        public class ObjectEqualsMethod
+        {
+            [TestMethod]
+            public void ObjectEqual_AgainstNull()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = null;
+                var result = value1.Equals((object)value2);
+                Assert.IsFalse(result);
+            }
+
+            [TestMethod]
+            public void ObjectEqual_AgainstSameReference()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = value1;
+                var result = value1.Equals((object)value2);
+                Assert.IsTrue(result);
+            }
+
+            [TestMethod]
+            public void ObjectEqual_AgainstSameValue()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = new EmailAddress("test@est.com");
+                var result = value1.Equals((object)value2);
+                Assert.IsTrue(result);
+            }
+
+            [TestMethod]
+            public void ObjectEqual_AgainstDifferentValue()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = new EmailAddress("lalala@test.com");
+                var result = value1.Equals((object)value2);
+                Assert.IsFalse(result);
+            }
+        }
+
+        [TestClass]
+        public class EmailAddressEqualsMethod
+        {
+            [TestMethod]
+            public void ObjectEqual_AgainstNull()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = null;
+                var result = value1.Equals(value2);
+                Assert.IsFalse(result);
+            }
+
+            [TestMethod]
+            public void ObjectEqual_AgainstSameReference()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = value1;
+                var result = value1.Equals(value2);
+                Assert.IsTrue(result);
+            }
+
+            [TestMethod]
+            public void ObjectEqual_AgainstSameValue()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = new EmailAddress("test@est.com");
+                var result = value1.Equals(value2);
+                Assert.IsTrue(result);
+            }
+
+            [TestMethod]
+            public void ObjectEqual_AgainstDifferentValue()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = new EmailAddress("lalala@test.com");
+                var result = value1.Equals(value2);
+                Assert.IsFalse(result);
+            }
+        }
+
+        [TestClass]
+        public class OperatorEqualsMethod
+        {
+            [TestMethod]
+            public void EqualityOperator_AgainstNull()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = null;
+                var result = value1 == value2;
+                Assert.IsFalse(result);
+            }
+
+            [TestMethod]
+            public void EqualityOperator_AgainstSameReference()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = value1;
+                var result = value1 == value2;
+                Assert.IsTrue(result);
+            }
+
+            [TestMethod]
+            public void EqualityOperator_AgainstSameValue()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = new EmailAddress("test@est.com");
+                var result = value1 == value2;
+                Assert.IsTrue(result);
+            }
+
+            [TestMethod]
+            public void EqualityOperator_AgainstDifferentValue()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = new EmailAddress("lalala@test.com");
+                var result = value1 == value2;
+                Assert.IsFalse(result);
+            }
+        }
+
+        [TestClass]
+        public class OperatorInEqualsMethod
+        {
+            [TestMethod]
+            public void InequalityOperator_AgainstNull()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = null;
+                var result = value1 != value2;
+                Assert.IsTrue(result);
+            }
+
+            [TestMethod]
+            public void InequalityOperator_AgainstSameReference()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = value1;
+                var result = value1 != value2;
+                Assert.IsFalse(result);
+            }
+
+            [TestMethod]
+            public void InequalityOperator_AgainstSameValue()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = new EmailAddress("test@est.com");
+                var result = value1 != value2;
+                Assert.IsFalse(result);
+            }
+
+            [TestMethod]
+            public void InequalityOperator_AgainstDifferentValue()
+            {
+                EmailAddress value1 = new EmailAddress("test@est.com");
+                EmailAddress value2 = new EmailAddress("lalala@test.com");
+                var result = value1 != value2;
+                Assert.IsTrue(result);
+            }
+        }
     }
 }

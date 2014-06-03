@@ -86,6 +86,10 @@
     <Compile Include="System.Web.Mvc\SrkMvcCollectionExtensions.cs" />
     <Compile Include="System.Web.Mvc\SrkUrlHelperExtensions.cs" />
     <Compile Include="System.Web.Mvc\SrkViewExtensions.cs" />
+    <Compile Include="WebDependencies.cs" />
+    <Compile Include="WebDependenciesExtensions.cs" />
+    <Compile Include="WebDependency.cs" />
+    <Compile Include="WebDependencyFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SrkToolkit.snk" />

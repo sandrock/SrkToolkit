@@ -97,6 +97,16 @@ namespace System
         }
 
         /// <summary>
+        /// Returns the date with the same values and a <see cref="DateTime.Kind"/> set to <see cref="DateTimeKind.Utc"/>
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>the date with the same values and a <see cref="DateTime.Kind"/> set to <see cref="DateTimeKind.Utc"/></returns>
+        public static DateTime? AsUtc(this DateTime? value)
+        {
+            return value != null ? value.Value.AsUtc() : default(DateTime?);
+        }
+
+        /// <summary>
         /// Returns the date with the same values and a <see cref="DateTime.Kind"/> set to <see cref="DateTimeKind.Unspecified"/>
         /// </summary>
         /// <param name="value">The value.</param>
@@ -106,6 +116,21 @@ namespace System
             return new DateTime(value.Ticks, DateTimeKind.Unspecified);
         }
 
+        /// <summary>
+        /// Returns the date with the same values and a <see cref="DateTime.Kind"/> set to <see cref="DateTimeKind.Unspecified"/>
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>the date with the same values and a <see cref="DateTime.Kind"/> set to <see cref="DateTimeKind.Unspecified"/></returns>
+        public static DateTime? AsUnspecified(this DateTime? value)
+        {
+            return value != null ? value.Value.AsUnspecified() : default(DateTime?);
+        }
+
+        /// <summary>
+        /// Get the unix time from a <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The unix time</returns>
         public static long ToUnixTime(this DateTime value)
         {
             return (long)value.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;

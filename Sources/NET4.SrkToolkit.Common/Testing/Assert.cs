@@ -8,6 +8,18 @@ namespace SrkToolkit.Testing
 
     public static class Assert
     {
+        /// <summary>
+        /// Compares two strings to and throws an exception is their value differs.
+        /// </summary>
+        /// <param name="expected">The expected.</param>
+        /// <param name="actual">The actual.</param>
+        /// <exception cref="System.ArgumentException">
+        /// The actual string was expected null
+        /// or
+        /// The actual string is null
+        /// or
+        /// Both strings are different.
+        /// </exception>
         public static void AreEqual(string expected, string actual)
         {
             if (expected == null && actual != null)
@@ -55,6 +67,18 @@ namespace SrkToolkit.Testing
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified string contains the specified searached string.
+        /// </summary>
+        /// <param name="search">The string to find.</param>
+        /// <param name="value">The string to search in.</param>
+        /// <exception cref="System.ArgumentException">
+        /// The value cannot be empty;search
+        /// or
+        /// The value cannot be empty;value
+        /// or
+        /// The searched string does not exist in the value.
+        /// </exception>
         public static void Contains(string search, string value)
         {
             if (string.IsNullOrEmpty(search))

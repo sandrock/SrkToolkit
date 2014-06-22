@@ -10,6 +10,9 @@ namespace SrkToolkit.IO
     using System.Threading.Tasks;
     using SrkToolkit.Threading.Tasks;
 
+    /// <summary>
+    /// Multi-threaded implementation of a recursive file delete algorithm.
+    /// </summary>
     public class RecursiveDelete
     {
         private string path;
@@ -33,11 +36,19 @@ namespace SrkToolkit.IO
 
         public bool CollectExceptions { get; set; }
 
+        /// <summary>
+        /// Runs immediately in a blocking fashion.
+        /// </summary>
         public void Run()
         {
             this.Execute();
         }
 
+        /// <summary>
+        /// Runs in a asynchronous fashion.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        /// <param name="progressCallback">The progress callback.</param>
         public void RunAsync(Action callback, Action<int, int> progressCallback)
         {
             ThreadPool.QueueUserWorkItem(_ =>

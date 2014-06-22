@@ -16,6 +16,65 @@ namespace SrkToolkit.Domain.Tests
     public class ResultErrorTests
     {
         [TestClass]
+        public class Ctor
+        {
+            [TestMethod]
+            public void WithResourceManager()
+            {
+                var value = Lalala.One;
+                var resourceManager = Strings.ResourceManager;
+                var expected = "Hello World";
+                var result = new ResultError<Lalala>(value, resourceManager);
+                Assert.AreEqual(value, result.Code);
+                Assert.AreEqual(expected, result.DisplayMessage);
+            }
+
+            [TestMethod]
+            public void WithoutResourceManager()
+            {
+                var value = Lalala.One;
+                var resourceManager = "Hello World";
+                var expected = "Hello World";
+                var result = new ResultError<Lalala>(value, resourceManager);
+                Assert.AreEqual(value, result.Code);
+                Assert.AreEqual(expected, result.DisplayMessage);
+            }
+
+            [TestMethod]
+            public void WithResourceManagerAndFormat()
+            {
+                var value = Lalala.Infinity;
+                var resourceManager = Strings.ResourceManager;
+                var expected = "here is a format => aabb <=";
+                var result = new ResultError<Lalala>(value, resourceManager, "aabb");
+                Assert.AreEqual(value, result.Code);
+                Assert.AreEqual(expected, result.DisplayMessage);
+            }
+
+            [TestMethod]
+            public void WithoutResourceManagerAndFormat()
+            {
+                var value = Lalala.Infinity;
+                var resourceManager = "here is a format => {0} <=";
+                var expected = "here is a format => aabb <=";
+                var result = new ResultError<Lalala>(value, resourceManager, "aabb");
+                Assert.AreEqual(value, result.Code);
+                Assert.AreEqual(expected, result.DisplayMessage);
+            }
+
+            [TestMethod]
+            public void WithNestedType()
+            {
+                var value = NestedClass.Lululu.One;
+                var resourceManager = Strings.ResourceManager;
+                var expected = "Hello World";
+                var result = new ResultError<NestedClass.Lululu>(value, resourceManager);
+                Assert.AreEqual(value, result.Code);
+                Assert.AreEqual(expected, result.DisplayMessage);
+            }
+        }
+
+        [TestClass]
         public class AddExtension
         {
             [TestMethod]
@@ -84,6 +143,17 @@ namespace SrkToolkit.Domain.Tests
             Unknown,
             Known,
             Other,
+        }
+
+        public class NestedClass
+        {
+            public enum Lululu
+            {
+                None,
+                One,
+                Many,
+                Infinity,
+            }
         }
     }
 }

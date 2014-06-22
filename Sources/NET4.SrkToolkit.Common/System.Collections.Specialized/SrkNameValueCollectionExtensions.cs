@@ -11,6 +11,11 @@ namespace System.Collections.Specialized
     /// </summary>
     public static class SrkNameValueCollectionExtensions
     {
+        /// <summary>
+        /// Creates a <see cref="IDictionary&lt;string, string&gt;"/> containing the values from the current <see cref="NameValueCollection"/>.
+        /// </summary>
+        /// <param name="collection">The collection.</param>
+        /// <returns></returns>
         public static IDictionary<string, string> ToDictionary(this NameValueCollection collection)
         {
             var list = new Dictionary<string, string>();
@@ -22,6 +27,11 @@ namespace System.Collections.Specialized
             return list;
         }
 
+        /// <summary>
+        /// Creates an enumerable from a <see cref="NameValueCollection"/>.
+        /// </summary>
+        /// <param name="collection">The collection.</param>
+        /// <returns></returns>
         public static IEnumerable<KeyValuePair<string, string>> AsEnumerable(this NameValueCollection collection)
         {
             foreach (var item in collection.AllKeys)

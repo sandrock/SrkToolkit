@@ -43,8 +43,17 @@ namespace SrkToolkit
             if (resourceManager == null)
                 throw new ArgumentNullException("resourceManager");
 
-            string key = value.GetType().Name + "_" + value.ToString();
-            string result = resourceManager.GetString(key, culture);
+            
+            Type type = value.GetType();
+            string typeName = null;
+            string result;
+            do
+            {
+                typeName = typeName == null ? type.Name : (type.Name + "_" + typeName);
+                string key = typeName + "_" + value.ToString();
+                result = resourceManager.GetString(key, culture);
+            }
+            while (result == null && (type = type.DeclaringType) != null);
             return result ?? value.ToString();
         }
     }

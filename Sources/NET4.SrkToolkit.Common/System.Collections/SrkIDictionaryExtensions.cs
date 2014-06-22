@@ -6,6 +6,9 @@ namespace System.Collections
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// Extension methods for the <see cref="IDictionary"/> interface.
+    /// </summary>
     public static class SrkIDictionaryExtensions
     {
         /// <summary>

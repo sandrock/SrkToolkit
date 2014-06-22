@@ -86,5 +86,32 @@ namespace SrkToolkit.Domain.Tests {
                 return ResourceManager.GetString("Lalala_One", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to here is a format =&gt; {0} &lt;=.
+        /// </summary>
+        public static string NestedClass_Lululu_Infinity {
+            get {
+                return ResourceManager.GetString("NestedClass_Lululu_Infinity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a.
+        /// </summary>
+        public static string NestedClass_Lululu_Many {
+            get {
+                return ResourceManager.GetString("NestedClass_Lululu_Many", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello World.
+        /// </summary>
+        public static string NestedClass_Lululu_One {
+            get {
+                return ResourceManager.GetString("NestedClass_Lululu_One", resourceCulture);
+            }
+        }
     }
 }

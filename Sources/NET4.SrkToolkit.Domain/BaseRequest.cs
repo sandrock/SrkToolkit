@@ -34,7 +34,12 @@ namespace SrkToolkit.Domain
         /// </value>
         public IEnumerable<string> AllValidationErrors
         {
-            get { return validationErrors.SelectMany(x => x.Value); }
+            get
+            {
+                if (this.validationErrors == null)
+                    return Enumerable.Empty<string>();
+                return validationErrors.SelectMany(x => x.Value);
+            }
         }
 
         /// <summary>
@@ -47,6 +52,8 @@ namespace SrkToolkit.Domain
         {
             get
             {
+                if (this.validationErrors == null)
+                    yield break;
                 foreach (var pair in validationErrors)
                 {
                     yield return new KeyValuePair<string, IEnumerable<string>>(pair.Key, pair.Value);

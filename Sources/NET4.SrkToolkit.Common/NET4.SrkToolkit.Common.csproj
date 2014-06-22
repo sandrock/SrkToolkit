@@ -52,7 +52,6 @@
     </Compile>
     <Compile Include="CompositeDisposable.cs" />
     <Compile Include="DataAnnotations\DateRangeAttribute.cs" />
-    <None Include="DataAnnotations\DescriptionAttribute.cs" />
     <Compile Include="DataAnnotations\EmailAddressAttribute.cs" />
     <Compile Include="DataAnnotations\TimezoneAttribute.cs" />
     <Compile Include="DisposableOnce.cs" />

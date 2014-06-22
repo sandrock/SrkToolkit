@@ -15,7 +15,7 @@ namespace SrkToolkit.DataAnnotations
     using SrkToolkit.Resources;
 
     /// <summary>
-    /// TODO: Update summary.
+    /// Validates a <see cref="DateTime"/> property by specifying a lower and upper bounds.
     /// </summary>
     public class DateRangeAttribute : ValidationAttribute
     {

@@ -21,6 +21,7 @@ namespace SrkToolkit.Common.Validation
         {
             if (value == null)
                 return null;
+
             var better = value.ToLowerInvariant().Trim();
             if (emailRegex.IsMatch(better))
                 return better;
@@ -39,7 +40,8 @@ namespace SrkToolkit.Common.Validation
 
             var matches = emailsRegex.Matches(input);
 
-            foreach (Match match in matches) {
+            foreach (Match match in matches)
+            {
                 yield return match.Value.ToLowerInvariant();
             }
         }

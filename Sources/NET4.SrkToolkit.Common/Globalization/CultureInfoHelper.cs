@@ -8,7 +8,7 @@ namespace SrkToolkit.Globalization
     using System.Globalization;
 
     /// <summary>
-    /// 
+    /// Utility methods for the <see cref="CultureInfo"/> class.
     /// </summary>
     public static class CultureInfoHelper
     {

@@ -8,7 +8,9 @@ namespace SrkToolkit.Web
     using System.Web;
     using System.Web.Mvc;
 
-    [Obsolete("Feature in development")]
+    /// <summary>
+    /// Manages web dependencies such as scripts and styles.
+    /// </summary>
     public class WebDependencies
     {
         private List<Tuple<WebDependency, WebDependencyPosition>> includes;
@@ -17,6 +19,12 @@ namespace SrkToolkit.Web
         {
         }
 
+        /// <summary>
+        /// Renders the specified dependency.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>HTML</returns>
+        /// <exception cref="System.ArgumentNullException">value</exception>
         public MvcHtmlString Render(WebDependency value)
         {
             if (value == null)
@@ -36,39 +44,12 @@ namespace SrkToolkit.Web
             return MvcHtmlString.Empty;
         }
 
-        private static void RenderDependency(WebDependencyFile value, StringBuilder sb)
-        {
-            if (value == null)
-                throw new ArgumentNullException("value");
-            if (sb == null)
-                throw new ArgumentNullException("sb");
-
-            switch (value.Type)
-            {
-                case WebDependencyFileType.Javascript:
-                    var tag = new TagBuilder("script");
-                    tag.Attributes.Add("src", value.Path);
-                    if (value.Encoding != null)
-                        tag.Attributes.Add("charset", value.Encoding.WebName);
-                    sb.AppendLine(tag.ToString());
-                    break;
-
-                case WebDependencyFileType.Css:
-                    tag = new TagBuilder("link");
-                    tag.Attributes.Add("rel", "stylesheet");
-                    tag.Attributes.Add("type", "typetext/css");
-                    tag.Attributes.Add("href", value.Path);
-                    if (value.Encoding != null)
-                        tag.Attributes.Add("charset", value.Encoding.WebName);
-                    sb.AppendLine(tag.ToString());
-                    break;
-
-                default:
-                    sb.AppendLine("<!-- ERROR: unknown web dependency file type '" + value.Type + "' -->");
-                    break;
-            }
-        }
-
+        /// <summary>
+        /// Mark the specified dependency for inclusion.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="position">The position.</param>
+        /// <returns></returns>
         public WebDependencies Include(WebDependency value, WebDependencyPosition position = WebDependencyPosition.EndOfPage)
         {
             if (this.includes == null)
@@ -84,6 +65,11 @@ namespace SrkToolkit.Web
             return this;
         }
 
+        /// <summary>
+        /// Renders the dependencies marked for inclusion.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <returns></returns>
         public MvcHtmlString RenderIncludes(WebDependencyPosition position)
         {
             var sb = new StringBuilder();
@@ -105,12 +91,54 @@ namespace SrkToolkit.Web
                     }
                 }
             }
-            else
-            {
-            }
 
             sb.AppendLine("<!-- WebDependencies/" + position + " - end -->");
             return MvcHtmlString.Create(sb.ToString());
+        }
+
+        private static void RenderDependency(WebDependencyFile value, StringBuilder sb)
+        {
+            if (value == null)
+                throw new ArgumentNullException("value");
+            if (sb == null)
+                throw new ArgumentNullException("sb");
+
+            switch (value.Type)
+            {
+                case WebDependencyFileType.Javascript:
+                    var tag = new TagBuilder("script");
+                    tag.Attributes.Add("type", "text/javascript");
+                    tag.Attributes.Add("src", value.Path);
+                    if (value.Encoding != null)
+                        tag.Attributes.Add("charset", value.Encoding.WebName);
+                    sb.AppendLine(tag.ToString(TagRenderMode.Normal));
+                    break;
+
+                case WebDependencyFileType.Css:
+                    tag = new TagBuilder("link");
+                    tag.Attributes.Add("rel", "stylesheet");
+                    tag.Attributes.Add("type", "text/css");
+                    tag.Attributes.Add("href", value.Path);
+                    if (value.Encoding != null)
+                        tag.Attributes.Add("charset", value.Encoding.WebName);
+                    
+                    if (value.Media != null)
+                    {
+                        var medias = Enum.GetValues(typeof(WebDependencyMedia))
+                            .Cast<WebDependencyMedia>()
+                            .Where(v => (value.Media & v) == v)
+                            .Select(v => v.ToString().ToLowerInvariant())
+                            .ToArray();
+                        tag.Attributes.Add("media", string.Join(", ", medias));
+                    }
+
+                    sb.AppendLine(tag.ToString(TagRenderMode.SelfClosing));
+                    break;
+
+                default:
+                    sb.AppendLine("<!-- ERROR: unknown web dependency file type '" + value.Type + "' -->");
+                    break;
+            }
         }
     }
 }

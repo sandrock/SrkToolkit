@@ -66,6 +66,7 @@
     <Compile Include="SrkMvcCollectionExtensionsTests.cs" />
     <Compile Include="SrkRequestExtensionsTests.cs" />
     <Compile Include="SrkUrlHelperExtensionsTests.cs" />
+    <Compile Include="WebDependenciesTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NET4.SrkToolkit.Common\NET4.SrkToolkit.Common.csproj">

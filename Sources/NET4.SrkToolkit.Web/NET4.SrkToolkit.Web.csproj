@@ -71,6 +71,7 @@
     <Compile Include="Open\OpenGraphObject.cs" />
     <Compile Include="Open\OpenGraphTag.cs" />
     <Compile Include="Open\SrkOpenGraphHtmlExtensions.cs" />
+    <Compile Include="Services\DictionarySessionServiceSource.cs" />
     <Compile Include="Services\IResultService.cs" />
     <Compile Include="Services\ResultService.cs" />
     <Compile Include="Services\ResultServiceBase.cs" />

@@ -22,6 +22,11 @@ namespace SrkToolkit.Web.Services
             this.source = new HttpBaseSessionServiceSource(httpSessionStateBase);
         }
 
+        public BaseSessionService(IDictionary<string, object> httpSessionDictionary)
+        {
+            this.source = new DictionarySessionServiceSource(httpSessionDictionary);
+        }
+
         /// <summary>
         /// Clears everything form the session.
         /// </summary>

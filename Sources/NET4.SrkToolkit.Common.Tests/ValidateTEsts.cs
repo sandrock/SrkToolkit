@@ -62,6 +62,14 @@ namespace SrkToolkit.Common.Tests
                 var result = Validate.EmailAddress(input);
                 Assert.AreEqual(expected, result);
             }
+
+            [TestMethod]
+            public void EmailCharacterInternational()
+            {
+                string input = "testspecïalchar@toto.com";
+                var result = Validate.EmailAddress(input);
+                Assert.AreEqual(input, result);
+            }
         }
 
         [TestClass]

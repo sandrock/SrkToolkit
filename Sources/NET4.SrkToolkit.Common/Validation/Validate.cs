@@ -9,8 +9,8 @@ namespace SrkToolkit.Common.Validation
     /// </summary>
     public static class Validate
     {
-        private static readonly Regex emailRegex = new Regex(@"^[a-z0-9][a-z0-9_\.+-]+@[a-z0-9\.-]+\.[a-z0-9]+$", RegexOptions.IgnoreCase);
-        private static readonly Regex emailsRegex = new Regex(@"[a-z0-9][a-z0-9_\.+-]+@[a-z0-9\.-]+\.[a-z0-9]+", RegexOptions.IgnoreCase);
+        private static readonly Regex emailRegex = new Regex(@"^[a-z0-9\u007F-\uFFFF][a-z0-9\u007F-\uFFFF_\.+-]+@[a-z0-9\.-]+\.[a-z0-9]+$", RegexOptions.IgnoreCase);
+        private static readonly Regex emailsRegex = new Regex(@"[a-z0-9\u007F-\uFFFF][a-z0-9\u007F-\uFFFF_\.+-]+@[a-z0-9\.-]+\.[a-z0-9]+", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Validates and lower-ify an email address;

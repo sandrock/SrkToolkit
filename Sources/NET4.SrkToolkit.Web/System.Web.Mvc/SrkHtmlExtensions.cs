@@ -675,5 +675,25 @@ namespace System.Web.Mvc
                 return condition.Value ? classTrue : classFalse;
             return classNull;
         }
+
+        public static bool HasOtherValidationErrors(this HtmlHelper html)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+
+            if (html.ViewData.ModelState.IsValid)
+                return false;
+
+            if (!html.ViewData.ModelState.ContainsKey(string.Empty))
+                return false;
+
+            if (html.ViewData.ModelState[string.Empty] == null)
+                return true;
+
+            if (html.ViewData.ModelState[string.Empty].Errors == null)
+                return true;
+
+            return html.ViewData.ModelState[string.Empty].Errors.Count > 0;
+        }
     }
 }

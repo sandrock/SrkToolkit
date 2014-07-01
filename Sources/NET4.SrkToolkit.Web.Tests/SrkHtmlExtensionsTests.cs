@@ -14,6 +14,7 @@ namespace SrkToolkit.Web.Tests
     using System.Diagnostics;
     using System.Threading;
     using System.Globalization;
+    using System.ComponentModel.DataAnnotations;
 
     public class SrkHtmlExtensionsTests
     {
@@ -550,6 +551,70 @@ namespace SrkToolkit.Web.Tests
                 var expected = "J&#x27;ai ajouté une";
                 var result = SrkHtmlExtensions.DisplayText(null, input, twitterLinks: true, makeParagraphs: false);
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
+            }
+        }
+
+        [TestClass]
+        public class HasOtherValidationErrorsMethod
+        {
+            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            public void ThrowsWhenArg0IsNull()
+            {
+                SrkHtmlExtensions.HasOtherValidationErrors(null);
+            }
+
+            [TestMethod]
+            public void ModelIsValid_ReturnsFalse()
+            {
+                var model = new TestModel { Name = "hello", };
+                var html = GetHtmlHelper(model);
+
+                var result = SrkHtmlExtensions.HasOtherValidationErrors(html);
+
+                Assert.IsFalse(result);
+            }
+
+            [TestMethod]
+            public void ModelIsPropertyInvalid_ReturnsFalse()
+            {
+                var model = new TestModel { Name = null, };
+                var html = GetHtmlHelper(model);
+
+                var result = SrkHtmlExtensions.HasOtherValidationErrors(html);
+
+                Assert.IsFalse(result);
+            }
+
+            [TestMethod]
+            public void ModelIsOtherInvalid_ReturnsFalse()
+            {
+                var model = new TestModel { Name = "hello", };
+                var html = GetHtmlHelper(model);
+                html.ViewData.ModelState.AddModelError(string.Empty, "Other error");
+
+                var result = SrkHtmlExtensions.HasOtherValidationErrors(html);
+
+                Assert.IsTrue(result);
+            }
+
+            private static HtmlHelper GetHtmlHelper(TestModel model)
+            {
+                var viewData = new ViewDataDictionary(model);
+                var controllerContext = new ControllerContext();
+                var viewDataContainer = new ViewPage();
+                var view = new Mock<IView>();
+                var tempData = new TempDataDictionary();
+                var writer = new StreamWriter(new MemoryStream());
+                var viewContext = new ViewContext(controllerContext, view.Object, viewData, tempData, writer);
+                var html = new HtmlHelper(viewContext, viewDataContainer);
+                var modelState = html.ViewData.ModelState;
+                return html;
+            }
+
+            public class TestModel
+            {
+                [Required]
+                public string Name { get; set; }
             }
         }
     }

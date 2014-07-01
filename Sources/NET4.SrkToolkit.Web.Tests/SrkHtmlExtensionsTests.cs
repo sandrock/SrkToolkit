@@ -15,6 +15,7 @@ namespace SrkToolkit.Web.Tests
     using System.Threading;
     using System.Globalization;
     using System.ComponentModel.DataAnnotations;
+    using SrkToolkit.Web.Fakes;
 
     public class SrkHtmlExtensionsTests
     {
@@ -596,26 +597,65 @@ namespace SrkToolkit.Web.Tests
 
                 Assert.IsTrue(result);
             }
+        }
 
-            private static HtmlHelper GetHtmlHelper(TestModel model)
+        [TestClass]
+        public class ValidationSummaryExMethod
+        {
+            [TestMethod]
+            public void ModelIsOtherInvalid_Shows()
             {
-                var viewData = new ViewDataDictionary(model);
-                var controllerContext = new ControllerContext();
-                var viewDataContainer = new ViewPage();
-                var view = new Mock<IView>();
-                var tempData = new TempDataDictionary();
-                var writer = new StreamWriter(new MemoryStream());
-                var viewContext = new ViewContext(controllerContext, view.Object, viewData, tempData, writer);
-                var html = new HtmlHelper(viewContext, viewDataContainer);
-                var modelState = html.ViewData.ModelState;
-                return html;
+                var model = new TestModel { Name = "hello", };
+                var html = GetHtmlHelper(model);
+                html.ViewData.ModelState.AddModelError(string.Empty, "Other error");
+                var response = SrkHtmlExtensions.ValidationSummaryEx(html);
+                var isDisplayed = response != null && response.ToString().Length > 0;
+                Assert.IsTrue(isDisplayed);
             }
 
-            public class TestModel
+            [TestMethod]
+            public void ModelIsPropertyInvalid_Hides()
             {
-                [Required]
-                public string Name { get; set; }
+                var model = new TestModel { Name = "hello", };
+                var html = GetHtmlHelper(model);
+                var response = SrkHtmlExtensions.ValidationSummaryEx(html);
+                var isDisplayed = response != null && response.ToString().Length > 0;
+                Assert.IsFalse(isDisplayed);
             }
+
+            [TestMethod]
+            public void ModelIsValid_Hides()
+            {
+                var model = new TestModel { Name = "hello", };
+                var html = GetHtmlHelper(model);
+                var response = SrkHtmlExtensions.ValidationSummaryEx(html);
+                var isDisplayed = response != null && response.ToString().Length > 0;
+                Assert.IsFalse(isDisplayed);
+            }
+        }
+
+        private static HtmlHelper GetHtmlHelper(TestModel model)
+        {
+            var http = new BasicHttpContext();
+            var viewData = new ViewDataDictionary(model);
+            var controllerContext = new ControllerContext();
+            controllerContext.HttpContext = http;
+            var viewDataContainer = new ViewPage();
+            var view = new Mock<IView>();
+            var tempData = new TempDataDictionary();
+            var writer = new StreamWriter(new MemoryStream());
+            var viewContext = new ViewContext(controllerContext, view.Object, viewData, tempData, writer);
+            viewContext.HttpContext = http;
+            var html = new HtmlHelper(viewContext, viewDataContainer);
+            html.ViewContext.HttpContext = http;
+            var modelState = html.ViewData.ModelState;
+            return html;
+        }
+
+        public class TestModel
+        {
+            [Required]
+            public string Name { get; set; }
         }
     }
 }

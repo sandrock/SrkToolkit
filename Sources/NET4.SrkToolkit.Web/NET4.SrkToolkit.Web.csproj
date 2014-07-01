@@ -56,6 +56,8 @@
     <Compile Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs">
       <Link>Properties\SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Fakes\BasicHttpContext.cs" />
+    <Compile Include="Fakes\BasicHttpSessionState.cs" />
     <Compile Include="HttpErrors\BasicHttpErrorResponse.cs" />
     <Compile Include="Filters\AuthorizeAttribute.cs" />
     <Compile Include="HttpErrors\BaseErrorController.cs" />

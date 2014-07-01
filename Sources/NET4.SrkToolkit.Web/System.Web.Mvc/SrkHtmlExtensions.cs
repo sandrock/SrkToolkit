@@ -695,5 +695,15 @@ namespace System.Web.Mvc
 
             return html.ViewData.ModelState[string.Empty].Errors.Count > 0;
         }
+
+        public static MvcHtmlString ValidationSummaryEx(HtmlHelper html)
+        {
+            if (SrkHtmlExtensions.HasOtherValidationErrors(html))
+            {
+                return html.ValidationSummary(true);
+            }
+
+            return null;
+        }
     }
 }

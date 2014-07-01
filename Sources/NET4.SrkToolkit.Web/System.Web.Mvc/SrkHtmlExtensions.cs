@@ -20,26 +20,55 @@ namespace System.Web.Mvc
     /// </summary>
     public static class SrkHtmlExtensions
     {
+        /// <summary>
+        /// Sets the timezone for displays of dates and times.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="timeZoneName">Name of the time zone.</param>
+        /// <returns></returns>
         public static HtmlHelper SetTimezone(this HtmlHelper html, string timeZoneName)
         {
             SrkHtmlExtensions.SetTimezone(html, TimeZoneInfo.FindSystemTimeZoneById(timeZoneName));
             return html;
         }
 
+        /// <summary>
+        /// Sets the timezone for displays of dates and times.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="timeZone">The time zone.</param>
+        /// <returns></returns>
         public static HtmlHelper SetTimezone(this HtmlHelper html, TimeZoneInfo timeZone)
         {
+            if (html.ViewContext != null && html.ViewContext.HttpContext != null)
+                html.ViewContext.HttpContext.Items["Timezone"] = timeZone;
             html.ViewData["Timezone"] = timeZone;
             return html;
         }
 
+        /// <summary>
+        /// Gets the timezone for displays of dates and times.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">html</exception>
         public static TimeZoneInfo GetTimezone(this HtmlHelper html)
         {
             if (html == null)
                 throw new ArgumentNullException("html");
 
+            if (html.ViewContext != null && html.ViewContext.HttpContext != null)
+                return (TimeZoneInfo)html.ViewData["Timezone"] ?? (TimeZoneInfo)html.ViewContext.HttpContext.Items["Timezone"] ?? TimeZoneInfo.Utc;
             return (TimeZoneInfo)html.ViewData["Timezone"] ?? TimeZoneInfo.Utc;
         }
 
+        /// <summary>
+        /// Gets a <see cref="DateTime"/> based on the user's <see cref="TimeZoneInfo"/> specified with <see cref="SetTimezone"/>.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="date">The date.</param>
+        /// <param name="utcDate">The specified <see cref="DateTime"/> in the UTC time zone.</param>
+        /// <returns>The specified <see cref="DateTime"/> in the user's time zone.</returns>
         public static DateTime GetUserDate(this HtmlHelper html, DateTime date, out DateTime utcDate)
         {
             var tz = html.GetTimezone();
@@ -63,6 +92,13 @@ namespace System.Web.Mvc
             return utcDate;
         }
 
+        /// <summary>
+        /// Gets the UTC <see cref="DateTime"/> based on the user's <see cref="TimeZoneInfo"/> specified with <see cref="SetTimezone"/>.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="date">The date.</param>
+        /// <returns>The specified <see cref="DateTime"/> in the UTC time zone.</returns>
+        /// <exception cref="System.NotImplementedException">DateTime.Kind ' + date.Kind + ' is not supported</exception>
         public static DateTime GetUtcDate(this HtmlHelper html, DateTime date)
         {
             if (date.Kind == DateTimeKind.Utc)
@@ -79,7 +115,7 @@ namespace System.Web.Mvc
                 return tz.ConvertToUtc(date);
             }
 
-            throw new NotImplementedException("DateTime.Kind '" + date.Kind + "' is not supported");
+            throw new NotSupportedException("DateTime.Kind '" + date.Kind + "' is not supported");
         }
 
         #region Display date/time
@@ -600,7 +636,6 @@ namespace System.Web.Mvc
         /// Returns a file input element by using the specified HTML helper and the name of the form field.
         /// </summary>
         /// <param name="html">The HTML.</param>
-        /// <param name="value">The value.</param>
         /// <param name="name">The name.</param>
         /// <returns>An input element whose type attribute is set to "file".</returns>
         public static MvcHtmlString File(this HtmlHelper html, string name)
@@ -615,7 +650,6 @@ namespace System.Web.Mvc
         /// Returns a file input element by using the specified HTML helper and the name of the form field.
         /// </summary>
         /// <param name="html">The HTML.</param>
-        /// <param name="value">The value.</param>
         /// <param name="name">The name.</param>
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         /// <returns>An input element whose type attribute is set to "file".</returns>
@@ -636,9 +670,7 @@ namespace System.Web.Mvc
         public static SrkOpenGraphHtmlExtensions OpenGraph(this HtmlHelper html)
         {
             return new SrkOpenGraphHtmlExtensions(html);
-    }
-
-
+        }
 
         #endregion
 
@@ -664,11 +696,28 @@ namespace System.Web.Mvc
 
         #endregion
 
+        /// <summary>
+        /// Helps write a CSS class base on a condition.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="condition">A display condition.</param>
+        /// <param name="classTrue">The class to display if the condition is true.</param>
+        /// <param name="classFalse">The class to display if the condition is false.</param>
+        /// <returns>The CSS class corresponding to the condition</returns>
         public static string CssClass(this HtmlHelper html, bool condition, string classTrue, string classFalse = null)
         {
             return condition ? classTrue : classFalse;
         }
 
+        /// <summary>
+        /// Helps write a CSS class base on a condition.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="condition">A display condition.</param>
+        /// <param name="classTrue">The class to display if the condition is true.</param>
+        /// <param name="classFalse">The class to display if the condition is false.</param>
+        /// <param name="classNull">The class to display if the condition is null.</param>
+        /// <returns>The CSS class corresponding to the condition</returns>
         public static string CssClass(this HtmlHelper html, bool? condition, string classTrue, string classFalse = null, string classNull = null)
         {
             if (condition != null)
@@ -676,6 +725,12 @@ namespace System.Web.Mvc
             return classNull;
         }
 
+        /// <summary>
+        /// Determines whether the model state contains other validation errors.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">html</exception>
         public static bool HasOtherValidationErrors(this HtmlHelper html)
         {
             if (html == null)
@@ -696,7 +751,12 @@ namespace System.Web.Mvc
             return html.ViewData.ModelState[string.Empty].Errors.Count > 0;
         }
 
-        public static MvcHtmlString ValidationSummaryEx(HtmlHelper html)
+        /// <summary>
+        /// Enhancement of <see cref="System.Web.Mvc.Html.ValidationExtensions.ValidationSummary"/> that shows no HTML when there are no errors to display.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <returns>A string that contains an unordered list (ul element) of validation messages.</returns>
+        public static MvcHtmlString ValidationSummaryEx(this HtmlHelper html)
         {
             if (SrkHtmlExtensions.HasOtherValidationErrors(html))
             {

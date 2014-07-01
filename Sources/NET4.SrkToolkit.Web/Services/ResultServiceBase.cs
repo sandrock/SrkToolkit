@@ -18,6 +18,10 @@ namespace SrkToolkit.Web.Services
         public const string RouteDataMessageKey = "message";
         public const string RouteDataHttpCodeKey = "http code";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResultServiceBase"/> class.
+        /// </summary>
+        /// <param name="httpContext">The HTTP context.</param>
         public ResultServiceBase(HttpContextBase httpContext)
         {
             this.httpContext = httpContext;
@@ -122,6 +126,7 @@ namespace SrkToolkit.Web.Services
         /// </summary>
         /// <param name="errorCode">helps identify the the error</param>
         /// <param name="errorMessage">the translated error message to display</param>
+        /// <param name="data">The data.</param>
         /// <returns></returns>
         public ActionResult JsonError(string errorCode, string errorMessage, object data)
         {
@@ -137,6 +142,9 @@ namespace SrkToolkit.Web.Services
             };
         }
 
+        /// <summary>
+        /// Gets the HTTP context.
+        /// </summary>
         protected HttpContextBase HttpContext
         {
             get { return this.httpContext; }

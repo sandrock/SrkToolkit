@@ -88,6 +88,11 @@ namespace SrkToolkit.Web
             func = () => true;
         }
 
+        /// <summary>
+        /// Processing of the result of an action method.
+        /// </summary>
+        /// <param name="context">The context in which the result is executed. The context information includes the controller, HTTP content, request context, and route data.</param>
+        /// <exception cref="System.ArgumentNullException">context</exception>
         public override void ExecuteResult(ControllerContext context)
         {
             if (context == null)

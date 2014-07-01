@@ -179,26 +179,64 @@ namespace SrkToolkit.Web.Open
         }
 
         /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return (this.name ?? string.Empty).GetHashCode() & (this.@namespace ?? new OpenGraphNamespace(string.Empty)).GetHashCode() >> 16;
+        }
+
+        /// <summary>
         /// Known property names/
         /// </summary>
         public static class KnownNames
         {
+            /// <summary>
+            /// The opengraph name for the title of your object as it should appear within the graph.
+            /// </summary>
             public static OpenGraphName OgTitle = new OpenGraphName("og:title");
 
+            /// <summary>
+            /// The opengraph name for the type of your object.
+            /// </summary>
             public static OpenGraphName OgType = new OpenGraphName("og:type");
 
+            /// <summary>
+            /// The opengraph name for the canonical URL of your object that will be used as a permanent ID in the graph.
+            /// </summary>
             public static OpenGraphName OgUrl = new OpenGraphName("og:url");
 
+            /// <summary>
+            /// The opengraph name for the URL to an audio file to accompany this object.
+            /// </summary>
             public static OpenGraphName OgAudio = new OpenGraphName("og:audio");
 
+            /// <summary>
+            /// The opengraph name for the word that appears before this object's title in a sentence.
+            /// </summary>
             public static OpenGraphName OgDeterminer = new OpenGraphName("og:determiner");
 
+            /// <summary>
+            /// The opengraph name for the description of your object in one or two sentences.
+            /// </summary>
             public static OpenGraphName OgDescription = new OpenGraphName("og:description");
 
+            /// <summary>
+            /// The opengraph name for the local of the opengraph tags.
+            /// </summary>
             public static OpenGraphName OgLocale = new OpenGraphName("og:locale");
 
+            /// <summary>
+            /// The opengraph name for the another locale this page is available in.
+            /// </summary>
             public static OpenGraphName OgLocaleAlternate = new OpenGraphName("og:locale:alternate");
 
+            /// <summary>
+            /// The opengraph name for the name of the website displaying your object.
+            /// </summary>
             public static OpenGraphName OgSiteName = new OpenGraphName("og:site_name");
         }
     }

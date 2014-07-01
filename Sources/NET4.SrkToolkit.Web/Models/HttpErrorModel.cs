@@ -201,8 +201,16 @@ namespace SrkToolkit.Web.Models
         public Exception Exception { get; set; }
 
         public string CodeName { get; set; }
+
         public string CodeDefinition { get; set; }
 
+        /// <summary>
+        /// Creates a model based on the specified code and message.
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="message">The message.</param>
+        /// <returns></returns>
         public static HttpErrorModel Create(int code, string title, string message)
         {
             return new HttpErrorModel(title, message)

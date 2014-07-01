@@ -6,6 +6,9 @@ namespace SrkToolkit.Web.Services
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// Implementation of <see cref="HttpSessionStateBase"/> based on a simple dictionary.
+    /// </summary>
     public class DictionarySessionServiceSource : ISessionServiceSource
     {
         private readonly IDictionary<string, object>  source;

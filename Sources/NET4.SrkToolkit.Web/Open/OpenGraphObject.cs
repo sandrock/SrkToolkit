@@ -103,7 +103,7 @@ namespace SrkToolkit.Web.Open
         /// <summary>
         /// Sets the locale.
         /// </summary>
-        /// <param name="culture">The locale these tags are marked up in. Of the format language_TERRITORY. Default is en_US.</param>
+        /// <param name="locale">The locale these tags are marked up in. Of the format language_TERRITORY. Default is en_US.</param>
         /// <returns></returns>
         public OpenGraphObject SetLocale(string locale)
         {
@@ -114,7 +114,7 @@ namespace SrkToolkit.Web.Open
         /// <summary>
         /// Sets the alternate locales.
         /// </summary>
-        /// <param name="culture">An array of other locales this page is available in.</param>
+        /// <param name="cultures">An array of other locales this page is available in.</param>
         /// <returns></returns>
         public OpenGraphObject SetLocaleAlternates(IEnumerable<CultureInfo> cultures)
         {

@@ -26,9 +26,10 @@ namespace System
         /// <summary>
         /// Replaces all URLs in a string with HTML links.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">The text.</param>
         /// <param name="linkClasses">The class attribute to associate to &lt;a&gt; tags (defaults to "external").</param>
         /// <param name="linkTarget">The target attribute to associate to &lt;a&gt; tags (default to "_blank").</param>
+        /// <param name="avoidDoubleEscape">if set to <c>true</c> [avoid double escape].</param>
         /// <returns></returns>
         public static string LinksAsHtml(this string text, string linkClasses = "external", string linkTarget = "_self", bool avoidDoubleEscape = false)
         {

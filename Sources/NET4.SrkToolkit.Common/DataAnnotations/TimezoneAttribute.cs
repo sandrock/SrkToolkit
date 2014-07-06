@@ -13,12 +13,22 @@ namespace SrkToolkit.DataAnnotations
     /// </summary>
     public class TimezoneAttribute : ValidationAttribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TimezoneAttribute"/> class.
+        /// </summary>
         public TimezoneAttribute()
         {
             this.ErrorMessageResourceName = "TimezoneAttribute_ErrorMessage";
             this.ErrorMessageResourceType = typeof(Strings);
         }
 
+        /// <summary>
+        /// Determines whether the specified value of the object is valid.
+        /// </summary>
+        /// <param name="value">The value of the object to validate.</param>
+        /// <returns>
+        /// true if the specified value is valid; otherwise, false.
+        /// </returns>
         public override bool IsValid(object value)
         {
             string val;

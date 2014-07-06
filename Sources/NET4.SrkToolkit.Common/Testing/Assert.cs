@@ -6,6 +6,9 @@ namespace SrkToolkit.Testing
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// Allows to make assertions in unit tests.
+    /// </summary>
     public static class Assert
     {
         /// <summary>

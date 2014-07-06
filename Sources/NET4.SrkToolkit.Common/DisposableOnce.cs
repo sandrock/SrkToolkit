@@ -30,6 +30,9 @@ namespace SrkToolkit
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="DisposableOnce"/> class.
+        /// </summary>
         ~DisposableOnce()
         {
             lock (this.sync)

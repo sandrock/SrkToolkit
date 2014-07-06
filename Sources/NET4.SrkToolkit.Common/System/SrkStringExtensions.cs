@@ -15,6 +15,7 @@ namespace System
         /// Returns null is the string is empty.
         /// </summary>
         /// <param name="value">The value.</param>
+        /// <param name="trim">if set to <c>true</c> [trim].</param>
         /// <returns></returns>
         public static string NullIfEmpty(this string value, bool trim = false)
         {
@@ -29,6 +30,7 @@ namespace System
         /// Returns null is the string is empty or contains only whispaces.
         /// </summary>
         /// <param name="value">The value.</param>
+        /// <param name="trim">if set to <c>true</c> [trim].</param>
         /// <returns></returns>
         public static string NullIfEmptyOrWhitespace(this string value, bool trim = false)
         {
@@ -39,6 +41,12 @@ namespace System
             return value;
         }
 
+        /// <summary>
+        /// Trims a string to the specified length.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="length">The length.</param>
+        /// <returns></returns>
         public static string TrimToLength(this string value, int length)
         {
             if (value == null)

@@ -53,6 +53,14 @@ namespace SrkToolkit.DataAnnotations
         /// </value>
         protected Regex Regex { get; set; }
 
+        /// <summary>
+        /// Validates the specified value with respect to the current validation attribute.
+        /// </summary>
+        /// <param name="value">The value to validate.</param>
+        /// <param name="validationContext">The context information about the validation operation.</param>
+        /// <returns>
+        /// An instance of the <see cref="T:System.ComponentModel.DataAnnotations.ValidationResult" /> class.
+        /// </returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             this.SetupRegex();
@@ -171,6 +179,12 @@ namespace SrkToolkit.DataAnnotations
             this.errorMessageAccessors = accessors;
         }
 
+        /// <summary>
+        /// Gets the is valid.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
         public ValidationResult GetIsValid(object value, ValidationContext context)
         {
             return this.IsValid(value, context);

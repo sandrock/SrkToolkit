@@ -15,7 +15,6 @@ namespace SrkToolkit.Globalization
         /// <summary>
         /// Based on Windows CultureInfos, returns a list of all countries.
         /// </summary>
-        /// <param name="selected">The selected.</param>
         /// <returns></returns>
         public static IList<RegionInfo> GetCountries()
         {

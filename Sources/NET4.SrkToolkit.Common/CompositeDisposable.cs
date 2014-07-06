@@ -13,7 +13,6 @@ namespace SrkToolkit
     public sealed class CompositeDisposable : IDisposable
     {
         private readonly List<WeakReference> collection = new List<WeakReference>();
-        private bool disposed;
 
         /// <summary>
         /// Adds the specified disposable and returns it.

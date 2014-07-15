@@ -60,6 +60,26 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
+        /// Determines whether [is HTTP post request].
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static bool IsHttpPostRequest(this HttpRequest request)
+        {
+            return request.HttpMethod.ToUpperInvariant() == "POST";
+        }
+
+        /// <summary>
+        /// Determines whether [is HTTP post request].
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static bool IsHttpPostRequest(this HttpRequestBase request)
+        {
+            return request.HttpMethod.ToUpperInvariant() == "POST";
+        }
+
+        /// <summary>
         /// Determines whether the specified URL is local to the request's host.
         /// </summary>
         /// <param name="request">The request.</param>

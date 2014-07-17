@@ -68,6 +68,8 @@
     <Compile Include="Modules\CrawlerGhostingModule.cs" />
     <Compile Include="Mvc\IntegerModelBinder.cs" />
     <Compile Include="Mvc\DecimalModelBinder.cs" />
+    <Compile Include="NavigationLine.cs" />
+    <Compile Include="NavigationLineEntry.cs" />
     <Compile Include="Open\OpenGraphName.cs" />
     <Compile Include="Open\OpenGraphNamespace.cs" />
     <Compile Include="Open\OpenGraphObject.cs" />

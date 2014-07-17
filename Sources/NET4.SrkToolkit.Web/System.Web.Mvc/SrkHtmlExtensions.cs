@@ -14,6 +14,7 @@ namespace System.Web.Mvc
     using System.Web.Mvc.Html;
     using System.Web.Routing;
     using SrkToolkit.Web.Open;
+    using SrkToolkit.Web;
 
     /// <summary>
     /// HTML extensions. 
@@ -764,6 +765,18 @@ namespace System.Web.Mvc
             }
 
             return null;
+        }
+
+        public static NavigationLine NavigationLine(this HtmlHelper html)
+        {
+            var line = html.ViewContext.HttpContext.Items[SrkControllerExtensions.NavigationLineKey] as NavigationLine;
+            if (line == null)
+            {
+                line = new NavigationLine();
+                html.ViewContext.HttpContext.Items[SrkControllerExtensions.NavigationLineKey] = line;
+            }
+
+            return line;
         }
     }
 }

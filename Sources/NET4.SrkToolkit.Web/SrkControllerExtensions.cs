@@ -13,6 +13,20 @@ namespace SrkToolkit.Web
     /// </summary>
     public static class SrkControllerExtensions
     {
+        internal const string NavigationLineKey = "SrkNavigationLine";
+
+        public static NavigationLine NavigationLine(this Controller ctrl)
+        {
+            var line = ctrl.HttpContext.Items[NavigationLineKey] as NavigationLine;
+            if (line == null)
+            {
+                line = new NavigationLine();
+                ctrl.HttpContext.Items[NavigationLineKey] = line;
+            }
+
+            return line;
+        }
+
         [Obsolete("Under devleopment")]
         public static T GetFromCache<T>(this Controller ctrl, TimeSpan duration, CacheItemPriority priority, Func<T> buildData, string id)
             where T : class

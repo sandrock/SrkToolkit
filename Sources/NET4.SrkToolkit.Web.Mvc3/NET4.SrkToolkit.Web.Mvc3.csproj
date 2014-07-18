@@ -80,6 +80,12 @@
     <Compile Include="..\NET4.SrkToolkit.Web\Mvc\DecimalModelBinder.cs">
       <Link>Mvc\DecimalModelBinder.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\NavigationLine.cs">
+      <Link>NavigationLine.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\NavigationLineEntry.cs">
+      <Link>NavigationLineEntry.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphName.cs">
       <Link>Open\OpenGraphName.cs</Link>
     </Compile>
@@ -128,11 +134,29 @@
     <Compile Include="..\NET4.SrkToolkit.Web\System.Web.Mvc\SrkHtmlExtensions.cs">
       <Link>System.Web.Mvc\SrkHtmlExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\System.Web.Mvc\SrkMvcCollectionExtensions.cs">
+      <Link>System.Web.Mvc\SrkMvcCollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\System.Web.Mvc\SrkTagBuilderExtensions.cs">
+      <Link>System.Web.Mvc\SrkTagBuilderExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Web\System.Web.Mvc\SrkUrlHelperExtensions.cs">
       <Link>System.Web.Mvc\SrkUrlHelperExtensions.cs</Link>
     </Compile>
     <Compile Include="..\NET4.SrkToolkit.Web\System.Web.Mvc\SrkViewExtensions.cs">
       <Link>System.Web.Mvc\SrkViewExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\WebDependencies.cs">
+      <Link>WebDependencies.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\WebDependenciesExtensions.cs">
+      <Link>WebDependenciesExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\WebDependency.cs">
+      <Link>WebDependency.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\WebDependencyFile.cs">
+      <Link>WebDependencyFile.cs</Link>
     </Compile>
     <Compile Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs">
       <Link>Properties\SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
@@ -151,7 +175,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="1d73a9e4-7f61-4288-bde1-e13cc63872c0" />
+      <UserProperties ProjectLinkReference="1d73a9e4-7f61-4288-bde1-e13cc63872c0" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

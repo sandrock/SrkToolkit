@@ -15,8 +15,16 @@ namespace SrkToolkit.Web
     {
         internal const string NavigationLineKey = "SrkNavigationLine";
 
-        public static NavigationLine NavigationLine(this Controller ctrl)
+        /// <summary>
+        /// Gets the <see cref="NavigationLine" /> associated to the request.
+        /// </summary>
+        /// <param name="ctrl">The control.</param>
+        /// <returns></returns>
+        public static SrkToolkit.Web.NavigationLine NavigationLine(this Controller ctrl)
         {
+            if (ctrl.HttpContext == null)
+                throw new ArgumentNullException("HttpContext is not set", "ctrl");
+
             var line = ctrl.HttpContext.Items[NavigationLineKey] as NavigationLine;
             if (line == null)
             {

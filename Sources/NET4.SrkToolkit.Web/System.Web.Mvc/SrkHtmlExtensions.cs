@@ -545,10 +545,18 @@ namespace System.Web.Mvc
             return helper.ViewData.ModelMetadata.Properties.Single(p => p.PropertyName == propertyName).DisplayName;
         }
 
-        public static string DescriptionFor<TModel, TProperty>(this HtmlHelper<TModel> helper, Expression<Func<TModel, TProperty>> expression)
+        public static MvcHtmlString DescriptionFor<TModel, TProperty>(this HtmlHelper<TModel> helper, Expression<Func<TModel, TProperty>> expression)
         {
             var meta = ModelMetadata.FromLambdaExpression(expression, helper.ViewData);
-            return meta.Description;
+            var value = meta.Description;
+
+            if (string.IsNullOrEmpty(value))
+                return MvcHtmlString.Empty;
+
+            var tag = new TagBuilder("span");
+            tag.Attributes.Add("data-for", meta.PropertyName);
+            tag.SetInnerText(value);
+            return tag.ToMvcHtmlString(TagRenderMode.Normal);
         }
 
         /// <summary>
@@ -767,8 +775,19 @@ namespace System.Web.Mvc
             return null;
         }
 
-        public static NavigationLine NavigationLine(this HtmlHelper html)
+        /// <summary>
+        /// Gets the <see cref="NavigationLine"/> associated to the request.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <returns></returns>
+        public static SrkToolkit.Web.NavigationLine NavigationLine(this HtmlHelper html)
         {
+            if (html.ViewContext == null)
+                throw new ArgumentNullException("ViewContext is not set", "ctrl");
+
+            if (html.ViewContext.HttpContext == null)
+                throw new ArgumentNullException("HttpContext is not set", "ctrl");
+
             var line = html.ViewContext.HttpContext.Items[SrkControllerExtensions.NavigationLineKey] as NavigationLine;
             if (line == null)
             {

@@ -91,6 +91,7 @@
     <Compile Include="System.Web.Mvc\SrkMvcCollectionExtensions.cs" />
     <Compile Include="System.Web.Mvc\SrkUrlHelperExtensions.cs" />
     <Compile Include="System.Web.Mvc\SrkViewExtensions.cs" />
+    <Compile Include="System.Web.Mvc\SrkTagBuilderExtensions.cs" />
     <Compile Include="WebDependencies.cs" />
     <Compile Include="WebDependenciesExtensions.cs" />
     <Compile Include="WebDependency.cs" />
@@ -104,6 +105,9 @@
       <Project>{19495A45-67A8-460D-806C-CF158B96BBE9}</Project>
       <Name>NET4.SrkToolkit.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="System.Web\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

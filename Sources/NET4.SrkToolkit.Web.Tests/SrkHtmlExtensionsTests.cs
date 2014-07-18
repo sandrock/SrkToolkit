@@ -634,6 +634,37 @@ namespace SrkToolkit.Web.Tests
             }
         }
 
+        [TestClass]
+        public class DescriptionForMethod
+        {
+            [TestMethod]
+            public void NoDescriptionReturnsEmptyString()
+            {
+                var model = new TestModel();
+                var html = new HtmlHelper<TestModel>(new ViewContext(), new ViewPage());
+                var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Name);
+                Assert.IsNull(result.ToString().NullIfEmpty());
+            }
+
+            [TestMethod]
+            public void EmptyDescriptionReturnsEmptyString()
+            {
+                var model = new TestModel();
+                var html = new HtmlHelper<TestModel>(new ViewContext(), new ViewPage());
+                var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Description);
+                Assert.IsNull(result.ToString().NullIfEmpty());
+            }
+
+            [TestMethod]
+            public void ValidDescriptionReturnsHtmlAndValue()
+            {
+                var model = new TestModel();
+                var html = new HtmlHelper<TestModel>(new ViewContext(), new ViewPage());
+                var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Description2);
+                Assert.AreEqual("<span data-for=\"Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
+            }
+        }
+
         private static HtmlHelper GetHtmlHelper(TestModel model)
         {
             var http = new BasicHttpContext();
@@ -656,6 +687,12 @@ namespace SrkToolkit.Web.Tests
         {
             [Required]
             public string Name { get; set; }
+
+            [Display(Name = "Desc aa")]
+            public string Description { get; set; }
+
+            [Display(Description = "Desc a2a")]
+            public string Description2 { get; set; }
         }
     }
 }

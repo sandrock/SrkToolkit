@@ -21,6 +21,8 @@ namespace System.Web.Mvc
     /// </summary>
     public static class SrkHtmlExtensions
     {
+        #region SetTimezone, GetTimezone, GetUserDate, GetUtcDate
+
         /// <summary>
         /// Sets the timezone for displays of dates and times.
         /// </summary>
@@ -477,7 +479,7 @@ namespace System.Web.Mvc
 
         #endregion
 
-        #region Forms
+        #endregion
 
         /// <summary>
         /// Returns many HTML radio buttons for the specified list and selected value.
@@ -518,6 +520,8 @@ namespace System.Web.Mvc
             return MvcHtmlString.Create(sb.ToString());
         }
 
+        #region GetFullHtmlFieldName
+
         public static string GetFullHtmlFieldName<TModel, TProperty>(this HtmlHelper<TModel> helper, Expression<Func<TModel, TProperty>> expression)
         {
             return helper.ViewData.TemplateInfo.GetFullHtmlFieldName(expression);
@@ -545,19 +549,99 @@ namespace System.Web.Mvc
             return helper.ViewData.ModelMetadata.Properties.Single(p => p.PropertyName == propertyName).DisplayName;
         }
 
-        public static MvcHtmlString DescriptionFor<TModel, TProperty>(this HtmlHelper<TModel> helper, Expression<Func<TModel, TProperty>> expression)
+        #endregion
+
+        #region DescriptionFor
+
+        /// <summary>
+        /// Returns an HTML span element and the property name of the property that is represented by the specified expression.
+        /// </summary>
+        /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="helper">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the property to display.</param>
+        /// <returns>An HTML span element and the property name of the property that is represented by the specified expression</returns>
+        public static MvcHtmlString DescriptionFor<TModel, TProperty>(
+            this HtmlHelper<TModel> helper,
+            Expression<Func<TModel, TProperty>> expression)
+        {
+            return DescriptionFor(helper, expression, null, null);
+        }
+
+        /// <summary>
+        /// Returns an HTML span element and the property name of the property that is represented by the specified expression.
+        /// </summary>
+        /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="helper">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the property to display.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <returns>
+        /// An HTML span element and the property name of the property that is represented by the specified expression
+        /// </returns>
+        public static MvcHtmlString DescriptionFor<TModel, TProperty>(
+            this HtmlHelper<TModel> helper,
+            Expression<Func<TModel, TProperty>> expression,
+            object htmlAttributes)
+        {
+            return DescriptionFor(helper, expression, null, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+        }
+
+        /// <summary>
+        /// Returns an HTML span element and the property name of the property that is represented by the specified expression.
+        /// </summary>
+        /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="helper">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the property to display.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <returns>
+        /// An HTML span element and the property name of the property that is represented by the specified expression
+        /// </returns>
+        public static MvcHtmlString DescriptionFor<TModel, TProperty>(
+            this HtmlHelper<TModel> helper,
+            Expression<Func<TModel, TProperty>> expression,
+            IDictionary<string, object> htmlAttributes)
+        {
+            return DescriptionFor(helper, expression, null, htmlAttributes);
+        }
+
+        /// <summary>
+        /// Returns an HTML span element and the property name of the property that is represented by the specified expression.
+        /// </summary>
+        /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="helper">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the property to display.</param>
+        /// <param name="descriptionText">The description text to display.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <returns>
+        /// An HTML span element and the property name of the property that is represented by the specified expression
+        /// </returns>
+        public static MvcHtmlString DescriptionFor<TModel, TProperty>(
+            this HtmlHelper<TModel> helper,
+            Expression<Func<TModel, TProperty>> expression,
+            string descriptionText,
+            IDictionary<string, object> htmlAttributes)
         {
             var meta = ModelMetadata.FromLambdaExpression(expression, helper.ViewData);
-            var value = meta.Description;
+            var value = descriptionText.NullIfEmpty() ?? meta.Description.NullIfEmpty();
 
             if (string.IsNullOrEmpty(value))
                 return MvcHtmlString.Empty;
 
+            var htmlFieldName = ExpressionHelper.GetExpressionText(expression);
+            var id = TagBuilder.CreateSanitizedId(helper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName));
             var tag = new TagBuilder("span");
-            tag.Attributes.Add("data-for", meta.PropertyName);
+            tag.Attributes.Add("data-for", id);
+            tag.MergeAttributes<string, object>(htmlAttributes, true);
             tag.SetInnerText(value);
             return tag.ToMvcHtmlString(TagRenderMode.Normal);
         }
+
+        #endregion
+
+        #region BeginFormEx
 
         /// <summary>
         /// Writes an opening &lt;form&gt; tag to the response. When the user submits the form, the request will be processed by an action method.

@@ -641,7 +641,7 @@ namespace SrkToolkit.Web.Tests
             public void NoDescriptionReturnsEmptyString()
             {
                 var model = new TestModel();
-                var html = new HtmlHelper<TestModel>(new ViewContext(), new ViewPage());
+                var html = this.GetHtmlHeper<TestModel>(model);
                 var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Name);
                 Assert.IsNull(result.ToString().NullIfEmpty());
             }
@@ -650,7 +650,7 @@ namespace SrkToolkit.Web.Tests
             public void EmptyDescriptionReturnsEmptyString()
             {
                 var model = new TestModel();
-                var html = new HtmlHelper<TestModel>(new ViewContext(), new ViewPage());
+                var html = this.GetHtmlHeper<TestModel>(model);
                 var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Description);
                 Assert.IsNull(result.ToString().NullIfEmpty());
             }
@@ -659,9 +659,53 @@ namespace SrkToolkit.Web.Tests
             public void ValidDescriptionReturnsHtmlAndValue()
             {
                 var model = new TestModel();
-                var html = new HtmlHelper<TestModel>(new ViewContext(), new ViewPage());
+                var html = this.GetHtmlHeper<TestModel>(model);
                 var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Description2);
                 Assert.AreEqual("<span data-for=\"Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
+            }
+
+            [TestMethod]
+            public void ForIsValidAtLevel1()
+            {
+                var model = new TestModel();
+                var html = this.GetHtmlHeper<TestModel>(model);
+                var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Description2);
+                Assert.AreEqual("<span data-for=\"Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
+            }
+
+            [TestMethod]
+            public void ForIsValidAtLevel2()
+            {
+                var model = new TestModel
+                {
+                    SubModel = new TestModel(),
+                };
+                var html = this.GetHtmlHeper<TestModel>(model);
+                var result = SrkHtmlExtensions.DescriptionFor(html, m => m.SubModel.Description2);
+                Assert.AreEqual("<span data-for=\"SubModel_Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
+            }
+
+            [TestMethod]
+            public void AcceptsHtmlAttributes()
+            {
+                var model = new TestModel();
+                var html = this.GetHtmlHeper<TestModel>(model);
+                var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Description2, new { attr1 = "value", });
+                Assert.AreEqual("<span attr1=\"value\" data-for=\"Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
+            }
+
+            private HtmlHelper<TModel> GetHtmlHeper<TModel>(TModel model)
+            {
+                var controllerContext = new ControllerContext();
+                var view = new Mock<IView>();
+                var viewData = new ViewDataDictionary();
+                viewData.Model = model;
+                var tempData = new TempDataDictionary();
+                var writer = new StreamWriter(new MemoryStream());
+                var viewContext = new ViewContext(controllerContext, view.Object, viewData, tempData, writer);
+                var viewDataContainer = new ViewPage();
+                var html = new HtmlHelper<TModel>(viewContext, viewDataContainer);
+                return html;
             }
         }
 
@@ -693,6 +737,8 @@ namespace SrkToolkit.Web.Tests
 
             [Display(Description = "Desc a2a")]
             public string Description2 { get; set; }
+
+            public TestModel SubModel { get; set; }
         }
     }
 }

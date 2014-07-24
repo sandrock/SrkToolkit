@@ -39,7 +39,7 @@ namespace SrkToolkit.Web.Services
         /// <summary>
         /// Returns a standard JSON result containing data.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">The data.</param>
         /// <returns></returns>
         ActionResult JsonSuccess(object data);
 
@@ -63,5 +63,14 @@ namespace SrkToolkit.Web.Services
         /// <param name="errorMessage">the translated error message to display</param>
         /// <returns></returns>
         ActionResult JsonError(string errorCode, string errorMessage);
+        
+        /// <summary>
+        /// Returns a standard JSON result containing an error.
+        /// </summary>
+        /// <param name="errorCode">helps identify the the error</param>
+        /// <param name="errorMessage">the translated error message to display</param>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        ActionResult JsonError(string errorCode, string errorMessage, object data);
     }
 }

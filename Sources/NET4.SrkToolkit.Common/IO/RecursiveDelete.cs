@@ -8,7 +8,9 @@ namespace SrkToolkit.IO
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+#if NET40
     using SrkToolkit.Threading.Tasks;
+#endif
 
     /// <summary>
     /// Multi-threaded implementation of a recursive file delete algorithm.
@@ -81,8 +83,12 @@ namespace SrkToolkit.IO
                 var filesPath = path;
                 var files = Directory.GetFiles(path);
                 var folders = Directory.GetDirectories(path);
+#if NET45
+                tasks.Add(Task.Run(() =>
+#else
                 tasks.Add(TaskEx.Run(() =>
-                    {
+#endif
+                {
                         foreach (var file in files)
                         {
                             var filePath = Path.Combine(filesPath, file);

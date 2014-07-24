@@ -12,7 +12,11 @@ namespace SrkToolkit.DataAnnotations
     /// Validates an email address field (one or multiple addresses).
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
+#if NET45
+    public class EmailAddressExAttribute : ValidationAttribute
+#else
     public class EmailAddressAttribute : ValidationAttribute
+#endif
     {
         /// <summary>
         /// The regex pattern to match an email address.
@@ -24,7 +28,11 @@ namespace SrkToolkit.DataAnnotations
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailAddressAttribute"/> class.
         /// </summary>
+#if NET45
+        public EmailAddressExAttribute()
+#else
         public EmailAddressAttribute()
+#endif
         {
             this.ErrorMessageResourceName = "EmailAddressAttribute_ErrorMessage";
             this.ErrorMessageResourceType = typeof(Strings);

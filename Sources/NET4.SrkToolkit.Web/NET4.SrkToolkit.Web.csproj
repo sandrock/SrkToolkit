@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ASPMVC</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;ASPMVC;NET40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -26,7 +26,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\Binaries\NET4\</OutputPath>
-    <DefineConstants>TRACE;ASPMVC</DefineConstants>
+    <DefineConstants>TRACE;ASPMVC;NET40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\Binaries\NET4\\SrkToolkit.Web.xml</DocumentationFile>

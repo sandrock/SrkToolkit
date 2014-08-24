@@ -67,6 +67,7 @@
     <Compile Include="ObservableCollectionExtensionsTests.cs" />
     <Compile Include="DisaposableOnceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SrkArrayExtensionsTests.cs" />
     <Compile Include="SrkDateTimeExtensionsTests.cs" />
     <Compile Include="SrkIDictionaryExtensionsTests.cs" />
     <Compile Include="SrkNameValueCollectionExtensions.cs" />

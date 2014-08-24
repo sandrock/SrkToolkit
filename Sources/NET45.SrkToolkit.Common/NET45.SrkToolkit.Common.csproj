@@ -87,6 +87,9 @@
     <Compile Include="..\NET4.SrkToolkit.Common\System\DateTimePrecision.cs">
       <Link>System\DateTimePrecision.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System\SrkArrayExtensions.cs">
+      <Link>System\SrkArrayExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\System\SrkDateTimeExtensions.cs">
       <Link>System\SrkDateTimeExtensions.cs</Link>
     </Compile>

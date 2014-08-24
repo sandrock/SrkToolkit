@@ -68,6 +68,7 @@
     <Compile Include="System.Collections\SrkIDictionaryExtensions.cs" />
     <Compile Include="System.Diagnostics\StopwatchExtensions.cs" />
     <Compile Include="System\DateTimePrecision.cs" />
+    <Compile Include="System\SrkArrayExtensions.cs" />
     <Compile Include="System\SrkDateTimeExtensions.cs" />
     <Compile Include="System\SrkTimeZoneInfoExtensions.cs" />
     <Compile Include="System\SrkStringExtensions.cs" />

@@ -67,6 +67,7 @@
     <Compile Include="System.Collections.Specialized\SrkNameValueCollectionExtensions.cs" />
     <Compile Include="System.Collections\SrkIDictionaryExtensions.cs" />
     <Compile Include="System.Diagnostics\StopwatchExtensions.cs" />
+    <None Include="System.Linq\SrkEnumerable.cs" />
     <Compile Include="System\DateTimePrecision.cs" />
     <Compile Include="System\SrkArrayExtensions.cs" />
     <Compile Include="System\SrkDateTimeExtensions.cs" />

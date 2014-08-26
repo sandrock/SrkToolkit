@@ -64,6 +64,50 @@ namespace SrkToolkit.Web.Tests
                 var result = new WebDependencies().Render(item);
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
+
+            [TestMethod]
+            public void JsWithAttributesWorks()
+            {
+                string expected = "<script data-main=\"Scripts/main\" src=\"//js.js\" type=\"text/javascript\"></script>\r\n";
+                var item = new WebDependency("test");
+                var attributes = new Dictionary<string, object>()
+                {
+                    { "data-main", "Scripts/main" },
+                };
+                item.Add(new WebDependencyFile("//js.js", WebDependencyFileType.Javascript, attributes: attributes));
+                var result = new WebDependencies().Render(item);
+                SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
+            }
+
+            [TestMethod]
+            public void JsWith1AttributeAsStringParamsWorks()
+            {
+                string expected = "<script data-main=\"Scripts/main\" src=\"//js.js\" type=\"text/javascript\"></script>\r\n";
+                var item = new WebDependency("test");
+                var attributes = new Dictionary<string, object>()
+                {
+                    { "data-main", "Scripts/main" },
+                };
+                var dep = new WebDependencyFile("//js.js", WebDependencyFileType.Javascript, "data-main", "Scripts/main");
+                item.Add(dep);
+                var result = new WebDependencies().Render(item);
+                SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
+            }
+
+            [TestMethod]
+            public void JsWith2AttributeAsStringParamsWorks()
+            {
+                string expected = "<script data-hello=\"world\" data-main=\"Scripts/main\" src=\"//js.js\" type=\"text/javascript\"></script>\r\n";
+                var item = new WebDependency("test");
+                var attributes = new Dictionary<string, object>()
+                {
+                    { "data-main", "Scripts/main" },
+                };
+                var dep = new WebDependencyFile("//js.js", WebDependencyFileType.Javascript, "data-main", "Scripts/main", "data-hello", "world");
+                item.Add(dep);
+                var result = new WebDependencies().Render(item);
+                SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
+            }
         }
     }
 }

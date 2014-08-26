@@ -110,7 +110,15 @@ namespace SrkToolkit.Web
                     tag.Attributes.Add("type", "text/javascript");
                     tag.Attributes.Add("src", value.Path);
                     if (value.Encoding != null)
+                    {
                         tag.Attributes.Add("charset", value.Encoding.WebName);
+                    }
+
+                    if (value.Attributes != null)
+                    {
+                        tag.MergeAttributes(value.Attributes); 
+                    }
+
                     sb.AppendLine(tag.ToString(TagRenderMode.Normal));
                     break;
 
@@ -120,8 +128,10 @@ namespace SrkToolkit.Web
                     tag.Attributes.Add("type", "text/css");
                     tag.Attributes.Add("href", value.Path);
                     if (value.Encoding != null)
+                    {
                         tag.Attributes.Add("charset", value.Encoding.WebName);
-                    
+                    }
+
                     if (value.Media != null)
                     {
                         var medias = Enum.GetValues(typeof(WebDependencyMedia))
@@ -130,6 +140,11 @@ namespace SrkToolkit.Web
                             .Select(v => v.ToString().ToLowerInvariant())
                             .ToArray();
                         tag.Attributes.Add("media", string.Join(", ", medias));
+                    }
+
+                    if (value.Attributes != null)
+                    {
+                        tag.MergeAttributes(value.Attributes); 
                     }
 
                     sb.AppendLine(tag.ToString(TagRenderMode.SelfClosing));

@@ -5,6 +5,7 @@ namespace SrkToolkit.Web
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Web.Routing;
 
     /// <summary>
     /// A file specification in a <see cref="WebDependency" /> package.
@@ -24,11 +25,54 @@ namespace SrkToolkit.Web
         /// <param name="path">The path.</param>
         /// <param name="type">The type.</param>
         /// <param name="encoding">The encoding.</param>
-        public WebDependencyFile(string path, WebDependencyFileType type, Encoding encoding = null)
+        public WebDependencyFile(string path, WebDependencyFileType type, Encoding encoding = null, IDictionary<string, object> attributes = null)
         {
             this.Path = path;
             this.Type = type;
             this.Encoding = encoding;
+            this.Attributes = attributes;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebDependencyFile"/> class.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="encoding">The encoding.</param>
+        public WebDependencyFile(string path, WebDependencyFileType type, params string[] attributes)
+        {
+            this.Path = path;
+            this.Type = type;
+            this.Attributes = ReadAttributes(attributes);
+        }
+
+        private static IDictionary<string, object> ReadAttributes(string[] attributes)
+        {
+            if (attributes.Length % 2 != 0)
+                throw new ArgumentException("Invalid parameters count", "attributes");
+
+            Dictionary<string, object> parameters = null;
+            if (attributes.Length > 0)
+            {
+                parameters = new Dictionary<string, object>();
+                bool isKey = true;
+                string key = null;
+                foreach (var item in attributes)
+                {
+                    if (isKey)
+                    {
+                        key = item;
+                    }
+                    else
+                    {
+                        parameters.Add(key, item);
+                    }
+
+                    isKey = !isKey;
+                }
+            }
+
+            return parameters;
         }
 
         /// <summary>
@@ -50,6 +94,8 @@ namespace SrkToolkit.Web
         /// Gets or sets the media.
         /// </summary>
         public WebDependencyMedia? Media { get; set; }
+
+        public IDictionary<string, object> Attributes { get; set; }
     }
 
     /// <summary>

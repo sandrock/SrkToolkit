@@ -33,6 +33,11 @@ namespace System.Collections
             return value;
         }
 
+        public static void AddRange<TSource, TKey>(this IDictionary<TKey, TSource> collection, IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            SrkIDictionaryExtensions.AddRange<TSource, TKey, TSource>(collection, source, keySelector, x => x);
+        }
+
         public static void AddRange<TSource, TKey, TValue>(this IDictionary<TKey, TValue> collection, IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
         {
             if (collection == null)

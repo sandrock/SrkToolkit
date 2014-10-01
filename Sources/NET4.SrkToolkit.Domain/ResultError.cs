@@ -17,7 +17,7 @@ namespace SrkToolkit.Domain
     /// In your resource file, index you value using &lt;EnumTypeName&gt;_&lt;EnumKey&gt;
     /// </remarks>
     /// <typeparam name="TEnum"></typeparam>
-    public class ResultError<TEnum>
+    public class ResultError<TEnum> : IResultError
         where TEnum : struct
     {
         /// <summary>
@@ -106,5 +106,10 @@ namespace SrkToolkit.Domain
         /// The display message.
         /// </value>
         public string DisplayMessage { get; set; }
+
+        string IResultError.DisplayMessage
+        {
+            get { return this.DisplayMessage ?? this.Code.ToString(); }
+        }
     }
 }

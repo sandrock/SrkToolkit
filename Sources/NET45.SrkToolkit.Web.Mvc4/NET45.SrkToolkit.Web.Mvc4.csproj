@@ -133,6 +133,12 @@
     <Compile Include="..\NET4.SrkToolkit.Web\SrkControllerExtensions.cs">
       <Link>SrkControllerExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkHttpApplication.cs">
+      <Link>SrkHttpApplication.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkHttpApplication.tt.cs">
+      <Link>SrkHttpApplication.tt.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Web\SrkRequestExtensions.cs">
       <Link>SrkRequestExtensions.cs</Link>
     </Compile>

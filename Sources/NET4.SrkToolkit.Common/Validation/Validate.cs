@@ -3,14 +3,20 @@ namespace SrkToolkit.Common.Validation
 {
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
+    using SrkToolkit.DataAnnotations;
 
     /// <summary>
     /// Validates various data.
     /// </summary>
     public static class Validate
     {
-        private static readonly Regex emailRegex = new Regex(@"^[a-z0-9\u007F-\uFFFF][a-z0-9\u007F-\uFFFF_\.+-]+@[a-z0-9\.-]+\.[a-z0-9]+$", RegexOptions.IgnoreCase);
-        private static readonly Regex emailsRegex = new Regex(@"[a-z0-9\u007F-\uFFFF][a-z0-9\u007F-\uFFFF_\.+-]+@[a-z0-9\.-]+\.[a-z0-9]+", RegexOptions.IgnoreCase);
+#if NET45
+        private static readonly Regex emailRegex = new Regex(@"^" + EmailAddressExAttribute.EmailAddressRegex + "$", RegexOptions.IgnoreCase);
+        private static readonly Regex emailsRegex = new Regex(EmailAddressExAttribute.EmailAddressRegex, RegexOptions.IgnoreCase);
+#else
+        private static readonly Regex emailRegex = new Regex(@"^" + EmailAddressAttribute.EmailAddressRegex + "$", RegexOptions.IgnoreCase);
+        private static readonly Regex emailsRegex = new Regex(EmailAddressAttribute.EmailAddressRegex, RegexOptions.IgnoreCase);
+#endif
 
         /// <summary>
         /// Validates and lower-ify an email address;

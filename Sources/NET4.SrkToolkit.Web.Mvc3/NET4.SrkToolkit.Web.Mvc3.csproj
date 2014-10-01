@@ -125,6 +125,12 @@
     <Compile Include="..\NET4.SrkToolkit.Web\SrkControllerExtensions.cs">
       <Link>SrkControllerExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkHttpApplication.cs">
+      <Link>SrkHttpApplication.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkHttpApplication.tt.cs">
+      <Link>SrkHttpApplication.tt.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Web\SrkRequestExtensions.cs">
       <Link>SrkRequestExtensions.cs</Link>
     </Compile>
@@ -175,7 +181,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProjectLinkReference="1d73a9e4-7f61-4288-bde1-e13cc63872c0" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="1d73a9e4-7f61-4288-bde1-e13cc63872c0" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

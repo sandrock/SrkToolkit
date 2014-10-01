@@ -183,14 +183,21 @@ namespace SrkToolkit.Web.HttpErrors
 
             this.Response.Charset = "utf-8";
 
+            this.OnErrorResponseReady(action, model, code);
+
             if (this.Request.IsXmlHttpRequest())
             {
                 return new ResultServiceBase(this.HttpContext).JsonErrorWithException(action, model.Message ?? "Unknown error.", ex);
             }
             else
             {
+                this.Response.ContentType = "text/html; charset=utf-8";
                 return this.View("Error", msg);
             }
+        }
+
+        protected virtual void OnErrorResponseReady(string action, HttpErrorModel model, int code)
+        {
         }
     }
 }

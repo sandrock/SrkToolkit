@@ -56,6 +56,7 @@
     <Compile Include="CompositeDisposableTests.cs" />
     <Compile Include="CultureInfoHelperTests.cs" />
     <Compile Include="DataAnnotations\TimezoneAttributeTests.cs" />
+    <Compile Include="DictionaryWrapperTests.cs" />
     <Compile Include="EmailAddressAttributeTests.cs" />
     <Compile Include="EmailAddressTests.cs" />
     <Compile Include="EnumStrings.Designer.cs">

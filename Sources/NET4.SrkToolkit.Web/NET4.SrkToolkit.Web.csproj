@@ -57,6 +57,7 @@
       <Link>Properties\SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Fakes\BasicHttpContext.cs" />
+    <Compile Include="Fakes\BasicHttpRequest.cs" />
     <Compile Include="Fakes\BasicHttpSessionState.cs" />
     <Compile Include="HttpErrors\BasicHttpErrorResponse.cs" />
     <Compile Include="Filters\AuthorizeAttribute.cs" />
@@ -79,6 +80,12 @@
     <Compile Include="Services\IResultService.cs" />
     <Compile Include="Services\ResultService.cs" />
     <Compile Include="Services\ResultServiceBase.cs" />
+    <Compile Include="SrkHttpApplication.cs" />
+    <Compile Include="SrkHttpApplication.tt.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SrkHttpApplication.tt</DependentUpon>
+    </Compile>
     <Compile Include="SrkRequestExtensions.cs" />
     <Compile Include="SrkTempDataDictionaryExtensions.cs" />
     <Compile Include="Models\TempMessage.cs" />
@@ -98,6 +105,10 @@
     <Compile Include="WebDependencyFile.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="SrkHttpApplication.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SrkHttpApplication.tt.cs</LastGenOutput>
+    </None>
     <None Include="SrkToolkit.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="System.Web\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

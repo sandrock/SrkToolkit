@@ -93,6 +93,8 @@ namespace SrkToolkit.Web.HttpErrors
             }
             catch (Exception ex)
             {
+                context.Response.Clear();
+
                 Trace.TraceError(ex.ToString());
 
                 if (includeExceptionDetails)

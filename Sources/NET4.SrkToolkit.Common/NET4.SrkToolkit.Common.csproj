@@ -50,6 +50,7 @@
     <Compile Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs">
       <Link>Properties\SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Collections\DictionaryWrapper.cs" />
     <Compile Include="CompositeDisposable.cs" />
     <Compile Include="DataAnnotations\DateRangeAttribute.cs" />
     <Compile Include="DataAnnotations\EmailAddressAttribute.cs" />

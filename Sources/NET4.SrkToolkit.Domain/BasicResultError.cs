@@ -14,7 +14,7 @@ namespace SrkToolkit.Domain
     /// <summary>
     /// Result for a domain request.
     /// </summary>
-    public class BasicResultError
+    public class BasicResultError : IResultError
     {
         public BasicResultError(string displayMessage)
         {

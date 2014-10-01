@@ -66,6 +66,16 @@ namespace SrkToolkit.Common.Tests
 
                 Assert.IsNull(result);
             }
+
+            [TestMethod]
+            public void ValidParisAddress_IsValid()
+            {
+                string value = "test@test.paris";
+                var attr = new EmailAddressAttribute();
+                var result = attr.GetIsValid(value, null);
+
+                Assert.IsNull(result);
+            }
         }
 
         [TestClass]

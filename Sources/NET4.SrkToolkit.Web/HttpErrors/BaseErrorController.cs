@@ -179,11 +179,11 @@ namespace SrkToolkit.Web.HttpErrors
 
             this.Response.StatusCode = msg.Code;
 
-            Trace.TraceInformation("ErrorController." + action + ": end");
-
             this.Response.Charset = "utf-8";
 
             this.OnErrorResponseReady(action, model, code);
+
+            Trace.TraceInformation("ErrorController." + action + ": end");
 
             if (this.Request.IsXmlHttpRequest())
             {

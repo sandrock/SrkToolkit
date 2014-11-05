@@ -3,11 +3,11 @@ namespace SrkToolkit.Common.Tests
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using SrkToolkit.Globalization;
-    using System.Globalization;
 
     public class CultureInfoHelperTests
     {
@@ -25,6 +25,7 @@ namespace SrkToolkit.Common.Tests
                 var match = countries.SingleOrDefault(c => c.NativeName == nativeName);
                 Assert.IsNotNull(match);
                 Assert.AreEqual(englishName, match.EnglishName);
+                Assert.AreEqual(nativeName, match.NativeName);
             }
 
             [TestMethod]
@@ -36,6 +37,7 @@ namespace SrkToolkit.Common.Tests
                 var match = countries.SingleOrDefault(c => c.NativeName == nativeName);
                 Assert.IsNotNull(match);
                 Assert.AreEqual(englishName, match.EnglishName);
+                Assert.AreEqual(nativeName, match.NativeName);
             }
 
             [TestMethod]
@@ -47,6 +49,7 @@ namespace SrkToolkit.Common.Tests
                 var match = countries.SingleOrDefault(c => c.NativeName == nativeName);
                 Assert.IsNotNull(match);
                 Assert.AreEqual(englishName, match.EnglishName);
+                Assert.AreEqual(nativeName, match.NativeName);
             }
 
             [TestMethod]

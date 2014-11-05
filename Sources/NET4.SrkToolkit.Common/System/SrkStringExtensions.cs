@@ -13,7 +13,7 @@ namespace System
     public static class SrkStringExtensions
     {
         /// <summary>
-        /// Returns null is the string is empty.
+        /// Returns null is the string is empty or null.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="trim">if set to <c>true</c> [trim].</param>
@@ -28,7 +28,7 @@ namespace System
         }
 
         /// <summary>
-        /// Returns null is the string is empty or contains only whispaces.
+        /// Returns null is the string is empty, null or contains only whispaces.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="trim">if set to <c>true</c> [trim].</param>

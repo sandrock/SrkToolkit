@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -8,3 +10,5 @@ using System.Runtime.InteropServices;
 
 [assembly: CLSCompliant(true)]
 [assembly: Guid("bf3ccba6-9006-435c-b99c-7c2d436efc97")]
+
+[assembly: NeutralResourcesLanguageAttribute("en", UltimateResourceFallbackLocation.MainAssembly)]

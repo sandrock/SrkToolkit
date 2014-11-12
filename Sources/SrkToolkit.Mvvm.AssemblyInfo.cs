@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("SrkToolkit")]
 [assembly: AssemblyCopyright("Copyright © SandRock 2011")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 

@@ -71,6 +71,7 @@
     <Compile Include="SrkArrayExtensionsTests.cs" />
     <Compile Include="SrkDateTimeExtensionsTests.cs" />
     <Compile Include="SrkIDictionaryExtensionsTests.cs" />
+    <Compile Include="SrkIListExtensionsTests.cs" />
     <Compile Include="SrkNameValueCollectionExtensions.cs" />
     <Compile Include="SrkStringExtensionsTests.cs" />
     <Compile Include="SrkStringTransformer.cs" />

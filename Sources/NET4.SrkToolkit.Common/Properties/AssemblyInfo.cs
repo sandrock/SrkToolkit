@@ -10,3 +10,4 @@ using System.Resources;
 [assembly: CLSCompliant(true)]
 [assembly: Guid("c89a9f8c-7ad3-4cf7-85f3-4d9028f055bc")]
 
+[assembly: NeutralResourcesLanguageAttribute("en")]

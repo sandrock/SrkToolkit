@@ -113,7 +113,7 @@ namespace System.Web.Mvc
                 }
                 else
                 {
-                    kvs.Add(theKey, keysAndValues[i]);
+                    kvs.Add(Uri.EscapeDataString(theKey), Uri.EscapeDataString(keysAndValues[i]));
                     theKey = null;
                 }
             }
@@ -143,9 +143,9 @@ namespace System.Web.Mvc
             {
                 string itemValue = values[item];
                 builder.Append(sep);
-                builder.Append(Uri.EscapeDataString(item));
+                builder.Append(item);
                 builder.Append("=");
-                builder.Append(Uri.EscapeDataString(itemValue));
+                builder.Append(itemValue);
                 sep = "&";
             }
 

@@ -125,6 +125,34 @@ namespace SrkToolkit.Web.Tests
                 // verify
                 Assert.AreEqual(expected, actual);
             }
+
+            [TestMethod]
+            public void SpecialCharInOriginalQuery()
+            {
+                string path = @"/Area/Ctrl/Action";
+                string query = @"search=hello%20world";
+                string url = path + "?" + query;
+                string expected = url + "&page=2";
+                var helper = GetHelper(path, query);
+
+                string actual = helper.SetQueryString(url, "page", "2");
+
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
+            public void SpecialCharInNewQueryValue()
+            {
+                string path = @"/Area/Ctrl/Action";
+                string query = @"mode=search";
+                string url = path + "?" + query;
+                string expected = url + "&search=hello%20world";
+                var helper = GetHelper(path, query);
+
+                string actual = helper.SetQueryString(url, "search", "hello world");
+
+                Assert.AreEqual(expected, actual);
+            }
         }
     }
 }

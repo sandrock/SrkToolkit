@@ -48,6 +48,9 @@
     <Compile Include="..\NET4.SrkToolkit.Common\CompositeDisposable.cs">
       <Link>CompositeDisposable.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\CultureInfoAttribute.cs">
+      <Link>DataAnnotations\CultureInfoAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\DateRangeAttribute.cs">
       <Link>DataAnnotations\DateRangeAttribute.cs</Link>
     </Compile>

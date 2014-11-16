@@ -52,6 +52,7 @@
     </Compile>
     <Compile Include="Collections\DictionaryWrapper.cs" />
     <Compile Include="CompositeDisposable.cs" />
+    <Compile Include="DataAnnotations\CultureInfoAttribute.cs" />
     <Compile Include="DataAnnotations\DateRangeAttribute.cs" />
     <Compile Include="DataAnnotations\EmailAddressAttribute.cs" />
     <Compile Include="DataAnnotations\TimezoneAttribute.cs" />

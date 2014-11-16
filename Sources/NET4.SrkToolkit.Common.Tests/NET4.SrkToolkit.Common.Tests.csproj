@@ -55,6 +55,7 @@
     <Compile Include="AssertTests.cs" />
     <Compile Include="CompositeDisposableTests.cs" />
     <Compile Include="CultureInfoHelperTests.cs" />
+    <Compile Include="DataAnnotations\CultureInfoAttributeTests.cs" />
     <Compile Include="DataAnnotations\TimezoneAttributeTests.cs" />
     <Compile Include="DictionaryWrapperTests.cs" />
     <Compile Include="EmailAddressAttributeTests.cs" />

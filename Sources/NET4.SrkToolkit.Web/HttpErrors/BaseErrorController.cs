@@ -185,7 +185,7 @@ namespace SrkToolkit.Web.HttpErrors
 
             Trace.TraceInformation("ErrorController." + action + ": end");
 
-            if (this.Request.IsXmlHttpRequest())
+            if (this.Request.IsXmlHttpRequest() || this.Request.PrefersJson())
             {
                 return new ResultServiceBase(this.HttpContext).JsonErrorWithException(action, model.Message ?? "Unknown error.", ex);
             }
@@ -196,6 +196,12 @@ namespace SrkToolkit.Web.HttpErrors
             }
         }
 
+        /// <summary>
+        /// Called when [error response ready].
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <param name="model">The model.</param>
+        /// <param name="code">The code.</param>
         protected virtual void OnErrorResponseReady(string action, HttpErrorModel model, int code)
         {
         }

@@ -8,7 +8,7 @@ namespace System.Web.Mvc
     using System.Web.Mvc;
 
     /// <summary>
-    /// Extension methods for the <see cref="IEnumerable"/> interface within MVC views.
+    /// Extension methods for the <see cref="IEnumerable&lt;T&gt;"/> interface within MVC views.
     /// </summary>
     public static class SrkMvcCollectionExtensions
     {

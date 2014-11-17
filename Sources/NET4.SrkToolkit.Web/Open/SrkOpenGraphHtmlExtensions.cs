@@ -1,9 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="SrkOpenGraphHtmlExtensions.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
+﻿
 namespace SrkToolkit.Web.Open
 {
     using System;

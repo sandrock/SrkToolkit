@@ -1,9 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="BasicResultError.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
+﻿
 namespace SrkToolkit.Domain
 {
     using System;
@@ -16,6 +11,10 @@ namespace SrkToolkit.Domain
     /// </summary>
     public class BasicResultError : IResultError
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BasicResultError"/> class.
+        /// </summary>
+        /// <param name="displayMessage">The display message.</param>
         public BasicResultError(string displayMessage)
         {
             this.DisplayMessage = displayMessage;

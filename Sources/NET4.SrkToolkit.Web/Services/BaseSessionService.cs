@@ -22,6 +22,10 @@ namespace SrkToolkit.Web.Services
             this.source = new HttpBaseSessionServiceSource(httpSessionStateBase);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseSessionService"/> class.
+        /// </summary>
+        /// <param name="httpSessionDictionary">The HTTP session dictionary.</param>
         public BaseSessionService(IDictionary<string, object> httpSessionDictionary)
         {
             this.source = new DictionarySessionServiceSource(httpSessionDictionary);

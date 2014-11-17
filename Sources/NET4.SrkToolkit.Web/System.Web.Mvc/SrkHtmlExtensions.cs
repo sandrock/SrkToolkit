@@ -372,7 +372,6 @@ namespace System.Web.Mvc
         /// <param name="date">The date value.</param>
         /// <param name="useTimeTag">if set to <c>true</c> the date will be enclsoed in a &lt;time&gt; tag.</param>
         /// <param name="display">The display value (use to manualy set the display value).</param>
-        /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
         /// <returns></returns>
         public static MvcHtmlString DisplayShortTime(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null)
         {
@@ -386,7 +385,6 @@ namespace System.Web.Mvc
         /// <param name="date">The date value.</param>
         /// <param name="useTimeTag">if set to <c>true</c> the date will be enclsoed in a &lt;time&gt; tag.</param>
         /// <param name="display">The display value (use to manualy set the display value).</param>
-        /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
         /// <returns></returns>
         public static MvcHtmlString DisplayShortTime(this HtmlHelper html, TimeSpan date, bool useTimeTag = true, string display = null)
         {
@@ -450,6 +448,7 @@ namespace System.Web.Mvc
         /// <param name="twitterLinks">if set to <c>true</c> make twitter links from @mentions and #hashes.</param>
         /// <param name="linksClass">The class attribute to associate to &lt;a&gt; tags (defaults to "external").</param>
         /// <param name="linksTarget">The target attribute to associate to &lt;a&gt; tags (default to "_blank").</param>
+        /// <param name="wrapClass">Indicates wether to wrap the HTML into a div element.</param>
         /// <returns>
         /// an escaped HTML string
         /// </returns>

@@ -200,8 +200,14 @@ namespace SrkToolkit.Web.Models
         /// </summary>
         public Exception Exception { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the code.
+        /// </summary>
         public string CodeName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the code definition.
+        /// </summary>
         public string CodeDefinition { get; set; }
 
         /// <summary>

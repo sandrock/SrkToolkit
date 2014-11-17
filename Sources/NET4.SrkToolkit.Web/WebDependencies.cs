@@ -15,6 +15,9 @@ namespace SrkToolkit.Web
     {
         private List<Tuple<WebDependency, WebDependencyPosition>> includes;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebDependencies"/> class.
+        /// </summary>
         public WebDependencies()
         {
         }

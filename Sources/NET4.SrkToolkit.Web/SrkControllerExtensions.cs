@@ -35,6 +35,16 @@ namespace SrkToolkit.Web
             return line;
         }
 
+        /// <summary>
+        /// Gets an item from the HTTP cache.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ctrl">The controller.</param>
+        /// <param name="duration">The duration.</param>
+        /// <param name="priority">The priority.</param>
+        /// <param name="buildData">The build data.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [Obsolete("Under devleopment")]
         public static T GetFromCache<T>(this Controller ctrl, TimeSpan duration, CacheItemPriority priority, Func<T> buildData, string id)
             where T : class
@@ -51,6 +61,15 @@ namespace SrkToolkit.Web
             return value;
         }
 
+        /// <summary>
+        /// Gets an item from the HTTP cache.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ctrl">The controller.</param>
+        /// <param name="duration">The duration.</param>
+        /// <param name="priority">The priority.</param>
+        /// <param name="buildData">The build data.</param>
+        /// <returns></returns>
         [Obsolete("Under devleopment")]
         public static T GetFromCache<T>(this Controller ctrl, TimeSpan duration, CacheItemPriority priority, Func<T> buildData)
             where T : class
@@ -67,6 +86,13 @@ namespace SrkToolkit.Web
             return value;
         }
 
+        /// <summary>
+        /// Clears an item from the HTTP cache.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ctrl">The controller.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [Obsolete("Under devleopment")]
         public static T ClearFromCache<T>(this Controller ctrl, string id)
             where T : class
@@ -83,6 +109,12 @@ namespace SrkToolkit.Web
             return null;
         }
 
+        /// <summary>
+        /// Clears an item from the HTTP cache.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ctrl">The control.</param>
+        /// <returns></returns>
         [Obsolete("Under devleopment")]
         public static T ClearFromCache<T>(this Controller ctrl)
             where T : class

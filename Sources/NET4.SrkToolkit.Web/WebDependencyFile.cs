@@ -20,11 +20,12 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebDependencyFile"/> class.
+        /// Initializes a new instance of the <see cref="WebDependencyFile" /> class.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <param name="type">The type.</param>
         /// <param name="encoding">The encoding.</param>
+        /// <param name="attributes">The attributes.</param>
         public WebDependencyFile(string path, WebDependencyFileType type, Encoding encoding = null, IDictionary<string, object> attributes = null)
         {
             this.Path = path;
@@ -34,11 +35,11 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebDependencyFile"/> class.
+        /// Initializes a new instance of the <see cref="WebDependencyFile" /> class.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <param name="type">The type.</param>
-        /// <param name="encoding">The encoding.</param>
+        /// <param name="attributes">The attributes.</param>
         public WebDependencyFile(string path, WebDependencyFileType type, params string[] attributes)
         {
             this.Path = path;
@@ -95,6 +96,9 @@ namespace SrkToolkit.Web
         /// </summary>
         public WebDependencyMedia? Media { get; set; }
 
+        /// <summary>
+        /// Gets or sets the attributes.
+        /// </summary>
         public IDictionary<string, object> Attributes { get; set; }
     }
 

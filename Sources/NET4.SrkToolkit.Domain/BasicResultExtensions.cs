@@ -19,7 +19,6 @@ namespace SrkToolkit.Domain
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="collection">The collection.</param>
-        /// <param name="code">The code.</param>
         /// <param name="displayMessage">The display message.</param>
         /// <returns></returns>
         public static IList<BasicResultError> Add<TEnum>(this IList<BasicResultError> collection, string displayMessage)
@@ -65,7 +64,6 @@ namespace SrkToolkit.Domain
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="collection">The collection.</param>
-        /// <param name="code">The code.</param>
         /// <param name="displayMessageFormat">The display message format.</param>
         /// <param name="args">The args.</param>
         /// <returns></returns>

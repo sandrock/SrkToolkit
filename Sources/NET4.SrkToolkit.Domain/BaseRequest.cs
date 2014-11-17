@@ -61,6 +61,9 @@ namespace SrkToolkit.Domain
             }
         }
 
+        /// <summary>
+        /// Gets the validation error list.
+        /// </summary>
         protected Dictionary<string, List<string>> ValidationErrorList
         {
             get { return this.validationErrors ?? (this.validationErrors = new Dictionary<string, List<string>>()); }

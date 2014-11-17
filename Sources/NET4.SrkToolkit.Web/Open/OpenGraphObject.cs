@@ -51,6 +51,10 @@ namespace SrkToolkit.Web.Open
             get { return this.tags ?? (this.tags = new List<OpenGraphTag>()); }
         }
 
+        /// <summary>
+        /// Adds the specified tag.
+        /// </summary>
+        /// <param name="tag">The tag.</param>
         public void Add(OpenGraphTag tag)
         {
             this.Tags.Add(tag);
@@ -205,6 +209,15 @@ namespace SrkToolkit.Web.Open
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Sets the image.
+        /// </summary>
+        /// <param name="imageUri">The image URI.</param>
+        /// <param name="imageSecureUri">The image secure URI.</param>
+        /// <param name="mimeType">Type of the MIME.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <returns></returns>
         public OpenGraphObject SetImage(Uri imageUri = null, Uri imageSecureUri = null, string mimeType = null, int? width = null, int? height = null)
         {
             if (imageUri != null)

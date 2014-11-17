@@ -77,6 +77,12 @@ namespace SrkToolkit.Domain.Tests
         [TestClass]
         public class AddExtension
         {
+            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            public void ThrowsIfArg0IsNull()
+            {
+                ResultErrorExtensions.Add(default(IList<ResultError<Lalala>>), Lalala.Many, Strings.ResourceManager);
+            }
+
             [TestMethod]
             public void Works()
             {
@@ -99,6 +105,32 @@ namespace SrkToolkit.Domain.Tests
                 list.Add(value, resourceManager, "test");
                 var result = list[0].DisplayMessage;
                 Assert.AreEqual(expected, result);
+            }
+        }
+
+        [TestClass]
+        public class ContainsErrorExtension
+        {
+            [TestMethod]
+            public void ReturnsFalseIfCodeIsNotPresent()
+            {
+                var errors = new List<ResultError<Lalala>>();
+                errors.Add(new ResultError<Lalala>(Lalala.One, Strings.ResourceManager));
+                Assert.IsFalse(ResultErrorExtensions.ContainsError(errors, Lalala.Many));
+            }
+
+            [TestMethod]
+            public void ReturnsTrueIfCodeIsNotPresent()
+            {
+                var errors = new List<ResultError<Lalala>>();
+                errors.Add(new ResultError<Lalala>(Lalala.One, Strings.ResourceManager));
+                Assert.IsTrue(ResultErrorExtensions.ContainsError(errors, Lalala.One));
+            }
+
+            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            public void ThrowsIfArg0IsNull()
+            {
+                ResultErrorExtensions.ContainsError(default(IList<ResultError<Lalala>>), Lalala.Many);
             }
         }
 

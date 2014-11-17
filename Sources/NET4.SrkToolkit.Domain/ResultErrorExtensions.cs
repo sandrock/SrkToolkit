@@ -25,6 +25,9 @@ namespace SrkToolkit.Domain
         public static IList<ResultError<TEnum>> Add<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, string displayMessage)
             where TEnum : struct
         {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
             collection.Add(new ResultError<TEnum>(code, displayMessage));
             return collection;
         }
@@ -41,6 +44,9 @@ namespace SrkToolkit.Domain
         public static IList<ResultError<TEnum>> Add<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, ResourceManager enumResourceManager, CultureInfo culture)
             where TEnum : struct
         {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
             collection.Add(new ResultError<TEnum>(code, enumResourceManager, culture));
             return collection;
         }
@@ -56,6 +62,9 @@ namespace SrkToolkit.Domain
         public static IList<ResultError<TEnum>> Add<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, ResourceManager enumResourceManager)
             where TEnum : struct
         {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
             collection.Add(new ResultError<TEnum>(code, enumResourceManager));
             return collection;
         }
@@ -72,6 +81,9 @@ namespace SrkToolkit.Domain
         public static IList<ResultError<TEnum>> Add<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, string displayMessageFormat, params object[] args)
             where TEnum : struct
         {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
             collection.Add(new ResultError<TEnum>(code, displayMessageFormat, args));
             return collection;
         }
@@ -89,6 +101,9 @@ namespace SrkToolkit.Domain
         public static IList<ResultError<TEnum>> Add<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, ResourceManager enumResourceManager, CultureInfo culture, params object[] args)
             where TEnum : struct
         {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
             collection.Add(new ResultError<TEnum>(code, enumResourceManager, culture, args));
             return collection;
         }
@@ -105,8 +120,28 @@ namespace SrkToolkit.Domain
         public static IList<ResultError<TEnum>> Add<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, ResourceManager enumResourceManager, params object[] args)
             where TEnum : struct
         {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
             collection.Add(new ResultError<TEnum>(code, enumResourceManager, args));
             return collection;
+        }
+
+        /// <summary>
+        /// Determines whether the specified collection contains the specified error code.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
+        /// <returns>true if the specified error code is found; otherwise, false</returns>
+        /// <exception cref="System.ArgumentNullException">collection</exception>
+        public static bool ContainsError<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            return collection.Any(e => e.Code.Equals(code));
         }
 
         public static PostProcessWrapper<TEnum> WithPostProcess<TEnum>(this IList<ResultError<TEnum>> collection, Func<string, string> postProcess)
@@ -115,6 +150,7 @@ namespace SrkToolkit.Domain
             return new PostProcessWrapper<TEnum>(collection, postProcess);
         }
 
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
         public class PostProcessWrapper<TEnum>
             where TEnum : struct
         {
@@ -169,8 +205,6 @@ namespace SrkToolkit.Domain
             /// <summary>
             /// Adds the specified collection.
             /// </summary>
-            /// <typeparam name="TEnum">The type of the enum.</typeparam>
-            /// <param name="collection">The collection.</param>
             /// <param name="code">The code.</param>
             /// <param name="displayMessageFormat">The display message format.</param>
             /// <param name="args">The args.</param>

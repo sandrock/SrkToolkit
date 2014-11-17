@@ -43,6 +43,16 @@ namespace SrkToolkit.Web.Open
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenGraphNamespace"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="uri">The URI.</param>
+        /// <exception cref="System.ArgumentException">
+        /// The value cannot be empty;name
+        /// or
+        /// The value cannot be empty;uri
+        /// </exception>
         public OpenGraphNamespace(string name, string uri)
         {
             if (string.IsNullOrEmpty(name))

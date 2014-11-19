@@ -8,8 +8,21 @@ namespace SrkToolkit.Web
     using System.Web.Mvc;
     using SrkToolkit.Domain;
 
+    /// <summary>
+    /// Extension methods for <see cref="BaseResult"/> to use with <see cref="Controller"/> actions.
+    /// </summary>
     public static class SrkDomainControllerExtensions
     {
+        /// <summary>
+        /// Validates the result and handle domain errors.
+        /// </summary>
+        /// <typeparam name="TRequest">The type of the request.</typeparam>
+        /// <typeparam name="TResultCode">The type of the result code.</typeparam>
+        /// <param name="controller">The controller.</param>
+        /// <param name="result">The result.</param>
+        /// <param name="errorDisplayMode">The error display mode.</param>
+        /// <param name="modelStatePrefix">The model state prefix.</param>
+        /// <returns></returns>
         public static bool ValidateResult<TRequest, TResultCode>(
             this Controller controller, SrkToolkit.Domain.BaseResult<TRequest, TResultCode> result,
             MessageDisplayMode errorDisplayMode = MessageDisplayMode.ModelState,
@@ -34,6 +47,15 @@ namespace SrkToolkit.Web
             return result.Succeed;
         }
 
+        /// <summary>
+        /// Validates the result and handle domain errors.
+        /// </summary>
+        /// <typeparam name="TResultCode">The type of the result code.</typeparam>
+        /// <param name="controller">The controller.</param>
+        /// <param name="result">The result.</param>
+        /// <param name="errorDisplayMode">The error display mode.</param>
+        /// <param name="modelStatePrefix">The model state prefix.</param>
+        /// <returns></returns>
         public static bool ValidateResult<TResultCode>(
             this Controller controller,
             SrkToolkit.Domain.BasicResult<TResultCode> result,

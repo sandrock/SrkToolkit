@@ -58,7 +58,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Def_SuperEnum_Two" xml:space="preserve">
+    <value>Description of SuperEnum.Two blah</value>
+  </data>
   <data name="SuperEnum_Two" xml:space="preserve">
     <value>Description of SuperEnum.Two</value>
+  </data>
+  <data name="SuperEnum_Two_Desc" xml:space="preserve">
+    <value>Super long description of the SuperEnum.Two enum value. lalalalala allalalal alallalalal alal allaall allalallalala.</value>
   </data>
 </root>

@@ -12,17 +12,23 @@ namespace SrkToolkit.Globalization
     /// </summary>
     public static class CultureInfoHelper
     {
+        private static readonly Dictionary<CultureInfo, IList<RegionInfo>> countriesCache = new Dictionary<CultureInfo, IList<RegionInfo>>();
+        private static readonly object countriesCacheLock = new object();
+
         /// <summary>
         /// Based on Windows CultureInfos, returns a list of all countries.
         /// </summary>
         /// <returns></returns>
         public static IList<RegionInfo> GetCountries()
         {
+            if (countriesCache.ContainsKey(CultureInfo.CurrentCulture))
+                return countriesCache[CultureInfo.CurrentCulture];
+
             var list = new List<Tuple<RegionInfo, CultureInfo>>();
             var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures);
             foreach (var culture in cultures)
             {
-                if (!culture.IsNeutralCulture)
+                if (!culture.IsNeutralCulture && culture.LCID != 0x7F)
                 {
                     try
                     {
@@ -47,7 +53,16 @@ namespace SrkToolkit.Globalization
                 }
             }
 
-            return list.Select(t => t.Item1).OrderBy(i => i.NativeName).ToList();
+            var list1 = list.Select(t => t.Item1).OrderBy(i => i.NativeName).ToList();
+            lock (countriesCacheLock)
+            {
+                if (!countriesCache.ContainsKey(CultureInfo.CurrentCulture))
+                {
+                    countriesCache.Add(CultureInfo.CurrentCulture, list1);
+                }
+            }
+
+            return list1;
         }
     }
 }

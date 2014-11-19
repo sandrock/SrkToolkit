@@ -18,7 +18,6 @@ namespace SrkToolkit.Common.Tests
         [TestClass]
         public class GetDescription
         {
-
             [TestMethod]
             public void HasDescription_ThreadCulture_AssembliesCulture()
             {
@@ -138,7 +137,36 @@ namespace SrkToolkit.Common.Tests
                 // verify
                 Assert.AreEqual("Three", desc);
             }
-        
+
+            [TestMethod]
+            public void HasDescription_ThreadCulture_AssembliesCulture_Suffix()
+            {
+                Thread.CurrentThread.CurrentUICulture = defaultCulture;
+
+                // prepare
+                var value = SuperEnum.Two;
+
+                // execute
+                var desc = EnumTools.GetDescription(value, EnumStrings.ResourceManager, null, "_Desc");
+
+                // verify
+                Assert.AreEqual("Super long description of the SuperEnum.Two enum value. lalalalala allalalal alallalalal alal allaall allalallalala.", desc);
+            }
+
+            [TestMethod]
+            public void HasDescription_ThreadCulture_AssembliesCulture_Prefix()
+            {
+                Thread.CurrentThread.CurrentUICulture = defaultCulture;
+
+                // prepare
+                var value = SuperEnum.Two;
+
+                // execute
+                var desc = EnumTools.GetDescription(value, EnumStrings.ResourceManager, "Def_", null);
+
+                // verify
+                Assert.AreEqual("Description of SuperEnum.Two blah", desc);
+            }
         }
 
         public enum SuperEnum

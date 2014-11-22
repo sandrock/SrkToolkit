@@ -709,6 +709,37 @@ namespace SrkToolkit.Web.Tests
             }
         }
 
+        [TestClass]
+        public class CallLinkMethod
+        {
+            [TestMethod]
+            public void InternationalFrenchStandardFormat()
+            {
+                string phone = "+33 123456789";
+                string expected = @"<a class=""tel"" href=""tel:" + phone + @""">" + phone + "</a>";
+                var result = SrkHtmlExtensions.CallLink(null, phone);
+                Assert.AreEqual(expected, result.ToString());
+            }
+
+            [TestMethod]
+            public void NationalFrenchStandardFormat()
+            {
+                string phone = "0123456789";
+                string expected = @"<a class=""tel"" href=""tel:" + phone + @""">" + phone + "</a>";
+                var result = SrkHtmlExtensions.CallLink(null, phone);
+                Assert.AreEqual(expected, result.ToString());
+            }
+
+            [TestMethod]
+            public void NationalUsaStandardFormat()
+            {
+                string phone = "123-456-7890";
+                string expected = @"<a class=""tel"" href=""tel:" + phone + @""">" + phone + "</a>";
+                var result = SrkHtmlExtensions.CallLink(null, phone);
+                Assert.AreEqual(expected, result.ToString());
+            }
+        }
+
         private static HtmlHelper GetHtmlHelper(TestModel model)
         {
             var http = new BasicHttpContext();

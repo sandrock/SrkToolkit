@@ -880,5 +880,20 @@ namespace System.Web.Mvc
 
             return line;
         }
+
+        public static MvcHtmlString CallLink(this HtmlHelper html, string phoneNumber)
+        {
+            return SrkHtmlExtensions.CallLink(html, phoneNumber, new { @class = "tel", });
+        }
+
+        public static MvcHtmlString CallLink(this HtmlHelper html, string phoneNumber, object attributes)
+        {
+            var tag = new TagBuilder("a");
+            tag.Attributes.Add("href", "tel:" + phoneNumber);
+            var attrCollection = HtmlHelper.AnonymousObjectToHtmlAttributes(attributes);
+            tag.MergeAttributes<string, object>(attrCollection, true);
+            tag.SetInnerText(phoneNumber);
+            return tag.ToMvcHtmlString(TagRenderMode.Normal);
+        }
     }
 }

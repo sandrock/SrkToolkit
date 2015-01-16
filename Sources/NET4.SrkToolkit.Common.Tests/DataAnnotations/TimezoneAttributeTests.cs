@@ -29,25 +29,25 @@ namespace SrkToolkit.Common.Tests.DataAnnotations
         }
 
         [TestMethod]
-        public void NullTz_Invalid()
+        public void NullTz_Pass()
         {
             var model = new Model
             {
                 Tz = null,
             };
             var attr = (TimezoneAttribute)model.GetType().GetProperty("Tz").GetCustomAttributes(false).First();
-            Assert.IsFalse(attr.IsValid(model.Tz));
+            Assert.IsTrue(attr.IsValid(model.Tz));
         }
 
         [TestMethod]
-        public void EmptyTz_Invalid()
+        public void EmptyTz_Pass()
         {
             var model = new Model
             {
                 Tz = "",
             };
             var attr = (TimezoneAttribute)model.GetType().GetProperty("Tz").GetCustomAttributes(false).First();
-            Assert.IsFalse(attr.IsValid(model.Tz));
+            Assert.IsTrue(attr.IsValid(model.Tz));
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace SrkToolkit.Common.Tests.DataAnnotations
         {
             var model = new Model
             {
-                Tz = "Paris",
+                Tz = "Paris", // not a valid timezone id
             };
             var attr = (TimezoneAttribute)model.GetType().GetProperty("Tz").GetCustomAttributes(false).First();
             Assert.IsFalse(attr.IsValid(model.Tz));

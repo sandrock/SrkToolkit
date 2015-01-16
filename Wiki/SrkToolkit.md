@@ -8,6 +8,7 @@ Assemblies
 
 - [SrkToolkit.Common](SrkToolkit.Common.md)
 	- .NET 4.0
+	- .NET 4.5
 - SrkToolkit.Common.Unsafe
 	- .NET 4.0
 - [SrkToolkit.Web (for ASP MVC)](SrkToolkit.Web.md)
@@ -32,6 +33,7 @@ Assemblies
 	- Silverlight 4
 - SrkToolkit.Domain
 	- .NET 4.0
+	- .NET 4.5
 
 Content at-a-glance
 --------------------

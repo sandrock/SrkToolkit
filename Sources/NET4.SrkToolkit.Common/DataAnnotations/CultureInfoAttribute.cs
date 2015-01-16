@@ -39,7 +39,7 @@ namespace SrkToolkit.DataAnnotations
         {
             string val;
             if (value == null || string.IsNullOrEmpty(val = value.ToString()))
-                return false;
+                return true;
 
             try
             {

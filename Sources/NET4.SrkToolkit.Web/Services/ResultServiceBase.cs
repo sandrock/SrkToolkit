@@ -18,6 +18,8 @@ namespace SrkToolkit.Web.Services
         public const string RouteDataMessageKey = "message";
         public const string RouteDataHttpCodeKey = "http code";
 
+        private int jsonErrorHttpStatusCode = 400;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ResultServiceBase"/> class.
         /// </summary>
@@ -25,6 +27,12 @@ namespace SrkToolkit.Web.Services
         public ResultServiceBase(HttpContextBase httpContext)
         {
             this.httpContext = httpContext;
+        }
+
+        public int JsonErrorHttpStatusCode
+        {
+            get { return this.jsonErrorHttpStatusCode; }
+            set { this.jsonErrorHttpStatusCode = value; }
         }
 
         /// <summary>
@@ -72,6 +80,7 @@ namespace SrkToolkit.Web.Services
         {
             return new JsonNetResult
             {
+                HttpStatusCode = this.JsonErrorHttpStatusCode,
                 Data = new
                 {
                     Success = false,
@@ -91,6 +100,7 @@ namespace SrkToolkit.Web.Services
         {
             return new JsonNetResult
             {
+                HttpStatusCode = this.JsonErrorHttpStatusCode,
                 Data = new
                 {
                     Success = false,
@@ -111,6 +121,7 @@ namespace SrkToolkit.Web.Services
         {
             return new JsonNetResult
             {
+                HttpStatusCode = this.JsonErrorHttpStatusCode,
                 Data = new
                 {
                     Success = false,
@@ -132,6 +143,7 @@ namespace SrkToolkit.Web.Services
         {
             return new JsonNetResult
             {
+                HttpStatusCode = this.JsonErrorHttpStatusCode,
                 Data = new
                 {
                     Success = false,
@@ -140,6 +152,29 @@ namespace SrkToolkit.Web.Services
                     Data = data,
                 },
             };
+        }
+
+        /// <summary>
+        /// Returns a standard JSON result containing an error.
+        /// </summary>
+        /// <param name="errorCode">helps identify the the error</param>
+        /// <param name="errorMessage">the translated error message to display</param>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public ActionResult JsonError(int httpCode, string errorCode, string errorMessage, object data)
+        {
+            var result = new JsonNetResult
+            {
+                Data = new
+                {
+                    Success = false,
+                    ErrorCode = errorCode,
+                    ErrorMessage = errorMessage,
+                    Data = data,
+                },
+            };
+            result.HttpStatusCode = httpCode;
+            return result;
         }
 
         /// <summary>

@@ -27,6 +27,8 @@ namespace SrkToolkit.Web
     /// </remarks>
     public class JsonNetResult : ActionResult
     {
+        private int httpStatusCode = 200;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonNetResult"/> class.
         /// </summary>
@@ -67,6 +69,12 @@ namespace SrkToolkit.Web
         /// </summary>
         public object Data { get; set; }
 
+        public int HttpStatusCode
+        {
+            get { return this.httpStatusCode; }
+            set { this.httpStatusCode = value; }
+        }
+
         /// <summary>
         /// Gets a value indicating whether this instance is in debug mode.
         /// Debug mode will instruct the serializer to indent JSON.
@@ -99,6 +107,7 @@ namespace SrkToolkit.Web
                 throw new ArgumentNullException("context");
 
             HttpResponseBase response = context.HttpContext.Response;
+            response.StatusCode = this.HttpStatusCode;
 
             response.ContentType = !string.IsNullOrEmpty(this.ContentType)
                                  ? ContentType

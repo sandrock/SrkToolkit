@@ -13,21 +13,21 @@ namespace SrkToolkit.Common.Tests.DataAnnotations
     public class CultureInfoAttributeTests
     {
         [TestMethod]
-        public void ReturnsFalseWithEmptyValue()
+        public void ReturnsTrueWithEmptyValue()
         {
             var attr = new CultureInfoAttribute();
             string value = string.Empty;
-            bool expected = false;
+            bool expected = true;
             bool result = attr.IsValid(value);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void ReturnsFalseWithNullValue()
+        public void ReturnsTrueWithNullValue()
         {
             var attr = new CultureInfoAttribute();
             string value = null;
-            bool expected = false;
+            bool expected = true;
             bool result = attr.IsValid(value);
             Assert.AreEqual(expected, result);
         }
@@ -91,28 +91,6 @@ namespace SrkToolkit.Common.Tests.DataAnnotations
         {
             var attr = new CultureInfoAttribute();
             Assert.IsFalse(attr.AllowNeutralCulture);
-        }
-
-        [TestMethod]
-        public void AllowNeutral_ReturnsFalseWithInvariant()
-        {
-            var attr = new CultureInfoAttribute();
-            attr.AllowNeutralCulture = true;
-            string value = CultureInfo.InvariantCulture.Name;
-            bool expected = false;
-            bool result = attr.IsValid(value);
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void DisallowNeutral_ReturnsFalseWithInvariant()
-        {
-            var attr = new CultureInfoAttribute();
-            attr.AllowNeutralCulture = false;
-            string value = CultureInfo.InvariantCulture.Name;
-            bool expected = false;
-            bool result = attr.IsValid(value);
-            Assert.AreEqual(expected, result);
         }
     }
 }

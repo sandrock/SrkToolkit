@@ -53,7 +53,7 @@ namespace SrkToolkit.Web
         /// <param name="value">The value.</param>
         /// <param name="position">The position.</param>
         /// <returns></returns>
-        public WebDependencies Include(WebDependency value, WebDependencyPosition position = WebDependencyPosition.EndOfPage)
+        public WebDependencies Include(WebDependency value, WebDependencyPosition position = WebDependencyPosition.Default)
         {
             if (this.includes == null)
             {
@@ -82,13 +82,15 @@ namespace SrkToolkit.Web
             {
                 for (int i = 0; i < this.includes.Count; i++)
                 {
-                    if (this.includes[i].Item2 == position)
+                    var item = this.includes[i].Item1;
+                    var itemPosition = this.includes[i].Item2;
+                    if (itemPosition == position || itemPosition == WebDependencyPosition.Default && item.DefaultPosition == position)
                     {
-                        if (this.includes[i].Item1.Files != null)
+                        if (item.Files != null)
                         {
-                            for (int j = 0; j < this.includes[i].Item1.Files.Count; j++)
+                            for (int j = 0; j < item.Files.Count; j++)
                             {
-                                RenderDependency(this.includes[i].Item1.Files[j], sb);
+                                RenderDependency(item.Files[j], sb);
                             }
                         }
                     }

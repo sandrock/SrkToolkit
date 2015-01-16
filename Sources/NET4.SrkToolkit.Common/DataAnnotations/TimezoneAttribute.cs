@@ -23,17 +23,19 @@ namespace SrkToolkit.DataAnnotations
         }
 
         /// <summary>
-        /// Determines whether the specified value of the object is valid.
+        /// Determines whether the specified value is a valid time zone identifier.
         /// </summary>
         /// <param name="value">The value of the object to validate.</param>
         /// <returns>
-        /// true if the specified value is valid; otherwise, false.
+        /// true if the specified value is a valid time zone identifier; otherwise, false.
         /// </returns>
         public override bool IsValid(object value)
         {
             string val;
             if (value == null || string.IsNullOrEmpty(val = value.ToString()))
-                return false;
+            {
+                return true;
+            }
 
             try
             {

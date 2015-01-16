@@ -124,6 +124,11 @@ namespace SrkToolkit.Web
     public enum WebDependencyPosition
     {
         /// <summary>
+        /// Internal value, do not use.
+        /// </summary>
+        Default,
+
+        /// <summary>
         /// In the &lt;head&gt; tag.
         /// </summary>
         Head,

@@ -61,6 +61,9 @@
     <Compile Include="..\NET4.SrkToolkit.Domain\BasicResult.TResultCode.cs">
       <Link>BasicResult.TResultCode.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\BasicResult.TResultCode.Payload.cs">
+      <Link>BasicResult.TResultCode.Payload.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Domain\BasicResultError.cs">
       <Link>BasicResultError.cs</Link>
     </Compile>
@@ -86,11 +89,4 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

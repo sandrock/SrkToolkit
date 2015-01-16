@@ -1,9 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="DateRangeAttribute.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
+﻿
 namespace SrkToolkit.DataAnnotations
 {
     using System;

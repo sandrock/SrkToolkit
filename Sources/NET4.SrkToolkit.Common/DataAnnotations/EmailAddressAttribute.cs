@@ -104,7 +104,7 @@ namespace SrkToolkit.DataAnnotations
             }
             else
             {
-                if (string.IsNullOrEmpty(text))
+                if (string.IsNullOrWhiteSpace(text))
                 {
                     return null;
                 }

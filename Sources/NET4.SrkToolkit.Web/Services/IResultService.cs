@@ -72,5 +72,15 @@ namespace SrkToolkit.Web.Services
         /// <param name="data">The data.</param>
         /// <returns></returns>
         ActionResult JsonError(string errorCode, string errorMessage, object data);
+
+        /// <summary>
+        /// Returns a standard JSON result containing an error.
+        /// </summary>
+        /// <param name="httpCode">The HTTP code.</param>
+        /// <param name="errorCode">helps identify the the error</param>
+        /// <param name="errorMessage">the translated error message to display</param>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        ActionResult JsonError(int httpCode, string errorCode, string errorMessage, object data);
     }
 }

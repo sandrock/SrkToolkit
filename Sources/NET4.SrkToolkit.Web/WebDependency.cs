@@ -11,6 +11,8 @@ namespace SrkToolkit.Web
     /// </summary>
     public class WebDependency : IEnumerable<WebDependencyFile>
     {
+        private WebDependencyPosition defaultPosition = WebDependencyPosition.EndOfPage;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="WebDependency"/> class.
         /// </summary>
@@ -23,8 +25,19 @@ namespace SrkToolkit.Web
         /// </summary>
         /// <param name="name">The name.</param>
         public WebDependency(string name)
+            : this(name, WebDependencyPosition.EndOfPage)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebDependency"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="defaultPosition">The default position.</param>
+        public WebDependency(string name, WebDependencyPosition defaultPosition)
         {
             this.Name = name;
+            this.defaultPosition = defaultPosition;
         }
 
         /// <summary>
@@ -53,6 +66,12 @@ namespace SrkToolkit.Web
         /// Gets or sets the name.
         /// </summary>
         public string Name { get; set; }
+
+        public WebDependencyPosition DefaultPosition
+        {
+            get { return this.defaultPosition; }
+            set { this.defaultPosition = value; }
+        }
 
         /// <summary>
         /// Gets or sets the files.

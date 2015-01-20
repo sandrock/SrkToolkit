@@ -375,12 +375,71 @@ p3</p>";
             }
 
             [TestMethod]
+            public void ManyWords_LeavesOtherCharsAsIs()
+            {
+                string input = "heLLo wORLd";
+                string expected = "HeLLo WORLd";
+
+                string result = input.ToUpperFirstLetters();
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
             public void BadPunctuation()
             {
                 string input = ".hello.world";
                 string expected = ".Hello.World";
 
                 string result = input.ToUpperFirstLetters();
+
+                Assert.AreEqual(expected, result);
+            }
+        }
+
+        [TestClass]
+        public class CapitalizeWordsMethod
+        {
+            [TestMethod]
+            public void OneWord()
+            {
+                string input = "hello";
+                string expected = "Hello";
+
+                string result = input.CapitalizeWords();
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void ManyWords()
+            {
+                string input = "hello world";
+                string expected = "Hello World";
+
+                string result = input.CapitalizeWords();
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void ManyWords_LeavesOtherCharsAsIs()
+            {
+                string input = "heLLo wORLd";
+                string expected = "Hello World";
+
+                string result = input.CapitalizeWords();
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void BadPunctuation()
+            {
+                string input = ".hello.world";
+                string expected = ".Hello.World";
+
+                string result = input.CapitalizeWords();
 
                 Assert.AreEqual(expected, result);
             }

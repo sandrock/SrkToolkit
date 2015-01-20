@@ -254,7 +254,50 @@ namespace System
                         break;
 
                     default:
-                        array[i] = char.ToUpper(array[i]);
+                        array[i] = char.ToUpperInvariant(array[i]);
+                        break;
+                }
+            }
+
+            return new string(array);
+        }
+
+        public static string CapitalizeWords(this string text)
+        {
+            char[] array = text.ToCharArray();
+            // Handle the first letter in the string.
+            if (array.Length >= 1)
+            {
+                if (char.IsLower(array[0]))
+                {
+                    array[0] = char.ToUpper(array[0]);
+                }
+            }
+            // Scan through the letters, checking for spaces.
+            // ... Uppercase the lowercase letters following spaces.
+            for (int i = 1; i < array.Length; i++)
+            {
+                switch (CharUnicodeInfo.GetUnicodeCategory(array[i - 1]))
+                {
+                    case UnicodeCategory.CurrencySymbol:
+                    case UnicodeCategory.LetterNumber:
+                    case UnicodeCategory.LowercaseLetter:
+                    case UnicodeCategory.MathSymbol:
+                    case UnicodeCategory.ModifierLetter:
+                    case UnicodeCategory.ModifierSymbol:
+                    case UnicodeCategory.NonSpacingMark:
+                    case UnicodeCategory.OtherLetter:
+                    case UnicodeCategory.OtherNotAssigned:
+                    case UnicodeCategory.OtherNumber:
+                    case UnicodeCategory.OtherSymbol:
+                    case UnicodeCategory.PrivateUse:
+                    case UnicodeCategory.TitlecaseLetter:
+                    case UnicodeCategory.UppercaseLetter:
+                        array[i] = char.ToLowerInvariant(array[i]);
+                        break;
+
+                    default:
+                        array[i] = char.ToUpperInvariant(array[i]);
                         break;
                 }
             }

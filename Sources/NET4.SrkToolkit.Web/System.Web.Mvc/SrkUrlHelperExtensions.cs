@@ -111,10 +111,22 @@ namespace System.Web.Mvc
                 {
                     theKey = keysAndValues[i];
                 }
+                else if (keysAndValues[i] != null)
+                {
+                    kvs.Add(
+                        Uri.EscapeDataString(theKey),
+                        keysAndValues[i] != null ? Uri.EscapeDataString(keysAndValues[i]) : string.Empty);
+                    theKey = null;
+                }
                 else
                 {
-                    kvs.Add(Uri.EscapeDataString(theKey), Uri.EscapeDataString(keysAndValues[i]));
-                    theKey = null;
+                    if (!kvs.ContainsKey(theKey))
+                    {
+                        if (values.ContainsKey(theKey))
+                        {
+                            values.Remove(theKey);
+                        }
+                    }
                 }
             }
 

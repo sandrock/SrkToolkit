@@ -1,9 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="SrkRequestExtensions.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
+﻿
 namespace SrkToolkit.Web
 {
     using System;
@@ -115,32 +110,35 @@ namespace SrkToolkit.Web
         /// Determines whether the client prefers a JSON response.
         /// </summary>
         /// <param name="request">The request.</param>
-        /// <returns>true is the first accept type is JSON; otherwise, false</returns>
+        /// <returns>true if the first accept type is JSON; otherwise, false</returns>
         /// <exception cref="System.ArgumentNullException">request</exception>
         public static bool PrefersJson(this HttpRequest request)
         {
             if (request == null)
                 throw new ArgumentNullException("request");
 
-            if (request.AcceptTypes == null || request.AcceptTypes.Length == 0)
-                return false;
-
             return PrefersJson(request.AcceptTypes);
         }
 
+        /// <summary>
+        /// Determines whether the client prefers a JSON response.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>true if the first accept type is JSON; otherwise, false</returns>
+        /// <exception cref="System.ArgumentNullException">request</exception>
         public static bool PrefersJson(this HttpRequestBase request)
         {
             if (request == null)
                 throw new ArgumentNullException("request");
-
-            if (request.AcceptTypes == null || request.AcceptTypes.Length == 0)
-                return false;
 
             return PrefersJson(request.AcceptTypes);
         }
 
         private static bool PrefersJson(string[] acceptTypes)
         {
+            if (acceptTypes == null || acceptTypes.Length == 0)
+                return false;
+
             if (acceptTypes[0].StartsWith("application/json", StringComparison.InvariantCultureIgnoreCase))
                 return true;
 

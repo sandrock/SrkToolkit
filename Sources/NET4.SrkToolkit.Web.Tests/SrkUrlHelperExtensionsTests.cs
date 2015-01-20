@@ -153,6 +153,34 @@ namespace SrkToolkit.Web.Tests
 
                 Assert.AreEqual(expected, actual);
             }
+
+            [TestMethod]
+            public void NullValueProducesNoKVP()
+            {
+                string path = @"/Area/Ctrl/Action";
+                string query = @"";
+                string url = path + (!string.IsNullOrEmpty(query) ? ("?" + query) : string.Empty);
+                string expected = path;
+                var helper = GetHelper(path, query);
+
+                string actual = helper.SetQueryString(url, "nullstuff", null);
+
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
+            public void NullValueRemovesExistingValue()
+            {
+                string path = @"/Area/Ctrl/Action";
+                string query = @"nullstuff=notnull";
+                string url = path + (!string.IsNullOrEmpty(query) ? ("?" + query) : string.Empty);
+                string expected = path;
+                var helper = GetHelper(path, query);
+
+                string actual = helper.SetQueryString(url, "nullstuff", null);
+
+                Assert.AreEqual(expected, actual);
+            }
         }
     }
 }

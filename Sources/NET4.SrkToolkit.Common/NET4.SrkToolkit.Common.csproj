@@ -66,6 +66,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="StringReplacement.cs" />
+    <Compile Include="StringReplacer.cs" />
     <Compile Include="System.Collections.Generic\SrkIListExtensions.cs" />
     <Compile Include="System.Collections.Specialized\SrkNameValueCollectionExtensions.cs" />
     <Compile Include="System.Collections\SrkIDictionaryExtensions.cs" />

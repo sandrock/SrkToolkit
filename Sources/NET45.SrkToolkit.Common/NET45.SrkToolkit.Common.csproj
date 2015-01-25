@@ -78,6 +78,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\StringReplacer.cs">
+      <Link>StringReplacer.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\System.Collections.ObjectModel\SrkObservableCollectionExtensions.cs">
       <Link>System.Collections.ObjectModel\SrkObservableCollectionExtensions.cs</Link>
     </Compile>

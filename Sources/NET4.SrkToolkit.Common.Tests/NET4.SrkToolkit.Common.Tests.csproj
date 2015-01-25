@@ -78,6 +78,7 @@
     <Compile Include="SrkStringExtensionsTests.cs" />
     <Compile Include="SrkStringTransformer.cs" />
     <Compile Include="SrkTimeZoneInfoExtensionsTests.cs" />
+    <Compile Include="StringReplacerTests.cs" />
     <Compile Include="ValidateTEsts.cs" />
   </ItemGroup>
   <ItemGroup>

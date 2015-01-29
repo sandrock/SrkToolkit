@@ -7,6 +7,7 @@ namespace SrkToolkit.Web
     using System.Text;
     using System.Web.Caching;
     using System.Web.Mvc;
+    using System.Web.Routing;
 
     /// <summary>
     /// Extension methods for the <see cref="Controller"/> class.
@@ -145,15 +146,18 @@ namespace SrkToolkit.Web
 
             if (localUrl != null && controller.Url.IsLocalUrl(localUrl))
             {
-                return controller.Redirect(localUrl);
+                return new RedirectResult(localUrl);
             }
             else if (fallbackLocalUrl != null && controller.Url.IsLocalUrl(fallbackLocalUrl))
             {
-                return controller.Redirect(fallbackLocalUrl);
+                return new RedirectResult(fallbackLocalUrl);
             }
             else
             {
-                return controller.RedirectToAction("Index", "Home");
+                var values = new RouteValueDictionary();
+                values.Add("controller", "Home");
+                values.Add("action", "Index");
+                return new RedirectToRouteResult(values);
             }
         }
 

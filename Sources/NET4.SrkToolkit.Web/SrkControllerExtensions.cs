@@ -131,6 +131,71 @@ namespace SrkToolkit.Web
             return null;
         }
 
+        /// <summary>
+        /// Gets a action result that will redirect the user to the specified local path. Fallbacks to a second path. Then fallbacks to /Home/Index
+        /// </summary>
+        /// <param name="controller">The controller.</param>
+        /// <param name="localUrl">The local URL.</param>
+        /// <param name="fallbackLocalUrl">The fallback local URL.</param>
+        /// <returns></returns>
+        public static ActionResult RedirectToLocal(this Controller controller, string localUrl, string fallbackLocalUrl = null)
+        {
+            if (controller == null)
+                throw new ArgumentNullException("controller");
+
+            if (localUrl != null && controller.Url.IsLocalUrl(localUrl))
+            {
+                return controller.Redirect(localUrl);
+            }
+            else if (fallbackLocalUrl != null && controller.Url.IsLocalUrl(fallbackLocalUrl))
+            {
+                return controller.Redirect(fallbackLocalUrl);
+            }
+            else
+            {
+                return controller.RedirectToAction("Index", "Home");
+            }
+        }
+
+        /// <summary>
+        /// Gets the first valid local URL from the method arguments.
+        /// </summary>
+        /// <param name="controller">The controller.</param>
+        /// <param name="url1">The url1.</param>
+        /// <param name="tryReferer">if set to <c>true</c> [try referer].</param>
+        /// <param name="url2">The url2.</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Sometimes you want to redirect the user to the referer and have a fallback.
+        /// return this.RedirectToLocal(this.GetAnyLocalUrl(null, true, "fallback url"));
+        /// You may also have a returnUrl as action parameter and do
+        /// return this.RedirectToLocal(this.GetAnyLocalUrl(returnUrl, true, "fallback url"));
+        /// </remarks>
+        public static string GetAnyLocalUrl(this Controller controller, string url1, bool tryReferer, string url2 = null)
+        {
+            if (controller == null)
+                throw new ArgumentNullException("controller");
+
+            if (url1 != null && controller.Url.IsLocalUrl(url1))
+            {
+                return url1;
+            }
+
+            if (tryReferer && controller.Request != null && controller.Request.UrlReferrer != null)
+            {
+                string referer = controller.Request.UrlReferrer.PathAndQuery;
+                if (controller.Url.IsLocalUrl(referer))
+                    return referer;
+            }
+
+            if (url2 != null && controller.Url.IsLocalUrl(url2))
+            {
+                return url2;
+            }
+
+            return null;
+        }
+
         private static string GetCacheKey<T>(string id) where T : class
         {
             var type = typeof(T);

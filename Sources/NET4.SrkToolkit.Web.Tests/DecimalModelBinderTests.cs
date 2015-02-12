@@ -215,6 +215,22 @@ namespace SrkToolkit.Web.Tests
             }
 
             [TestMethod]
+            public void DecimalIsNullableNull()
+            {
+                // typical bug we don't want to see
+                string input = "";
+                var culture = C("fr-FR");
+                decimal? expected = null; // instead of validation error
+
+                var target = new DecimalModelBinder<decimal?>();
+                object value;
+                var valueProvider = new ValueProviderResult(input, input, culture);
+                var result = target.BindModelImpl(null, out value);
+                Assert.AreEqual(expected, value);
+                Assert.AreEqual(0, result.Errors.Count);
+            }
+
+            [TestMethod]
             public void Bug1()
             {
                 string input = "123.45";

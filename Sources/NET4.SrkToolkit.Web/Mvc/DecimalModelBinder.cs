@@ -96,6 +96,12 @@ namespace SrkToolkit.Web.Mvc
         /// <returns>the model state</returns>
         public ModelState BindModelImpl(ValueProviderResult valueResult, out object actualValue)
         {
+            if (valueResult == null)
+            {
+                actualValue = null;
+                return new ModelState();
+            }
+
             var modelState = new ModelState { Value = valueResult, };
 
             if (string.IsNullOrEmpty(valueResult.AttemptedValue))

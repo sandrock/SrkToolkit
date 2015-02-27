@@ -38,7 +38,7 @@ Assemblies
 Content at-a-glance
 --------------------
 
-### extend the framework for faster code
+### extend the framework to write code faster
 
  
   - date manipulations, DataAnnotations
@@ -47,7 +47,7 @@ Content at-a-glance
   - ObservableCollection<T>: `AddRange(IEnumerable<T>)`, `RemoveAll(Func<T, bool>)`
   - StopwatchExtensions: fluent methods to avoid writing many lines of code when using it  
   - email address decomposition (account, tags, local part, domain part) and validation
- - no fancy stuff like `StringExtension.IsEmpty()`)
+  - no fancy stuff like `StringExtension.IsEmpty()`)
 
 And more...
 
@@ -70,10 +70,6 @@ And more...
 
 And more...
 
-### some unsafe calls
-
-- urlmon.dll: `FindMimeFromData`
-
 Signed code
 --------------------
 
@@ -86,8 +82,8 @@ Want unsigned assemblies? Get the code, remove the option and build.
 Index
 --------------------
 
-- [SrkToolit.Common](SrkToolit.Common.md)
-- [SrkToolit.Web](SrkToolit.Web.md)
+- [SrkToolkit.Common](SrkToolkit.Common.md)
+- [SrkToolkit.Web](SrkToolkit.Web.md)
 
 
 

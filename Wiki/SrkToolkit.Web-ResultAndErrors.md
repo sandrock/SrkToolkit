@@ -18,9 +18,9 @@ It is used by the error handling class to render MVC actions of your ErrorContro
 
 It is used by the special `AuthorizeAttribute` to write a HTTP 403 when the authenticated user is not authorized to access a resource.
 
-It took me a few year to get the idea to build this class and it is something very useful. 
+It took me a few years to get the idea to build this class and it is something very useful. 
 
-Many motivations and situations require the ability to "stop here" and quickly return a special page (typically a error page).
+During a MVC action many motivations and situations require the ability to "stop here" and quickly return a special page (typically a error page).
 
 When using any class depending on this one, you will have to declare a `ResultService` class in your project inheriting the `BaseResultService` class. This is for your good.
 

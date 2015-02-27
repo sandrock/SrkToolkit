@@ -53,7 +53,7 @@ So you must know how time works on our planet.
 You may declare your display time zone. Not declaring it will display all dates converted to UTC.
 
     @{
-        this.SetTimezone("Romance Standard Time"); // you may your user for that
+        this.SetTimezone("Romance Standard Time"); // you may ask your user for that
     }
 
 Then use the 3 extensions to show well-formatted dates.
@@ -63,9 +63,9 @@ Then use the 3 extensions to show well-formatted dates.
 
 Be careful about the `DateTime.Kind` property.
 
-* if youDateTime.Kind is Utc, it will be converted to the specified time zone
-* if youDateTime.Kind is Local, it will be converted to the specified time zone
-* if youDateTime.Kind is Unknown, it will not be converted (assumingthe date is already set in the user's time zone)
+* if your DateTime.Kind is Utc, it will be converted to the specified time zone
+* if your DateTime.Kind is Local, it will be converted to the specified time zone
+* if your DateTime.Kind is Unknown, it will not be converted (assuming the date is already set in the user's time zone)
 
 Entity Framework creates DateTime objects with Kind=Unknown. In my domain layers, I always do `this.DateCreatedUtc = item.DateCreatedUtc.AsUtc();` in order to ensure Kind is Utc. You may alter EF code generation to create DateTime correctly with a post-set property code.  
 
@@ -89,15 +89,15 @@ Some lectures:  [W3C HTML5 `<time>` tag][1], [W3C <time>'s datetime attribute fo
 
 When displaying dates or times, there may be a confusions. Is this time in 12 or 24 format? "7/6/2013" Is the month June or July? Here are some questions that users may ask themselves. A tooltip is quite the way to help. I believe should display a non-confusing full date and time text. By non-confusion, I think something culture-independant. 
 
-The greatest to lowest unit format is nice because it's logical. year, month, day, hours, minutes, secondes. 2014-04-08 14:16:18.
+The greatest to lowest unit format is nice because it's logical. year, month, day, hours, minutes, seconds. 2014-04-08 14:16:18.
 
 Using words is another nice way. The main confusion is the day/month / month/day one. Displaying the month as a word would remove the ambiguity but would force the user to know bits of the language used.
 
 ### CSS classes  
 
-The first class `display-date`, `display-datetime`, `display-time` indicated the type of display.
+The first class `display-date`, `display-datetime`, `display-time` indicates the type of display.
 
-The second class indicates where the date is lcoated in reference to now `future`, `past`. Plus there is a `today` / `not-today` class.
+The second class indicates where the date is located in reference to now `future`, `past`. Plus there is a `today` / `not-today` class.
 
 This is of no big use on a public website. However I use it a lot in my back-offices: past dates are gray, future are black. Users unconsciously notice it and are able to identify dates faster.  
 
@@ -107,12 +107,12 @@ The elements here are not a documentation of actual code. It is what I am thinki
 
 Todo: find a nice way to deal with `DateTime`s with a `DateTimeKind` of `Unknown`.
 
-Todo: find a nice way for developers to set the current timezone. `DateTime`s often come from models as UTC (but not all always) and we often want to display them in the user's timezone.
+Done: find a nice way for developers to set the current timezone. `DateTime`s often come from models as UTC (but not all always) and we often want to display them in the user's timezone.
 
     Html.GetTimezone();
     Html.SetTimezone("Romance Standard Time");
 
-Here is a list on nice input for the best output.
+Here is a list of nice input for the best output.
 
 - The desired display (date, time, date and time, custom)
 - A optional tooltip display
@@ -170,7 +170,7 @@ View 1:
 View 2:
 
 	@{
-	    this.ViewBag.Title = "Welcome to MySite";
+	    this.ViewBag.Title = "How to perform a rotation in vacuum";
 	    this.ViewBag.Image = "/Images/promo.png";
 	}
 
@@ -187,7 +187,7 @@ _Layout.cshtml:
 			// do we have a description? if not, put one
 	        if (this.ViewBag.Description is string)
 	        {
-	            openGraphData.SetDescription(this.ViewBag.Description ?? "This web site will help your discover...");
+	            openGraphData.SetDescription(this.ViewBag.Description ?? "This web site will help you discover...");
 	        }
 
 			// do we have a picture? if not, put one
@@ -216,7 +216,7 @@ _Layout.cshtml:
 	        }
 	        else if (this.ViewBag.Picture == null)
 	        {
-					// default picture
+                // default picture
 	            imageUrl = new Uri(ApplicationStrings.SiteRootAddress + "Images/Logo.png", UriKind.Absolute);
 	        }
 

@@ -55,6 +55,7 @@
     <Compile Include="DataAnnotations\CultureInfoAttribute.cs" />
     <Compile Include="DataAnnotations\DateRangeAttribute.cs" />
     <Compile Include="DataAnnotations\EmailAddressAttribute.cs" />
+    <Compile Include="DataAnnotations\PhoneNumberAttribute.cs" />
     <Compile Include="DataAnnotations\TimezoneAttribute.cs" />
     <Compile Include="DisposableOnce.cs" />
     <None Include="IO\RecursiveDelete.cs" />

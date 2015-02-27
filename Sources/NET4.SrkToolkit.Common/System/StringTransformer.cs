@@ -537,6 +537,9 @@ namespace System
         /// <returns></returns>
         public static string MakeUrlFriendly(this string input, bool preserveCase, char[] preserveChars = null)
         {
+            if (input == null)
+                throw new ArgumentNullException("value");
+
             var val = input.RemoveDiacritics();
             preserveChars = preserveChars ?? new char[0];
 

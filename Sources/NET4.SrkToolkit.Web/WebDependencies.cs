@@ -80,10 +80,11 @@ namespace SrkToolkit.Web
 
             if (this.includes != null && this.includes.Count > 0)
             {
-                for (int i = 0; i < this.includes.Count; i++)
+                var sorted = this.includes.OrderBy(i => i.Item1.Order).ToArray();
+                for (int i = 0; i < sorted.Length; i++)
                 {
-                    var item = this.includes[i].Item1;
-                    var itemPosition = this.includes[i].Item2;
+                    var item = sorted[i].Item1;
+                    var itemPosition = sorted[i].Item2;
                     if (itemPosition == position || itemPosition == WebDependencyPosition.Default && item.DefaultPosition == position)
                     {
                         if (item.Files != null)

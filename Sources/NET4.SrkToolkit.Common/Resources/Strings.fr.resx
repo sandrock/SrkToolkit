@@ -82,6 +82,9 @@
   <data name="EmailAddressAttribute_ErrorMessage_MultipleMinimumAddresses" xml:space="preserve">
     <value>Vous n'avez saisi que {0} adresses email ; un minimum de {1} est attendu.</value>
   </data>
+  <data name="PhoneNumberAttribute_ErrorMessage" xml:space="preserve">
+    <value>Use the international phone number format (+xxyyyyyyyyyy).</value>
+  </data>
   <data name="TimezoneAttribute_ErrorMessage" xml:space="preserve">
     <value>Le fuseau horaire n'est pas valide.</value>
   </data>

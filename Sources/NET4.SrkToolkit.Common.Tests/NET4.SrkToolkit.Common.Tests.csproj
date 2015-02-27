@@ -57,6 +57,7 @@
     <Compile Include="CultureInfoHelperTests.cs" />
     <Compile Include="DataAnnotations\CultureInfoAttributeTests.cs" />
     <Compile Include="DataAnnotations\EmailAddressExAttributeTests.cs" />
+    <Compile Include="DataAnnotations\PhoneNumberAttributeTests.cs" />
     <Compile Include="DataAnnotations\TimezoneAttributeTests.cs" />
     <Compile Include="DictionaryWrapperTests.cs" />
     <Compile Include="EmailAddressAttributeTests.cs" />

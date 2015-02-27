@@ -27,25 +27,6 @@ namespace SrkToolkit.Domain
             this.Data = data;
         }
 
-        /// <summary>
-        /// Gets the errors.
-        /// </summary>
-        /// <value>
-        /// The errors.
-        /// </value>
-        public IList<ResultError<TResultCode>> Errors
-        {
-            get { return this.errors ?? (this.errors = new List<ResultError<TResultCode>>()); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the operation succeeded.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if the operation succeeded; otherwise, <c>false</c>.
-        /// </value>
-        public bool Succeed { get; set; }
-
         public TData Data { get; set; }
     }
 }

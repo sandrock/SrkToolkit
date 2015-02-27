@@ -133,6 +133,15 @@ namespace SrkToolkit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use the international phone number format (+xxyyyyyyyyyy)..
+        /// </summary>
+        public static string PhoneNumberAttribute_ErrorMessage {
+            get {
+                return ResourceManager.GetString("PhoneNumberAttribute_ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The timezone is not valid..
         /// </summary>
         public static string TimezoneAttribute_ErrorMessage {

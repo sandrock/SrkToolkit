@@ -69,6 +69,9 @@ namespace SrkToolkit.Web
         /// </summary>
         public object Data { get; set; }
 
+        /// <summary>
+        /// Gets or sets the HTTP status code.
+        /// </summary>
         public int HttpStatusCode
         {
             get { return this.httpStatusCode; }

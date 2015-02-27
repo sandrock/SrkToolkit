@@ -93,5 +93,90 @@ namespace SrkToolkit.Common.Tests
                 Assert.AreEqual("antoine@gmail.com", result[1]);
             }
         }
+
+        [TestClass]
+        public class PhoneNumberMethod
+        {
+            [TestMethod]
+            public void ValidPerfectNumber()
+            {
+                string input = "+33123456789";
+                string expected = input;
+                string result = Validate.PhoneNumber(input);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void ValidPerfectTrimmedNumber()
+            {
+                string input = "\t+33123456789   \r\n ";
+                string expected = "+33123456789";
+                string result = Validate.PhoneNumber(input);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void ValidPerfectSpacedNumber()
+            {
+                string input = "+33 123 456 789";
+                string expected = "+33123456789";
+                string result = Validate.PhoneNumber(input);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void ValidPerfectSeparatedNumber()
+            {
+                string input = "+33 123/456-789.012";
+                string expected = "+33123456789012";
+                string result = Validate.PhoneNumber(input);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void ZeroZeroNumber()
+            {
+                string input = "0033123456789";
+                string expected = "+33123456789";
+                string result = Validate.PhoneNumber(input);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void NationalReturnsNull()
+            {
+                string input = "0123456789";
+                string expected = null;
+                string result = Validate.PhoneNumber(input);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void NationalAccepted()
+            {
+                string input = "0123456789";
+                string expected = "0123456789";
+                string result = Validate.PhoneNumber(input, true);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void NationalNonZeroAccepted()
+            {
+                string input = "123456789";
+                string expected = "123456789";
+                string result = Validate.PhoneNumber(input, true);
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void IntlWithOptionalZero()
+            {
+                string input = "+33 (0) 123456789";
+                string expected = "+33123456789";
+                string result = Validate.PhoneNumber(input);
+                Assert.AreEqual(expected, result);
+            }
+        }
     }
 }

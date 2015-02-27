@@ -41,6 +41,19 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="WebDependency" /> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="defaultPosition">The default position.</param>
+        /// <param name="order">The order of rendering.</param>
+        public WebDependency(string name, WebDependencyPosition defaultPosition, int order)
+        {
+            this.Name = name;
+            this.defaultPosition = defaultPosition;
+            this.Order = order;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebDependency"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
@@ -67,6 +80,9 @@ namespace SrkToolkit.Web
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets the default position.
+        /// </summary>
         public WebDependencyPosition DefaultPosition
         {
             get { return this.defaultPosition; }
@@ -99,5 +115,7 @@ namespace SrkToolkit.Web
         {
             return this.Files.GetEnumerator();
         }
+
+        public int Order { get; set; }
     }
 }

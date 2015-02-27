@@ -3,6 +3,7 @@ namespace SrkToolkit.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -15,9 +16,9 @@ namespace SrkToolkit.Common
         internal const string replaceRegexString = "{([a-zA-Z0-9_\\.]+)(?: ([ /,\"a-zA-Z0-9]+))?}";
         private static readonly Regex replaceRegex = new Regex(replaceRegexString, System.Text.RegularExpressions.RegexOptions.Compiled);
 
-        private Dictionary<string, Func<StringReplacement, string>> replacements = new Dictionary<string, Func<StringReplacement, string>>();
+        private Dictionary<string, Func<StringReplacement<object>, string>> replacements = new Dictionary<string, Func<StringReplacement<object>, string>>();
         ////private StringReplacement defaultReplacement = StringReplacement.Empty;
-        private Func<StringReplacement, string> defaultReplacement;
+        private Func<StringReplacement<object>, string> defaultReplacement;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StringReplacer"/> class.
@@ -32,7 +33,7 @@ namespace SrkToolkit.Common
         /// <param name="key">The key.</param>
         /// <param name="replace">The replace.</param>
         /// <returns></returns>
-        public StringReplacer Setup(string key, Func<StringReplacement, string> replace)
+        public StringReplacer Setup(string key, Func<StringReplacement<object>, string> replace)
         {
             this.replacements.Add(key, replace);
             return this;
@@ -43,7 +44,7 @@ namespace SrkToolkit.Common
         /// </summary>
         /// <param name="replace">The replace.</param>
         /// <returns></returns>
-        public StringReplacer SetupDefault(Func<StringReplacement, string> replace)
+        public StringReplacer SetupDefault(Func<StringReplacement<object>, string> replace)
         {
             this.defaultReplacement = replace;
             return this;
@@ -56,6 +57,16 @@ namespace SrkToolkit.Common
         /// <returns></returns>
         public string Replace(string text)
         {
+            return this.Replace(text, CultureInfo.CurrentCulture, TimeZoneInfo.Local);
+        }
+
+        public string Replace(string text, IFormatProvider culture, TimeZoneInfo timezone)
+        {
+            if (culture == null)
+                throw new ArgumentNullException("culture");
+            if (timezone == null)
+                throw new ArgumentNullException("timezone");
+
             return replaceRegex.Replace(text, x =>
             {
                 if (x.Groups.Count > 1)
@@ -63,13 +74,14 @@ namespace SrkToolkit.Common
                     var key = x.Groups[1].Value;
                     var param = x.Groups.Count > 2 ? x.Groups[2].Value : "";
 
+                    var rpl = new StringReplacement<object>(key, null, param, culture, timezone);
                     if (this.replacements.ContainsKey(key))
                     {
-                        return this.replacements[key](new StringReplacement(key));
+                        return this.replacements[key](rpl);
                     }
                     else if (this.defaultReplacement != null)
                     {
-                        return this.defaultReplacement(new StringReplacement(key));
+                        return this.defaultReplacement(rpl);
                     }
                     else
                     {
@@ -88,21 +100,6 @@ namespace SrkToolkit.Common
         public string[] GetKeys()
         {
             return this.replacements.Keys.ToArray();
-        }
-
-        public class StringReplacement
-        {
-            private Func<string, string> keyToValue;
-
-            internal StringReplacement(string key)
-            {
-                this.Key = key;
-            }
-
-            /// <summary>
-            /// Gets or sets the replace key.
-            /// </summary>
-            public string Key { get; set; }
         }
     }
 
@@ -164,6 +161,29 @@ namespace SrkToolkit.Common
         /// <returns></returns>
         public string Replace(string text, TModel model)
         {
+            return this.Replace(text, model, CultureInfo.CurrentCulture, TimeZoneInfo.Local);
+        }
+
+        /// <summary>
+        /// Replaces the specified text.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="model">The model.</param>
+        /// <param name="culture">The culture.</param>
+        /// <param name="timezone">The timezone.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// culture
+        /// or
+        /// timezone
+        /// </exception>
+        public string Replace(string text, TModel model, IFormatProvider culture, TimeZoneInfo timezone)
+        {
+            if (culture == null)
+                throw new ArgumentNullException("culture");
+            if (timezone == null)
+                throw new ArgumentNullException("timezone");
+
             return replaceRegex.Replace(text, x =>
             {
                 if (x.Groups.Count > 1)
@@ -171,8 +191,7 @@ namespace SrkToolkit.Common
                     var key = x.Groups[1].Value;
                     var param = x.Groups.Count > 2 ? x.Groups[2].Value : "";
 
-                    var rpl = new StringReplacement<TModel>(key, model);
-                    rpl.Parameter = param;
+                    var rpl = new StringReplacement<TModel>(key, model, param, culture, timezone);
                     if (this.replacements.ContainsKey(key))
                     {
                         return this.replacements[key](rpl);
@@ -190,29 +209,57 @@ namespace SrkToolkit.Common
                 return x.Groups[0].Value;
             });
         }
+    }
 
-        public class StringReplacement<TModel>
+    public class StringReplacement<TModel>
+    {
+        private readonly string key;
+        private readonly TModel model;
+        private readonly string parameter;
+        private readonly IFormatProvider culture;
+        private TimeZoneInfo timezone;
+
+        internal StringReplacement(string key, TModel model, string parameter, IFormatProvider culture, TimeZoneInfo timezone)
         {
-            internal StringReplacement(string key, TModel model)
-            {
-                this.Key = key;
-                this.Model = model;
-            }
+            this.key = key;
+            this.model = model;
+            this.parameter = parameter;
+            this.culture = culture;
+            this.timezone = timezone;
+        }
 
-            /// <summary>
-            /// Gets or sets the replace key.
-            /// </summary>
-            public string Key { get; set; }
+        /// <summary>
+        /// Gets or sets the replace key.
+        /// </summary>
+        public string Key
+        {
+            get { return this.key; }
+        }
 
-            /// <summary>
-            /// Gets or sets the model.
-            /// </summary>
-            public TModel Model { get; set; }
+        /// <summary>
+        /// Gets or sets the model.
+        /// </summary>
+        public TModel Model
+        {
+            get { return this.model; }
+        }
 
-            /// <summary>
-            /// Gets or sets the optional replace parameter.
-            /// </summary>
-            public string Parameter { get; set; }
+        /// <summary>
+        /// Gets or sets the optional replace parameter.
+        /// </summary>
+        public string Parameter
+        {
+            get { return this.parameter; }
+        }
+
+        public IFormatProvider Culture
+        {
+            get { return this.culture; }
+        }
+
+        public TimeZoneInfo Timezone
+        {
+            get { return this.timezone; }
         }
     }
 }

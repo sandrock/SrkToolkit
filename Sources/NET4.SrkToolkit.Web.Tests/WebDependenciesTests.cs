@@ -108,6 +108,94 @@ namespace SrkToolkit.Web.Tests
                 var result = new WebDependencies().Render(item);
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
+
+            [TestMethod]
+            public void AppliesOrder_AllZero_Order1()
+            {
+                string expected = "<!-- WebDependencies/Default - start -->\r\n"
+                    + "<link href=\"//css1.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+                    + "<link href=\"//css2.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+                    + "<!-- WebDependencies/Default - end -->\r\n";
+                var item1 = new WebDependency("test1");
+                item1.Order = 0;
+                item1.Add(new WebDependencyFile("//css1.css", WebDependencyFileType.Css));
+                var item2 = new WebDependency("test2");
+                item2.Order = 0;
+                item2.Add(new WebDependencyFile("//css2.css", WebDependencyFileType.Css));
+
+                var target = new WebDependencies();
+                target.Include(item1);
+                target.Include(item2);
+
+                var result = target.RenderIncludes(WebDependencyPosition.Default);
+                SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
+            }
+
+            [TestMethod]
+            public void AppliesOrder_AllZero_Order2()
+            {
+                string expected = "<!-- WebDependencies/Default - start -->\r\n"
+                    + "<link href=\"//css2.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+                    + "<link href=\"//css1.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+                    + "<!-- WebDependencies/Default - end -->\r\n";
+                var item1 = new WebDependency("test1");
+                item1.Order = 0;
+                item1.Add(new WebDependencyFile("//css1.css", WebDependencyFileType.Css));
+                var item2 = new WebDependency("test2");
+                item2.Order = 0;
+                item2.Add(new WebDependencyFile("//css2.css", WebDependencyFileType.Css));
+
+                var target = new WebDependencies();
+                target.Include(item2);
+                target.Include(item1);
+
+                var result = target.RenderIncludes(WebDependencyPosition.Default);
+                SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
+            }
+
+            [TestMethod]
+            public void AppliesOrder_Ordered_Order1()
+            {
+                string expected = "<!-- WebDependencies/Default - start -->\r\n"
+                    + "<link href=\"//css1.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+                    + "<link href=\"//css2.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+                    + "<!-- WebDependencies/Default - end -->\r\n";
+                var item1 = new WebDependency("test1");
+                item1.Order = 1;
+                item1.Add(new WebDependencyFile("//css1.css", WebDependencyFileType.Css));
+                var item2 = new WebDependency("test2");
+                item2.Order = 2;
+                item2.Add(new WebDependencyFile("//css2.css", WebDependencyFileType.Css));
+
+                var target = new WebDependencies();
+                target.Include(item1);
+                target.Include(item2);
+
+                var result = target.RenderIncludes(WebDependencyPosition.Default);
+                SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
+            }
+
+            [TestMethod]
+            public void AppliesOrder_Ordered_Order2()
+            {
+                string expected = "<!-- WebDependencies/Default - start -->\r\n"
+                    + "<link href=\"//css1.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+                    + "<link href=\"//css2.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+                    + "<!-- WebDependencies/Default - end -->\r\n";
+                var item1 = new WebDependency("test1");
+                item1.Order = 1;
+                item1.Add(new WebDependencyFile("//css1.css", WebDependencyFileType.Css));
+                var item2 = new WebDependency("test2");
+                item2.Order = 2;
+                item2.Add(new WebDependencyFile("//css2.css", WebDependencyFileType.Css));
+
+                var target = new WebDependencies();
+                target.Include(item2);
+                target.Include(item1);
+
+                var result = target.RenderIncludes(WebDependencyPosition.Default);
+                SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
+            }
         }
     }
 }

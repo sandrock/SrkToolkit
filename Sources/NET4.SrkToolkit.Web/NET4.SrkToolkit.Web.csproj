@@ -86,6 +86,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SrkHttpApplication.tt</DependentUpon>
     </Compile>
+    <Compile Include="SrkHttpContextExtensions.cs" />
     <Compile Include="SrkRequestExtensions.cs" />
     <Compile Include="SrkTempDataDictionaryExtensions.cs" />
     <Compile Include="Models\TempMessage.cs" />

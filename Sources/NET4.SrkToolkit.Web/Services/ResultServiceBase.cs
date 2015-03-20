@@ -185,10 +185,11 @@ namespace SrkToolkit.Web.Services
             get { return this.httpContext; }
         }
 
-        internal ActionResult JsonErrorWithException(string errorCode, string errorMessage, Exception exception)
+        internal ActionResult JsonErrorWithException(int httpCode, string errorCode, string errorMessage, Exception exception)
         {
             return new JsonNetResult
             {
+                HttpStatusCode = httpCode,
                 Data = new
                 {
                     Success = false,

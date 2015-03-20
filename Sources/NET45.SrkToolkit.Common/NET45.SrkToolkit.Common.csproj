@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\NET4.SrkToolkit.Common\Collections\DictionaryWrapper.cs">
+      <Link>Collections\DictionaryWrapper.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\CompositeDisposable.cs">
       <Link>CompositeDisposable.cs</Link>
     </Compile>
@@ -57,6 +60,9 @@
     </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\EmailAddressAttribute.cs">
       <Link>DataAnnotations\EmailAddressAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\PhoneNumberAttribute.cs">
+      <Link>DataAnnotations\PhoneNumberAttribute.cs</Link>
     </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\TimezoneAttribute.cs">
       <Link>DataAnnotations\TimezoneAttribute.cs</Link>

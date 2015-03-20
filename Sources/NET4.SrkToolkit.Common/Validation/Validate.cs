@@ -92,7 +92,7 @@ namespace SrkToolkit.Common.Validation
                 return result;
 
             // international the other way: 0033
-            if (result.StartsWith("00"))
+            if (result.StartsWith("00") && result.Length > 3 && result[2] != '0')
             {
                 result = "+" + result.Substring(2);
                 return result;

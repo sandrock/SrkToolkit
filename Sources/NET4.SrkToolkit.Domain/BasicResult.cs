@@ -1,9 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="BasicResult.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
+﻿
 namespace SrkToolkit.Domain
 {
     using System;
@@ -15,7 +10,7 @@ namespace SrkToolkit.Domain
     /// Result for a domain request.
     /// Incudes a basic error list and a success boolean.
     /// </summary>
-    public class BasicResult
+    public class BasicResult : IBaseResult
     {
         private IList<BasicResultError> errors;
 
@@ -31,5 +26,16 @@ namespace SrkToolkit.Domain
         /// Gets or sets a value indicating whether the operation succeeded.
         /// </summary>
         public bool Succeed { get; set; }
+
+        IList<IResultError> IBaseResult.Errors
+        {
+            get
+            {
+                if (this.errors != null)
+                    return new List<IResultError>(this.errors);
+                else
+                    return new List<IResultError>(0);
+            }
+        }
     }
 }

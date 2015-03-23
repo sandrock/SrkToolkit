@@ -829,7 +829,7 @@ p3</p>";
             public void Test()
             {
                 string input = "helo <b class=\"test\" style='o'>w & or &amp; ld</b>";
-                string expected = "helo&nbsp;&lt;b&nbsp;class&#x3D;&quot;test&quot;&nbsp;style&#x3D;&#x27;o&#x27;&gt;w&nbsp;&amp;&nbsp;or&nbsp;&amp;amp;&nbsp;ld&lt;/b&gt;";
+                string expected = "helo&nbsp;&lt;b&nbsp;class&#x3D;&quot;test&quot;&nbsp;style&#x3D;&#x27;o&#x27;&gt;w&nbsp;&amp;&nbsp;or&nbsp;&amp;amp;&nbsp;ld&lt;&#x2F;b&gt;";
 
                 string result = input.ProperHtmlAttributeEscape();
 

@@ -140,6 +140,9 @@
     <Compile Include="..\NET4.SrkToolkit.Web\SrkHttpApplication.tt.cs">
       <Link>SrkHttpApplication.tt.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkHttpContextExtensions.cs">
+      <Link>SrkHttpContextExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Web\SrkRequestExtensions.cs">
       <Link>SrkRequestExtensions.cs</Link>
     </Compile>

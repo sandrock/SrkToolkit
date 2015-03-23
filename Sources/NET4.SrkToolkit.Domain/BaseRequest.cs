@@ -1,9 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="BaseRequest.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
+﻿
 namespace SrkToolkit.Domain
 {
     using System;
@@ -29,9 +24,6 @@ namespace SrkToolkit.Domain
         /// <summary>
         /// Gets all validation errors.
         /// </summary>
-        /// <value>
-        /// All validation errors.
-        /// </value>
         public IEnumerable<string> AllValidationErrors
         {
             get
@@ -45,9 +37,6 @@ namespace SrkToolkit.Domain
         /// <summary>
         /// Gets the validation errors grouped by property.
         /// </summary>
-        /// <value>
-        /// The validation errors grouped by property.
-        /// </value>
         public IEnumerable<KeyValuePair<string, IEnumerable<string>>> ValidationErrors
         {
             get

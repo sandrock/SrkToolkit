@@ -12,5 +12,10 @@ namespace SrkToolkit.Domain
         /// Gets the error display message.
         /// </summary>
         string DisplayMessage { get; }
+
+        /// <summary>
+        /// Gets the error code.
+        /// </summary>
+        string Code { get; }
     }
 }

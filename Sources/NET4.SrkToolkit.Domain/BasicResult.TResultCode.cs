@@ -10,7 +10,7 @@ namespace SrkToolkit.Domain
     /// Result for a domain request.
     /// Incudes a code-based error list and a success boolean.
     /// </summary>
-    public class BasicResult<TResultCode>
+    public class BasicResult<TResultCode> : IBaseResult
         where TResultCode : struct
     {
         private IList<ResultError<TResultCode>> errors;
@@ -40,5 +40,16 @@ namespace SrkToolkit.Domain
         ///   <c>true</c> if the operation succeeded; otherwise, <c>false</c>.
         /// </value>
         public bool Succeed { get; set; }
+
+        IList<IResultError> IBaseResult.Errors
+        {
+            get
+            {
+                if (this.errors != null)
+                    return new List<IResultError>(this.errors);
+                else
+                    return new List<IResultError>(0);
+            }
+        }
     }
 }

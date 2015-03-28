@@ -107,6 +107,15 @@
     <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphTag.cs">
       <Link>Open\OpenGraphTag.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfo.cs">
+      <Link>Open\PageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfoItem.cs">
+      <Link>Open\PageInfoItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfoObject.cs">
+      <Link>Open\PageInfoObject.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Web\Open\SrkOpenGraphHtmlExtensions.cs">
       <Link>Open\SrkOpenGraphHtmlExtensions.cs</Link>
     </Compile>

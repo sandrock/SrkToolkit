@@ -92,24 +92,23 @@ namespace SrkToolkit.Domain
         }
 
         /// <summary>
-        /// Gets or sets the code.
+        /// Gets or sets the error code.
         /// </summary>
-        /// <value>
-        /// The code.
-        /// </value>
         public TEnum Code { get; set; }
 
         /// <summary>
         /// Gets or sets the display message.
         /// </summary>
-        /// <value>
-        /// The display message.
-        /// </value>
         public string DisplayMessage { get; set; }
 
         string IResultError.DisplayMessage
         {
             get { return this.DisplayMessage ?? this.Code.ToString(); }
+        }
+
+        string IResultError.Code
+        {
+            get { return this.Code.ToString(); }
         }
     }
 }

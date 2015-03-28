@@ -24,5 +24,10 @@ namespace SrkToolkit.Domain
         /// Gets or sets the display message.
         /// </summary>
         public string DisplayMessage { get; set; }
+
+        string IResultError.Code
+        {
+            get { return this.DisplayMessage; }
+        }
     }
 }

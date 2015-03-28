@@ -895,5 +895,33 @@ namespace System.Web.Mvc
             tag.SetInnerText(phoneNumber);
             return tag.ToMvcHtmlString(TagRenderMode.Normal);
         }
+
+        /// <summary>
+        /// Helps attach descriptors to a page in order to generate meta/link tags.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <returns>The <see cref="PageInfo"/> for the current request.</returns>
+        /// <exception cref="System.ArgumentNullException">html or html.ViewContext or html.ViewContext.HttpContext</exception>
+        public static PageInfo GetPageInfo(this HtmlHelper html)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+
+            if (html.ViewContext == null)
+                throw new ArgumentNullException("html.ViewContext");
+
+            if (html.ViewContext.HttpContext == null)
+                throw new ArgumentNullException("html.ViewContext.HttpContext");
+
+            var httpContext = html.ViewContext.HttpContext;
+            var item = httpContext.Items[SrkControllerExtensions.PageInfoKey] as PageInfo;
+            if (item == null)
+            {
+                item = new PageInfo();
+                httpContext.Items[SrkControllerExtensions.PageInfoKey] = item;
+            }
+
+            return item;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 namespace SrkToolkit.Web
 {
+    using SrkToolkit.Web.Open;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -15,6 +16,7 @@ namespace SrkToolkit.Web
     public static class SrkControllerExtensions
     {
         internal const string NavigationLineKey = "SrkNavigationLine";
+        internal const string PageInfoKey = "SrkPageInfo";
 
         /// <summary>
         /// Gets the <see cref="NavigationLine" /> associated to the request.
@@ -198,6 +200,31 @@ namespace SrkToolkit.Web
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Helps attach descriptors to a page in order to generate meta/link tags.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <returns>The <see cref="PageInfo"/> for the current request.</returns>
+        /// <exception cref="System.ArgumentNullException">html or html.ViewContext or html.ViewContext.HttpContext</exception>
+        public static PageInfo GetPageInfo(this Controller controller)
+        {
+            if (controller == null)
+                throw new ArgumentNullException("controller");
+
+            if (controller.HttpContext == null)
+                throw new ArgumentNullException("controller.HttpContext");
+
+            var httpContext = controller.HttpContext;
+            var item = httpContext.Items[PageInfoKey] as PageInfo;
+            if (item == null)
+            {
+                item = new PageInfo();
+                httpContext.Items[PageInfoKey] = item;
+            }
+
+            return item;
         }
 
         private static string GetCacheKey<T>(string id) where T : class

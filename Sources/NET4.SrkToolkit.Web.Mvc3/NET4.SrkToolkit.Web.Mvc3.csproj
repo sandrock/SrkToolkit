@@ -98,6 +98,15 @@
     <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphTag.cs">
       <Link>Open\OpenGraphTag.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfo.cs">
+      <Link>Open\PageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfoItem.cs">
+      <Link>Open\PageInfoItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfoObject.cs">
+      <Link>Open\PageInfoObject.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Web\Open\SrkOpenGraphHtmlExtensions.cs">
       <Link>Open\SrkOpenGraphHtmlExtensions.cs</Link>
     </Compile>
@@ -184,7 +193,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="1d73a9e4-7f61-4288-bde1-e13cc63872c0" />
+      <UserProperties ProjectLinkReference="1d73a9e4-7f61-4288-bde1-e13cc63872c0" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

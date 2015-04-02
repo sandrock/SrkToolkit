@@ -88,4 +88,7 @@
   <data name="TimezoneAttribute_ErrorMessage" xml:space="preserve">
     <value>Le fuseau horaire n'est pas valide.</value>
   </data>
+  <data name="TwitterUsernameAttribute_ErrorMessage" xml:space="preserve">
+    <value>Nom de compte Twitter invalide. Vous devez spécifier le nom ou l'url de votre compte utilisateur.</value>
+  </data>
 </root>

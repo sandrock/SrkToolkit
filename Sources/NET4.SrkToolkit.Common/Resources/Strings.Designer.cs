@@ -151,6 +151,15 @@ namespace SrkToolkit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Twitter username. You must provide the username or the url to your account..
+        /// </summary>
+        public static string TwitterUsernameAttribute_ErrorMessage {
+            get {
+                return ResourceManager.GetString("TwitterUsernameAttribute_ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Both ErrorMessageResourceType and ErrorMessageResourceName need to be set on this attribute..
         /// </summary>
         public static string ValidationAttribute_NeedBothResourceTypeAndResourceName {

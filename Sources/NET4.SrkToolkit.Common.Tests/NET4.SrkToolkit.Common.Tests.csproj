@@ -59,6 +59,7 @@
     <Compile Include="DataAnnotations\EmailAddressExAttributeTests.cs" />
     <Compile Include="DataAnnotations\PhoneNumberAttributeTests.cs" />
     <Compile Include="DataAnnotations\TimezoneAttributeTests.cs" />
+    <Compile Include="DataAnnotations\TwitterUsernameAttributeTests.cs" />
     <Compile Include="DictionaryWrapperTests.cs" />
     <Compile Include="EmailAddressAttributeTests.cs" />
     <Compile Include="EmailAddressTests.cs" />

@@ -88,6 +88,9 @@
   <data name="TimezoneAttribute_ErrorMessage" xml:space="preserve">
     <value>The timezone is not valid.</value>
   </data>
+  <data name="TwitterUsernameAttribute_ErrorMessage" xml:space="preserve">
+    <value>Invalid Twitter username. You must provide the username or the url to your account.</value>
+  </data>
   <data name="ValidationAttribute_NeedBothResourceTypeAndResourceName" xml:space="preserve">
     <value>Both ErrorMessageResourceType and ErrorMessageResourceName need to be set on this attribute.</value>
   </data>

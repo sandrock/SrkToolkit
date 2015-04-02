@@ -67,6 +67,9 @@
     <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\TimezoneAttribute.cs">
       <Link>DataAnnotations\TimezoneAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\TwitterUsernameAttribute.cs">
+      <Link>DataAnnotations\TwitterUsernameAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\DisposableOnce.cs">
       <Link>DisposableOnce.cs</Link>
     </Compile>

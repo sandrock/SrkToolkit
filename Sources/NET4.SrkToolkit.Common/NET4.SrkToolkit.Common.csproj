@@ -57,6 +57,7 @@
     <Compile Include="DataAnnotations\EmailAddressAttribute.cs" />
     <Compile Include="DataAnnotations\PhoneNumberAttribute.cs" />
     <Compile Include="DataAnnotations\TimezoneAttribute.cs" />
+    <Compile Include="DataAnnotations\TwitterUsernameAttribute.cs" />
     <Compile Include="DisposableOnce.cs" />
     <None Include="IO\RecursiveDelete.cs" />
     <Compile Include="EnumTools.cs" />

@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C7CB8AC5-E948-4738-B440-ECAE8656667F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SrkToolkit.Web</RootNamespace>
+    <AssemblyName>SrkToolkit.Web.Mvc3</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ASPMVC</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Binaries\NET4\</OutputPath>
+    <DefineConstants>TRACE;ASPMVC</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\Binaries\NET4\SrkToolkit.Web.Mvc3.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>SrkToolkit.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\NET4.SrkToolkit.Web\Filters\AuthorizeAttribute.cs">
+      <Link>Filters\AuthorizeAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\HttpErrors\BaseErrorController.cs">
+      <Link>HttpErrors\BaseErrorController.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\HttpErrors\BasicHttpErrorResponse.cs">
+      <Link>HttpErrors\BasicHttpErrorResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\HttpErrors\ErrorControllerHandler.cs">
+      <Link>HttpErrors\ErrorControllerHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\HttpErrors\IErrorController.cs">
+      <Link>HttpErrors\IErrorController.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\JsonNetResult.cs">
+      <Link>JsonNetResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Models\HttpErrorModel.cs">
+      <Link>Models\HttpErrorModel.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Models\TempMessage.cs">
+      <Link>Models\TempMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Mvc\DecimalModelBinder.cs">
+      <Link>Mvc\DecimalModelBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\NavigationLine.cs">
+      <Link>NavigationLine.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\NavigationLineEntry.cs">
+      <Link>NavigationLineEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphName.cs">
+      <Link>Open\OpenGraphName.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphNamespace.cs">
+      <Link>Open\OpenGraphNamespace.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphObject.cs">
+      <Link>Open\OpenGraphObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphTag.cs">
+      <Link>Open\OpenGraphTag.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfo.cs">
+      <Link>Open\PageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfoItem.cs">
+      <Link>Open\PageInfoItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfoObject.cs">
+      <Link>Open\PageInfoObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\SrkOpenGraphHtmlExtensions.cs">
+      <Link>Open\SrkOpenGraphHtmlExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Services\BaseSessionService.cs">
+      <Link>Services\BaseSessionService.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Services\DictionarySessionServiceSource.cs">
+      <Link>Services\DictionarySessionServiceSource.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Services\HttpBaseSessionServiceSource.cs">
+      <Link>Services\HttpBaseSessionServiceSource.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Services\IResultService.cs">
+      <Link>Services\IResultService.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Services\ISessionServiceSource.cs">
+      <Link>Services\ISessionServiceSource.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Services\ResultService.cs">
+      <Link>Services\ResultService.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\Services\ResultServiceBase.cs">
+      <Link>Services\ResultServiceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkControllerExtensions.cs">
+      <Link>SrkControllerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkHttpApplication.cs">
+      <Link>SrkHttpApplication.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkHttpApplication.tt.cs">
+      <Link>SrkHttpApplication.tt.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkHttpContextExtensions.cs">
+      <Link>SrkHttpContextExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkRequestExtensions.cs">
+      <Link>SrkRequestExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\SrkTempDataDictionaryExtensions.cs">
+      <Link>SrkTempDataDictionaryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\System.Web.Mvc\SrkHtmlExtensions.cs">
+      <Link>System.Web.Mvc\SrkHtmlExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\System.Web.Mvc\SrkMvcCollectionExtensions.cs">
+      <Link>System.Web.Mvc\SrkMvcCollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\System.Web.Mvc\SrkTagBuilderExtensions.cs">
+      <Link>System.Web.Mvc\SrkTagBuilderExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\System.Web.Mvc\SrkUrlHelperExtensions.cs">
+      <Link>System.Web.Mvc\SrkUrlHelperExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\System.Web.Mvc\SrkViewExtensions.cs">
+      <Link>System.Web.Mvc\SrkViewExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\WebDependencies.cs">
+      <Link>WebDependencies.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\WebDependenciesExtensions.cs">
+      <Link>WebDependenciesExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\WebDependency.cs">
+      <Link>WebDependency.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Web\WebDependencyFile.cs">
+      <Link>WebDependencyFile.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs">
+      <Link>Properties\SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NET4.SrkToolkit.Common\NET4.SrkToolkit.Common.csproj">
+      <Project>{19495A45-67A8-460D-806C-CF158B96BBE9}</Project>
+      <Name>NET4.SrkToolkit.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SrkToolkit.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties ProjectLinkReference="1d73a9e4-7f61-4288-bde1-e13cc63872c0" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

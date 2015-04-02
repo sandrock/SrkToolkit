@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{50F8A9BC-CA87-48D0-BA18-32DF5F50A97A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SrkToolkit.Domain</RootNamespace>
+    <AssemblyName>SrkToolkit.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ASS_DOMAIN;NET45</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SrkToolkit.Domain.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Binaries\NET45\</OutputPath>
+    <DefineConstants>TRACE;ASS_DOMAIN;NET45</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\Binaries\NET45\SrkToolkit.Domain.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>SrkToolkit.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\NET4.SrkToolkit.Common\EnumTools.cs">
+      <Link>Internals\EnumTools.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\BaseRequest.cs">
+      <Link>BaseRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\BaseResult.cs">
+      <Link>BaseResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\BasicResult.cs">
+      <Link>BasicResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\BasicResult.TResultCode.cs">
+      <Link>BasicResult.TResultCode.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\BasicResult.TResultCode.Payload.cs">
+      <Link>BasicResult.TResultCode.Payload.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\BasicResultError.cs">
+      <Link>BasicResultError.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\BasicResultExtensions.cs">
+      <Link>BasicResultExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\IBaseResult.cs">
+      <Link>IBaseResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\IResultError.cs">
+      <Link>IResultError.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\ResultError.cs">
+      <Link>ResultError.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain\ResultErrorExtensions.cs">
+      <Link>ResultErrorExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs">
+      <Link>Properties\SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SrkToolkit.snk" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

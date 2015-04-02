@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0765606F-88B9-4682-80D3-64E612ADCB81}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SrkToolkit.Domain.AspMvc4</RootNamespace>
+    <AssemblyName>SrkToolkit.Domain.AspMvc4</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ASS_DOMAIN;NET45</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SrkToolkit.Domain.AspMvc4.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Binaries\NET45\</OutputPath>
+    <DefineConstants>TRACE;ASS_DOMAIN;NET45</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\Binaries\NET45\SrkToolkit.Domain.AspMvc4.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>SrkToolkit.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\NET4.SrkToolkit.Domain.AspMvc4\SrkToolkit.Web\MessageDisplayMode.cs">
+      <Link>SrkToolkit.Web\MessageDisplayMode.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Domain.AspMvc4\SrkToolkit.Web\SrkDomainControllerExtensions.cs">
+      <Link>SrkToolkit.Web\SrkDomainControllerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs">
+      <Link>Properties\SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NET45.SrkToolkit.Domain\NET45.SrkToolkit.Domain.csproj">
+      <Project>{50f8a9bc-ca87-48d0-ba18-32df5f50a97a}</Project>
+      <Name>NET45.SrkToolkit.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NET45.SrkToolkit.Web.Mvc4\NET45.SrkToolkit.Web.Mvc4.csproj">
+      <Project>{f60ec4ec-b969-4e8e-8e15-374bfacf99cf}</Project>
+      <Name>NET45.SrkToolkit.Web.Mvc4</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SrkToolkit.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

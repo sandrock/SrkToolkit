@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XAML", "XAML", "{A3324369-1E2D-495C-8E96-109B6F98F003}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SrkToolkit.Xaml - WPF4", "WPF4.SrkToolkit.Xaml\SrkToolkit.Xaml - WPF4.csproj", "{09A84445-2AA3-4D99-89F7-007CA3EF91A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{563E54B0-9127-47DF-AC4A-F461F8EC490E}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		SrkToolkit.vsmdi = SrkToolkit.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = SrkToolkit.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09A84445-2AA3-4D99-89F7-007CA3EF91A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09A84445-2AA3-4D99-89F7-007CA3EF91A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09A84445-2AA3-4D99-89F7-007CA3EF91A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09A84445-2AA3-4D99-89F7-007CA3EF91A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{09A84445-2AA3-4D99-89F7-007CA3EF91A3} = {A3324369-1E2D-495C-8E96-109B6F98F003}
+	EndGlobalSection
+EndGlobal

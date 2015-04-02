@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AD101432-1950-4F01-825A-7D108B30DA35}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SrkToolkit</RootNamespace>
+    <AssemblyName>SrkToolkit.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SrkToolkit.Common.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Binaries\NET45\</OutputPath>
+    <DefineConstants>TRACE;NET45</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\Binaries\NET45\SrkToolkit.Common.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>SrkToolkit.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\NET4.SrkToolkit.Common\Collections\DictionaryWrapper.cs">
+      <Link>Collections\DictionaryWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\CompositeDisposable.cs">
+      <Link>CompositeDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\CultureInfoAttribute.cs">
+      <Link>DataAnnotations\CultureInfoAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\DateRangeAttribute.cs">
+      <Link>DataAnnotations\DateRangeAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\EmailAddressAttribute.cs">
+      <Link>DataAnnotations\EmailAddressAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\PhoneNumberAttribute.cs">
+      <Link>DataAnnotations\PhoneNumberAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\TimezoneAttribute.cs">
+      <Link>DataAnnotations\TimezoneAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\TwitterUsernameAttribute.cs">
+      <Link>DataAnnotations\TwitterUsernameAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DisposableOnce.cs">
+      <Link>DisposableOnce.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\EnumTools.cs">
+      <Link>EnumTools.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\Globalization\CultureInfoHelper.cs">
+      <Link>Globalization\CultureInfoHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\IO\RecursiveDelete.cs">
+      <Link>IO\RecursiveDelete.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\Resources\Strings.Designer.cs">
+      <Link>Resources\Strings.Designer.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\StringReplacer.cs">
+      <Link>StringReplacer.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System.Collections.ObjectModel\SrkObservableCollectionExtensions.cs">
+      <Link>System.Collections.ObjectModel\SrkObservableCollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System.Collections.Specialized\SrkNameValueCollectionExtensions.cs">
+      <Link>System.Collections.Specialized\SrkNameValueCollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System.Collections\SrkIDictionaryExtensions.cs">
+      <Link>System.Collections\SrkIDictionaryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System.Diagnostics\StopwatchExtensions.cs">
+      <Link>System.Diagnostics\StopwatchExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System\DateTimePrecision.cs">
+      <Link>System\DateTimePrecision.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System\SrkArrayExtensions.cs">
+      <Link>System\SrkArrayExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System\SrkDateTimeExtensions.cs">
+      <Link>System\SrkDateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System\SrkExceptionExtensions.cs">
+      <Link>System\SrkExceptionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System\SrkStringExtensions.cs">
+      <Link>System\SrkStringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System\SrkTimeZoneInfoExtensions.cs">
+      <Link>System\SrkTimeZoneInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System\StringTransformer.cs">
+      <Link>System\StringTransformer.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\System\StringTransformer.Urls.cs">
+      <Link>System\StringTransformer.Urls.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\Testing\Assert.cs">
+      <Link>Testing\Assert.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\Validation\EmailAddressUtility.cs">
+      <Link>Validation\EmailAddressUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\Validation\Validate.cs">
+      <Link>Validation\Validate.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs">
+      <Link>Properties\SrkToolkit.Mvvm.AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\NET4.SrkToolkit.Common\Resources\Strings.fr.resx">
+      <Link>Resources\Strings.fr.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NET4.SrkToolkit.Common\Resources\Strings.resx">
+      <Link>Resources\Strings.resx</Link>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SrkToolkit.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

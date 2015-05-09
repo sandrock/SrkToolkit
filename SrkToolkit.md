@@ -6,14 +6,14 @@ Here goes another set of libraries to help out. Separated into a few assemblies 
 Assemblies
 --------------------
 
-- [SrkToolkit.Common](Wiki/SrkToolkit.Common.md) (.NET 4.0, 4.5)
+- [SrkToolkit.Common](Wiki/SrkToolkit.Common.md) (.NET 4.0, 4.5) - [nuget](https://www.nuget.org/packages/SrkToolkit.Common)
 - SrkToolkit.Common.Unsafe (.NET 4.0)
-- [SrkToolkit.Web (for ASP MVC)](Wiki/SrkToolkit.Web.md) (.NET 4.0 for MVC 3, .NET 4.5 for MVC4)
+- [SrkToolkit.Web (for ASP MVC)](Wiki/SrkToolkit.Web.md) (.NET 4.0 for MVC 3, .NET 4.5 for MVC4) - [nuget](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc4)
 - SrkToolit.WebForms (.NET 4.0)
 - SrkToolit.Xaml (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
 - SrkToolkit.Mvvm (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
 - SrkToolkit.Services (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
-- SrkToolkit.Domain (.NET 4.0, .NET 4.5)
+- SrkToolkit.Domain (.NET 4.0, .NET 4.5) - [nuget](https://www.nuget.org/packages/SrkToolkit.Domain) - [nuget](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc4)
 
 Content at-a-glance
 --------------------
@@ -44,8 +44,7 @@ And more...
  - `Html.Submit()` 'cauz it's missing
  - `UrlHelper.SetQueryString(string url, params string[] keysAndValues)` to add/change query strings from a raw url
  - `JsonNetResult`: ActionResult class that allows you to specify your favorite JSON serializer
- - `HttpRequest.IsXmlHttpRequest()`
- - `HttpRequest.IsUrlLocalToHost()`
+ - `HttpRequest`: `.IsXmlHttpRequest()`, `.IsUrlLocalToHost(url)`, `IsPost()`...
 
 And more...
 

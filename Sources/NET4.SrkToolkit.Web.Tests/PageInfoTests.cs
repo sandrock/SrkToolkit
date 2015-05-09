@@ -45,7 +45,7 @@ namespace SrkToolkit.Web.Tests
         {
             var title = "super page title";
             var page = new PageInfo().Set(PageInfo.Title, title);
-            var result = page.ToString(PageInfoObjectSection.Basic | PageInfoObjectSection.OpenGraph);
+            var result = page.ToString(PageInfoObjectSection.Basic | PageInfoObjectSection.OpenGraph, false);
             SrkToolkit.Testing.Assert.AreEqual("<title>" + title + "</title><meta property=\"og:title\" content=\"" + title.ProperHtmlAttributeEscape() + "\" />", result);
         }
 
@@ -54,7 +54,7 @@ namespace SrkToolkit.Web.Tests
         {
             var title = "super page title";
             var page = new PageInfo().Set(PageInfo.Description, title);
-            var result = page.ToString(PageInfoObjectSection.Basic | PageInfoObjectSection.OpenGraph);
+            var result = page.ToString(PageInfoObjectSection.Basic | PageInfoObjectSection.OpenGraph, false);
             SrkToolkit.Testing.Assert.AreEqual("<meta content=\"" + title + "\" name=\"description\" /><meta property=\"og:description\" content=\"" + title.ProperHtmlAttributeEscape() + "\" />", result);
         }
 
@@ -64,8 +64,23 @@ namespace SrkToolkit.Web.Tests
             var name = "fr-CA";
             var href = "/fr-CA/Home";
             var page = new PageInfo().Set(PageInfo.AlternateLanguage(name, href, "text/html"));
-            var result = page.ToString(PageInfoObjectSection.Basic | PageInfoObjectSection.OpenGraph);
+            var result = page.ToString(PageInfoObjectSection.Basic | PageInfoObjectSection.OpenGraph, false);
             SrkToolkit.Testing.Assert.AreEqual("<link href=\"" + href + "\" hrefLang=\"" + name + "\" rel=\"alternate\" type=\"text/html\" /><meta property=\"og:locale:alternate\" content=\"" + name.Replace("-", "_").ProperHtmlAttributeEscape() + "\" />", result);
+        }
+
+        [TestMethod]
+        public void ContainsNot()
+        {
+            var page = new PageInfo();
+            Assert.IsFalse(page.Contains("title"));
+        }
+
+        [TestMethod]
+        public void Contains()
+        {
+            var page = new PageInfo();
+            page.Set(PageInfo.Title, "hello");
+            Assert.IsTrue(page.Contains("title"));
         }
     }
 }

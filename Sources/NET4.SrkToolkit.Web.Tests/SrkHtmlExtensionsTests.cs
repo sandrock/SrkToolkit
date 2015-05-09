@@ -23,9 +23,10 @@ namespace SrkToolkit.Web.Tests
 
         public static HtmlHelper CreateHtmlHelper(ViewDataDictionary vd)
         {
-            var mockViewContext = new Mock<ViewContext>(
+            var httpContext = new BasicHttpContext();
+            var mockViewContext = new ViewContext(
                 new ControllerContext(
-                    new Mock<HttpContextBase>().Object,
+                    httpContext,
                     new RouteData(),
                     new Mock<ControllerBase>().Object),
                 new Mock<IView>().Object,
@@ -35,7 +36,7 @@ namespace SrkToolkit.Web.Tests
             var mockViewDataContainer = new Mock<IViewDataContainer>();
             mockViewDataContainer.Setup(v => v.ViewData)
                 .Returns(vd);
-            return new HtmlHelper(mockViewContext.Object, mockViewDataContainer.Object);
+            return new HtmlHelper(mockViewContext, mockViewDataContainer.Object);
         }
 
         [TestClass]

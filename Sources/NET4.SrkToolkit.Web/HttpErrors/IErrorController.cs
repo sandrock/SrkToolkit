@@ -4,7 +4,6 @@ namespace SrkToolkit.Web.HttpErrors
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Web.Mvc;
 
     /// <summary>
@@ -43,6 +42,12 @@ namespace SrkToolkit.Web.HttpErrors
         /// </summary>
         /// <returns></returns>
         ActionResult BadRequest();
+
+        /// <summary>
+        /// Shows a 405 page.
+        /// </summary>
+        /// <returns></returns>
+        ActionResult MethodNotAllowed();
 
         /// <summary>
         /// Returns a 500 Internal error page.

@@ -29,6 +29,9 @@ namespace SrkToolkit.Web.Services
             this.httpContext = httpContext;
         }
 
+        /// <summary>
+        /// Gets or sets the json error HTTP status code (default is 400).
+        /// </summary>
         public int JsonErrorHttpStatusCode
         {
             get { return this.jsonErrorHttpStatusCode; }
@@ -157,6 +160,7 @@ namespace SrkToolkit.Web.Services
         /// <summary>
         /// Returns a standard JSON result containing an error.
         /// </summary>
+        /// <param name="httpCode">The HTTP code.</param>
         /// <param name="errorCode">helps identify the the error</param>
         /// <param name="errorMessage">the translated error message to display</param>
         /// <param name="data">The data.</param>

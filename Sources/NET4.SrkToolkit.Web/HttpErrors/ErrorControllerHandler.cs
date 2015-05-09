@@ -39,7 +39,31 @@ namespace SrkToolkit.Web.HttpErrors
         /// <returns></returns>
         public static Exception Handle(HttpContext context, IErrorController errorController, bool includeExceptionDetails)
         {
-            Trace.TraceInformation("Application_Error: begin");
+            return Handle(context, errorController, includeExceptionDetails, null);
+        }
+
+        /// <summary>
+        /// Handles the specified HTTP errorfull context (typically in Application_Error).
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="errorController">The error controller.</param>
+        /// <param name="includeExceptionDetails">if set to <c>true</c> [include exception details].</param>
+        /// <returns></returns>
+        public static Exception Handle(HttpContext context, IErrorController errorController, bool includeExceptionDetails, RequestContext requestContext)
+        {
+            Trace.WriteLine("ErrorControllerHandler: Application_Error: begin");
+
+            RouteData routeData;
+
+            if (requestContext != null)
+            {
+                routeData = requestContext.RouteData;
+            }
+            else
+            {
+                routeData = new RouteData();
+                requestContext = new RequestContext(new HttpContextWrapper(context), routeData);
+            }
 
             Exception exception = context.Server.GetLastError();
 
@@ -47,7 +71,6 @@ namespace SrkToolkit.Web.HttpErrors
 
             HttpException httpException = exception as HttpException;
 
-            RouteData routeData = new RouteData();
             routeData.Values.Add("controller", "Error");
 
             if (httpException == null)
@@ -75,7 +98,7 @@ namespace SrkToolkit.Web.HttpErrors
             }
 
             // Pass exception details to the target error View.
-            routeData.Values.Add("error", exception);
+            routeData.DataTokens.Add(ResultServiceBase.RouteDataExceptionKey, exception);
 
             // Clear the error on server.
             context.Server.ClearError();
@@ -83,13 +106,13 @@ namespace SrkToolkit.Web.HttpErrors
             // Avoid IIS7 getting in the middle
             context.Response.TrySkipIisCustomErrors = true;
 
-            Trace.TraceInformation("Application_Error: invoking mvc");
+            Trace.WriteLine("ErrorControllerHandler: Application_Error: invoking mvc");
 
             try
             {
                 // Call target Controller and pass the routeData.
                 errorController.IncludeExceptionDetails = includeExceptionDetails;
-                errorController.Execute(new RequestContext(new HttpContextWrapper(context), routeData));
+                errorController.Execute(requestContext);
             }
             catch (Exception ex)
             {
@@ -103,7 +126,7 @@ namespace SrkToolkit.Web.HttpErrors
                     BasicHttpErrorResponse.Execute(context, null);
             }
 
-            Trace.TraceInformation("Application_Error: end");
+            Trace.WriteLine("ErrorControllerHandler: Application_Error: end");
 
             return exception;
         }

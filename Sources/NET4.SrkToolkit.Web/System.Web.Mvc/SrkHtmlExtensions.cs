@@ -21,6 +21,21 @@ namespace System.Web.Mvc
     /// </summary>
     public static class SrkHtmlExtensions
     {
+        internal const string defaultDateTimeFormatsKey = "SrkDisplayDateFormat";
+        internal static readonly string[] defaultDateTimeFormats = new string[]
+        {
+            /* 0 => */ "D", // date
+            /* 1 => */ "D zzz", // date + tz
+            /* 2 => */ "T", // time
+            /* 3 => */ "T zzz", // time + tz
+            /* 4 => */ "c", // timespan
+            /* 5 => */ "F", // datetime
+            /* 6 => */ "t", // short time
+            /* 7 => */ "g", // short timespan
+        };
+
+        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+
         #region SetTimezone, GetTimezone, GetUserDate, GetUtcDate
 
         /// <summary>
@@ -43,6 +58,9 @@ namespace System.Web.Mvc
         /// <returns></returns>
         public static HtmlHelper SetTimezone(this HtmlHelper html, TimeZoneInfo timeZone)
         {
+            if (html == null)
+                throw new ArgumentNullException("html");
+
             if (html.ViewContext != null && html.ViewContext.HttpContext != null)
                 html.ViewContext.HttpContext.Items["Timezone"] = timeZone;
             html.ViewData["Timezone"] = timeZone;
@@ -124,6 +142,65 @@ namespace System.Web.Mvc
         #region Display date/time
 
         /// <summary>
+        /// Sets the date and time formats.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="dateFormat">The date format for Html.DisplayDate(DateTime).</param>
+        /// <param name="dateTzFormat">The date tz format for Html.DisplayDate(DateTimeOffset).</param>
+        /// <param name="timeFormat">The time format for Html.DisplayTime(DateTime).</param>
+        /// <param name="timeTzFormat">The time tz format for Html.DisplayDate(DateTimeOffset).</param>
+        /// <param name="timespanFormat">The timespan format for Html.DisplayTime(TimeSpan).</param>
+        /// <param name="dateTimeFormat">The date time format for Html.DisplayDateTime(DateTime).</param>
+        /// <param name="shortTimeFormat">The short time format for Html.DisplayShortTime(DateTime).</param>
+        /// <param name="shortTimespanFormat">The short timespan format for Html.DisplayShortTime(TimeSpan).</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">html
+        /// or
+        /// html.ViewContext
+        /// or
+        /// html.ViewContext.HttpContext</exception>
+        public static HtmlHelper SetDateTimeFormats(this HtmlHelper html, string dateFormat = null, string dateTzFormat = null, string timeFormat = null, string timeTzFormat = null, string timespanFormat = null, string dateTimeFormat = null, string shortTimeFormat = null, string shortTimespanFormat = null)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+            if (html.ViewContext == null)
+                throw new ArgumentNullException("html.ViewContext");
+            if (html.ViewContext.HttpContext == null)
+                throw new ArgumentNullException("html.ViewContext.HttpContext");
+
+            html.ViewContext.HttpContext.SetDateTimeFormats(dateFormat, dateTzFormat, timeFormat, timeTzFormat, timespanFormat, dateTimeFormat);
+
+
+            return html;
+        }
+
+        /// <summary>
+        /// Gets the date and time formats.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// html
+        /// or
+        /// html.ViewContext
+        /// or
+        /// html.ViewContext.HttpContext
+        /// </exception>
+        public static string[] GetDateTimeFormats(this HtmlHelper html)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+            if (html.ViewContext == null)
+                throw new ArgumentNullException("html.ViewContext");
+            if (html.ViewContext.HttpContext == null)
+                throw new ArgumentNullException("html.ViewContext.HttpContext");
+
+            var values = (string[])html.ViewContext.HttpContext.Items[defaultDateTimeFormatsKey] ?? defaultDateTimeFormats.ToArray();
+
+            return values;
+        }
+
+        /// <summary>
         /// Displays a date and a time.
         /// </summary>
         /// <param name="html">The HTML.</param>
@@ -132,11 +209,12 @@ namespace System.Web.Mvc
         /// <param name="display">The display value (use to manualy set the display value).</param>
         /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
         /// <returns></returns>
-        public static MvcHtmlString DisplayDateTime(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null, string displayDateFormat = "F")
+        public static MvcHtmlString DisplayDateTime(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null, string displayDateFormat = null)
         {
+            var defaultFormat = html.GetDateTimeFormats()[5];
             DateTime utc;
             DateTime userDate = html.GetUserDate(date, out utc);
-            string displayTime = userDate.ToString(displayDateFormat ?? "F");
+            string displayTime = userDate.ToString(displayDateFormat ?? defaultFormat);
             if (display == null)
                 display = displayTime;
 
@@ -188,11 +266,12 @@ namespace System.Web.Mvc
         /// <param name="display">The display value (use to manualy set the display value).</param>
         /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
         /// <returns></returns>
-        public static MvcHtmlString DisplayDate(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null, string displayDateFormat = "D")
+        public static MvcHtmlString DisplayDate(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null, string displayDateFormat = null)
         {
             DateTime utc;
             DateTime userDate = html.GetUserDate(date, out utc);
-            string displayTime = userDate.ToString(displayDateFormat ?? "D");
+            var defaultFormat = html.GetDateTimeFormats()[0];
+            string displayTime = userDate.ToString(displayDateFormat ?? defaultFormat);
             if (display == null)
                 display = displayTime;
 
@@ -221,9 +300,10 @@ namespace System.Web.Mvc
         /// <param name="display">The display value (use to manualy set the display value).</param>
         /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
         /// <returns></returns>
-        public static MvcHtmlString DisplayDate(this HtmlHelper html, DateTimeOffset date, bool useTimeTag = true, string display = null, string displayDateFormat = "D zzz")
+        public static MvcHtmlString DisplayDate(this HtmlHelper html, DateTimeOffset date, bool useTimeTag = true, string display = null, string displayDateFormat = null)
         {
-            string displayTime = date.ToString(displayDateFormat ?? "D zzz");
+            var defaultFormat = html.GetDateTimeFormats()[1];
+            string displayTime = date.ToString(displayDateFormat ?? defaultFormat);
             if (display == null)
                 display = displayTime;
 
@@ -252,11 +332,12 @@ namespace System.Web.Mvc
         /// <param name="display">The display value (use to manualy set the display value).</param>
         /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
         /// <returns></returns>
-        public static MvcHtmlString DisplayTime(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null, string displayDateFormat = "T")
+        public static MvcHtmlString DisplayTime(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null, string displayDateFormat = null)
         {
             DateTime utc;
             DateTime userDate = html.GetUserDate(date, out utc);
-            string displayTime = userDate.ToString(displayDateFormat ?? "T");
+            var defaultFormat = html.GetDateTimeFormats()[2];
+            string displayTime = userDate.ToString(displayDateFormat ?? defaultFormat);
             if (display == null)
                 display = displayTime;
 
@@ -285,9 +366,10 @@ namespace System.Web.Mvc
         /// <param name="display">The display value (use to manualy set the display value).</param>
         /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
         /// <returns></returns>
-        public static MvcHtmlString DisplayTime(this HtmlHelper html, DateTimeOffset date, bool useTimeTag = true, string display = null, string displayDateFormat = "T zzz")
+        public static MvcHtmlString DisplayTime(this HtmlHelper html, DateTimeOffset date, bool useTimeTag = true, string display = null, string displayDateFormat = null)
         {
-            string displayTime = date.ToLocalTime().ToString(displayDateFormat ?? "T zzz");
+            var defaultFormat = html.GetDateTimeFormats()[3];
+            string displayTime = date.ToLocalTime().ToString(displayDateFormat ?? defaultFormat);
             if (display == null)
                 display = displayTime;
 
@@ -316,9 +398,10 @@ namespace System.Web.Mvc
         /// <param name="display">The display value (use to manualy set the display value).</param>
         /// <param name="displayDateFormat">The display date format (use to change the default display value format).</param>
         /// <returns></returns>
-        public static MvcHtmlString DisplayTime(this HtmlHelper html, TimeSpan date, bool useTimeTag = true, string display = null, string displayDateFormat = "c")
+        public static MvcHtmlString DisplayTime(this HtmlHelper html, TimeSpan date, bool useTimeTag = true, string display = null, string displayDateFormat = null)
         {
-            string displayTime = date.ToString(displayDateFormat ?? "c");
+            var defaultFormat = html.GetDateTimeFormats()[4];
+            string displayTime = date.ToString(displayDateFormat ?? defaultFormat);
             if (display == null)
                 display = displayTime;
 
@@ -337,8 +420,6 @@ namespace System.Web.Mvc
                 return MvcHtmlString.Create(display);
             }
         }
-
-        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// Returns the date (to UTC) in JavaScript format like 'new Date(123456789000)'.
@@ -375,7 +456,8 @@ namespace System.Web.Mvc
         /// <returns></returns>
         public static MvcHtmlString DisplayShortTime(this HtmlHelper html, DateTime date, bool useTimeTag = true, string display = null)
         {
-            return html.DisplayTime(date, useTimeTag, display, displayDateFormat: "t");
+            var defaultFormat = html.GetDateTimeFormats()[6];
+            return html.DisplayTime(date, useTimeTag, display, displayDateFormat: defaultFormat);
         }
 
         /// <summary>
@@ -388,7 +470,8 @@ namespace System.Web.Mvc
         /// <returns></returns>
         public static MvcHtmlString DisplayShortTime(this HtmlHelper html, TimeSpan date, bool useTimeTag = true, string display = null)
         {
-            return html.DisplayTime(date, useTimeTag, display, displayDateFormat: "t");
+            var defaultFormat = html.GetDateTimeFormats()[7];
+            return html.DisplayTime(date, useTimeTag, display, displayDateFormat: defaultFormat);
         }
 
         #endregion
@@ -881,11 +964,24 @@ namespace System.Web.Mvc
             return line;
         }
 
+        /// <summary>
+        /// Returns an anchor element (a element) that contains a phone call url.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="phoneNumber">The phone number.</param>
+        /// <returns></returns>
         public static MvcHtmlString CallLink(this HtmlHelper html, string phoneNumber)
         {
             return SrkHtmlExtensions.CallLink(html, phoneNumber, new { @class = "tel", });
         }
 
+        /// <summary>
+        /// Returns an anchor element (a element) that contains a phone call url.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="phoneNumber">The phone number.</param>
+        /// <param name="attributes">An object that contains the HTML attributes for the element.</param>
+        /// <returns></returns>
         public static MvcHtmlString CallLink(this HtmlHelper html, string phoneNumber, object attributes)
         {
             var tag = new TagBuilder("a");

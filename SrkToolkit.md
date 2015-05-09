@@ -6,41 +6,20 @@ Here goes another set of libraries to help out. Separated into a few assemblies 
 Assemblies
 --------------------
 
-- [SrkToolkit.Common](SrkToolkit.Common.md)
-	- .NET 4.0
-	- .NET 4.5
-- SrkToolkit.Common.Unsafe
-	- .NET 4.0
-- [SrkToolkit.Web (for ASP MVC)](SrkToolkit.Web.md)
-	- .NET 4.0 for MVC 3
-	- .NET 4.5 for MVC4 
-- SrkToolit.WebForms
-	- .NET 4.0 
-- SrkToolit.Xaml
-	- .NET 4.0
-	- Windows Phone 7
-	- Windows Phone 7.1
-	- Silverlight 4
-- SrkToolkit.Mvvm
-	- .NET 4.0
-	- Windows Phone 7
-	- Windows Phone 7.1
-	- Silverlight 4
-- SrkToolkit.Services
-	- .NET 4.0
-	- Windows Phone 7
-	- Windows Phone 7.1
-	- Silverlight 4
-- SrkToolkit.Domain
-	- .NET 4.0
-	- .NET 4.5
+- [SrkToolkit.Common](Wiki/SrkToolkit.Common.md) (.NET 4.0, 4.5)
+- SrkToolkit.Common.Unsafe (.NET 4.0)
+- [SrkToolkit.Web (for ASP MVC)](Wiki/SrkToolkit.Web.md) (.NET 4.0 for MVC 3, .NET 4.5 for MVC4)
+- SrkToolit.WebForms (.NET 4.0)
+- SrkToolit.Xaml (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
+- SrkToolkit.Mvvm (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
+- SrkToolkit.Services (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
+- SrkToolkit.Domain (.NET 4.0, .NET 4.5)
 
 Content at-a-glance
 --------------------
 
 ### extend the framework to write code faster
 
- 
   - date manipulations, DataAnnotations
   - string manipulations (trim with suffix, `AsNullIfEmpty()`, `AddHtmlLineBreaks()`, `TrimTextToWord()`, `HtmlParagraphizify()`, `RemoveDiacritics()`, `MakeUrlFriendly()`) 
   - `NameValueCollection.ToDictionary()`
@@ -82,33 +61,15 @@ Want unsigned assemblies? Get the code, remove the option and build.
 Index
 --------------------
 
-- [SrkToolkit.Common](SrkToolkit.Common.md)
-- [SrkToolkit.Web](SrkToolkit.Web.md)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- [SrkToolkit.Common](Wiki/SrkToolkit.Common.md)
+    - [SrkToolkit.Common.DataAnnotations](Wiki/SrkToolkit.Common.DataAnnotations.md)
+- [SrkToolkit.Web](Wiki/SrkToolkit.Web.md)
+    - [SrkToolkit.Web-ActionFilters](Wiki/SrkToolkit.Web-ActionFilters.md)
+    - [SrkToolkit.Web-HtmlHelpers](Wiki/SrkToolkit.Web-HtmlHelpers.md)
+    - [SrkToolkit.Web-ModelBinders](Wiki/SrkToolkit.Web-ModelBinders.md)
+    - [SrkToolkit.Web-ResultAndErrors](Wiki/SrkToolkit.Web-ResultAndErrors.md)
+    - [SrkToolkit.Web-TempMessages](Wiki/SrkToolkit.Web-TempMessages.md)
+    - [SrkToolkit.Web-PageInfo](Wiki/SrkToolkit.Web-Open.md)
 
 
 

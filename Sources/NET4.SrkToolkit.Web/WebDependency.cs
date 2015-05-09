@@ -95,6 +95,11 @@ namespace SrkToolkit.Web
         public IList<WebDependencyFile> Files { get; set; }
 
         /// <summary>
+        /// Gets or sets the sort order.
+        /// </summary>
+        public int Order { get; set; }
+
+        /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
@@ -115,7 +120,5 @@ namespace SrkToolkit.Web
         {
             return this.Files.GetEnumerator();
         }
-
-        public int Order { get; set; }
     }
 }

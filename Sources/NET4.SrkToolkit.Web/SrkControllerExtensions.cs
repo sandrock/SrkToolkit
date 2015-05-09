@@ -205,8 +205,10 @@ namespace SrkToolkit.Web
         /// <summary>
         /// Helps attach descriptors to a page in order to generate meta/link tags.
         /// </summary>
-        /// <param name="html">The HTML.</param>
-        /// <returns>The <see cref="PageInfo"/> for the current request.</returns>
+        /// <param name="controller">The controller.</param>
+        /// <returns>
+        /// The <see cref="PageInfo" /> for the current request.
+        /// </returns>
         /// <exception cref="System.ArgumentNullException">html or html.ViewContext or html.ViewContext.HttpContext</exception>
         public static PageInfo GetPageInfo(this Controller controller)
         {

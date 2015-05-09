@@ -17,6 +17,9 @@ namespace SrkToolkit.Web.Open
         private readonly List<PageInfoItem> items = new List<PageInfoItem>();
         private OpenGraphObject openGraph;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PageInfo"/> class.
+        /// </summary>
         public PageInfo()
         {
         }
@@ -123,11 +126,25 @@ namespace SrkToolkit.Web.Open
             }
         }
 
+        /// <summary>
+        /// Descriptor for the alternate language url of your page.
+        /// </summary>
+        /// <param name="culture">The culture.</param>
+        /// <param name="href">The href.</param>
+        /// <param name="contentType">Type of the content.</param>
+        /// <returns></returns>
         public static PageInfoItem AlternateLanguage(CultureInfo culture, string href, string contentType)
         {
             return AlternateLanguage(culture.Name, href, contentType);
         }
 
+        /// <summary>
+        /// Descriptor for the alternate language url of your page.
+        /// </summary>
+        /// <param name="cultureName">Name of the culture.</param>
+        /// <param name="href">The href.</param>
+        /// <param name="contentType">Type of the content.</param>
+        /// <returns></returns>
         public static PageInfoItem AlternateLanguage(string cultureName, string href, string contentType)
         {
             return new PageInfoItem("alternate")
@@ -137,6 +154,9 @@ namespace SrkToolkit.Web.Open
             };
         }
 
+        /// <summary>
+        /// Descriptor for the name of the site.
+        /// </summary>
         public static PageInfoItem SiteName
         {
             get
@@ -148,6 +168,9 @@ namespace SrkToolkit.Web.Open
             }
         }
 
+        /// <summary>
+        /// Descriptor for the site URL.
+        /// </summary>
         public static PageInfoItem SiteUrl
         {
             get
@@ -160,6 +183,9 @@ namespace SrkToolkit.Web.Open
             }
         }
 
+        /// <summary>
+        /// Descriptor for the favicon location.
+        /// </summary>
         public static PageInfoItem Favicon
         {
             get
@@ -172,6 +198,9 @@ namespace SrkToolkit.Web.Open
             }
         }
 
+        /// <summary>
+        /// Gets the associated open graph tree.
+        /// </summary>
         public OpenGraphObject OpenGraph
         {
             get
@@ -205,12 +234,23 @@ namespace SrkToolkit.Web.Open
             };
         }
 
+        /// <summary>
+        /// Sets the specified page information item.
+        /// </summary>
+        /// <param name="pageInfoItem">The page information item.</param>
+        /// <returns></returns>
         public PageInfo Set(PageInfoItem pageInfoItem)
         {
             this.Set(pageInfoItem, null);
             return this;
         }
 
+        /// <summary>
+        /// Sets the specified page information item.
+        /// </summary>
+        /// <param name="pageInfoItem">The page information item.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public PageInfo Set(PageInfoItem pageInfoItem, string value)
         {
             if (pageInfoItem.Value == null)
@@ -230,6 +270,12 @@ namespace SrkToolkit.Web.Open
             return this;
         }
 
+        /// <summary>
+        /// Overwrites the specified page information item.
+        /// </summary>
+        /// <param name="pageInfoItem">The page information item.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public PageInfo Overwrite(PageInfoItem pageInfoItem, string value)
         {
             var removes = this.items.Where(i => i.Name == pageInfoItem.Name).ToArray();
@@ -243,6 +289,11 @@ namespace SrkToolkit.Web.Open
             return this;
         }
 
+        public bool Contains(string name)
+        {
+            return this.items.Any(item => item.Name == name);
+        }
+
         /// <summary>
         /// Returns a <see cref="System.String" /> that contains the generated HTML tags.
         /// </summary>
@@ -251,13 +302,20 @@ namespace SrkToolkit.Web.Open
         /// </returns>
         public override string ToString()
         {
-            return this.ToString(defaultSections);
+            return this.ToString(defaultSections, false);
         }
 
-        public string ToString(PageInfoObjectSection sections)
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <param name="sections">The sections.</param>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public string ToString(PageInfoObjectSection sections, bool indented)
         {
             var sb = new StringBuilder();
-            this.Write(sb, sections);
+            this.Write(sb, sections, indented);
             return sb.ToString();
         }
 
@@ -265,14 +323,14 @@ namespace SrkToolkit.Web.Open
         /// Generates HTML tags into the <see cref="StringBuilder"/>.
         /// </summary>
         /// <param name="sb">The sb.</param>
-        public void Write(StringBuilder sb, PageInfoObjectSection sections)
+        public void Write(StringBuilder sb, PageInfoObjectSection sections, bool indented)
         {
             if (sb == null)
                 throw new ArgumentNullException("sb");
 
             foreach (var item in this.items)
             {
-                item.ToString(sb, sections);
+                item.ToString(sb, sections, indented);
             }
         }
     }

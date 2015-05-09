@@ -57,7 +57,7 @@ namespace SrkToolkit.Web.Open
         /// <summary>
         /// Adds an HTML element based on a OpenGraph tag.
         /// </summary>
-        /// <param name="obj">The object.</param>
+        /// <param name="openGraphTag">The object.</param>
         /// <returns></returns>
         public PageInfoItem Add(OpenGraphTag openGraphTag)
         {
@@ -100,7 +100,7 @@ namespace SrkToolkit.Web.Open
         public override string ToString()
         {
             var sb = new StringBuilder();
-            this.ToString(sb, PageInfo.defaultSections);
+            this.ToString(sb, PageInfo.defaultSections, false);
             return sb.ToString();
         }
 
@@ -110,7 +110,7 @@ namespace SrkToolkit.Web.Open
         /// <param name="sb">The <see cref="StringBuilder"/> to write to.</param>
         /// <param name="sections">The sections to use.</param>
         /// <exception cref="System.ArgumentNullException">sb</exception>
-        public void ToString(StringBuilder sb, PageInfoObjectSection sections)
+        public void ToString(StringBuilder sb, PageInfoObjectSection sections, bool indented)
         {
             if (sb == null)
                 throw new ArgumentNullException("sb");
@@ -120,7 +120,10 @@ namespace SrkToolkit.Web.Open
                 if ((obj.Section & sections) != 0)
                 {
                     obj.SetValue(this.Value);
-                    sb.Append(obj.ToString());
+                    if (indented)
+                        sb.AppendLine(obj.ToString());
+                    else
+                        sb.Append(obj.ToString());
                 }
             }
         }

@@ -40,6 +40,9 @@ namespace SrkToolkit.Web.HttpErrors
         protected static HttpErrorModel DefaultBadRequestModel =
             HttpErrorModel.Create(400, "Bad request", "The request is not valid and cannot be handled.");
 
+        protected static HttpErrorModel DefaultMethodNotAllowedModel =
+            HttpErrorModel.Create(405, "Method Not Allowed", "A request was made of a resource using a request method not supported by that resource.");
+
         /// <summary>
         /// Gets the built-in "internal error" model.
         /// </summary>
@@ -76,6 +79,11 @@ namespace SrkToolkit.Web.HttpErrors
         public virtual HttpErrorModel BadRequestModel
         {
             get { return DefaultBadRequestModel; }
+        }
+
+        public virtual HttpErrorModel MethodNotAllowedModel
+        {
+            get { return DefaultMethodNotAllowedModel; }
         }
 
         /// <summary>
@@ -139,6 +147,15 @@ namespace SrkToolkit.Web.HttpErrors
         }
 
         /// <summary>
+        /// Shows a 405 page.
+        /// </summary>
+        /// <returns></returns>
+        public virtual ActionResult MethodNotAllowed()
+        {
+            return this.Work("MethodNotAllowed", this.MethodNotAllowedModel, 405);
+        }
+
+        /// <summary>
         /// Returns a 500 Internal error page.
         /// </summary>
         /// <returns></returns>
@@ -156,17 +173,17 @@ namespace SrkToolkit.Web.HttpErrors
         /// <returns></returns>
         protected virtual ActionResult Work(string action, HttpErrorModel model, int code)
         {
-            Trace.TraceInformation("ErrorController." + action + ": begin");
+            Trace.WriteLine("ErrorController." + action + ": begin");
 
-            var ex = RouteData.Values[ResultServiceBase.RouteDataExceptionKey] as Exception;
-            var httpex = RouteData.Values[ResultServiceBase.RouteDataExceptionKey] as HttpException;
+            var ex = this.RouteData.DataTokens[ResultServiceBase.RouteDataExceptionKey] as Exception;
+            var httpex = this.RouteData.DataTokens[ResultServiceBase.RouteDataExceptionKey] as HttpException;
 
             var msg = model;
             msg.Code = httpex != null ? httpex.GetHttpCode() : code;
             msg.UrlPath = Request.Url.PathAndQuery;
             msg.ErrorAction = action;
 
-            var message = RouteData.Values[ResultServiceBase.RouteDataMessageKey] as string;
+            var message = RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] as string;
             if (message != null)
             {
                 msg.Message = message;
@@ -174,7 +191,7 @@ namespace SrkToolkit.Web.HttpErrors
 
             if (this.IncludeExceptionDetails)
             {
-                msg.Exception = RouteData.Values.ContainsKey(ResultServiceBase.RouteDataExceptionKey) ? RouteData.Values[ResultServiceBase.RouteDataExceptionKey] as Exception : null;
+                msg.Exception = RouteData.DataTokens.ContainsKey(ResultServiceBase.RouteDataExceptionKey) ? RouteData.DataTokens[ResultServiceBase.RouteDataExceptionKey] as Exception : null;
             }
 
             this.Response.StatusCode = msg.Code;
@@ -183,7 +200,7 @@ namespace SrkToolkit.Web.HttpErrors
 
             this.OnErrorResponseReady(action, model, code);
 
-            Trace.TraceInformation("ErrorController." + action + ": end");
+            Trace.WriteLine("ErrorController." + action + ": end");
 
             if (this.Request.IsXmlHttpRequest() || this.Request.PrefersJson())
             {

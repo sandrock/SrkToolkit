@@ -51,6 +51,17 @@ namespace SrkToolkit.Web.Services
             }
         }
 
+        public static RouteData MethodNotAllowedRoute
+        {
+            get
+            {
+                RouteData routeData = new RouteData();
+                routeData.Values.Add("controller", "Error");
+                routeData.Values.Add("action", "MethodNotAllowed");
+                return routeData;
+            }
+        }
+
         /// <summary>
         /// Gets the route to the "gone" page.
         /// </summary>
@@ -160,6 +171,24 @@ namespace SrkToolkit.Web.Services
                 ctrlContext.RouteData.Values[ResultServiceBase.RouteDataMessageKey] = message;
                 ctrlContext.RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] = message;
             }
+
+            IController ctrl = new BaseErrorController
+            {
+                ControllerContext = ctrlContext,
+            };
+
+            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
+
+            return null;
+        }
+
+        public ActionResult MethodNotAllowed()
+        {
+            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
+
+            var ctrlContext = new ControllerContext();
+            ctrlContext.HttpContext = this.HttpContext;
+            ctrlContext.RouteData = MethodNotAllowedRoute;
 
             IController ctrl = new BaseErrorController
             {

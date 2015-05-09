@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>SrkToolkit.Web.AspMvc4</id>
+    <version>1.1.125</version>
+    <authors>SandRock</authors>
+    <owners>SandRock</owners>
+    <licenseUrl>https://github.com/sandrock/SrkToolkit/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/sandrock/SrkToolkit</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/sandrock/SrkToolkit/master/Sources/logo-200.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SrkToolkit.Web.AspMvc4 is a bunch of extensions and tools to use with your ASP MVC project.</description>
+    <releaseNotes>First release :)</releaseNotes>
+    <copyright>LGPL v3</copyright>
+    <tags>AspMvc Mvc4 SrkToolkit Html</tags>
+  </metadata>
+</package>

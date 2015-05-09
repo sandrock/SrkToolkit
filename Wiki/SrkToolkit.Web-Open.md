@@ -5,6 +5,7 @@ Tired of `<title>`, `<meta>`s, opengraph?
 
 Let's build a PageInfo object...
 
+```c#
     // from view: Html.GetPageInfo()
     // from controller: this.GetPageInfo() 
     Html.GetPageInfo()
@@ -18,9 +19,11 @@ Let's build a PageInfo object...
         .Set(PageInfo.Favicon, "/favicon.ico")
         .Set(PageInfo.RevisitAfter(7))
         .Set(new PageInfoItem("analytics1", "aaaaaaa-bb").Add(new PageInfoObject().MetaWithValue("analytics1")))
+```
 
 And generate stuff in the layout view.
 
+```html
     <!DOCTYPE html>
     <html @Html.Raw(pageInfo.OpenGraph.ToHtmlAttributeNamespaces())>
     <head>
@@ -33,9 +36,11 @@ And generate stuff in the layout view.
     <!-- BEGIN: PageInfo.OpenGraph -->
     @Html.Raw(pageInfo.OpenGraph.ToHtmlString(null, Environment.NewLine, null))
     <!-- END: PageInfo.OpenGraph -->
+```
 
 Result: 
 
+```html
     <!-- BEGIN: PageInfo -->
     <title>We connect your community members</title>
     <meta content="We connect your community members with a online network your members will love." name="description" />
@@ -56,3 +61,4 @@ Result:
     <meta property="og:locale:alternate" content="fr_FR" />
     <meta property="og:locale:alternate" content="en_US" />
     <!-- END: PageInfo.OpenGraph -->
+```

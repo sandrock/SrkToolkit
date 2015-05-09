@@ -7,8 +7,15 @@ Assemblies
 --------------------
 
 - [SrkToolkit.Common](Wiki/SrkToolkit.Common.md) (.NET 4.0, 4.5) - [nuget](https://www.nuget.org/packages/SrkToolkit.Common)
+  - [DataAnnotations](Wiki/SrkToolkit.Common.DataAnnotations.md)
 - SrkToolkit.Common.Unsafe (.NET 4.0)
 - [SrkToolkit.Web (for ASP MVC)](Wiki/SrkToolkit.Web.md) (.NET 4.0 for MVC 3, .NET 4.5 for MVC4) - [nuget](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc4)
+  - [ActionFilters](Wiki/SrkToolkit.Web-ActionFilters.md)
+  - [HtmlHelpers](Wiki/SrkToolkit.Web-HtmlHelpers.md)
+  - [ModelBinders](Wiki/SrkToolkit.Web-ModelBinders.md)
+  - [ResultAndErrors](Wiki/SrkToolkit.Web-ResultAndErrors.md)
+  - [TempMessages](Wiki/SrkToolkit.Web-TempMessages.md)
+  - [PageInfo](Wiki/SrkToolkit.Web-Open.md)
 - SrkToolit.WebForms (.NET 4.0)
 - SrkToolit.Xaml (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
 - SrkToolkit.Mvvm (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
@@ -33,6 +40,7 @@ And more...
 ### extensions for ASP MVC
  
  - date and time display (based on timezone ,standard formats, <time /> tag...)
+ - PageInfo is the one object to set your page title, description, meta tags, opengraph values...
  - fixed `AuthorizeAttribute` to return a "HTTP 403 Forbidden" instead of 401 auth page when already authenticated
  - 1-line error handling code for customized http-accept-aware error pages
  - wrapper for tempmessages to show nice informations, warnings and errors (extension methods for both controllers and view)
@@ -53,25 +61,9 @@ Signed code
 
 All assemblies are signed. The real key is not in source control; I keep it to ensure my builds are only made by myself ([yes, I know that not 100% true][1]).
 
-The latest build can be found here: _build not configured yet, sorry_.
+The latest build can be found here: https://www.nuget.org/packages?q=Tags%3A%22srktoolkit%22
 
 Want unsigned assemblies? Get the code, remove the option and build.
-
-Index
---------------------
-
-- [SrkToolkit.Common](Wiki/SrkToolkit.Common.md)
-    - [SrkToolkit.Common.DataAnnotations](Wiki/SrkToolkit.Common.DataAnnotations.md)
-- [SrkToolkit.Web](Wiki/SrkToolkit.Web.md)
-    - [SrkToolkit.Web-ActionFilters](Wiki/SrkToolkit.Web-ActionFilters.md)
-    - [SrkToolkit.Web-HtmlHelpers](Wiki/SrkToolkit.Web-HtmlHelpers.md)
-    - [SrkToolkit.Web-ModelBinders](Wiki/SrkToolkit.Web-ModelBinders.md)
-    - [SrkToolkit.Web-ResultAndErrors](Wiki/SrkToolkit.Web-ResultAndErrors.md)
-    - [SrkToolkit.Web-TempMessages](Wiki/SrkToolkit.Web-TempMessages.md)
-    - [SrkToolkit.Web-PageInfo](Wiki/SrkToolkit.Web-Open.md)
-
-
-
 
 
 

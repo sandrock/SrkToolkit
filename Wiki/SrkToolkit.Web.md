@@ -12,22 +12,3 @@ Documentation
 
 
 
-
-BaseSessionService
----------------------
-
-TODO why?
-
-TODO how to use?
-
-
-
-
-
-
-
-
-[1]: http://www.w3.org/TR/html-markup/time.html
-[2]: http://www.w3.org/TR/html-markup/datatypes.html#common.data.time-datetime
-[3]: http://tools.ietf.org/html/rfc3339
-[4]: http://html5doctor.com/the-time-element/

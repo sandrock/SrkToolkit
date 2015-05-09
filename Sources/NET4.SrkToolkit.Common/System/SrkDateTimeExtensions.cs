@@ -127,7 +127,7 @@ namespace System
         }
 
         /// <summary>
-        /// Get the unix time from a <see cref="DateTime"/>.
+        /// Gets the unix time (seconds) from a <see cref="DateTime"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The unix time</returns>

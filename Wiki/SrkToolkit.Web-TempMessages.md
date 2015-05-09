@@ -37,17 +37,28 @@ Now let's play. Let's look at a typical POST action.
 	{
 		if (this.ModelState.IsValid)
 		{
-			// send a confirmation to the user
-			this.TempData.AddConfirmation("Entry saved!");
-			
-			// and a little tip
-			this.TempData.AddInformation("Don't forget you can always edit this entry again.");
-			
-			return this.RedirectToAction("Index");
+            var result = MyDomainLayer.DoSomething(model);
+            if (result.Success)
+            {
+			    // send a confirmation to the user
+			    this.TempData.AddConfirmation("Entry saved!");
+			    
+			    // and a little tip
+			    this.TempData.AddInformation("Don't forget you can always edit this entry again.");
+			    
+			    return this.RedirectToAction("Index");
+            }
+            else
+            {
+			    // show the error
+			    this.TempData.AddError(result.ErrorMessage);
+            }
 		}
 
 		return this.View(model);
 	}
+
+You've got 4 methods to throw messages at the user. No more magical strings.
 
 ### Display messages
 

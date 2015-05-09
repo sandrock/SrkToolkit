@@ -3,7 +3,7 @@ SrkToolit.Web - Html helpers
 
 Before you start.
 
-This page is not oriented on "how to use the stuff". It explains how things work internally justifies why things are here, why those things are useful.
+This page is not oriented on "how to use the stuff". It explains how things work internally, justifies why things are here, why those things are useful.
 
 There will be another page that explains how to implement this stuff.
 
@@ -12,13 +12,11 @@ If you read what is to follow, you may end-up thinking "WTF is this guy doing?" 
 DisplayDate, DisplayDateTime, DisplayTime
 -----------------------------------------
 
-Status: no unit tests, some parts stable, major todo remaining.
-
 ### Goal
 
 Help display dates in the best way possible. Bringing a uniform way of displaying dates and times in your ASP MVC apps.
 
-There are 3 things to display: date or time or date and time. This is why there are 3 helpers.
+There are 3 things to display: date or time or date and time. This is why there are 3 helpers. (there are a few more in fact)
 
 Here are typical outputs. 
 
@@ -37,7 +35,9 @@ You can notice:
 - The element has CSS classes so you can show pretty dates.
 - There is a tooltip.
 
-There are two main formats: long (Tuesday, 2nd December 2013 13:45:12) and short (02/12/2013 15:45).
+There are two main formats: 
+- long (Tuesday, 2nd December 2013 13:45:12) 
+- and short (02/12/2013 15:45) with `Html.DisplayShortDate`
 
 ### Requirements
 
@@ -56,18 +56,18 @@ You may declare your display time zone. Not declaring it will display all dates 
         this.SetTimezone("Romance Standard Time"); // you may ask your user for that
     }
 
-Then use the 3 extensions to show well-formatted dates.
+Then use the extensions to show well-formatted dates.
 
     It's @Html.DisplayTime(DateTime.UtcNow) now.
     Date created: @Html.DisplayDate(Model.DateCreatedUtc)
 
 Be careful about the `DateTime.Kind` property.
 
-* if your DateTime.Kind is Utc, it will be converted to the specified time zone
-* if your DateTime.Kind is Local, it will be converted to the specified time zone
+* if your DateTime.Kind is Utc, it will be converted to the specified time zone (from utc)
+* if your DateTime.Kind is Local, it will be converted to the specified time zone (from the system's time)
 * if your DateTime.Kind is Unknown, it will not be converted (assuming the date is already set in the user's time zone)
 
-Entity Framework creates DateTime objects with Kind=Unknown. In my domain layers, I always do `this.DateCreatedUtc = item.DateCreatedUtc.AsUtc();` in order to ensure Kind is Utc. You may alter EF code generation to create DateTime correctly with a post-set property code.  
+Note: Entity Framework creates DateTime objects with Kind=Unknown. In my domain layers, I always do `this.DateCreatedUtc = item.DateCreatedUtc.AsUtc();` in order to ensure Kind is Utc. You may alter EF code generation to create DateTime correctly with a post-set property code.  
 
 
 ### About the HTML5 <time> tag
@@ -87,7 +87,7 @@ Some lectures:  [W3C HTML5 `<time>` tag][1], [W3C <time>'s datetime attribute fo
 
 ### A tooltip, why?
 
-When displaying dates or times, there may be a confusions. Is this time in 12 or 24 format? "7/6/2013" Is the month June or July? Here are some questions that users may ask themselves. A tooltip is quite the way to help. I believe should display a non-confusing full date and time text. By non-confusion, I think something culture-independant. 
+When displaying dates or times, there may be a confusions. Is this time in 12 or 24 format? "7/6/2013" Is the month June or July? Here are some questions that users may ask themselves. A tooltip is quite the way to help. I believe it should display a non-confusing full date and time text. By non-confusion, I think of something culture-independant. 
 
 The greatest to lowest unit format is nice because it's logical. year, month, day, hours, minutes, seconds. 2014-04-08 14:16:18.
 
@@ -101,53 +101,14 @@ The second class indicates where the date is located in reference to now `future
 
 This is of no big use on a public website. However I use it a lot in my back-offices: past dates are gray, future are black. Users unconsciously notice it and are able to identify dates faster.  
 
-### TimeZones (TODO, work in progress)
-
-The elements here are not a documentation of actual code. It is what I am thinking about enhancing.
+### TimeZones
 
 Todo: find a nice way to deal with `DateTime`s with a `DateTimeKind` of `Unknown`.
 
-Done: find a nice way for developers to set the current timezone. `DateTime`s often come from models as UTC (but not all always) and we often want to display them in the user's timezone.
+Done: set the current timezone. `DateTime`s often come from models as UTC (but not all always) and we often want to display them in the user's timezone.
 
     Html.GetTimezone();
     Html.SetTimezone("Romance Standard Time");
-
-Here is a list of nice input for the best output.
-
-- The desired display (date, time, date and time, custom)
-- A optional tooltip display
-- The desired `TimeZoneInfo` to show dates in the correct TZ 
-	- We must be able to configure a default one
-	- And must be able to use a different from the default for exceptional cases. 
-- The date and time specification 
-	- The actual `DateTime` or `DateTimeOffset` to use
-	- For `DateTime`s of kind `Unspecified`, the timezone MUST be specified because there is no way to determine how to handle it.
-	- For `DateTime`s of kind `Local`, we will just convert it to UTC (the date in the system's TZ is quite useless for server apps).
-	- A `TimeSpan` for durations or times without dates. 
-
-Here is what would be great to set the configuration.
-
-	// _Layout.cshtml
-	@{
-		// let's suppose we have those variables available
-		var user = this.ViewBag.CurrentUser;
-		var configuration = this.ViewBag.SiteConfiguration;
-
-		// required
-		Html.SetDefaultDisplayTimeZone(user != null ? user.TimeZone : configuration != null ? configuration.DefaultDisplayTimeZone : "Romance Standard Time");
-
-		// optional
-		Html.SetDefaultDisplayDateFormat(mainFormat: "D", tooltipFormat: "O");
-		Html.SetDefaultDisplayTimeFormat(userTimeTag: false);
-	}
-
-Here is what would be great in views.
-
-	// any view
-	<p>Welcome back @user.DisplayName. Your last login was on @Html.DisplayDate(user.LastLoginDateUtc)</p>
-	<!-- Result: Welcome back SandRock. Your last login was on 16/08/2013 16:00 -->
-
-In the example above, the date from the user model is of UTC kind. This means the helper converted it using the default timezone specified.
 
 OpenGraph extension
 -------------------

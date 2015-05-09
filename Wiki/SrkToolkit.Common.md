@@ -12,13 +12,15 @@ String extensions
 ### AddHtmlLineBreaks
 
     [TestMethod]
-    public void WorksWithWindows()
+    public void WorksWithWindowsLines()
     {
         string text = "aaa\r\nbbb\r\nccc";
         string expected = "aaa<br />\r\nbbb<br />\r\nccc";
         string actual = text.AddHtmlLineBreaks();
         Assert.AreEqual(expected, actual);
     }
+
+Works with `\r`, `\n` and `\r\n`.
 
 ### ToUpperFirstLetters
 
@@ -137,29 +139,54 @@ This old collection needs a few methods...
 DateTime extensions
 -------------------
 
-TODO
+
+```c#
+DateTime.UtcNow.ToPrecision(DateTimePrecision.Month)
+DateTime.UtcNow.ToPrecision(DateTimePrecision.Minute)
+
+var date1 = DateTime.UtcNow.ToPrecision(DateTimePrecision.Second)
+date1.IsEqualTo(2, DateTimePrecision.Second)
+
+var local = date1.AsLocal(); // changes the Kind to Local (does not convert)
+var utc = local.AsUtc();     // changes the Kind to Utc (does not convert)
+
+long unix = utc.ToUnixTime;
+```
+
 
 Array extensions
 ----------------
 
-TODO
+
+```c#
+var a1 = new int[] { 0, 1, 2, };
+var a2 = new int[] { 3, 4, };
+
+var combined = a1.CombineWith(a2);
+// 0, 1, 2, 3, 4
+
+var combinedMore = a1.CombineWith(a2, combined, a1);
+// 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2
+```
+
 
 ObservableCollection extensions
 -------------------------------
 
+```c#
 .AddRange()
-.RemoveAll(x => x.???)
+.RemoveAll(x => x.Value == null)
+```
 
 Enum tools
 ----------
 
 EnumTool.GetDescription //  gets a name from a resource dictionary
 
-    var desc = EnumTools.GetDescription(value, EnumStrings.ResourceManager);
-    var desc = EnumTools.GetDescription(value, EnumStrings.ResourceManager, null, "_Desc");
-
-
-
+```c#
+var desc = EnumTools.GetDescription(value, EnumStrings.ResourceManager);
+var desc = EnumTools.GetDescription(value, EnumStrings.ResourceManager, null, "_Desc");
+```
 
 
 TimeZoneInfo extensions
@@ -189,7 +216,7 @@ As I often convert to/from UTC, those 2 methods make it nicer.
 DisposableOnce
 --------------
 
-Sometimes it is nice to use a using(){} block as an intuitive way to finnaly{do-something}.
+Sometimes it is nice to use a `using() { }` block as an intuitive way to `finaly{do-something}`.
 
 DisposableOnce allows you to create a disposable object that will call a delegate on dispose.
 
@@ -226,23 +253,28 @@ SrkToolkit.Common.Validation.EmailAddress
 Decomposes and composes an email address (account + tag + domain).
 
 
+```c#
+var emailSimple = new EmailAddress("someone.nice@sometest.com");
+Assert.AreEqual(email.Account, "someone.nice");
+Assert.AreEqual(email.Tag, null);
+Assert.AreEqual(email.Domain, "sometest.com");
+
+var emailTag = new EmailAddress("someone.nice+my-tag@sometest.com");
+Assert.AreEqual(email.Account, "someone.nice");
+Assert.AreEqual(email.Tag, "my-tag");
+Assert.AreEqual(email.Domain, "sometest.com");
+Assert.AreEqual(email.Value, "someone.nice+my-tag@sometest.com");
+Assert.AreEqual(email.ValueWithoutTag, "someone.nice@sometest.com");
+
+```
+
+
 SrkToolkit.Common.Validation.PhoneNumber
 -----------------------------------------
 
 Makes nicer phone numbers
 
     "00123456", "0012 (0) 3456", "+12 34-56", "0012-34-56" => "+123456"
-
-
-
-
-
-
-
-
-
-
-
 
 
 

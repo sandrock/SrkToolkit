@@ -80,6 +80,23 @@ namespace SrkToolkit.Xaml.Behaviors
 
         #endregion
 
+        #region Dependency property: StickToBottom
+
+        public static bool GetStickToBottom(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(StickToBottomProperty);
+        }
+
+        public static void SetStickToBottom(DependencyObject obj, bool value)
+        {
+            obj.SetValue(StickToBottomProperty, value);
+        }
+
+        public static readonly DependencyProperty StickToBottomProperty =
+            DependencyProperty.RegisterAttached("StickToBottom", typeof(bool), typeof(ListBoxScrollBehavior), new PropertyMetadata(false));
+
+        #endregion
+
         #region Attached property ListBoxScrollBehavior
 
         public static ListBoxScrollBehavior GetListBoxScrollBehavior(DependencyObject obj)
@@ -97,22 +114,6 @@ namespace SrkToolkit.Xaml.Behaviors
         /// </summary>
         public static readonly DependencyProperty ListBoxScrollBehaviorProperty =
             DependencyProperty.RegisterAttached("ListBoxScrollBehavior", typeof(ListBoxScrollBehavior), typeof(ListBoxScrollBehavior), new PropertyMetadata(null));
-
-        #endregion
-
-        #region Dependency property VerticalOffset
-
-        /// <summary>
-        /// Called when the scrollviewer's vertical offset property changed.
-        /// </summary>
-        /// <param name="d">The listbox.</param>
-        /// <param name="e">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
-        private static void OnVerticalOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var listbox = (ListBox)d;
-            var behavior = listbox.GetValue(ListBoxScrollBehaviorProperty) as ListBoxScrollBehavior;
-            behavior.OnVerticalOffsetChanged();
-        }
 
         #endregion
 
@@ -143,6 +144,42 @@ namespace SrkToolkit.Xaml.Behaviors
         /// </summary>
         public static readonly DependencyProperty ScrollViewerVerticalOffsetProperty =
             DependencyProperty.RegisterAttached("ScrollViewerVerticalOffset", typeof(double), typeof(ListBox), new PropertyMetadata(double.NaN, OnVerticalOffsetPropertyChanged));
+
+        /// <summary>
+        /// Called when the scrollviewer's vertical offset property changed.
+        /// </summary>
+        /// <param name="d">The listbox.</param>
+        /// <param name="e">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        private static void OnVerticalOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var listbox = (ListBox)d;
+            var behavior = listbox.GetValue(ListBoxScrollBehaviorProperty) as ListBoxScrollBehavior;
+            behavior.OnVerticalOffsetChanged();
+        }
+
+        #endregion
+
+        #region Attached property ScrollViewerScrollableHeightProperty on ListBox
+
+        public static double GetScrollViewerScrollableHeight(DependencyObject obj)
+        {
+            return (double)obj.GetValue(ScrollViewerScrollableHeightProperty);
+        }
+
+        public static void SetScrollViewerScrollableHeight(DependencyObject obj, double value)
+        {
+            obj.SetValue(ScrollViewerScrollableHeightProperty, value);
+        }
+
+        public static readonly DependencyProperty ScrollViewerScrollableHeightProperty =
+            DependencyProperty.RegisterAttached("ScrollViewerScrollableHeight", typeof(double), typeof(ListBox), new PropertyMetadata(double.NaN, OnScrollableHeightPropertyChanged));
+
+        private static void OnScrollableHeightPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var listbox = (ListBox)d;
+            var behavior = listbox.GetValue(ListBoxScrollBehaviorProperty) as ListBoxScrollBehavior;
+            behavior.OnScrollableHeightChanged();
+        }
 
         #endregion
 
@@ -189,11 +226,21 @@ namespace SrkToolkit.Xaml.Behaviors
             {
                 this.AssociatedObject.Loaded -= this.OnListboxLoaded;
 
-                var binding = new Binding();
-                binding.Source = this.scrollViewer;
-                binding.Path = new PropertyPath("VerticalOffset", new object[0]);
-                binding.Mode = BindingMode.OneWay;
-                this.AssociatedObject.SetBinding(ScrollViewerVerticalOffsetProperty, binding);
+                {
+                    var binding = new Binding();
+                    binding.Source = this.scrollViewer;
+                    binding.Path = new PropertyPath("VerticalOffset", new object[0]);
+                    binding.Mode = BindingMode.OneWay;
+                    this.AssociatedObject.SetBinding(ScrollViewerVerticalOffsetProperty, binding);
+                }
+
+                {
+                    var binding = new Binding();
+                    binding.Source = this.scrollViewer;
+                    binding.Path = new PropertyPath("ScrollableHeight", new object[0]);
+                    binding.Mode = BindingMode.OneWay;
+                    this.AssociatedObject.SetBinding(ScrollViewerScrollableHeightProperty, binding);
+                }
             }
             else
             {
@@ -226,6 +273,18 @@ namespace SrkToolkit.Xaml.Behaviors
                         // command invocation
                         command.Execute(GetReachedBottomCommandParameter(this.AssociatedObject));
                     }
+                }
+            }
+        }
+
+        private void OnScrollableHeightChanged()
+        {
+            if (GetStickToBottom(this.AssociatedObject))
+            {
+                double diff = this.scrollViewer.ScrollableHeight - this.scrollViewer.VerticalOffset;
+                if (Math.Abs(diff) > 1D)
+                {
+                    this.scrollViewer.ScrollToVerticalOffset(this.scrollViewer.ScrollableHeight);
                 }
             }
         }

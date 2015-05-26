@@ -265,7 +265,7 @@ namespace SrkToolkit.Mvvm
 
         #endregion
 
-        #region VisualStateManager
+#if !WP80
 
         /// <summary>
         /// Occurs when a visual state change is commanded.
@@ -290,6 +290,6 @@ namespace SrkToolkit.Mvvm
             return args.Succeed;
         }
 
-        #endregion
+#endif
     }
 }

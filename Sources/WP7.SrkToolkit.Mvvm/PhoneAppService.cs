@@ -1,11 +1,12 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-
+﻿
 namespace SrkToolkit.Mvvm
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Navigation;
+    using Microsoft.Phone.Controls;
+    using Microsoft.Phone.Shell;
+
     /// <summary>
     /// Windows Phone application related services.
     /// </summary>

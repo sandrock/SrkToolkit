@@ -36,7 +36,7 @@ namespace SrkToolkit.Web.Tests
         public void BasicObjectRendersNamespaces()
         {
             var obj = new OpenGraphObject("my super title", new Uri("http://test.org/my-super-title"));
-            var expected = " xmlns:og=\"http:&#x2F;&#x2F;ogp.me&#x2F;ns#\" ";
+            var expected = " xmlns:og=\"http://ogp.me/ns#\" ";
             Assert.AreEqual(expected, obj.ToHtmlAttributeNamespaces());
         }
 
@@ -45,7 +45,7 @@ namespace SrkToolkit.Web.Tests
         {
             var obj = new OpenGraphObject("my super title", new Uri("http://test.org/my-super-title"));
             obj.Add(new OpenGraphTag(new OpenGraphName("key", "xxx", "http://xxx/aaa/#"), "value"));
-            var expected = " xmlns:og=\"http:&#x2F;&#x2F;ogp.me&#x2F;ns#\"  xmlns:xxx=\"http:&#x2F;&#x2F;xxx&#x2F;aaa&#x2F;#\" ";
+            var expected = " xmlns:og=\"http://ogp.me/ns#\"  xmlns:xxx=\"http://xxx/aaa/#\" ";
             Assert.AreEqual(expected, obj.ToHtmlAttributeNamespaces());
         }
 

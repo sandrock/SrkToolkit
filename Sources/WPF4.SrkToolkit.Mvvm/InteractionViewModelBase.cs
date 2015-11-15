@@ -9,26 +9,9 @@ namespace SrkToolkit.Mvvm
     /// </summary>
     public partial class InteractionViewModelBase : ViewModelBase
     {
-        private InteractionViewModelBase baseViewModel;
-
-        #region View properties
-
-        /// <summary>
-        /// This collection contains tasks that are being processed.
-        /// Nice properties are Tasks.IsBusy and Tasks.IsProcessing.
-        /// Access tasks from the view with 
-        ///   - {Binding Tasks[AutoLogin].IsProcessing}
-        ///   - {Binding Tasks[AutoLogin].Message}
-        /// </summary>
-        public BusyTaskCollection Tasks
-        {
-            get { return _tasks; }
-        }
         private readonly BusyTaskCollection _tasks = new BusyTaskCollection();
-
-        #endregion
-
-        #region .ctor
+        private InteractionViewModelBase baseViewModel;
+        private IMessageBoxService _mbox;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InteractionViewModelBase"/> class.
@@ -49,9 +32,27 @@ namespace SrkToolkit.Mvvm
             this.baseViewModel = interactionViewModelBase;
         }
 
-        #endregion
+        /// <summary>
+        /// This collection contains tasks that are being processed.
+        /// Nice properties are Tasks.IsBusy and Tasks.IsProcessing.
+        /// Access tasks from the view with 
+        ///   - {Binding Tasks[AutoLogin].IsProcessing}
+        ///   - {Binding Tasks[AutoLogin].Message}
+        /// </summary>
+        public BusyTaskCollection Tasks
+        {
+            get { return _tasks; }
+        }
 
-        #region Busy logic
+        /// <summary>
+        /// MessageBox abstraction.
+        /// You can replace this for unit-testing.
+        /// </summary>
+        protected IMessageBoxService Mbox
+        {
+            get { return _mbox ?? (_mbox = new MessageBoxService()); }
+            set { _mbox = value; }
+        }
 
         /// <summary>
         /// Initialize a task.
@@ -180,22 +181,5 @@ namespace SrkToolkit.Mvvm
                 UpdateTask(key, isProcessing, message, BusyTaskType.Default);
             }
         }
-
-        #endregion
-
-        #region MessageBoxService
-
-        /// <summary>
-        /// MessageBox abstraction.
-        /// You can replace this for unit-testing.
-        /// </summary>
-        protected IMessageBoxService Mbox
-        {
-            get { return _mbox ?? (_mbox = new MessageBoxService()); }
-            set { _mbox = value; }
-        }
-        private IMessageBoxService _mbox;
-
-        #endregion
     }
 }

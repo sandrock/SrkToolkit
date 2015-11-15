@@ -77,18 +77,18 @@
     <Compile Include="..\wp7.srktoolkit.mvvm\commands\RelayCommand.T.cs">
       <Link>Commands\RelayCommand.T.cs</Link>
     </Compile>
-    <Compile Include="..\WP7.SrkToolkit.Mvvm\InteractionViewModelBase.WP7.cs">
+    <None Include="..\WP7.SrkToolkit.Mvvm\InteractionViewModelBase.WP7.cs">
       <Link>InteractionViewModelBase.WP7.cs</Link>
-    </Compile>
-    <Compile Include="..\WP7.SrkToolkit.Mvvm\PhoneApplicationPage.cs">
+    </None>
+    <None Include="..\WP7.SrkToolkit.Mvvm\PhoneApplicationPage.cs">
       <Link>PhoneApplicationPage.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\WP7.SrkToolkit.Mvvm\PhoneAppNavigationState.cs">
       <Link>PhoneAppNavigationState.cs</Link>
     </Compile>
-    <Compile Include="..\WP7.SrkToolkit.Mvvm\PhoneAppService.cs">
+    <None Include="..\WP7.SrkToolkit.Mvvm\PhoneAppService.cs">
       <Link>PhoneAppService.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\WP7.SrkToolkit.Mvvm\ViewModelBase.cs">
       <Link>ViewModelBase.cs</Link>
     </Compile>

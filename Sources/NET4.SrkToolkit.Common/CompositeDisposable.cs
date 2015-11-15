@@ -10,6 +10,7 @@ namespace SrkToolkit
     /// Holds a list of disposable object for mass Dispose()ition.
     /// Not thread-safe.
     /// </summary>
+    [DebuggerStepThrough]
     public sealed class CompositeDisposable : IDisposable
     {
         private readonly List<WeakReference> collection = new List<WeakReference>();

@@ -25,6 +25,8 @@ namespace SrkToolkit.Domain
         /// </summary>
         public string DisplayMessage { get; set; }
 
+        public string Detail { get; set; }
+
         string IResultError.Code
         {
             get { return this.DisplayMessage; }

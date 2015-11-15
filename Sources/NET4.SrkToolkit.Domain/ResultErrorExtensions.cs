@@ -15,7 +15,7 @@ namespace SrkToolkit.Domain
     public static class ResultErrorExtensions
     {
         /// <summary>
-        /// Adds the specified collection.
+        /// Adds an error to the collection.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="collection">The collection.</param>
@@ -33,7 +33,7 @@ namespace SrkToolkit.Domain
         }
 
         /// <summary>
-        /// Adds the specified collection.
+        /// Adds an error to the collection.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="collection">The collection.</param>
@@ -52,7 +52,7 @@ namespace SrkToolkit.Domain
         }
 
         /// <summary>
-        /// Adds the specified collection.
+        /// Adds an error to the collection.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="collection">The collection.</param>
@@ -89,7 +89,7 @@ namespace SrkToolkit.Domain
         }
 
         /// <summary>
-        /// Adds the specified collection.
+        /// Adds an error to the collection.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="collection">The collection.</param>
@@ -109,7 +109,7 @@ namespace SrkToolkit.Domain
         }
 
         /// <summary>
-        /// Adds the specified collection.
+        /// Adds an error to the collection.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="collection">The collection.</param>
@@ -124,6 +124,125 @@ namespace SrkToolkit.Domain
                 throw new ArgumentNullException("collection");
 
             collection.Add(new ResultError<TEnum>(code, enumResourceManager, args));
+            return collection;
+        }
+
+        /// <summary>
+        /// Adds a detailled error to the collection.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
+        /// <param name="detail">A detailled error message.</param>
+        /// <param name="displayMessage">The display message.</param>
+        /// <returns></returns>
+        public static IList<ResultError<TEnum>> AddDetail<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, string detail, string displayMessage)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            collection.Add(new ResultError<TEnum>(code, displayMessage) { Detail = detail, });
+            return collection;
+        }
+
+        /// <summary>
+        /// Adds a detailled error to the collection.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
+        /// <param name="detail">A detailled error message.</param>
+        /// <param name="enumResourceManager">The ResourceManager in which to find a translation for the code.</param>
+        /// <param name="culture">The culture.</param>
+        /// <returns></returns>
+        public static IList<ResultError<TEnum>> AddDetail<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, string detail, ResourceManager enumResourceManager, CultureInfo culture)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            collection.Add(new ResultError<TEnum>(code, enumResourceManager, culture) { Detail = detail, });
+            return collection;
+        }
+
+        /// <summary>
+        /// Adds a detailled error to the collection.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
+        /// <param name="detail">A detailled error message.</param>
+        /// <param name="enumResourceManager">The ResourceManager in which to find a translation for the code.</param>
+        /// <returns></returns>
+        public static IList<ResultError<TEnum>> AddDetail<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, string detail, ResourceManager enumResourceManager)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            collection.Add(new ResultError<TEnum>(code, enumResourceManager) { Detail = detail, });
+            return collection;
+        }
+
+        /// <summary>
+        /// Adds a detailled error to the collection.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
+        /// <param name="detail">A detailled error message.</param>
+        /// <param name="displayMessageFormat">The display message format.</param>
+        /// <param name="args">The args.</param>
+        /// <returns></returns>
+        public static IList<ResultError<TEnum>> AddDetail<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, string detail, string displayMessageFormat, params object[] args)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            collection.Add(new ResultError<TEnum>(code, displayMessageFormat, args) { Detail = detail, });
+            return collection;
+        }
+
+        /// <summary>
+        /// Adds a detailled error to the collection.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
+        /// <param name="detail">A detailled error message.</param>
+        /// <param name="enumResourceManager">The ResourceManager in which to find a translation for the code.</param>
+        /// <param name="culture">The culture.</param>
+        /// <param name="args">The args.</param>
+        /// <returns></returns>
+        public static IList<ResultError<TEnum>> AddDetail<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, string detail, ResourceManager enumResourceManager, CultureInfo culture, params object[] args)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            collection.Add(new ResultError<TEnum>(code, enumResourceManager, culture, args) { Detail = detail, });
+            return collection;
+        }
+
+        /// <summary>
+        /// Adds a detailled error to the collection.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
+        /// <param name="detail">A detailled error message.</param>
+        /// <param name="enumResourceManager">The ResourceManager in which to find a translation for the code.</param>
+        /// <param name="args">The args.</param>
+        /// <returns></returns>
+        public static IList<ResultError<TEnum>> AddDetail<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, string detail, ResourceManager enumResourceManager, params object[] args)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            collection.Add(new ResultError<TEnum>(code, enumResourceManager, args) { Detail = detail, });
             return collection;
         }
 

@@ -17,5 +17,7 @@ namespace SrkToolkit.Domain
         /// Gets the error code.
         /// </summary>
         string Code { get; }
+
+        string Detail { get; }
     }
 }

@@ -101,6 +101,11 @@ namespace SrkToolkit.Domain
         /// </summary>
         public string DisplayMessage { get; set; }
 
+        /// <summary>
+        /// Gets or sets an optional error detail.
+        /// </summary>
+        public string Detail { get; set; }
+
         string IResultError.DisplayMessage
         {
             get { return this.DisplayMessage ?? this.Code.ToString(); }

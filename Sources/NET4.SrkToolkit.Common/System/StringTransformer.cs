@@ -459,9 +459,9 @@ namespace System
                         builder.Append("&#x27;");
                         break;
 
-                    case '/':
-                        builder.Append("&#x2F;");
-                        break;
+                    ////case '/': // that's a little bit too much to escape
+                    ////    builder.Append("&#x2F;");
+                    ////    break;
 
                     case ' ':
                         builder.Append("&nbsp;");

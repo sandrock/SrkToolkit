@@ -9,7 +9,7 @@ Assemblies
 - [SrkToolkit.Common](Wiki/SrkToolkit.Common.md) (.NET 4.0, 4.5) - [nuget](https://www.nuget.org/packages/SrkToolkit.Common)
   - [DataAnnotations](Wiki/SrkToolkit.Common.DataAnnotations.md)
 - SrkToolkit.Common.Unsafe (.NET 4.0)
-- [SrkToolkit.Web (for ASP MVC)](Wiki/SrkToolkit.Web.md) (.NET 4.0 for MVC 3, .NET 4.5 for MVC4) - [nuget](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc4)
+- [SrkToolkit.Web (for ASP MVC)](Wiki/SrkToolkit.Web.md) (.NET 4.0 for MVC 3, .NET 4.5 for MVC4) - [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc4) - [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc5)
   - [ActionFilters](Wiki/SrkToolkit.Web-ActionFilters.md)
   - [HtmlHelpers](Wiki/SrkToolkit.Web-HtmlHelpers.md)
   - [ModelBinders](Wiki/SrkToolkit.Web-ModelBinders.md)
@@ -20,7 +20,9 @@ Assemblies
 - SrkToolit.Xaml (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
 - SrkToolkit.Mvvm (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
 - SrkToolkit.Services (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
-- SrkToolkit.Domain (.NET 4.0, .NET 4.5) - [nuget](https://www.nuget.org/packages/SrkToolkit.Domain) - [nuget](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc4)
+- SrkToolkit.Domain (.NET 4.0, .NET 4.5) - [nuget](https://www.nuget.org/packages/SrkToolkit.Domain) - [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc4) - [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc5)
+
+[See all nuget packages](https://www.nuget.org/packages?q=Tags%3A%22SrkToolkit%22)
 
 Content at-a-glance
 --------------------
@@ -39,7 +41,7 @@ And more...
 
 ### extensions for ASP MVC
  
- - date and time display (based on timezone ,standard formats, <time /> tag...)
+ - [date and time display helpers](Wiki/SrkToolkit.Web-HtmlHelpers.md) (based on timezone, standard formats, <time /> tag...)
  - PageInfo is the one object to set your page title, description, meta tags, opengraph values...
  - fixed `AuthorizeAttribute` to return a "HTTP 403 Forbidden" instead of 401 auth page when already authenticated
  - 1-line error handling code for customized http-accept-aware error pages

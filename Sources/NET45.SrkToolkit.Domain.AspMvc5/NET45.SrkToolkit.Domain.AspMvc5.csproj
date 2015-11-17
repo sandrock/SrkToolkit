@@ -53,6 +53,7 @@
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -90,9 +91,9 @@
       <Project>{50f8a9bc-ca87-48d0-ba18-32df5f50a97a}</Project>
       <Name>NET45.SrkToolkit.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NET45.SrkToolkit.Web.Mvc4\NET45.SrkToolkit.Web.Mvc4.csproj">
+    <ProjectReference Include="..\NET45.SrkToolkit.Web.Mvc5\NET45.SrkToolkit.Web.Mvc5.csproj">
       <Project>{f60ec4ec-b969-4e8e-8e15-374bfacf99cf}</Project>
-      <Name>NET45.SrkToolkit.Web.Mvc4</Name>
+      <Name>NET45.SrkToolkit.Web.Mvc5</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

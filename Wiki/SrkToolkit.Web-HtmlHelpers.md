@@ -16,7 +16,7 @@ DisplayDate, DisplayDateTime, DisplayTime
 
 Help display dates in the best way possible. Bringing a uniform way of displaying dates and times in your ASP MVC apps.
 
-There are 3 things to display: date or time or date and time. This is why there are 3 helpers. (there are a few more in fact)
+There are 3 typical things to display: date or time or date and time. This is why there are 3 helpers. (there are a few more in fact)
 
 Here are typical outputs. 
 
@@ -83,11 +83,11 @@ Why is it not?
 
 - any compatibility issues? I don't know what IE lt 7 would do...
 
-Some lectures:  [W3C HTML5 `<time>` tag][1], [W3C <time>'s datetime attribute format][2], [RFC 3339 for date formats][3], [article on HTML5Doctor][4]
+Some articles:  [W3C HTML5 `<time>` tag][1], [W3C <time>'s datetime attribute format][2], [RFC 3339 for date formats][3], [article on HTML5Doctor][4]
 
 ### A tooltip, why?
 
-When displaying dates or times, there may be a confusions. Is this time in 12 or 24 format? "7/6/2013" Is the month June or July? Here are some questions that users may ask themselves. A tooltip is quite the way to help. I believe it should display a non-confusing full date and time text. By non-confusion, I think of something culture-independant. 
+When displaying dates or times, there may be a confusion for the reader. Is this time in 12 or 24 format? "7/6/2013" Is the month June or July? Here are some questions that users may ask themselves. A tooltip is quite the way to help. I believe it should display a non-confusing full date and time text. By non-confusion, I think of something culture-independant. 
 
 The greatest to lowest unit format is nice because it's logical. year, month, day, hours, minutes, seconds. 2014-04-08 14:16:18.
 
@@ -157,7 +157,7 @@ _Layout.cshtml:
 	        {
 	            if (this.ViewBag.Picture == "")
 	            {
-					// the view want no OpenGraph picture
+					// the view wants no OpenGraph picture
 	            }
 	            else if (this.ViewBag.Picture.StartsWith("/"))
 	            {
@@ -208,12 +208,12 @@ Example render:
 Html.CallLink("+33 123456789")
 ------------------------------
 
-Helps you display a phone line.
+Helps you display a phone link.
 
     @Html.CallLink("+33 123456789")
     <a class="tel" href="tel:+33 123456789">+33 123456789</a>
     
-    @Html.CallLink("+33 123456789" new { @class = "hello world", })
+    @Html.CallLink("+33 123456789", new { @class = "hello world", })
     <a class="hello world" href="tel:+33 123456789">+33 123456789</a>
 
 Html.DescriptionFor(model => model.Value)
@@ -231,7 +231,7 @@ Html.DescriptionFor(model => model.Value)
 @Html.ValidationSummaryEx()
 ---------------------------
 
-Enhancement of Html.ValidationSummary() that shows no HTML when there are no errors to display.
+Enhancement of Html.ValidationSummary() that shows zero HTML when there are no errors to display.
 
 
 @Html.CssClass()
@@ -256,6 +256,8 @@ Helps write conditional CSS classes.
 
 @Html.JsDate(dateTime)
 ----------------------
+
+ASP MVC helper to write a date as a javascript `Date` object.
 
     @Html.JsDate(datetime)
     outputs: new Date(13912786171000)

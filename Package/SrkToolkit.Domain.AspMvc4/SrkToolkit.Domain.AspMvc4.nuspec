@@ -10,12 +10,13 @@
     <iconUrl>https://raw.githubusercontent.com/sandrock/SrkToolkit/master/Sources/logo-200.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SrkToolkit.Domain.AspMvc4 contains extension methods for SrkToolkit.Domain in the context of a ASP MVC application.</description>
-    <releaseNotes>First release :)</releaseNotes>
+    <releaseNotes>Fixed MVC 4 dependency.</releaseNotes>
     <copyright>LGPL v3</copyright>
     <tags>domain SrkToolkit</tags>
     <dependencies>
       <dependency id="SrkToolkit.Domain" version="1.1.125" />
-      <dependency id="SrkToolkit.Web.AspMvc4" version="1.1.125" />
+      <dependency id="SrkToolkit.Web.AspMvc4" version="1.1.127" />
+      <dependency id="Microsoft.AspNet.Mvc" version="[4.0,5.0)" />
     </dependencies>
   </metadata>
 </package>

@@ -98,6 +98,10 @@ mkdir %outputDirectory%\SrkToolkit.Web.AspMvc4\
 mkdir %outputDirectory%\SrkToolkit.Web.AspMvc4\lib
 mkdir %outputDirectory%\SrkToolkit.Web.AspMvc4\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Web.Mvc4.* %outputDirectory%\SrkToolkit.Web.AspMvc4\lib\net45
+mkdir %outputDirectory%\SrkToolkit.Web.AspMvc5\
+mkdir %outputDirectory%\SrkToolkit.Web.AspMvc5\lib
+mkdir %outputDirectory%\SrkToolkit.Web.AspMvc5\lib\net45
+xcopy /Q /Y Binaries\NET45\SrkToolkit.Web.Mvc5.* %outputDirectory%\SrkToolkit.Web.AspMvc5\lib\net45
 mkdir %outputDirectory%\SrkToolkit.Domain\
 mkdir %outputDirectory%\SrkToolkit.Domain\lib
 mkdir %outputDirectory%\SrkToolkit.Domain\lib\net40
@@ -114,7 +118,12 @@ mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc4\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc4.dll %outputDirectory%\SrkToolkit.Domain.AspMvc4\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc4.pdb %outputDirectory%\SrkToolkit.Domain.AspMvc4\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc4.xml %outputDirectory%\SrkToolkit.Domain.AspMvc4\lib\net45
-xcopy /Q /Y %solutionDirectory%\NET40.Sparkle.LinkedInNET\bin\Release\Sparkle* %outputDirectory%\lib\net40
+mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc5\
+mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc5\lib
+mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc5\lib\net45
+xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc5.dll %outputDirectory%\SrkToolkit.Domain.AspMvc5\lib\net45
+xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc5.pdb %outputDirectory%\SrkToolkit.Domain.AspMvc5\lib\net45
+xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc5.xml %outputDirectory%\SrkToolkit.Domain.AspMvc5\lib\net45
 echo Done.
 
 
@@ -142,13 +151,16 @@ echo:
 echo Build NuGet package
 echo -----------------------------
 
+echo VERIFY RELEASE NOTES in nuspec files.
 echo Hit return to continue...
 pause 
 cd %outputDirectory%
 %nuget% pack SrkToolkit.Common\SrkToolkit.Common.nuspec -Version %version%
 %nuget% pack SrkToolkit.Domain\SrkToolkit.Domain.nuspec -Version %version%
 %nuget% pack SrkToolkit.Web.AspMvc4\SrkToolkit.Web.AspMvc4.nuspec -Version %version%
+%nuget% pack SrkToolkit.Web.AspMvc5\SrkToolkit.Web.AspMvc5.nuspec -Version %version%
 %nuget% pack SrkToolkit.Domain.AspMvc4\SrkToolkit.Domain.AspMvc4.nuspec -Version %version%
+%nuget% pack SrkToolkit.Domain.AspMvc5\SrkToolkit.Domain.AspMvc5.nuspec -Version %version%
 echo Done.
 
 
@@ -164,7 +176,9 @@ cd %outputDirectory%
 %nuget% push SrkToolkit.Common.%version%.nupkg
 %nuget% push SrkToolkit.Domain.%version%.nupkg
 %nuget% push SrkToolkit.Web.AspMvc4.%version%.nupkg
+%nuget% push SrkToolkit.Web.AspMvc5.%version%.nupkg
 %nuget% push SrkToolkit.Domain.AspMvc4.%version%.nupkg
+%nuget% push SrkToolkit.Domain.AspMvc5.%version%.nupkg
 echo Done.
 
 

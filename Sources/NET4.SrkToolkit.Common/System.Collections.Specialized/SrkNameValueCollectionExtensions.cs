@@ -18,7 +18,7 @@ namespace System.Collections.Specialized
         /// <returns></returns>
         public static IDictionary<string, string> ToDictionary(this NameValueCollection collection)
         {
-            var list = new Dictionary<string, string>();
+            var list = new Dictionary<string, string>(collection.Count);
             foreach (var item in collection.AllKeys)
             {
                 list.Add(item, collection[item]);

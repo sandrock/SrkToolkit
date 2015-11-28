@@ -198,9 +198,12 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 
+logo-work.svg
 Binaries/
 Package/SrkToolkit.Common/
 Package/SrkToolkit.Domain/
 Package/SrkToolkit.Domain.AspMvc4/
 Package/SrkToolkit.Web.AspMvc4/
 Package/*.nupkg
+Package/SrkToolkit.Domain.AspMvc5/
+

@@ -12,6 +12,12 @@ namespace SrkToolkit.Web
     /// </summary>
     public static class SrkRequestExtensions
     {
+        private static readonly string[] xhrValues = new string[]
+        {
+            "XMLHttpRequest".ToUpperInvariant(),
+            "XHR",
+        };
+
         /// <summary>
         /// Determines whether the specified request is made via AJAX.
         /// </summary>
@@ -25,12 +31,7 @@ namespace SrkToolkit.Web
             if (string.IsNullOrEmpty(header))
                 return false;
 
-            string[] values = new string[]
-            {
-                "XMLHttpRequest".ToUpperInvariant(),
-                "XHR",
-            };
-            return values.Contains(header.ToUpperInvariant());
+            return xhrValues.Contains(header.ToUpperInvariant());
         }
 
         /// <summary>
@@ -46,32 +47,87 @@ namespace SrkToolkit.Web
             if (string.IsNullOrEmpty(header))
                 return false;
 
-            string[] values = new string[]
-            {
-                "XMLHttpRequest".ToUpperInvariant(),
-                "XHR",
-            };
-            return values.Contains(header.ToUpperInvariant());
+            return xhrValues.Contains(header.ToUpperInvariant());
         }
 
         /// <summary>
-        /// Determines whether [is HTTP post request].
+        /// Determines whether the HTTP method is POST.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns></returns>
         public static bool IsHttpPostRequest(this HttpRequest request)
         {
-            return request.HttpMethod.ToUpperInvariant() == "POST";
+            return "POST".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
-        /// Determines whether [is HTTP post request].
+        /// Determines whether the HTTP method is POST.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns></returns>
         public static bool IsHttpPostRequest(this HttpRequestBase request)
         {
-            return request.HttpMethod.ToUpperInvariant() == "POST";
+            return "POST".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Determines whether the HTTP method is DELETE.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static bool IsHttpDeleteRequest(this HttpRequest request)
+        {
+            return "DELETE".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Determines whether is HTTP method is DELETE.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static bool IsHttpDeleteRequest(this HttpRequestBase request)
+        {
+            return "DELETE".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Determines whether the HTTP method is PUT.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static bool IsHttpPutRequest(this HttpRequest request)
+        {
+            return "PUT".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Determines whether is HTTP method is PUT.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static bool IsHttpPutRequest(this HttpRequestBase request)
+        {
+            return "PUT".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Determines whether the HTTP method is HEAD.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static bool IsHttpHeadRequest(this HttpRequest request)
+        {
+            return "HEAD".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Determines whether is HTTP method is HEAD.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static bool IsHttpHeadRequest(this HttpRequestBase request)
+        {
+            return "HEAD".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>

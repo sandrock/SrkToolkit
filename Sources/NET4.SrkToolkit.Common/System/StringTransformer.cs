@@ -262,6 +262,11 @@ namespace System
             return new string(array);
         }
 
+        /// <summary>
+        /// Uppercases the first letter of all words, lowercases the other letters.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static string CapitalizeWords(this string text)
         {
             char[] array = text.ToCharArray();
@@ -317,7 +322,7 @@ namespace System
 
             string stFormD = input.Normalize(NormalizationForm.FormD);
             int len = stFormD.Length;
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder(input.Length);
             for (int i = 0; i < len; i++)
             {
                 char c = stFormD[i];
@@ -339,7 +344,7 @@ namespace System
         }
 
         /// <summary>
-        /// UNTESTED! Removes the empty characters.
+        /// Removes the empty characters from the specified string.
         /// </summary>
         /// <param name="input">The input.</param>
         /// <returns></returns>
@@ -348,7 +353,7 @@ namespace System
             if (input == null)
                 return null;
 
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(input.Length);
             for (int i = 0; i < input.Length; i++)
             {
                 switch (CharUnicodeInfo.GetUnicodeCategory(input[i]))
@@ -363,6 +368,55 @@ namespace System
                         sb.Append(input[i]);
                         break;
                 }
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Removes the duplicate empty characters from the specified string.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns></returns>
+        public static string RemoveDuplicateSpaces(this string input)
+        {
+            if (input == null)
+                return null;
+
+            var sb = new StringBuilder(input.Length);
+            int firstSpace = -1;
+            for (int i = 0; i < input.Length; i++)
+            {
+                switch (CharUnicodeInfo.GetUnicodeCategory(input[i]))
+                {
+                    case UnicodeCategory.LineSeparator:
+                    case UnicodeCategory.ParagraphSeparator:
+                    case UnicodeCategory.SpaceSeparator:
+                    case UnicodeCategory.Control:
+                        if (firstSpace >= 0)
+                        {
+                        }
+                        else
+                        {
+                            firstSpace = i;
+                        }
+                        break;
+
+                    default:
+                        if (firstSpace >= 0)
+                        {
+                            sb.Append(input[firstSpace]);
+                            firstSpace = -1;
+                        }
+
+                        sb.Append(input[i]);
+                        break;
+                }
+            }
+
+            if (firstSpace >= 0)
+            {
+                sb.Append(input[firstSpace]);
             }
 
             return sb.ToString();
@@ -543,7 +597,7 @@ namespace System
             var val = input.RemoveDiacritics();
             preserveChars = preserveChars ?? new char[0];
 
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(input.Length);
 
             // inspired from 
             // http://stackoverflow.com/a/17092315/282105

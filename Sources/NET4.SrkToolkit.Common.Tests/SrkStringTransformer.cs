@@ -587,6 +587,57 @@ p3</p>";
         }
 
         [TestClass]
+        public class RemoveDuplicateSpacesMethod
+        {
+            [TestMethod]
+            public void AllSpaces()
+            {
+                string input = " \t\n\r\u00A0\u2002\u2003\u2004\u2005\u205F";
+                string expected = " ";
+
+                string result = input.RemoveDuplicateSpaces();
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void SpacesAndWordAndSpacesAndWordAndSpaces()
+            {
+                string spaces = " \t\n\r\u00A0\u2002\u2003\u2004 \u2005\u205F";
+                string input = spaces + "some" + spaces + "spaces" + spaces;
+                string expected = " some spaces ";
+
+                string result = input.RemoveDuplicateSpaces();
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void SpacesAndWordAndSpacesAndWord()
+            {
+                string spaces = " \t\n\r\u00A0\u2002\u2003\u2004 \u2005\u205F";
+                string input = spaces + "some" + spaces + "spaces";
+                string expected = " some spaces";
+
+                string result = input.RemoveDuplicateSpaces();
+
+                Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void WordAndSpacesAndWordAndSpaces()
+            {
+                string spaces = " \t\n\r\u00A0\u2002\u2003\u2004 \u2005\u205F";
+                string input = "some" + spaces + "spaces" + spaces;
+                string expected = "some spaces ";
+
+                string result = input.RemoveDuplicateSpaces();
+
+                Assert.AreEqual(expected, result);
+            }
+        }
+
+        [TestClass]
         public class MakeUrlFriendlyMethod
         {
             [TestMethod]

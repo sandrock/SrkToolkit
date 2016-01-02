@@ -43,7 +43,7 @@ namespace SrkToolkit.Web.Tests
         public class SetTimezoneMethod
         {
             [TestMethod]
-            public void WorksWithTzObject()
+            public void WorksWithTzObject1()
             {
                 var data = new ViewDataDictionary();
                 var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
@@ -55,7 +55,19 @@ namespace SrkToolkit.Web.Tests
             }
 
             [TestMethod]
-            public void WorksWithTzName()
+            public void WorksWithTzObject2()
+            {
+                var data = new ViewDataDictionary();
+                var tz = TimeZoneInfo.FindSystemTimeZoneById("Russia Time Zone 3");
+                var html = CreateHtmlHelper(data);
+                SrkHtmlExtensions.SetTimezone(html, tz);
+
+                Assert.IsNotNull(data["Timezone"]);
+                Assert.AreEqual(tz, data["Timezone"]);
+            }
+
+            [TestMethod]
+            public void WorksWithTzName1()
             {
                 var data = new ViewDataDictionary();
                 var tzName = "Romance Standard Time";
@@ -68,13 +80,92 @@ namespace SrkToolkit.Web.Tests
             }
 
             [TestMethod]
-            public void GetterWorks()
+            public void WorksWithTzName2()
+            {
+                var data = new ViewDataDictionary();
+                var tzName = "Russia Time Zone 3";
+                var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
+                var html = CreateHtmlHelper(data);
+                SrkHtmlExtensions.SetTimezone(html, tzName);
+
+                Assert.IsNotNull(data["Timezone"]);
+                Assert.AreEqual(tz, data["Timezone"]);
+            }
+
+            [TestMethod, ExpectedException(typeof(ArgumentException))]
+            public void NullTzName()
+            {
+                string tzName = null;
+                var html = CreateHtmlHelper(new ViewDataDictionary());
+                SrkHtmlExtensions.SetTimezone(html, tzName);
+            }
+
+            [TestMethod, ExpectedException(typeof(ArgumentException))]
+            public void EmptyTzName()
+            {
+                string tzName = string.Empty;
+                var html = CreateHtmlHelper(new ViewDataDictionary());
+                SrkHtmlExtensions.SetTimezone(html, tzName);
+            }
+
+            [TestMethod, ExpectedException(typeof(TimeZoneNotFoundException))]
+            public void InvalidTzName()
+            {
+                string tzName = "Lunar Standard Time";
+                var html = CreateHtmlHelper(new ViewDataDictionary());
+                SrkHtmlExtensions.SetTimezone(html, tzName);
+            }
+
+            [TestMethod]
+            public void GetterWorks1()
             {
                 var data = new ViewDataDictionary();
                 var tzName = "Romance Standard Time";
                 var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
                 var html = CreateHtmlHelper(data);
                 SrkHtmlExtensions.SetTimezone(html, tzName);
+                var result = SrkHtmlExtensions.GetTimezone(html);
+
+                Assert.IsNotNull(result);
+                Assert.AreEqual(tz, result);
+            }
+
+            [TestMethod]
+            public void GetterWorks2()
+            {
+                var data = new ViewDataDictionary();
+                var tzName = "Russia Time Zone 3";
+                var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
+                var html = CreateHtmlHelper(data);
+                SrkHtmlExtensions.SetTimezone(html, tzName);
+                var result = SrkHtmlExtensions.GetTimezone(html);
+
+                Assert.IsNotNull(result);
+                Assert.AreEqual(tz, result);
+            }
+
+            [TestMethod]
+            public void WorksWhenSetInHttpContext1()
+            {
+                var data = new ViewDataDictionary();
+                var tzName = "Romance Standard Time";
+                var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
+                var html = CreateHtmlHelper(data);
+                html.ViewContext.HttpContext.SetTimezone(tz);
+                var result = SrkHtmlExtensions.GetTimezone(html);
+
+                Assert.IsNotNull(result);
+                Assert.AreEqual(tz, result);
+            }
+
+            [TestMethod]
+            public void WorksWhenSetInHttpContext2()
+            {
+                var data = new ViewDataDictionary();
+                var tzName = "Russia Time Zone 3";
+                var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
+                var html = CreateHtmlHelper(data);
+                html.ViewContext.HttpContext.SetTimezone(tz);
                 var result = SrkHtmlExtensions.GetTimezone(html);
 
                 Assert.IsNotNull(result);

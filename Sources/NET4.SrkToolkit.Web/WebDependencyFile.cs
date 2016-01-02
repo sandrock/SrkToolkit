@@ -126,6 +126,7 @@ namespace SrkToolkit.Web
         /// <summary>
         /// Internal value, do not use.
         /// </summary>
+        [Obsolete("Internal value, do not use")]
         Default,
 
         /// <summary>

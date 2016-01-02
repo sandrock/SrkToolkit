@@ -207,3 +207,4 @@ Package/SrkToolkit.Web.AspMvc4/
 Package/*.nupkg
 Package/SrkToolkit.Domain.AspMvc5/
 
+tools/NuGet.exe

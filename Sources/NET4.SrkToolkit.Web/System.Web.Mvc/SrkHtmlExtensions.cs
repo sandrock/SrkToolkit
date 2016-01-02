@@ -1,9 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="SrkHtmlExtensions.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
+﻿
 namespace System.Web.Mvc
 {
     using System;
@@ -44,8 +39,13 @@ namespace System.Web.Mvc
         /// <param name="html">The HTML.</param>
         /// <param name="timeZoneName">Name of the time zone.</param>
         /// <returns></returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        /// <exception cref="System.TimeZoneNotFoundException"></exception>
         public static HtmlHelper SetTimezone(this HtmlHelper html, string timeZoneName)
         {
+            if (string.IsNullOrEmpty(timeZoneName))
+                throw new ArgumentException("The value cannot be empty", "timeZoneName");
+
             SrkHtmlExtensions.SetTimezone(html, TimeZoneInfo.FindSystemTimeZoneById(timeZoneName));
             return html;
         }
@@ -56,6 +56,7 @@ namespace System.Web.Mvc
         /// <param name="html">The HTML.</param>
         /// <param name="timeZone">The time zone.</param>
         /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
         public static HtmlHelper SetTimezone(this HtmlHelper html, TimeZoneInfo timeZone)
         {
             if (html == null)

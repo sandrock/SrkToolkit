@@ -41,6 +41,100 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
+        /// Sets the timezone for displays of dates and times.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="timeZoneName">Name of the time zone.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        /// <exception cref="System.TimeZoneNotFoundException"></exception>
+        public static HttpContextBase SetTimezone(this HttpContextBase http, string timeZoneName)
+        {
+            if (string.IsNullOrEmpty(timeZoneName))
+                throw new ArgumentException("The value cannot be empty", "timeZoneName");
+
+            SrkHttpContextExtensions.SetTimezone(http, TimeZoneInfo.FindSystemTimeZoneById(timeZoneName));
+            return http;
+        }
+
+        /// <summary>
+        /// Sets the timezone for displays of dates and times.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="timeZone">The time zone.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static HttpContextBase SetTimezone(this HttpContextBase http, TimeZoneInfo timeZone)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            http.Items["Timezone"] = timeZone;
+            return http;
+        }
+
+        /// <summary>
+        /// Sets the timezone for displays of dates and times.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="timeZoneName">Name of the time zone.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        /// <exception cref="System.TimeZoneNotFoundException"></exception>
+        public static HttpContext SetTimezone(this HttpContext http, string timeZoneName)
+        {
+            if (string.IsNullOrEmpty(timeZoneName))
+                throw new ArgumentException("The value cannot be empty", "timeZoneName");
+
+            SrkHttpContextExtensions.SetTimezone(http, TimeZoneInfo.FindSystemTimeZoneById(timeZoneName));
+            return http;
+        }
+
+        /// <summary>
+        /// Sets the timezone for displays of dates and times.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="timeZone">The time zone.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static HttpContext SetTimezone(this HttpContext http, TimeZoneInfo timeZone)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            http.Items["Timezone"] = timeZone;
+            return http;
+        }
+
+        /// <summary>
+        /// Gets the timezone for displays of dates and times.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">html</exception>
+        public static TimeZoneInfo GetTimezone(this HttpContextBase http)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            return (TimeZoneInfo)http.Items["Timezone"] ?? TimeZoneInfo.Utc;
+        }
+
+        /// <summary>
+        /// Gets the timezone for displays of dates and times.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">html</exception>
+        public static TimeZoneInfo GetTimezone(this HttpContext http)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            return (TimeZoneInfo)http.Items["Timezone"] ?? TimeZoneInfo.Utc;
+        }
+
+        /// <summary>
         /// Sets the date and time formats.
         /// </summary>
         /// <param name="httpContext">The HTTP context.</param>

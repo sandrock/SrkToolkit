@@ -7,11 +7,20 @@ namespace SrkToolkit.DataAnnotations
     using System.Globalization;
     using System.Text.RegularExpressions;
 
+    /// <summary>
+    /// Validates a international phone number.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class PhoneNumberAttribute : RegularExpressionAttribute
     {
+        /// <summary>
+        /// The regex used to validate a phone number.
+        /// </summary>
         public const string PhoneRegex = @"^(\+|00)[0-9\(\)\-\. ]+$";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PhoneNumberAttribute"/> class.
+        /// </summary>
         public PhoneNumberAttribute()
             : base(PhoneRegex)
         {
@@ -24,6 +33,7 @@ namespace SrkToolkit.DataAnnotations
         /// </summary>
         /// <param name="value">a supported national phone number</param>
         /// <param name="cultureInfo"></param>
+        /// <param name="result">the converted number</param>
         /// <returns>an international phone number</returns>
         /// <exception cref="InvalidOperationException">the national phone number is not supported</exception>
         public static bool ConvertNationalToInternational(string value, CultureInfo cultureInfo, out string result)

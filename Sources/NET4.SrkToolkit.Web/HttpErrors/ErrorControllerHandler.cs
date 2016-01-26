@@ -48,6 +48,7 @@ namespace SrkToolkit.Web.HttpErrors
         /// <param name="context">The context.</param>
         /// <param name="errorController">The error controller.</param>
         /// <param name="includeExceptionDetails">if set to <c>true</c> [include exception details].</param>
+        /// <param name="requestContext"></param>
         /// <returns></returns>
         public static Exception Handle(HttpContext context, IErrorController errorController, bool includeExceptionDetails, RequestContext requestContext)
         {

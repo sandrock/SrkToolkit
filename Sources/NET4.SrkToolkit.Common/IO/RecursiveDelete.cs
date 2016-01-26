@@ -34,6 +34,9 @@ namespace SrkToolkit.IO
             this.childrenOnly = childrenOnly;
         }
 
+        /// <summary>
+        /// A predicate for deletion.
+        /// </summary>
         public Func<FileInfo, bool> DeleteCondition { get; set; }
 
         public bool CollectExceptions { get; set; }

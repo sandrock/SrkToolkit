@@ -33,11 +33,29 @@ namespace System.Collections
             return value;
         }
 
+        /// <summary>
+        /// Adds the elements of the specified collection to the end of the <see cref="IDictionary{TKey, TSource}"/> with a key selector.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="source"></param>
+        /// <param name="keySelector"></param>
         public static void AddRange<TSource, TKey>(this IDictionary<TKey, TSource> collection, IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
             SrkIDictionaryExtensions.AddRange<TSource, TKey, TSource>(collection, source, keySelector, x => x);
         }
 
+        /// <summary>
+        /// Adds the elements of the specified collection to the end of the <see cref="IDictionary{TKey, TSource}"/> with a key and value selector.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="source"></param>
+        /// <param name="keySelector"></param>
+        /// <param name="valueSelector"></param>
         public static void AddRange<TSource, TKey, TValue>(this IDictionary<TKey, TValue> collection, IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
         {
             if (collection == null)

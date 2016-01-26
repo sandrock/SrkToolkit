@@ -12,7 +12,7 @@ namespace System.Collections.Specialized
     public static class SrkNameValueCollectionExtensions
     {
         /// <summary>
-        /// Creates a <see cref="IDictionary&lt;string, string&gt;"/> containing the values from the current <see cref="NameValueCollection"/>.
+        /// Creates a <see cref="IDictionary{string, string}"/> containing the values from the current <see cref="NameValueCollection"/>.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <returns></returns>

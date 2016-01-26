@@ -51,6 +51,9 @@ namespace SrkToolkit.Web.Services
             }
         }
 
+        /// <summary>
+        /// Gets the route to the "method not allowed" page.
+        /// </summary>
         public static RouteData MethodNotAllowedRoute
         {
             get

@@ -7,10 +7,19 @@ namespace SrkToolkit.Collections
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// Wraps non-generic dictionary-like collections as a generic dictionary.
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
     public class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>
     {
         private IWrapper<TKey, TValue> wrapper;
 
+        /// <summary>
+        /// Wraps a <see cref="IDictionary"/> as a generic dictionary.
+        /// </summary>
+        /// <param name="dictionary"></param>
         public DictionaryWrapper(IDictionary dictionary)
         {
             if (dictionary == null)
@@ -26,6 +35,10 @@ namespace SrkToolkit.Collections
             }
         }
 
+        /// <summary>
+        /// Wraps a <see cref="Hashtable"/> as a generic dictionary.
+        /// </summary>
+        /// <param name="hashtable"></param>
         public DictionaryWrapper(Hashtable hashtable)
         {
             if (hashtable == null)
@@ -34,23 +47,31 @@ namespace SrkToolkit.Collections
             this.Set(hashtable);
         }
 
-        private void Set(Hashtable hashtable)
-        {
-            this.wrapper = new HashtableWrapper<TKey, TValue>(hashtable);
-        }
-
         #region IDictionary<TKey, TValue>
 
+        /// <summary>
+        /// Adds an element with the provided key and value to the wrapped dictionary.
+        /// </summary>
+        /// <param name="key">The object to use as the key of the element to add.</param>
+        /// <param name="value">The object to use as the value of the element to add.</param>
         public void Add(TKey key, TValue value)
         {
             this.wrapper.Add(key, value);
         }
 
+        /// <summary>
+        /// Determines whether the wrapped dictionary contains an element with the specified key.
+        /// </summary>
+        /// <param name="key">The key to locate in the wrapped dictionary</param>
+        /// <returns>true if the wrapped dictionary contains an element with the key; otherwise, false.</returns>
         public bool ContainsKey(TKey key)
         {
             return this.wrapper.ContainsKey(key);
         }
 
+        /// <summary>
+        /// Gets a <see cref="System.Collections.Generic.ICollection{TKey}"/> containing the keys of the wrapped dictionary.
+        /// </summary>
         public ICollection<TKey> Keys
         {
             get
@@ -59,11 +80,22 @@ namespace SrkToolkit.Collections
             }
         }
 
+        /// <summary>
+        /// Removes the element with the specified key from the wrapped dictionary.
+        /// </summary>
+        /// <param name="key">The key of the element to remove.</param>
+        /// <returns>true if the element is successfully removed; otherwise, false. This method also returns false if key was not found in the original wrapped dictionary.</returns>
         public bool Remove(TKey key)
         {
             return this.wrapper.Remove(key);
         }
 
+        /// <summary>
+        /// Gets the value associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key whose value to get.</param>
+        /// <param name="value">When this method returns, the value associated with the specified key, if the key is found; otherwise, the default value for the type of the value parameter. This parameter is passed uninitialized.</param>
+        /// <returns>true if the object that implements wrapped dictionary contains an element with the specified key; otherwise, false.</returns>
         public bool TryGetValue(TKey key, out TValue value)
         {
             TValue val;
@@ -72,6 +104,9 @@ namespace SrkToolkit.Collections
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="System.Collections.Generic.ICollection{TKey}"/> containing the values of the wrapped dictionary.
+        /// </summary>
         public ICollection<TValue> Values
         {
             get
@@ -80,6 +115,11 @@ namespace SrkToolkit.Collections
             }
         }
 
+        /// <summary>
+        /// Gets or sets the element with the specified key.
+        /// </summary>
+        /// <param name="key">The key of the element to get or set.</param>
+        /// <returns>The element with the specified key.</returns>
         public TValue this[TKey key]
         {
             get
@@ -148,7 +188,12 @@ namespace SrkToolkit.Collections
 
         #endregion
 
-        protected interface IWrapper<TKey1, TValue1>
+        private void Set(Hashtable hashtable)
+        {
+            this.wrapper = new HashtableWrapper<TKey, TValue>(hashtable);
+        }
+
+        private interface IWrapper<TKey1, TValue1>
         {
             void Add(TKey1 key, TValue1 value);
 
@@ -171,7 +216,7 @@ namespace SrkToolkit.Collections
             int Count { get; }
         }
 
-        protected class HashtableWrapper<TKey1, TValue1> : IWrapper<TKey1, TValue1>
+        private class HashtableWrapper<TKey1, TValue1> : IWrapper<TKey1, TValue1>
         {
             private Hashtable hashtable;
 

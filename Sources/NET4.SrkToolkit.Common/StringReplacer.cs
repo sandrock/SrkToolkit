@@ -54,12 +54,19 @@ namespace SrkToolkit.Common
         /// Replaces the specified text.
         /// </summary>
         /// <param name="text">The text.</param>
-        /// <returns></returns>
+        /// <returns>the modified text</returns>
         public string Replace(string text)
         {
             return this.Replace(text, CultureInfo.CurrentCulture, TimeZoneInfo.Local);
         }
 
+        /// <summary>
+        /// Replaces the specified text.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="culture">the culture to use</param>
+        /// <param name="timezone">the timezone to use</param>
+        /// <returns>the modified text</returns>
         public string Replace(string text, IFormatProvider culture, TimeZoneInfo timezone)
         {
             if (culture == null)

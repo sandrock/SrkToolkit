@@ -40,6 +40,9 @@ namespace SrkToolkit.Web.HttpErrors
         protected static HttpErrorModel DefaultBadRequestModel =
             HttpErrorModel.Create(400, "Bad request", "The request is not valid and cannot be handled.");
 
+        /// <summary>
+        /// Gets the built-in "method not allowed" model.
+        /// </summary>
         protected static HttpErrorModel DefaultMethodNotAllowedModel =
             HttpErrorModel.Create(405, "Method Not Allowed", "A request was made of a resource using a request method not supported by that resource.");
 
@@ -81,6 +84,9 @@ namespace SrkToolkit.Web.HttpErrors
             get { return DefaultBadRequestModel; }
         }
 
+        /// <summary>
+        /// Gets the "method not allowed" model.
+        /// </summary>
         public virtual HttpErrorModel MethodNotAllowedModel
         {
             get { return DefaultMethodNotAllowedModel; }

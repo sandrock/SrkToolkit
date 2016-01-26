@@ -843,6 +843,11 @@ namespace System.Web.Mvc
 
         #region OpenGraph
 
+        /// <summary>
+        /// Gets the opengraph object associated with the current HTTP request.
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
         public static SrkOpenGraphHtmlExtensions OpenGraph(this HtmlHelper html)
         {
             return new SrkOpenGraphHtmlExtensions(html);

@@ -12,7 +12,7 @@ namespace System.Collections.ObjectModel
     using System.Text;
 
     /// <summary>
-    /// Extension methods for <see cref="ObservableCollection`T"/>.
+    /// Extension methods for <see cref="ObservableCollection{T}"/>.
     /// </summary>
     public static class SrkObservableCollectionExtensions
     {

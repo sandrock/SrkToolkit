@@ -309,6 +309,7 @@ namespace SrkToolkit.Web.Open
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <param name="sections">The sections.</param>
+        /// <param name="indented">if true the generated html will be indented</param>
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
@@ -323,6 +324,8 @@ namespace SrkToolkit.Web.Open
         /// Generates HTML tags into the <see cref="StringBuilder"/>.
         /// </summary>
         /// <param name="sb">The sb.</param>
+        /// <param name="sections">the desires sections</param>
+        /// <param name="indented">if true the generated html will be indented</param>
         public void Write(StringBuilder sb, PageInfoObjectSection sections, bool indented)
         {
             if (sb == null)

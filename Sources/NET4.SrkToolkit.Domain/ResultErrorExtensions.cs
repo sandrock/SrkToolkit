@@ -10,7 +10,7 @@ namespace SrkToolkit.Domain
     using SrkToolkit.Domain.Internals;
 
     /// <summary>
-    /// Extension methods for <see cref="ResultError"/>.
+    /// Extension methods for <see cref="ResultError{TResultCode}"/>.
     /// </summary>
     public static class ResultErrorExtensions
     {

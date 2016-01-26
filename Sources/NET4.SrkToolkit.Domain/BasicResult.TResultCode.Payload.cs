@@ -15,8 +15,6 @@ namespace SrkToolkit.Domain
     public class BasicResult<TResultCode, TData> : BasicResult<TResultCode>
         where TResultCode : struct
     {
-        private IList<ResultError<TResultCode>> errors;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseResult{TRequest, TResultCode}"/> class.
         /// </summary>
@@ -24,11 +22,18 @@ namespace SrkToolkit.Domain
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseResult{TRequest, TResultCode}"/> class.
+        /// </summary>
+        /// <param name="data">The payload.</param>
         public BasicResult(TData data)
         {
             this.Data = data;
         }
 
+        /// <summary>
+        /// Gets or sets the payload.
+        /// </summary>
         [DataMember(IsRequired = false, Order = 3)]
         public TData Data { get; set; }
     }

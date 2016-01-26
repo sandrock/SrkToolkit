@@ -18,6 +18,9 @@ namespace SrkToolkit.Domain
         /// </summary>
         string Code { get; }
 
+        /// <summary>
+        /// Gets or sets an additional information.
+        /// </summary>
         string Detail { get; }
     }
 }

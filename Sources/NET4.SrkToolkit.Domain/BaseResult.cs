@@ -19,6 +19,9 @@ namespace SrkToolkit.Domain
         private TRequest request;
         private IList<ResultError<TResultCode>> errors;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseResult{TRequest, TResultCode}"/> class.
+        /// </summary>
         public BaseResult()
         {
         }

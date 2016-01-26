@@ -35,6 +35,9 @@ namespace SrkToolkit.Domain
         [DataMember(IsRequired = false, Order = 1)]
         public string DisplayMessage { get; set; }
 
+        /// <summary>
+        /// Gets or sets an additional information.
+        /// </summary>
         [DataMember(IsRequired = false, Order = 2)]
         public string Detail { get; set; }
 

@@ -10,7 +10,7 @@
     <iconUrl>https://raw.githubusercontent.com/sandrock/SrkToolkit/master/Sources/logo-200.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SrkToolkit.Domain is used in your domain layer to provider RPC-style request and result classes.</description>
-    <releaseNotes>Added Error.Detail in results.</releaseNotes>
+    <releaseNotes>Make requests and results serializable.</releaseNotes>
     <copyright>LGPL v3</copyright>
     <tags>domain SrkToolkit</tags>
   </metadata>

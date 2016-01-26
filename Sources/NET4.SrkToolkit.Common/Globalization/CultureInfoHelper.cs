@@ -25,7 +25,7 @@ namespace SrkToolkit.Globalization
                 return countriesCache[CultureInfo.CurrentCulture];
 
             var list = new List<Tuple<RegionInfo, CultureInfo>>();
-            var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures);
+            var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures & ~CultureTypes.SpecificCultures);
             foreach (var culture in cultures)
             {
                 if (!culture.IsNeutralCulture && culture.LCID != 0x7F)
@@ -41,7 +41,12 @@ namespace SrkToolkit.Globalization
                         }
                         else
                         {
-                            if (!inList.Item2.Name.StartsWith("en") && culture.Name.StartsWith("en"))
+                            var bestCultureNameMatch = region.Name + "-" + region.Name;
+                            if (!inList.Item2.Name.Equals(bestCultureNameMatch, StringComparison.OrdinalIgnoreCase) && culture.Name.Equals(bestCultureNameMatch, StringComparison.OrdinalIgnoreCase))
+                            {
+                                list[index] = new Tuple<RegionInfo, CultureInfo>(region, culture);
+                            }
+                            else if (!inList.Item2.Name.StartsWith("en") && culture.Name.StartsWith("en"))
                             {
                                 list[index] = new Tuple<RegionInfo, CultureInfo>(region, culture);
                             }

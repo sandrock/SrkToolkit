@@ -52,7 +52,7 @@ namespace SrkToolkit.Common.Tests
                 Assert.AreEqual(nativeName, match.NativeName);
             }
 
-            [TestMethod, Ignore] // something is wrong
+            [TestMethod] // something is wrong
             public void HasChina()
             {
                 string englishName = "China";
@@ -61,7 +61,7 @@ namespace SrkToolkit.Common.Tests
                 Assert.IsNotNull(match);
             }
 
-            [TestMethod, Ignore] // something is wrong
+            [TestMethod] // something is wrong
             public void HasChina2()
             {
                 string nativeName = "ཀྲུང་ཧྭ་མི་དམངས་སྤྱི་མཐུན་རྒྱལ་ཁབ";

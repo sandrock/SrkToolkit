@@ -1,14 +1,16 @@
 ﻿
 namespace SrkToolkit.Domain
 {
+    using SrkToolkit.Domain.Internals;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Allows a domain request to be validated before processing.
     /// </summary>
+    [DataContract(Namespace = Names.DataContractNamespace)]
     public class BaseRequest
     {
         private Dictionary<string, List<string>> validationErrors;
@@ -24,6 +26,7 @@ namespace SrkToolkit.Domain
         /// <summary>
         /// Gets all validation errors.
         /// </summary>
+        [IgnoreDataMember]
         public IEnumerable<string> AllValidationErrors
         {
             get
@@ -37,6 +40,7 @@ namespace SrkToolkit.Domain
         /// <summary>
         /// Gets the validation errors grouped by property.
         /// </summary>
+        [IgnoreDataMember]
         public IEnumerable<KeyValuePair<string, IEnumerable<string>>> ValidationErrors
         {
             get
@@ -53,15 +57,18 @@ namespace SrkToolkit.Domain
         /// <summary>
         /// Gets the validation error list.
         /// </summary>
+        [DataMember]
         protected Dictionary<string, List<string>> ValidationErrorList
         {
             get { return this.validationErrors ?? (this.validationErrors = new Dictionary<string, List<string>>()); }
+            set { }
         }
 
         /// <summary>
         /// Indicates whether the model is valid.
         /// Will execute validation if it has not occured.
         /// </summary>
+        [DataMember]
         public bool IsValid
         {
             get
@@ -70,6 +77,7 @@ namespace SrkToolkit.Domain
                     Validate();
                 return validated.Value;
             }
+            set { }
         }
 
         /// <summary>

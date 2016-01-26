@@ -43,6 +43,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +61,7 @@
     <Compile Include="BasicResultExtensions.cs" />
     <Compile Include="BasicResult.TResultCode.Payload.cs" />
     <Compile Include="IBaseResult.cs" />
+    <Compile Include="Internals\Names.cs" />
     <Compile Include="IResultError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultError.cs" />

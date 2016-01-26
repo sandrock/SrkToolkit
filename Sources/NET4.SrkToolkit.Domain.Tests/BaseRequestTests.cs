@@ -1,13 +1,15 @@
 ﻿
 namespace SrkToolkit.Domain.Tests
 {
-    using System;
-    using System.Text;
-    using System.Collections.Generic;
-    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using SrkToolkit.Domain;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime.Serialization.Json;
 
+    [TestClass]
     public class BaseRequestTests
     {
         [TestClass]
@@ -59,8 +61,26 @@ namespace SrkToolkit.Domain.Tests
             }
         }
 
+        [TestClass]
+        public class Serialization
+        {
+            [TestMethod]
+            public void DataContractJsonSerializerSerializesAllProperties()
+            {
+                var target = new Request1();
+                target.Id = "42";
+                var serializer = new DataContractJsonSerializer(typeof(Request1));
+                var stream = new MemoryStream();
+                serializer.WriteObject(stream, target);
+                stream.Seek(0L, SeekOrigin.Begin);
+                var unserialized = (Request1)serializer.ReadObject(stream);
+                Assert.AreEqual(target.Id, unserialized.Id);
+            }
+        }
+
         public class Request1 : BaseRequest
         {
+            public string Id { get; set; }
         }
     }
 }

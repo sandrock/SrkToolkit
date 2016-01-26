@@ -1,22 +1,27 @@
 ﻿
 namespace SrkToolkit.Domain
 {
+    using SrkToolkit.Domain.Internals;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Result for a domain request.
     /// Incudes a request store, a code-based error list and a success boolean.
     /// </summary>
+    [DataContract(Namespace = Names.DataContractNamespace)]
     public class BaseResult<TRequest, TResultCode> : IBaseResult
         where TRequest : class
         where TResultCode : struct
     {
-        private readonly TRequest request;
-
+        private TRequest request;
         private IList<ResultError<TResultCode>> errors;
+
+        public BaseResult()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseResult{TRequest, TResultCode}"/> class.
@@ -30,22 +35,27 @@ namespace SrkToolkit.Domain
         /// <summary>
         /// Gets the request.
         /// </summary>
+        [DataMember(IsRequired = false, Order = 2)]
         public TRequest Request
         {
             get { return this.request; }
+            set { this.request = value; }
         }
 
         /// <summary>
         /// Gets the errors.
         /// </summary>
+        [DataMember(IsRequired = false, Order = 1)]
         public IList<ResultError<TResultCode>> Errors
         {
             get { return this.errors ?? (this.errors = new List<ResultError<TResultCode>>()); }
+            set { this.errors = value; }
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether the operation succeeded.
         /// </summary>
+        [DataMember(IsRequired = false, Order = 0)]
         public bool Succeed { get; set; }
 
         /// <summary>

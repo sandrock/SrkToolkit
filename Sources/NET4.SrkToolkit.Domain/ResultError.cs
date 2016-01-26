@@ -6,8 +6,8 @@ namespace SrkToolkit.Domain
     using System.Globalization;
     using System.Linq;
     using System.Resources;
-    using System.Text;
     using SrkToolkit.Domain.Internals;
+    using System.Runtime.Serialization;
     
     /// <summary>
     /// A rich error identified by a code.
@@ -17,9 +17,17 @@ namespace SrkToolkit.Domain
     /// In your resource file, index you value using &lt;EnumTypeName&gt;_&lt;EnumKey&gt;
     /// </remarks>
     /// <typeparam name="TEnum"></typeparam>
+    [DataContract(Namespace = Names.DataContractNamespace)]
     public class ResultError<TEnum> : IResultError
         where TEnum : struct
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResultError{TEnum}"/> class.
+        /// </summary>
+        public ResultError()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ResultError{TEnum}"/> class.
         /// </summary>
@@ -94,16 +102,19 @@ namespace SrkToolkit.Domain
         /// <summary>
         /// Gets or sets the error code.
         /// </summary>
+        [DataMember(IsRequired = false, Order = 0)]
         public TEnum Code { get; set; }
 
         /// <summary>
         /// Gets or sets the display message.
         /// </summary>
+        [DataMember(IsRequired = false, Order = 1)]
         public string DisplayMessage { get; set; }
 
         /// <summary>
         /// Gets or sets an optional error detail.
         /// </summary>
+        [DataMember(IsRequired = false, Order = 2)]
         public string Detail { get; set; }
 
         string IResultError.DisplayMessage

@@ -334,7 +334,7 @@ namespace SrkToolkit.Services.Storage
                     IsolatedStorageFileStream fileStream = null;
                     try
                     {
-                        fileStream = store.OpenFile(filePath, FileMode.Create, FileAccess.Read, FileShare.None);
+                        fileStream = store.OpenFile(filePath, FileMode.Open, FileAccess.Read, FileShare.None);
                         //service = ser.Deserialize(fileStream) as T;
                         obj = ser.ReadObject(fileStream) as TObject;
                     }

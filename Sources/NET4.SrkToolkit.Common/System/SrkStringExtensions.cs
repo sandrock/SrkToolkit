@@ -111,6 +111,10 @@ namespace System
                     break;
 
                 case StringComparison.OrdinalIgnoreCase:
+                    culture = CultureInfo.InvariantCulture;
+                    options = CompareOptions.IgnoreCase;
+                    break;
+
                 default:
                     throw new ArgumentException("String comparison " + comparisonType + " is not supported");
             }

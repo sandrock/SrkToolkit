@@ -51,6 +51,26 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
+        /// Determines whether the HTTP method is GET.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static bool IsHttpGetRequest(this HttpRequest request)
+        {
+            return "GET".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Determines whether the HTTP method is GET.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static bool IsHttpGetRequest(this HttpRequestBase request)
+        {
+            return "GET".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
         /// Determines whether the HTTP method is POST.
         /// </summary>
         /// <param name="request">The request.</param>

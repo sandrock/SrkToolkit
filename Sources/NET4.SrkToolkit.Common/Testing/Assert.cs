@@ -155,7 +155,7 @@ namespace SrkToolkit.Testing
             }
             else
             {
-                string msg = "Searched string was not found";
+                string msg = "Searched string <" + search.TrimToLength(80) + "> was not found.";
                 throw new ArgumentException(msg);
             }
         }

@@ -145,6 +145,22 @@ namespace SrkToolkit.Common.Tests
             }
 
             [TestMethod]
+            public void DoesNotContain_Ok()
+            {
+                string expected = "ioioioi";
+                string actual = "xxxTyuhn/*yyy";
+                try
+                {
+                    SrkToolkit.Testing.Assert.Contains(expected, actual);
+                    Assert.Fail("Expected exception");
+                }
+                catch (ArgumentException ex)
+                {
+                    Assert.AreEqual("Searched string <"+expected+"> was not found.", ex.Message);
+                }
+            }
+
+            [TestMethod]
             public void PartialContains2In3_Longer_Throws()
             {
                 string expected = "rty";

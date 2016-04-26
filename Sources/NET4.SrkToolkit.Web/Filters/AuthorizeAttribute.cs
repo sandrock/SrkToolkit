@@ -10,6 +10,31 @@ namespace SrkToolkit.Web.Filters
     /// </summary>
     public abstract class AuthorizeAttribute : System.Web.Mvc.AuthorizeAttribute
     {
+        private bool authenticateWhenAnonymous = true;
+        private bool authenticateWhenForbiden = false;
+
+        public AuthorizeAttribute()
+        {
+        }
+
+        /// <summary>
+        /// Use a 401 (redirect to authenticate) instead of a 403 when the user is not authenticated. Default is true.
+        /// </summary>
+        public bool AuthenticateWhenAnonymous
+        {
+            get { return this.authenticateWhenAnonymous; }
+            set { this.authenticateWhenAnonymous = value; }
+        }
+
+        /// <summary>
+        /// Use a 401 (redirect to authenticate) instead of a 403 (forbidden) when the user is authenticated. Default is false.
+        /// </summary>
+        public bool AuthenticateWhenForbidden
+        {
+            get { return this.authenticateWhenForbiden; }
+            set { this.authenticateWhenForbiden = value; }
+        }
+
         /// <summary>
         /// Gets the result service (you should inherit from <see cref="ResultService{TErrorController}"/> or <see cref="IResultService"/>).
         /// </summary>
@@ -25,15 +50,33 @@ namespace SrkToolkit.Web.Filters
         {
             if (filterContext != null && filterContext.HttpContext != null && filterContext.HttpContext.User != null && filterContext.HttpContext.User.Identity != null && filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                // if authenticated, display a forbidden page
-                filterContext.Result = new HttpStatusCodeResult(403, "Forbidden");
-                var resultService = this.GetResultService(filterContext.HttpContext);
-                resultService.Forbidden();
+                if (this.authenticateWhenForbiden)
+                {
+                    // if authenticated, invite to login using the default behavior
+                    base.HandleUnauthorizedRequest(filterContext);
+                }
+                else
+                {
+                    // if authenticated, display a forbidden page
+                    filterContext.Result = new HttpStatusCodeResult(403, "Forbidden");
+                    var resultService = this.GetResultService(filterContext.HttpContext);
+                    resultService.Forbidden();
+                }
             }
             else
             {
-                // if not authenticated, invite to login using the default behavior
-                base.HandleUnauthorizedRequest(filterContext);
+                if (this.authenticateWhenAnonymous)
+                {
+                    // if not authenticated, invite to login using the default behavior
+                    base.HandleUnauthorizedRequest(filterContext);
+                }
+                else
+                {
+                    // if not authenticated, display a forbidden page
+                    filterContext.Result = new HttpStatusCodeResult(403, "Forbidden");
+                    var resultService = this.GetResultService(filterContext.HttpContext);
+                    resultService.Forbidden();
+                }
             }
         }
     }

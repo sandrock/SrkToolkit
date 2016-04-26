@@ -125,25 +125,19 @@ namespace SrkToolkit.Common.Tests
         }
 
         [TestClass]
-        public class ContainsAny
+        public class ContainsAnyStrings
         {
             [TestMethod, ExpectedException(typeof(ArgumentNullException))]
             public void ThrowsIfArg0IsNull()
             {
-                SrkStringExtensions.ContainsAny(null, new string[0], StringComparison.CurrentCulture);
-            }
-
-            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-            public void ThrowsIfArg1IsNull()
-            {
-                SrkStringExtensions.ContainsAny(string.Empty, null, StringComparison.CurrentCulture);
+                SrkStringExtensions.ContainsAny(null, StringComparison.CurrentCulture, new string[0]);
             }
 
             [TestMethod]
             public void FalseIsSourceIsEmpty()
             {
                 string source = string.Empty;
-                bool result = SrkStringExtensions.ContainsAny(source, new string[] { string.Empty, }, StringComparison.CurrentCulture);
+                bool result = SrkStringExtensions.ContainsAny(source, StringComparison.CurrentCulture, new string[] { string.Empty, });
                 Assert.IsFalse(result);
             }
 
@@ -152,7 +146,7 @@ namespace SrkToolkit.Common.Tests
             {
                 string source = "hello world";
                 var values = new string[] { "hello", "guys", };
-                bool result = SrkStringExtensions.ContainsAny(source, values, StringComparison.InvariantCulture);
+                bool result = SrkStringExtensions.ContainsAny(source, StringComparison.InvariantCulture, values);
                 Assert.IsTrue(result);
             }
 
@@ -161,7 +155,7 @@ namespace SrkToolkit.Common.Tests
             {
                 string source = "hello world";
                 var values = new string[] { "bye", "world", };
-                bool result = SrkStringExtensions.ContainsAny(source, values, StringComparison.InvariantCulture);
+                bool result = SrkStringExtensions.ContainsAny(source, StringComparison.InvariantCulture, values);
                 Assert.IsTrue(result);
             }
 
@@ -170,7 +164,7 @@ namespace SrkToolkit.Common.Tests
             {
                 string source = "Hello World";
                 var values = new string[] { "hello", "guys", };
-                bool result = SrkStringExtensions.ContainsAny(source, values, StringComparison.InvariantCulture);
+                bool result = SrkStringExtensions.ContainsAny(source, StringComparison.InvariantCulture, values);
                 Assert.IsFalse(result);
             }
 
@@ -179,7 +173,61 @@ namespace SrkToolkit.Common.Tests
             {
                 string source = "Hello World";
                 var values = new string[] { "hello", "guys", };
-                bool result = SrkStringExtensions.ContainsAny(source, values, StringComparison.InvariantCultureIgnoreCase);
+                bool result = SrkStringExtensions.ContainsAny(source, StringComparison.InvariantCultureIgnoreCase, values);
+                Assert.IsTrue(result);
+            }
+        }
+
+        [TestClass]
+        public class ContainsAnyChars
+        {
+            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            public void ThrowsIfArg0IsNull()
+            {
+                SrkStringExtensions.ContainsAny(null, StringComparison.CurrentCulture, new char[0]);
+            }
+
+            [TestMethod]
+            public void Finds1()
+            {
+                string source = "hello world";
+                var values = new char[] { 'h', 'x', };
+                bool result = SrkStringExtensions.ContainsAny(source, StringComparison.InvariantCulture, values);
+                Assert.IsTrue(result);
+            }
+
+            [TestMethod]
+            public void Finds1_Params()
+            {
+                string source = "hello world";
+                bool result = SrkStringExtensions.ContainsAny(source, StringComparison.InvariantCulture, 'h', 'x');
+                Assert.IsTrue(result);
+            }
+
+            [TestMethod]
+            public void Finds2()
+            {
+                string source = "hello world";
+                var values = new char[] { 'x', 'w', };
+                bool result = SrkStringExtensions.ContainsAny(source, StringComparison.InvariantCulture, values);
+                Assert.IsTrue(result);
+            }
+
+            [TestMethod]
+            public void Finds1CaseMatch()
+            {
+                string source = "Hello World";
+                var values = new char[] { 'h', 'w', };
+                bool result = SrkStringExtensions.ContainsAny(source, StringComparison.InvariantCulture, values);
+                Assert.IsFalse(result);
+            }
+
+            [TestMethod]
+            public void Finds1CaseIgnore()
+            {
+                string source = "Hello World";
+                var values = new char[] { 'h', 'x', };
+                bool result = SrkStringExtensions.ContainsAny(source, StringComparison.InvariantCultureIgnoreCase, values);
                 Assert.IsTrue(result);
             }
         }

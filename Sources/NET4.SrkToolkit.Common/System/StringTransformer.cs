@@ -772,6 +772,92 @@ namespace System
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Remove dedundant spaces from a string, preserving line breaks.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string SimplifySpaces(this string input)
+        {
+            return SimplifySpaces(input, true);
+        }
+
+        /// <summary>
+        /// Remove dedundant spaces from a string.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="inline">if true preserve line breaks</param>
+        /// <returns></returns>
+        public static string SimplifySpaces(this string input, bool inline)
+        {
+            if (input == null)
+                return null;
+
+            var sb = new StringBuilder(input.Length);
+            bool isStarting = true;
+            bool isSimplifying = false;
+            for (int i = 0; i < input.Length; i++)
+            {
+                var c = input[i];
+                var cat = CharUnicodeInfo.GetUnicodeCategory(c);
+
+                if (c == '\r' || c == '\n' || cat == UnicodeCategory.LineSeparator || cat == UnicodeCategory.ParagraphSeparator)
+                {
+                    if (isStarting)
+                    {
+                        // this is equivalent to TrimLeft()
+                    }
+                    else
+                    {
+                        isStarting = true;
+                        if (!isSimplifying)
+                        {
+                            isSimplifying = true;
+                            sb.Append(input[i]);
+                        }
+                        else if (inline)
+                        {
+                            isStarting = false;
+                            sb.Append(input[i]);
+                        }
+                        else
+                        {
+                            // skip extra spaces
+                        }
+                    }
+                }
+                else if (cat == UnicodeCategory.Control || cat == UnicodeCategory.SpaceSeparator)
+                {
+                    if (isStarting)
+                    {
+                        // this is equivalent to TrimLeft()
+                    }
+                    else
+                    {
+                        isStarting = false;
+                        if (!isSimplifying)
+                        {
+                            isSimplifying = true;
+                            sb.Append(input[i]);
+                        }
+                        else
+                        {
+                            // skip extra spaces
+                        }
+                    }
+                }
+                else
+                {
+                    isStarting = false;
+                    isSimplifying = false;
+                    sb.Append(input[i]);
+                }
+            }
+
+            return sb.ToString();
+        }
+
         /*
          * this is wrong
          * https://en.wikipedia.org/wiki/UTF8#Description

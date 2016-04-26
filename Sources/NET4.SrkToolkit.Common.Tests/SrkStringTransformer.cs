@@ -1038,5 +1038,27 @@ p3</p>";
             }
         }
         */
+
+        [TestClass]
+        public class SimplifySpacesMethod
+        {
+            [TestMethod]
+            public void ModeInline_MultiSpaces_FirstCharBecomesOnlyChar()
+            {
+                string input = "  a   b  \t\r\nc\t\t  d\t \t";
+                string expected = "a b \r\nc\td\t";
+                string result = SrkStringTransformer.SimplifySpaces(input, true);
+                SrkToolkit.Testing.Assert.AreEqual(expected, result);
+            }
+
+            [TestMethod]
+            public void ModeFull_MultiSpaces_FirstCharBecomesOnlyChar()
+            {
+                string input = "   a   b  \t\r\nc\t\t  d\t \t";
+                string expected = "a b c\td\t";
+                string result = SrkStringTransformer.SimplifySpaces(input, false);
+                SrkToolkit.Testing.Assert.AreEqual(expected, result);
+            }
+        }
     }
 }

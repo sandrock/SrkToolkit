@@ -6,6 +6,7 @@ namespace SrkToolkit.Web
     using System.Linq;
     using System.Text;
     using System.Web;
+    using System.Web.Hosting;
     using System.Web.Mvc;
 
     /// <summary>
@@ -13,7 +14,7 @@ namespace SrkToolkit.Web
     /// </summary>
     public class WebDependencies
     {
-        private List<Tuple<WebDependency, WebDependencyPosition>> includes;
+        protected List<Tuple<WebDependency, WebDependencyPosition>> includes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WebDependencies"/> class.
@@ -102,19 +103,30 @@ namespace SrkToolkit.Web
             return MvcHtmlString.Create(sb.ToString());
         }
 
-        private static void RenderDependency(WebDependencyFile value, StringBuilder sb)
+        protected static void RenderDependency(WebDependencyFile value, StringBuilder sb)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
             if (sb == null)
                 throw new ArgumentNullException("sb");
 
+            var webPath = value.Path;
+            if (webPath != null && webPath.Length >= 2)
+            {
+                if (webPath[0].Equals('~') && webPath[1].Equals('/'))
+                {
+                    var virtualPath = HostingEnvironment.ApplicationVirtualPath ?? "/"; // Root:"/", Subfolder:"/a/b"
+                    webPath = virtualPath + webPath.Substring(1); // Root:"//Content/Site.css", Subfolder:"/a/b/Content/Site.css"
+                    webPath = "/" + webPath.TrimStart('/'); // Root:"/Content/Site.css", Subfolder:"/a/b/Content/Site.css"
+                }
+            }
+
             switch (value.Type)
             {
                 case WebDependencyFileType.Javascript:
                     var tag = new TagBuilder("script");
                     tag.Attributes.Add("type", "text/javascript");
-                    tag.Attributes.Add("src", value.Path);
+                    tag.Attributes.Add("src", webPath);
                     if (value.Encoding != null)
                     {
                         tag.Attributes.Add("charset", value.Encoding.WebName);
@@ -132,7 +144,7 @@ namespace SrkToolkit.Web
                     tag = new TagBuilder("link");
                     tag.Attributes.Add("rel", "stylesheet");
                     tag.Attributes.Add("type", "text/css");
-                    tag.Attributes.Add("href", value.Path);
+                    tag.Attributes.Add("href", webPath);
                     if (value.Encoding != null)
                     {
                         tag.Attributes.Add("charset", value.Encoding.WebName);

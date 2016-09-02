@@ -4,7 +4,6 @@ namespace System.Collections
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Extension methods for the <see cref="IDictionary"/> interface.

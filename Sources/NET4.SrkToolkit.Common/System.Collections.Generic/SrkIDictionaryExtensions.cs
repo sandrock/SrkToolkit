@@ -5,7 +5,7 @@ namespace System.Collections.Generic
     using System.Collections.Generic;
     using System.Linq;
 
-    public static class SrkIDictionaryExtensions
+    public static class SrkIDictionaryGenericExtensions
     {
         /// <summary>
         /// Gets a value or null. Does not throw KeyNotFoundException.

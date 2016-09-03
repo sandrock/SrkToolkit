@@ -24,21 +24,21 @@ if not exist %nuget% (
  echo ERROR: nuget could not be found, verify path. exiting.
  echo Configured as: %nuget%
  pause
- exit
+ goto end
 )
 
 if not exist %msbuild4% (
  echo ERROR: msbuild 4 could not be found, verify path. exiting.
  echo Configured as: %msbuild4%
  pause
- exit
+ goto end
 )
 
 if not exist %vincrement% (
  echo ERROR: vincrement could not be found, verify path. exiting.
  echo Configured as: %vincrement%
  pause
- exit
+ goto end
 )
 
 echo Everything is fine.
@@ -52,7 +52,7 @@ REM  rmdir /s /q lib
 REM  if not %ERRORLEVEL% == 0 (
 REM   echo ERROR: clean failed. exiting.
 REM   pause
-REM   exit
+REM   goto end
 REM  )
 REM )
 REM echo Done.
@@ -65,13 +65,13 @@ echo -----------------------------
 cd ..
 cd Sources
 set solutionDirectory=%CD%
-%msbuild4% "SrkToolkit - VS11.sln" /p:Configuration=Release /nologo /verbosity:q
+REM %msbuild4% "SrkToolkit - VS11.sln" /p:Configuration=Release /nologo /verbosity:q
 
 if not %ERRORLEVEL% == 0 (
  echo ERROR: build failed. exiting.
  cd %currentDirectory%
  pause
- exit
+ goto end
 )
 echo Done.
 
@@ -80,49 +80,51 @@ echo Copy libs
 echo -----------------------------
 cd %currentDirectory%
 cd ..
+
 mkdir %outputDirectory%\SrkToolkit.Common
 mkdir %outputDirectory%\SrkToolkit.Common\lib
 mkdir %outputDirectory%\SrkToolkit.Common\lib\net40
 xcopy /Q /Y Binaries\NET4\SrkToolkit.Common.dll %outputDirectory%\SrkToolkit.Common\lib\net40
-xcopy /Q /Y Binaries\NET4\SrkToolkit.Common.pdb %outputDirectory%\SrkToolkit.Common\lib\net40
 xcopy /Q /Y Binaries\NET4\SrkToolkit.Common.xml %outputDirectory%\SrkToolkit.Common\lib\net40
 mkdir %outputDirectory%\SrkToolkit.Common\lib\net40\fr
-xcopy /Q /Y Binaries\NET4\\frSrkToolkit.Common.* %outputDirectory%\SrkToolkit.Common\lib\net40\fr
+xcopy /Q /Y Binaries\NET4\fr\SrkToolkit.Common.* %outputDirectory%\SrkToolkit.Common\lib\net40\fr
 mkdir %outputDirectory%\SrkToolkit.Common\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Common.dll %outputDirectory%\SrkToolkit.Common\lib\net45
-xcopy /Q /Y Binaries\NET45\SrkToolkit.Common.pdb %outputDirectory%\SrkToolkit.Common\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Common.xml %outputDirectory%\SrkToolkit.Common\lib\net45
 mkdir %outputDirectory%\SrkToolkit.Common\lib\net45\fr
-xcopy /Q /Y Binaries\NET45\\frSrkToolkit.Common.* %outputDirectory%\SrkToolkit.Common\lib\net45\fr
+xcopy /Q /Y Binaries\NET45\fr\SrkToolkit.Common.* %outputDirectory%\SrkToolkit.Common\lib\net45\fr
+
 mkdir %outputDirectory%\SrkToolkit.Web.AspMvc4\
 mkdir %outputDirectory%\SrkToolkit.Web.AspMvc4\lib
 mkdir %outputDirectory%\SrkToolkit.Web.AspMvc4\lib\net45
-xcopy /Q /Y Binaries\NET45\SrkToolkit.Web.Mvc4.* %outputDirectory%\SrkToolkit.Web.AspMvc4\lib\net45
+xcopy /Q /Y Binaries\NET45\SrkToolkit.Web.Mvc4.dll %outputDirectory%\SrkToolkit.Web.AspMvc4\lib\net45
+xcopy /Q /Y Binaries\NET45\SrkToolkit.Web.Mvc4.xml %outputDirectory%\SrkToolkit.Web.AspMvc4\lib\net45
+
 mkdir %outputDirectory%\SrkToolkit.Web.AspMvc5\
 mkdir %outputDirectory%\SrkToolkit.Web.AspMvc5\lib
 mkdir %outputDirectory%\SrkToolkit.Web.AspMvc5\lib\net45
-xcopy /Q /Y Binaries\NET45\SrkToolkit.Web.Mvc5.* %outputDirectory%\SrkToolkit.Web.AspMvc5\lib\net45
+xcopy /Q /Y Binaries\NET45\SrkToolkit.Web.Mvc5.dll %outputDirectory%\SrkToolkit.Web.AspMvc5\lib\net45
+xcopy /Q /Y Binaries\NET45\SrkToolkit.Web.Mvc5.xml %outputDirectory%\SrkToolkit.Web.AspMvc5\lib\net45
+
 mkdir %outputDirectory%\SrkToolkit.Domain\
 mkdir %outputDirectory%\SrkToolkit.Domain\lib
 mkdir %outputDirectory%\SrkToolkit.Domain\lib\net40
 xcopy /Q /Y Binaries\NET4\SrkToolkit.Domain.dll %outputDirectory%\SrkToolkit.Domain\lib\net40
-xcopy /Q /Y Binaries\NET4\SrkToolkit.Domain.pdb %outputDirectory%\SrkToolkit.Domain\lib\net40
 xcopy /Q /Y Binaries\NET4\SrkToolkit.Domain.xml %outputDirectory%\SrkToolkit.Domain\lib\net40
 mkdir %outputDirectory%\SrkToolkit.Domain\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.dll %outputDirectory%\SrkToolkit.Domain\lib\net45
-xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.pdb %outputDirectory%\SrkToolkit.Domain\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.xml %outputDirectory%\SrkToolkit.Domain\lib\net45
+
 mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc4\
 mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc4\lib
 mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc4\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc4.dll %outputDirectory%\SrkToolkit.Domain.AspMvc4\lib\net45
-xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc4.pdb %outputDirectory%\SrkToolkit.Domain.AspMvc4\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc4.xml %outputDirectory%\SrkToolkit.Domain.AspMvc4\lib\net45
+
 mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc5\
 mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc5\lib
 mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc5\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc5.dll %outputDirectory%\SrkToolkit.Domain.AspMvc5\lib\net45
-xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc5.pdb %outputDirectory%\SrkToolkit.Domain.AspMvc5\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.AspMvc5.xml %outputDirectory%\SrkToolkit.Domain.AspMvc5\lib\net45
 echo Done.
 
@@ -140,7 +142,7 @@ if not %ERRORLEVEL% == 0 (
  echo ERROR: vincrement. exiting.
  cd %currentDirectory%
  pause
- exit
+ goto end
 )
 set /p version=<%outputDirectory%\version.txt
 echo Done: %version%
@@ -182,11 +184,11 @@ cd %outputDirectory%
 echo Done.
 
 
+pause
 
-
+:end
 
 cd %currentDirectory%
-pause
 
 
 

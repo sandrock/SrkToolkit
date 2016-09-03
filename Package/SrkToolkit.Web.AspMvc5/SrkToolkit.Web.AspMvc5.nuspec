@@ -10,7 +10,8 @@
     <iconUrl>https://raw.githubusercontent.com/sandrock/SrkToolkit/master/Sources/logo-200.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SrkToolkit.Web.AspMvc5 is a bunch of extensions and tools to use with your ASP MVC project.</description>
-    <releaseNotes>MVC 5 compatibility (again).</releaseNotes>
+    <releaseNotes>Make WebDependency use relative site URLs (~/).
+Remove .pdb files from build.</releaseNotes>
     <copyright>LGPL v3</copyright>
     <tags>AspMvc Mvc5 SrkToolkit Html</tags>
     <dependencies>

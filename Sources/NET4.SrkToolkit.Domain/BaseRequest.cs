@@ -65,7 +65,7 @@ namespace SrkToolkit.Domain
         }
 
         /// <summary>
-        /// Indicates whether the model is valid.
+        /// Indicates whether the request is valid.
         /// Will execute validation if it has not occured.
         /// </summary>
         [DataMember]
@@ -73,9 +73,9 @@ namespace SrkToolkit.Domain
         {
             get
             {
-                if (!validated.HasValue)
-                    Validate();
-                return validated.Value;
+                if (!this.validated.HasValue)
+                    this.Validate();
+                return this.validated.Value;
             }
             set { }
         }
@@ -136,7 +136,7 @@ namespace SrkToolkit.Domain
             if (message == null)
                 throw new ArgumentNullException("message");
 
-            AddValidationError(string.Empty, message);
+            this.AddValidationError(string.Empty, message);
         }
 
         /// <summary>

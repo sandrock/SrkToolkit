@@ -202,9 +202,11 @@ logo-work.svg
 Binaries/
 Package/SrkToolkit.Common/
 Package/SrkToolkit.Domain/
+Package/SrkToolkit.Web.AspMvc4/
+Package/SrkToolkit.Web.AspMvc5/
 Package/SrkToolkit.Domain.AspMvc4/
+Package/SrkToolkit.Domain.AspMvc5/
 Package/SrkToolkit.Web.AspMvc4/
 Package/*.nupkg
-Package/SrkToolkit.Domain.AspMvc5/
 
 tools/NuGet.exe

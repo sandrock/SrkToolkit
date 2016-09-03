@@ -6,7 +6,6 @@ namespace SrkToolkit.DataAnnotations
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using System.Linq;
-    using System.Text;
     using SrkToolkit.Resources;
 
     /// <summary>

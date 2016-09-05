@@ -7,17 +7,6 @@ namespace System.Diagnostics
     public static class StopwatchExtensions
     {
         /// <summary>
-        /// Starts the <see cref="Stopwatch"/> and returns it for fluent usage.
-        /// </summary>
-        /// <param name="watch"></param>
-        /// <returns>the input <see cref="Stopwatch"/></returns>
-        public static Stopwatch StartFluent(this Stopwatch watch)
-        {
-            watch.Start();
-            return watch;
-        }
-
-        /// <summary>
         /// Restarts and returns the elapsed time.
         /// </summary>
         /// <param name="watch"></param>

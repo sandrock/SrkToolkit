@@ -6,12 +6,14 @@
 
 namespace SrkToolkit.Common.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Collections;
+    using CSrkIDictionaryExtensions = System.Collections.SrkIDictionaryExtensions;
+    using GSrkIDictionaryExtensions = System.Collections.Generic.SrkIDictionaryExtensions;
 
     public class SrkIDictionaryExtensionsTests
     {
@@ -19,36 +21,67 @@ namespace SrkToolkit.Common.Tests
         public class GetValueMethod
         {
             [TestMethod]
-            public void ReturnsStoredValue()
+            public void NonGeneric_ReturnsStoredValue()
             {
                 var value = new object();
                 var key = "key";
-                var dictionary = new Dictionary<string, object>();
+                IDictionary dictionary = new Dictionary<string, object>();
                 dictionary.Add(key, value);
-                var result = SrkIDictionaryExtensions.GetValue<object>(dictionary, key, () => null, true);
+                var result = CSrkIDictionaryExtensions.GetValue<object>(dictionary, key, () => null, true);
                 Assert.IsTrue(object.ReferenceEquals(result, value));
             }
 
             [TestMethod]
-            public void GeneratesValue()
+            public void NonGeneric_GeneratesValue()
             {
                 var value = new object();
                 var key = "key";
-                var dictionary = new Dictionary<string, object>();
-                var result = SrkIDictionaryExtensions.GetValue<object>(dictionary, key, () => value, true);
+                IDictionary dictionary = new Dictionary<string, object>();
+                var result = CSrkIDictionaryExtensions.GetValue<object>(dictionary, key, () => value, true);
                 Assert.IsTrue(object.ReferenceEquals(result, value));
             }
 
             [TestMethod]
-            public void GeneratedValueIsStored()
+            public void NonGeneric_GeneratedValueIsStored()
             {
                 var value = new object();
                 var key = "key";
-                var dictionary = new Dictionary<string, object>();
-                var result1 = SrkIDictionaryExtensions.GetValue<object>(dictionary, key, () => value, true);
-                var result2 = SrkIDictionaryExtensions.GetValue<object>(dictionary, key, () => null, true);
+                IDictionary dictionary = new Dictionary<string, object>();
+                var result1 = CSrkIDictionaryExtensions.GetValue<object>(dictionary, key, () => value, true);
+                var result2 = CSrkIDictionaryExtensions.GetValue<object>(dictionary, key, () => null, true);
                 Assert.IsTrue(object.ReferenceEquals(result1, value));
                 Assert.IsTrue(object.ReferenceEquals(result2, value));
+            }
+
+            [TestMethod]
+            public void Generic_ReturnsStoredValue()
+            {
+                var value = new object();
+                var key = "key";
+                IDictionary<string, object> dictionary = new Dictionary<string, object>();
+                dictionary.Add(key, value);
+                var result = GSrkIDictionaryExtensions.GetValue(dictionary, key);
+                Assert.AreSame(value, result);
+            }
+
+            [TestMethod]
+            public void Generic_KeyNotFound_ReturnsNull()
+            {
+                var key = "key";
+                IDictionary<string, object> dictionary = new Dictionary<string, object>();
+                var result = GSrkIDictionaryExtensions.GetValue(dictionary, key);
+                Assert.IsNull(result);
+            }
+
+            [TestMethod]
+            public void Generic_NullValue()
+            {
+                object value = null;
+                var key = "key";
+                IDictionary<string, object> dictionary = new Dictionary<string, object>();
+                dictionary.Add(key, value);
+                var result = GSrkIDictionaryExtensions.GetValue(dictionary, key);
+                Assert.IsNull(result);
             }
         }
 
@@ -60,7 +93,7 @@ namespace SrkToolkit.Common.Tests
             {
                 List<TestModel> source = new List<TestModel>();
                 Dictionary<int, object> target = null;
-                target.AddRange(source, s => s.Id, s => s.Name);
+                GSrkIDictionaryExtensions.AddRange(target, source, s => s.Id, s => s.Name);
             }
 
             [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -68,7 +101,7 @@ namespace SrkToolkit.Common.Tests
             {
                 List<TestModel> source = null;
                 var target = new Dictionary<int, object>();
-                target.AddRange(source, s => s.Id, s => s.Name);
+                GSrkIDictionaryExtensions.AddRange(target, source, s => s.Id, s => s.Name);
             }
 
             [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -76,7 +109,7 @@ namespace SrkToolkit.Common.Tests
             {
                 List<TestModel> source = new List<TestModel>();
                 var target = new Dictionary<int, object>();
-                target.AddRange(source, null, s => s.Name);
+                GSrkIDictionaryExtensions.AddRange(target, source, null, s => s.Name);
             }
 
             [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -84,7 +117,7 @@ namespace SrkToolkit.Common.Tests
             {
                 List<TestModel> source = new List<TestModel>();
                 var target = new Dictionary<int, object>();
-                target.AddRange(source, s => s.Id, null);
+                GSrkIDictionaryExtensions.AddRange(target, source, s => s.Id, null);
             }
 
             [TestMethod]
@@ -97,7 +130,7 @@ namespace SrkToolkit.Common.Tests
                     new TestModel() { Id = 3, },
                 };
                 var target = new Dictionary<int, TestModel>();
-                target.AddRange(source, s => s.Id, s => s);
+                GSrkIDictionaryExtensions.AddRange(target, source, s => s.Id, s => s);
 
                 Assert.AreEqual(3, target.Count);
                 Assert.IsTrue(target.ContainsKey(1));
@@ -119,7 +152,7 @@ namespace SrkToolkit.Common.Tests
                 };
                 var target = new Dictionary<int, object>();
                 target.Add(1, new TestModel() { Id = 1, });
-                target.AddRange(source, s => s.Id, s => s);
+                GSrkIDictionaryExtensions.AddRange(target, source, s => s.Id, s => s);
             }
         }
 

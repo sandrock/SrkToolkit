@@ -80,6 +80,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP81.SrkToolkit.Services", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP80.SrkToolkit.Services", "WP80.SrkToolkit.Services\WP80.SrkToolkit.Services.csproj", "{81AFF745-6E02-4AFE-A871-3B86AEED1E1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET45.SrkToolkit.Common.Tests", "NET45.SrkToolkit.Common.Tests\NET45.SrkToolkit.Common.Tests.csproj", "{50AF7833-C345-4F6C-9FB1-36EB176D68E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -396,6 +398,16 @@ Global
 		{81AFF745-6E02-4AFE-A871-3B86AEED1E1B}.Release|x64.ActiveCfg = Release|Any CPU
 		{81AFF745-6E02-4AFE-A871-3B86AEED1E1B}.Release|x86.ActiveCfg = Release|x86
 		{81AFF745-6E02-4AFE-A871-3B86AEED1E1B}.Release|x86.Build.0 = Release|x86
+		{50AF7833-C345-4F6C-9FB1-36EB176D68E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50AF7833-C345-4F6C-9FB1-36EB176D68E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50AF7833-C345-4F6C-9FB1-36EB176D68E1}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{50AF7833-C345-4F6C-9FB1-36EB176D68E1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{50AF7833-C345-4F6C-9FB1-36EB176D68E1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{50AF7833-C345-4F6C-9FB1-36EB176D68E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50AF7833-C345-4F6C-9FB1-36EB176D68E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50AF7833-C345-4F6C-9FB1-36EB176D68E1}.Release|ARM.ActiveCfg = Release|Any CPU
+		{50AF7833-C345-4F6C-9FB1-36EB176D68E1}.Release|x64.ActiveCfg = Release|Any CPU
+		{50AF7833-C345-4F6C-9FB1-36EB176D68E1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -430,6 +442,7 @@ Global
 		{F354D8B6-F293-45ED-AF9B-B746E1232C17} = {559DC157-DDC9-44BA-B25D-0A18E286D1CC}
 		{C54EFA11-B338-4E08-8718-595AEE63BA04} = {B70211DF-4DB4-4D29-842C-1CE527BD1EFC}
 		{81AFF745-6E02-4AFE-A871-3B86AEED1E1B} = {B70211DF-4DB4-4D29-842C-1CE527BD1EFC}
+		{50AF7833-C345-4F6C-9FB1-36EB176D68E1} = {C3406DF1-E92C-4100-BEF9-B49F616E77C5}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SrkToolkit.vsmdi

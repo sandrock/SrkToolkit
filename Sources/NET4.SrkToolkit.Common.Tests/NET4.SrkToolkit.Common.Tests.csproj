@@ -33,13 +33,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>SrkToolkit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Should, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
@@ -72,6 +76,7 @@
     <Compile Include="ObservableCollectionExtensionsTests.cs" />
     <Compile Include="DisaposableOnceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RetryLogicTests.NET4.cs" />
     <Compile Include="SrkArrayExtensionsTests.cs" />
     <Compile Include="SrkDateTimeExtensionsTests.cs" />
     <Compile Include="SrkIDictionaryExtensionsTests.cs" />
@@ -84,6 +89,7 @@
     <Compile Include="ValidateTEsts.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="SrkToolkit.snk" />
   </ItemGroup>
   <ItemGroup>

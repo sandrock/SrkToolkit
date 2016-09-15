@@ -5,26 +5,18 @@ namespace SrkToolkit
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     public static class RetryLogic
     {
-        ////public RetryLogicState State { get; set; }
-
-        ////private RetryLogic(RetryLogicState state)
-        ////{
-        ////    this.State = state;
-        ////}
-
         static public RetryLogicState<TReturn> Do<TReturn>(Func<TReturn> action)
         {
             return new RetryLogicState<TReturn>(action);
         }
 
-        static public RetryLogicState<object> Do(Action action)
+        static public RetryLogicState<Nothing> Do(Action action)
         {
-            return new RetryLogicState<object>(action);
+            return new RetryLogicState<Nothing>(action);
         }
 #if NET45
         static public RetryLogicState<TReturn> DoAsync<TReturn>(Func<Task<TReturn>> action)
@@ -32,16 +24,11 @@ namespace SrkToolkit
             return new RetryLogicState<TReturn>(action);
         }
 
-        static public RetryLogicState<object> DoAsync(Func<Task> action)
+        static public RetryLogicState<Nothing> DoAsync(Func<Task> action)
         {
-            return new RetryLogicState<object>(action);
+            return new RetryLogicState<Nothing>(action);
         }
 #endif
-
-        ////static public RetryLogic Prepare(RetryLogicState state)
-        ////{
-        ////    return new RetryLogic(state);
-        ////}
 
         static public RetryLogicState<Nothing> BeginPrepare()
         {

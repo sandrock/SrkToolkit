@@ -7,8 +7,13 @@
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    public class RetryLogicState
+    public class RetryLogicState<TReturn>
     {
+        private Func<TReturn> actionToExecute;
+        private Func<Task<TReturn>> actionToExecuteAsync;
+
+        private IList<Action<TReturn>> onSuccessCallbacks;
+
         private IList<Type> exceptions;
 
         private int numberOfAttempts;
@@ -16,13 +21,48 @@
         private RetryIntervalStrategy intervalStrategy;
         private int scaleFactor;
         private bool traceRetryEvents;
-        private bool throwIfNotHandled;
+        private bool onFailureContinue;
 
         private IDictionary<Type, Action<Exception>> onExceptionCallbacks;
         private IList<Action> onFailureCallbacks;
         private bool isFrozen;
+        private bool isPreparing;
+        
+        internal RetryLogicState(Func<TReturn> action)
+            : this()
+        {
+            this.actionToExecute = action;
+        }
 
-        public RetryLogicState()
+        internal RetryLogicState(Action action)
+            : this()
+        {
+            this.actionToExecute = new Func<TReturn>(() =>
+            {
+                action();
+                return default(TReturn);
+            });
+        }
+
+#if NET45
+        internal RetryLogicState(Func<Task<TReturn>> action)
+            : this()
+        {
+            this.actionToExecuteAsync = action;
+        }
+
+        internal RetryLogicState(Func<Task> action)
+            : this()
+        {
+            actionToExecuteAsync = new Func<Task<TReturn>>(async () =>
+            {
+                await action();
+                return default(TReturn);
+            });
+        }
+#endif
+
+        private RetryLogicState()
         {
             // set default values
             this.numberOfAttempts = 3;
@@ -30,73 +70,115 @@
             this.intervalStrategy = RetryIntervalStrategy.LinearDelay;
             this.scaleFactor = 10;
             this.traceRetryEvents = false;
-            this.throwIfNotHandled = false;
+            this.onFailureContinue = false;
 
             this.exceptions = new List<Type>();
             this.onExceptionCallbacks = new Dictionary<Type, Action<Exception>>();
             this.onFailureCallbacks = new List<Action>();
+            this.onSuccessCallbacks = new List<Action<TReturn>>();
         }
 
-        public RetryLogicState Handle<TException>() where TException : Exception
+        //TODO : plug it
+        ////public TReturn Result { get; set; }
+
+        ////public int ExceptionsCatched { get; set; }
+
+        ////public bool Succeed { get; set; }
+
+        internal static RetryLogicState<Nothing> BeginPrepare()
+        {
+            var state = new RetryLogicState<Nothing>();
+            state.isPreparing = true;
+            return state;
+        }
+
+        public RetryLogicState<TReturn> Handle<TException>() where TException : Exception
         {
             this.exceptions.Add(typeof(TException));
             return this;
         }
 
-        public RetryLogicState NumberOfAttempts(int numberOfAttempts)
+        public RetryLogicState<TReturn> AtMost(int numberOfAttempts)
         {
+            this.CheckIsNotFrozen();
             this.numberOfAttempts = numberOfAttempts;
             return this;
         }
 
-        public RetryLogicState IntervalStrategy(RetryIntervalStrategy strategy, int scaleFactor)
+        public RetryLogicState<TReturn> WithConstantInterval(TimeSpan interval)
         {
-            this.intervalStrategy = strategy;
+            this.CheckIsNotFrozen();
+            this.intervalDelay = interval;
+            this.intervalStrategy = RetryIntervalStrategy.ConstantDelay;
+            return this;
+        }
+        public RetryLogicState<TReturn> WithLinearInterval(TimeSpan interval, int scaleFactor)
+        {
+            this.CheckIsNotFrozen(); 
+            this.intervalDelay = interval;
+            this.intervalStrategy = RetryIntervalStrategy.LinearDelay;
+            this.scaleFactor = scaleFactor;
+            return this;
+        }
+        public RetryLogicState<TReturn> WithProgressiveInterval(TimeSpan interval, int scaleFactor)
+        {
+            this.CheckIsNotFrozen();
+            this.intervalDelay = interval;
+            this.intervalStrategy = RetryIntervalStrategy.ProgressiveDelay;
+            this.scaleFactor = scaleFactor;
+            return this;
+        }
+        public RetryLogicState<TReturn> WithExponentialInterval(TimeSpan interval, int scaleFactor)
+        {
+            this.CheckIsNotFrozen();
+            this.intervalDelay = interval;
+            this.intervalStrategy = RetryIntervalStrategy.ExponentialDelay;
             this.scaleFactor = scaleFactor;
             return this;
         }
 
-        public RetryLogicState WithInterval(TimeSpan interval)
+        public RetryLogicState<TReturn> OnException<TException>(Action<TException> onExceptionCallback) where TException : Exception
         {
-            this.intervalDelay = interval;
-            return this;
-        }
-
-        public RetryLogicState OnException<TException>(Action<TException> onExceptionCallback) where TException : Exception
-        {
+            this.CheckIsNotFrozen();
             this.onExceptionCallbacks.Add(typeof(TException), new Action<Exception>(e => onExceptionCallback((TException)e)));
             return this;
         }
 
-        public RetryLogicState OnFailure(Action onFailureCallback)
+        public RetryLogicState<TReturn> OnFailure(Action onFailureCallback)
         {
+            this.CheckIsNotFrozen();
             this.onFailureCallbacks.Add(onFailureCallback);
             return this;
         }
 
-        public RetryLogicState TraceRetryEvents(bool traceRetryEvents)
+        public RetryLogicState<TReturn> WithTrace(bool traceRetryEvents)
         {
+            this.CheckIsNotFrozen();
             this.traceRetryEvents = traceRetryEvents;
             return this;
         }
 
-        public RetryLogicState ThrowIfNotHandled(bool throwIfNotHandled)
+        [Obsolete("Preview feature: not ready for production!")]
+        public RetryLogicState<TReturn> OnFailureContinue()
         {
-            this.throwIfNotHandled = throwIfNotHandled;
+            this.CheckIsNotFrozen();
+            this.onFailureContinue = true; ;
             return this;
         }
 
 #if NET45
-        public async Task<TReturn> RunAsync<TReturn>(Func<Task<TReturn>> actionToExecuteAsync, IList<Action<TReturn>> onSuccessCallbacks)
+        public async Task<TReturn> RunAsync()
         {
-            if (actionToExecuteAsync == null)
+            this.CheckIsRunable();
+
+            if (this.actionToExecuteAsync == null)
             {
-                throw new NullReferenceException("no action to execute defined");
+                throw new InvalidOperationException("no action to execute defined");
             }
 
             if (this.exceptions == null || this.exceptions.Count <= 0)
             {
-                throw new NullReferenceException("no exceptions to handle defined");
+                throw new InvalidOperationException("no exceptions to handle defined");
             }
 
             bool processSuceed = false;
@@ -109,7 +191,7 @@
             {
                 ++count;
                 TraceIfNeeded("Attempt #" + count.ToString(), false);
-                result = await actionToExecuteAsync();
+                result = await this.actionToExecuteAsync();
                 processSuceed = true;
                 TraceIfNeeded("Success !", false);
             }
@@ -155,12 +237,17 @@
 
                         foreach (var callback in this.onFailureCallbacks)
                         {
+                            this.onFailureContinue = true;
                             callback();
                         }
 
-                        if (this.throwIfNotHandled)
+                        if (!this.onFailureContinue)
                         {
                             throw ex;
+                        }
+                        else
+                        {
+                            result = default(TReturn);
                         }
                     }
                 }
@@ -168,17 +255,17 @@
                 {
                     TraceIfNeeded("Exception not handled", true);
 
-                    foreach (var callback in this.onFailureCallbacks)
-                    {
-                        callback();
-                    }
+                    ////foreach (var callback in this.onFailureCallbacks)
+                    ////{
+                    ////    callback();
+                    ////}
                     throw ex;
                 }
             }
 
             if (processSuceed)
             {
-                foreach (var callback in onSuccessCallbacks)
+                foreach (var callback in this.onSuccessCallbacks)
                 {
                     callback(result);
                 }
@@ -188,16 +275,18 @@
         }
 #endif
 
-        public TReturn Run<TReturn>(Func<TReturn> actionToExecute, IList<Action<TReturn>> onSuccessCallbacks)
+        public TReturn Run()
         {
-            if (actionToExecute == null)
+            this.CheckIsRunable();
+
+            if (this.actionToExecute == null)
             {
-                throw new NullReferenceException("no action to execute defined");
+                throw new InvalidOperationException("no action to execute defined");
             }
 
             if (this.exceptions == null || this.exceptions.Count <= 0)
             {
-                throw new NullReferenceException("no exceptions to handle defined");
+                throw new InvalidOperationException("no exceptions to handle defined");
             }
 
             bool processSuceed = false;
@@ -210,7 +299,7 @@
             {
                 ++count;
                 TraceIfNeeded("Attempt #" + count.ToString(), false);
-                result = actionToExecute();
+                result = this.actionToExecute();
                 processSuceed = true;
                 TraceIfNeeded("Success !", false);
             }
@@ -256,12 +345,17 @@
 
                         foreach (var callback in this.onFailureCallbacks)
                         {
+                            this.onFailureContinue = true;
                             callback();
                         }
 
-                        if (this.throwIfNotHandled)
+                        if (!this.onFailureContinue)
                         {
                             throw ex;
+                        }
+                        else
+                        {
+                            result = default(TReturn);
                         }
                     }
                 }
@@ -269,17 +363,17 @@
                 {
                     TraceIfNeeded("Exception not handled", true);
 
-                    foreach (var callback in this.onFailureCallbacks)
-                    {
-                        callback();
-                    }
+                    ////foreach (var callback in this.onFailureCallbacks)
+                    ////{
+                    ////    callback();
+                    ////}
                     throw ex;
                 }
             }
 
             if (processSuceed)
             {
-                foreach (var callback in onSuccessCallbacks)
+                foreach (var callback in this.onSuccessCallbacks)
                 {
                     callback(result);
                 }
@@ -288,12 +382,56 @@
             return result;
         }
 
-        
-        public RetryLogicState Prepare()
+
+        public RetryLogicState<TReturn> EndPrepare()
         {
             this.isFrozen = true;
+            this.isPreparing = false;
             return this;
         }
+
+        public RetryLogicState<TReturn> OnSuccess(Action<TReturn> onSuccessCallback)
+        {
+            this.CheckIsNotFrozen();
+            this.onSuccessCallbacks.Add(onSuccessCallback);
+            return this;
+        }
+
+        public RetryLogicState<TReturn1> Do<TReturn1>(Func<TReturn1> action)
+        {
+            ////return new RetryLogicState<TReturn>(action, this.Clone());
+            return CloneSync<TReturn, TReturn1>(action, this);
+        }
+
+        public RetryLogicState<Nothing> Do(Action action)
+        {
+            ////return new RetryLogicState<object>(action, this.Clone());
+            var function = new Func<Nothing>(() =>
+            {
+                action();
+                return default(Nothing);
+            });
+            return CloneSync<TReturn, Nothing>(function, this);
+        }
+
+#if NET45
+        public RetryLogicState<TReturn1> DoAsync<TReturn1>(Func<Task<TReturn1>> action)
+        {
+            ////return new RetryLogicState<TReturn>(action, this.Clone());
+            return CloneAsync<TReturn, TReturn1>(action, this);
+        }
+
+        public RetryLogicState<Nothing> DoAsync(Func<Task> action)
+        {
+            ////return new RetryLogicState<object>(action, this.Clone());
+            var function = new Func<Task<Nothing>>(async () =>
+            {
+                await action();
+                return default(Nothing);
+            });
+            return CloneAsync<TReturn, Nothing>(function, this);
+        }
+#endif
 
         internal void CheckIsNotFrozen()
         {
@@ -303,33 +441,35 @@
             }
         }
 
-        ////public RetryLogic Prepare()
-        ////{
-        ////    return RetryLogic.Prepare(this.Clone());
-        ////}
-
-        internal RetryLogicState Clone()
+        internal void CheckIsRunable()
         {
-            var result = new RetryLogicState()
+            if (this.isPreparing)
             {
-                numberOfAttempts = this.numberOfAttempts,
-                intervalDelay = this.intervalDelay,
-                intervalStrategy = this.intervalStrategy,
-                scaleFactor = this.scaleFactor,
-                traceRetryEvents = this.traceRetryEvents,
-                throwIfNotHandled = this.throwIfNotHandled,
-                exceptions = new List<Type>(this.exceptions),
-                onExceptionCallbacks = new Dictionary<Type, Action<Exception>>(this.onExceptionCallbacks.Count),
-                onFailureCallbacks = new List<Action>(this.onFailureCallbacks.Count),
-            };
+                throw new InvalidOperationException("Is preparing");
+            }
+        }
+
+        internal RetryLogicState<TReturnTo> Clone<TReturnTo>(RetryLogicState<TReturnTo> target)
+        {
+            target.numberOfAttempts = this.numberOfAttempts;
+            target.intervalDelay = this.intervalDelay;
+            target.intervalStrategy = this.intervalStrategy;
+            target.scaleFactor = this.scaleFactor;
+            target.traceRetryEvents = this.traceRetryEvents;
+            target.onFailureContinue = this.onFailureContinue;
+            target.exceptions = new List<Type>(this.exceptions);
+            target.onExceptionCallbacks = new Dictionary<Type, Action<Exception>>(this.onExceptionCallbacks.Count);
+            target.onFailureCallbacks = new List<Action>(this.onFailureCallbacks.Count);
+            ////target.isFrozen = this.isFrozen; // do not clone dat
+            target.isPreparing = this.isPreparing;
 
             foreach (var pair in this.onExceptionCallbacks)
             {
-                result.onExceptionCallbacks.Add(pair.Key, pair.Value);
+                target.onExceptionCallbacks.Add(pair.Key, pair.Value);
             }
 
-            this.onFailureCallbacks.ToList().ForEach(c => result.onFailureCallbacks.Add(c));
-            return result;
+            this.onFailureCallbacks.ToList().ForEach(c => target.onFailureCallbacks.Add(c));
+            return target;
         }
 
         private TimeSpan GetDelay(int attemptIndex, TimeSpan intervalDelay, RetryIntervalStrategy strategy, int scaleFactor)
@@ -382,26 +522,22 @@
             }
         }
 
-        public RetryLogicRunner<TReturn> Do<TReturn>(Func<TReturn> action)
-        {
-            return new RetryLogicRunner<TReturn>(action, this.Clone());
-        }
-
-        public RetryLogicRunner<object> Do(Action action)
-        {
-            return new RetryLogicRunner<object>(action, this.Clone());
-        }
-
 #if NET45
-        public RetryLogicRunner<TReturn> DoAsync<TReturn>(Func<Task<TReturn>> action)
+        private static RetryLogicState<TReturnTo> CloneAsync<TReturnFrom, TReturnTo>(Func<Task<TReturnTo>> action, RetryLogicState<TReturnFrom> source)
         {
-            return new RetryLogicRunner<TReturn>(action, this.Clone());
-        }
-
-        public RetryLogicRunner<object> DoAsync(Func<Task> action)
-        {
-            return new RetryLogicRunner<object>(action, this.Clone());
+            var target = new RetryLogicState<TReturnTo>(action);
+            target = source.Clone<TReturnTo>(target);
+            return target;
         }
 #endif
+
+        private static RetryLogicState<TReturnTo> CloneSync<TReturnFrom, TReturnTo>(Func<TReturnTo> action, RetryLogicState<TReturnFrom> source)
+        {
+            var target = new RetryLogicState<TReturnTo>(action);
+            target = source.Clone<TReturnTo>(target);
+            return target;
+        }
+
+        
     }
 }

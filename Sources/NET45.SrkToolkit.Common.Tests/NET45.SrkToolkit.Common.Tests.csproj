@@ -54,7 +54,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="RetryLogicTests.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common.Tests\RetryLogicTests.NET4.cs">
+      <Link>RetryLogicTests.NET4.cs</Link>
+    </Compile>
+    <Compile Include="RetryLogicTests.NET45.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestTraceListener.cs" />
   </ItemGroup>

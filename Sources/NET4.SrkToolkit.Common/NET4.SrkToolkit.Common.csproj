@@ -62,7 +62,7 @@
     <None Include="IO\RecursiveDelete.cs" />
     <Compile Include="EnumTools.cs" />
     <Compile Include="Globalization\CultureInfoHelper.cs" />
-    <Compile Include="Internals\RetryLogicRunner.cs" />
+    <Compile Include="Internals\Nothing.cs" />
     <Compile Include="RetryIntervalStrategy.cs" />
     <Compile Include="Internals\RetryLogicState.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>

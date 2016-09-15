@@ -79,8 +79,8 @@
     <Compile Include="..\NET4.SrkToolkit.Common\Globalization\CultureInfoHelper.cs">
       <Link>Globalization\CultureInfoHelper.cs</Link>
     </Compile>
-    <Compile Include="..\NET4.SrkToolkit.Common\Internals\RetryLogicRunner.cs">
-      <Link>Internals\RetryLogicRunner.cs</Link>
+    <Compile Include="..\NET4.SrkToolkit.Common\Internals\Nothing.cs">
+      <Link>Internals\Nothing.cs</Link>
     </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\Internals\RetryLogicState.cs">
       <Link>Internals\RetryLogicState.cs</Link>

@@ -7,8 +7,7 @@
     using System.IO;
     using System.Threading.Tasks;
 
-    [TestClass]
-    public class RetryLogicTests
+    partial class RetryLogicTests
     {
         [TestMethod]
         public async Task FuncAsync_Should_Be_Tried_3Times_With_ConstantInterval()
@@ -22,9 +21,8 @@
             await RetryLogic
                 .DoAsync<int>(this.ThrowExceptionAsync)
                 .Handle<FileNotFoundException>()
-                .NumberOfAttempts(3)
-                .WithInterval(TimeSpan.FromMilliseconds(2000))
-                .IntervalStrategy(RetryIntervalStrategy.ConstantDelay, 0)
+                .AtMost(3)
+                .WithConstantInterval(TimeSpan.FromMilliseconds(2000))
                 .OnException<FileNotFoundException>(e => ++exceptionCount)
                 .OnFailure(() => ++failureCount)
                 .OnSuccess(x =>
@@ -59,10 +57,9 @@
                 await RetryLogic
                     .DoAsync<int>(this.ThrowExceptionAsync)
                     .Handle<FileNotFoundException>()
-                    .TraceRetryEvents(true)
-                    .NumberOfAttempts(3)
-                    .WithInterval(TimeSpan.FromMilliseconds(2000))
-                    .IntervalStrategy(RetryIntervalStrategy.ConstantDelay, 0)
+                    .WithTrace(true)
+                    .AtMost(3)
+                    .WithConstantInterval(TimeSpan.FromMilliseconds(2000))
                     .OnException<FileNotFoundException>(e => ++exceptionCount)
                     .OnFailure(() => ++failureCount)
                     .OnSuccess(x =>
@@ -95,15 +92,14 @@
             watch.Start();
 
             var profile = RetryLogic
-                .InitSettings()
+                .BeginPrepare()
                 .Handle<NullReferenceException>()
-                .NumberOfAttempts(3)
-                .WithInterval(TimeSpan.FromMilliseconds(2000))
-                .IntervalStrategy(RetryIntervalStrategy.ConstantDelay, 0)
-                .TraceRetryEvents(true)
+                .AtMost(3)
+                .WithConstantInterval(TimeSpan.FromMilliseconds(2000))
+                .WithTrace(true)
                 .OnException<FileNotFoundException>(e => ++exceptionCount)
                 .OnFailure(() => ++failureCount)
-                .Prepare();
+                .EndPrepare();
 
             try
             {
@@ -122,7 +118,7 @@
             watch.Stop();
 
             exceptionCount.ShouldEqual(0);
-            failureCount.ShouldEqual(1);
+            failureCount.ShouldEqual(0);
             successCount.ShouldEqual(0);
         }
 
@@ -136,15 +132,14 @@
             watch.Start();
 
             var profile = RetryLogic
-                .InitSettings()
+                .BeginPrepare()
                 .Handle<FileNotFoundException>()
-                .NumberOfAttempts(3)
-                .WithInterval(TimeSpan.FromMilliseconds(2000))
-                .IntervalStrategy(RetryIntervalStrategy.ConstantDelay, 0)
-                .TraceRetryEvents(true)
+                .AtMost(3)
+                .WithConstantInterval(TimeSpan.FromMilliseconds(2000))
+                .WithTrace(true)
                 .OnException<FileNotFoundException>(e => ++exceptionCount)
                 .OnFailure(() => ++failureCount)
-                .Prepare();
+                .EndPrepare();
 
             ////await RetryLogic.DoAsync(ActionThrowExceptionAsync, profile)
             await profile.DoAsync(ActionThrowExceptionAsync)
@@ -163,128 +158,6 @@
         }
 
         [TestMethod]
-        public void Action_Should_Be_Tried_3Times_With_ProgressiveInterval()
-        {
-            var exceptionCount = 0;
-            var failureCount = 0;
-            var successCount = 0;
-            var watch = new Stopwatch();
-            watch.Start();
-
-            RetryLogic
-                .Do(this.ActionThrowException)
-                .Handle<FileNotFoundException>()
-                .NumberOfAttempts(5)
-                .WithInterval(TimeSpan.FromMilliseconds(200))
-                .IntervalStrategy(RetryIntervalStrategy.ProgressiveDelay, 2)
-                .OnException<FileNotFoundException>(e => ++exceptionCount)
-                .OnFailure(() => ++failureCount)
-                .OnSuccess(x =>
-                {
-                    ++successCount;
-                })
-                .Run();
-
-            watch.Stop();
-
-            watch.Elapsed.ShouldBeGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(2600));
-            exceptionCount.ShouldEqual(5);
-            failureCount.ShouldEqual(1);
-            successCount.ShouldEqual(0);
-        }
-
-        [TestMethod]
-        public void Function_Should_Be_Tried_3Times_With_ExponentialInterval()
-        {
-            var exceptionCount = 0;
-            var failureCount = 0;
-            var successCount = 0;
-            var watch = new Stopwatch();
-            watch.Start();
-
-            RetryLogic
-                .Do<int>(this.ThrowException)
-                .Handle<FileNotFoundException>()
-                .NumberOfAttempts(4)
-                .WithInterval(TimeSpan.FromMilliseconds(2000))
-                .IntervalStrategy(RetryIntervalStrategy.ExponentialDelay, 2)
-                .OnException<FileNotFoundException>(e => ++exceptionCount)
-                .OnFailure(() => ++failureCount)
-                .OnSuccess(x =>
-                {
-                    ++successCount;
-                })
-                .Run();
-
-            watch.Stop();
-
-            watch.Elapsed.ShouldBeGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(12000));
-            exceptionCount.ShouldEqual(4);
-            failureCount.ShouldEqual(1);
-            successCount.ShouldEqual(0);
-        }
-
-        [TestMethod]
-        public void Function_Should_Be_A_Success()
-        {
-            var exceptionCount = 0;
-            var failureCount = 0;
-            var successCount = 0;
-            var watch = new Stopwatch();
-            watch.Start();
-
-            RetryLogic
-                .Do<int>(this.NoException)
-                .Handle<FileNotFoundException>()
-                .NumberOfAttempts(3)
-                .WithInterval(TimeSpan.FromMilliseconds(2000))
-                .IntervalStrategy(RetryIntervalStrategy.ConstantDelay, 0)
-                .OnException<FileNotFoundException>(e => ++exceptionCount)
-                .OnFailure(() => ++failureCount)
-                .OnSuccess(x =>
-                {
-                    ++successCount;
-                })
-                .Run();
-
-            watch.Stop();
-
-            exceptionCount.ShouldEqual(0);
-            failureCount.ShouldEqual(0);
-            successCount.ShouldEqual(1);
-        }
-
-        [TestMethod]
-        public void Action_Should_Be_A_Success()
-        {
-            var exceptionCount = 0;
-            var failureCount = 0;
-            var successCount = 0;
-            var watch = new Stopwatch();
-            watch.Start();
-
-            RetryLogic
-                .Do(this.ActionNoException)
-                .Handle<FileNotFoundException>()
-                .NumberOfAttempts(3)
-                .WithInterval(TimeSpan.FromMilliseconds(2000))
-                .IntervalStrategy(RetryIntervalStrategy.ConstantDelay, 0)
-                .OnException<FileNotFoundException>(e => ++exceptionCount)
-                .OnFailure(() => ++failureCount)
-                .OnSuccess(x =>
-                {
-                    ++successCount;
-                })
-                .Run();
-
-            watch.Stop();
-
-            exceptionCount.ShouldEqual(0);
-            failureCount.ShouldEqual(0);
-            successCount.ShouldEqual(1);
-        }
-
-        [TestMethod]
         public async Task FunctionAsync_Should_Be_A_Success()
         {
             var exceptionCount = 0;
@@ -296,9 +169,8 @@
             await RetryLogic
                 .DoAsync<int>(this.NoExceptionAsync)
                 .Handle<FileNotFoundException>()
-                .NumberOfAttempts(3)
-                .WithInterval(TimeSpan.FromMilliseconds(2000))
-                .IntervalStrategy(RetryIntervalStrategy.ConstantDelay, 0)
+                .AtMost(3)
+                .WithConstantInterval(TimeSpan.FromMilliseconds(2000))
                 .OnException<FileNotFoundException>(e => ++exceptionCount)
                 .OnFailure(() => ++failureCount)
                 .OnSuccess(x =>
@@ -326,9 +198,8 @@
             await RetryLogic
                 .DoAsync(this.ActionNoExceptionAsync)
                 .Handle<FileNotFoundException>()
-                .NumberOfAttempts(3)
-                .WithInterval(TimeSpan.FromMilliseconds(2000))
-                .IntervalStrategy(RetryIntervalStrategy.ConstantDelay, 0)
+                .AtMost(3)
+                .WithConstantInterval(TimeSpan.FromMilliseconds(2000))
                 .OnException<FileNotFoundException>(e => ++exceptionCount)
                 .OnFailure(() => ++failureCount)
                 .OnSuccess(x =>
@@ -355,14 +226,13 @@
             watch.Start();
 
             var profile = RetryLogic
-                .InitSettings()
+                .BeginPrepare()
                 .Handle<FileNotFoundException>()
-                .NumberOfAttempts(10)
-                .WithInterval(TimeSpan.FromMilliseconds(0))
-                .IntervalStrategy(RetryIntervalStrategy.ConstantDelay, 0)
+                .AtMost(10)
+                .WithConstantInterval(TimeSpan.FromMilliseconds(0))
                 .OnException<FileNotFoundException>(e => ++exceptionCount)
                 .OnFailure(() => ++failureCount)
-                .Prepare();
+                .EndPrepare();
 
 
             await profile.DoAsync(ActionThrowExceptionAsync)
@@ -388,19 +258,18 @@
             watch.Start();
 
             var profile = RetryLogic
-                .InitSettings()
+                .BeginPrepare()
                 .Handle<FileNotFoundException>()
-                .NumberOfAttempts(10)
-                .WithInterval(TimeSpan.FromMilliseconds(0))
-                .IntervalStrategy(RetryIntervalStrategy.ConstantDelay, 0)
+                .AtMost(10)
+                .WithConstantInterval(TimeSpan.FromMilliseconds(0))
                 .OnException<FileNotFoundException>(e => ++exceptionCount)
                 .OnFailure(() => ++failureCount)
-                .Prepare();
+                .EndPrepare();
 
 
             ////await RetryLogic.DoAsync(ActionThrowExceptionAsync, profile)
             await profile.DoAsync(ActionThrowExceptionAsync)
-                .NumberOfAttempts(5)
+                .AtMost(5)
                 .OnSuccess(x =>
                 {
                     ++successCount;
@@ -443,7 +312,7 @@
                 exception = ex;
             }
 
-            exception.ShouldBeType(typeof(NullReferenceException));
+            exception.ShouldBeType(typeof(InvalidOperationException));
             watch.Stop();
         }
 
@@ -456,12 +325,48 @@
 
 
             await RetryLogic.DoAsync(ActionThrowExceptionAsync)
+                .OnFailureContinue()
                 .Handle<FileNotFoundException>()
                 .RunAsync();
 
             watch.Stop();
 
             watch.Elapsed.ShouldBeGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(4010));
+        }
+
+        [TestMethod]
+        public async Task DeveloperForgetsEndPrepare()
+        {
+            var exceptionCount = 0;
+            var failureCount = 0;
+            var successCount = 0;
+
+            var profile = RetryLogic
+                .BeginPrepare()
+                .Handle<FileNotFoundException>()
+                .AtMost(10)
+                .WithConstantInterval(TimeSpan.FromMilliseconds(0))
+                .OnException<FileNotFoundException>(e => ++exceptionCount)
+                .OnFailure(() => ++failureCount);
+                ////.EndPrepare(); // developer forgets tha line
+
+
+            ////await RetryLogic.DoAsync(ActionThrowExceptionAsync, profile)
+            try
+            {
+                await profile.DoAsync(ActionThrowExceptionAsync)
+                        .AtMost(5)
+                        .OnSuccess(x =>
+                        {
+                            ++successCount;
+                        })
+                        .RunAsync();
+                Assert.Fail("Should have thrown a InvalidOperationException");
+            }
+            catch (InvalidOperationException ex)
+            {
+                // ok
+            }
         }
 
         private async Task<int> ThrowExceptionAsync()
@@ -473,11 +378,6 @@
             });
         }
 
-        private int ThrowException()
-        {
-            throw new FileNotFoundException();
-        }
-
         private async Task ActionThrowExceptionAsync()
         {
             await Task.Factory.StartNew(() =>
@@ -485,11 +385,6 @@
                 int i = 14;
                 throw new FileNotFoundException();
             });
-        }
-
-        private void ActionThrowException()
-        {
-            throw new FileNotFoundException();
         }
 
         private async Task<int> NoExceptionAsync()
@@ -501,22 +396,12 @@
             });
         }
 
-        private int NoException()
-        {
-            return 14;
-        }
-
         private async Task ActionNoExceptionAsync()
         {
             await Task.Factory.StartNew(() =>
             {
                 return;
             });
-        }
-
-        private void ActionNoException()
-        {
-            return;
         }
     }
 }

@@ -8,44 +8,44 @@ namespace SrkToolkit
     using System.Text;
     using System.Threading.Tasks;
 
-    public class RetryLogic
+    public static class RetryLogic
     {
-        public RetryLogicState State { get; set; }
+        ////public RetryLogicState State { get; set; }
 
-        private RetryLogic(RetryLogicState state)
+        ////private RetryLogic(RetryLogicState state)
+        ////{
+        ////    this.State = state;
+        ////}
+
+        static public RetryLogicState<TReturn> Do<TReturn>(Func<TReturn> action)
         {
-            this.State = state;
+            return new RetryLogicState<TReturn>(action);
         }
 
-        static public RetryLogicRunner<TReturn> Do<TReturn>(Func<TReturn> action, RetryLogic retryProfile = null)
+        static public RetryLogicState<object> Do(Action action)
         {
-            return new RetryLogicRunner<TReturn>(action, retryProfile);
-        }
-
-        static public RetryLogicRunner<object> Do(Action action, RetryLogic retryProfile = null)
-        {
-            return new RetryLogicRunner<object>(action, retryProfile);
+            return new RetryLogicState<object>(action);
         }
 #if NET45
-        static public RetryLogicRunner<TReturn> DoAsync<TReturn>(Func<Task<TReturn>> action, RetryLogic retryProfile = null)
+        static public RetryLogicState<TReturn> DoAsync<TReturn>(Func<Task<TReturn>> action)
         {
-            return new RetryLogicRunner<TReturn>(action, retryProfile);
+            return new RetryLogicState<TReturn>(action);
         }
 
-        static public RetryLogicRunner<object> DoAsync(Func<Task> action, RetryLogic retryProfile = null)
+        static public RetryLogicState<object> DoAsync(Func<Task> action)
         {
-            return new RetryLogicRunner<object>(action, retryProfile);
+            return new RetryLogicState<object>(action);
         }
 #endif
 
-        static public RetryLogic Prepare(RetryLogicState state)
-        {
-            return new RetryLogic(state);
-        }
+        ////static public RetryLogic Prepare(RetryLogicState state)
+        ////{
+        ////    return new RetryLogic(state);
+        ////}
 
-        static public RetryLogicState InitSettings()
+        static public RetryLogicState<Nothing> BeginPrepare()
         {
-            return new RetryLogicState();
+            return RetryLogicState<Nothing>.BeginPrepare();
         }
     }
 }

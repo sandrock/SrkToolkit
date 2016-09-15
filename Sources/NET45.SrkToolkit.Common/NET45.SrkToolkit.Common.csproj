@@ -79,6 +79,12 @@
     <Compile Include="..\NET4.SrkToolkit.Common\Globalization\CultureInfoHelper.cs">
       <Link>Globalization\CultureInfoHelper.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\Internals\RetryLogicRunner.cs">
+      <Link>Internals\RetryLogicRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\Internals\RetryLogicState.cs">
+      <Link>Internals\RetryLogicState.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\IO\RecursiveDelete.cs">
       <Link>IO\RecursiveDelete.cs</Link>
     </Compile>
@@ -87,6 +93,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\RetryIntervalStrategy.cs">
+      <Link>RetryIntervalStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\RetryLogic.cs">
+      <Link>RetryLogic.cs</Link>
     </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\StringReplacer.cs">
       <Link>StringReplacer.cs</Link>

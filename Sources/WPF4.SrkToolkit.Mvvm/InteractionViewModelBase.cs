@@ -9,9 +9,11 @@ namespace SrkToolkit.Mvvm
     /// </summary>
     public partial class InteractionViewModelBase : ViewModelBase
     {
-        private readonly BusyTaskCollection _tasks = new BusyTaskCollection();
+        private readonly BusyTaskCollection tasks = new BusyTaskCollection();
         private InteractionViewModelBase baseViewModel;
-        private IMessageBoxService _mbox;
+#if SILVERLIGHT || WPF
+        private IMessageBoxService mbox;
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InteractionViewModelBase"/> class.
@@ -41,18 +43,20 @@ namespace SrkToolkit.Mvvm
         /// </summary>
         public BusyTaskCollection Tasks
         {
-            get { return _tasks; }
+            get { return tasks; }
         }
 
+#if SILVERLIGHT || WPF
         /// <summary>
         /// MessageBox abstraction.
         /// You can replace this for unit-testing.
         /// </summary>
         protected IMessageBoxService Mbox
         {
-            get { return _mbox ?? (_mbox = new MessageBoxService()); }
-            set { _mbox = value; }
+            get { return mbox ?? (mbox = new MessageBoxService()); }
+            set { mbox = value; }
         }
+#endif
 
         /// <summary>
         /// Initialize a task.

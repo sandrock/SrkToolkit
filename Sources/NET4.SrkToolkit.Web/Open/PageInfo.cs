@@ -11,7 +11,7 @@ namespace SrkToolkit.Web.Open
     /// <summary>
     /// Helps attach descriptors to a page in order to generate meta/link tags.
     /// </summary>
-    public class PageInfo
+    public class PageInfo : IEnumerable<PageInfoItem>
     {
         internal static readonly PageInfoObjectSection defaultSections = PageInfoObjectSection.Basic | PageInfoObjectSection.OldMeta;
         private readonly List<PageInfoItem> items = new List<PageInfoItem>();
@@ -205,6 +205,10 @@ namespace SrkToolkit.Web.Open
         {
             get
             {
+                if (this.openGraph == null)
+                {
+                }
+
                 if (this.openGraph != null)
                 {
                     foreach (var item in this.items)
@@ -335,6 +339,16 @@ namespace SrkToolkit.Web.Open
             {
                 item.ToString(sb, sections, indented);
             }
+        }
+
+        public IEnumerator<PageInfoItem> GetEnumerator()
+        {
+            return this.items.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.items.GetEnumerator();
         }
     }
 }

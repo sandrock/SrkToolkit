@@ -5,8 +5,11 @@ namespace SrkToolkit.Mvvm
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using System.Windows;
+#if SILVERLIGHT || WPF
     using System.Windows.Threading;
+#elif UWP
+    using Windows.ApplicationModel;
+#endif
 
     partial class ViewModelBase
     {
@@ -19,7 +22,9 @@ namespace SrkToolkit.Mvvm
         /// </summary>
         protected ViewModelBase()
         {
+#if SILVERLIGHT || WPF
             this.Dispatcher = Dispatcher.CurrentDispatcher;
+#endif
         }
 
         /// <summary>
@@ -32,8 +37,10 @@ namespace SrkToolkit.Mvvm
         [Obsolete("Use the Dispatcher property instead")]
         protected void DispatchBackground(Action action)
         {
+#if SILVERLIGHT || WPF
             if (this.Dispatcher != null && !this.Disposed && action != null)
                 this.Dispatcher.BeginInvoke(action, DispatcherPriority.Background, null);
+#endif
         }
 
         /// <summary>
@@ -46,36 +53,15 @@ namespace SrkToolkit.Mvvm
         [Obsolete("Use the Dispatcher property instead")]
         protected void DispatchApplicationIdle(Action action)
         {
+#if SILVERLIGHT || WPF
             if (this.Dispatcher != null && !this.Disposed && action != null)
                 this.Dispatcher.BeginInvoke(action, DispatcherPriority.ApplicationIdle, null);
+#endif
         }
 
         #endregion
 
         #region Is in design mode awareness
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is in design mode.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this instance is in design mode; otherwise, <c>false</c>.
-        /// </value>
-        [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Justification = "The security risk here is neglectible.")]
-        public static bool IsInDesignModeStatic
-        {
-            get
-            {
-                if (!_isInDesignMode.HasValue)
-                {
-                    _isInDesignMode = new bool?((bool)DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement)).Metadata.DefaultValue);
-                    if (!(_isInDesignMode.Value || !Process.GetCurrentProcess().ProcessName.StartsWith("devenv", StringComparison.Ordinal)))
-                    {
-                        _isInDesignMode = true;
-                    }
-                }
-                return _isInDesignMode.Value;
-            }
-        }
 
         #endregion
     }

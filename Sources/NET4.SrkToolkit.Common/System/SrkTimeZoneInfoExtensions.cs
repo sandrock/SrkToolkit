@@ -36,9 +36,9 @@ namespace System
         public static DateTime ConvertFromUtc(this TimeZoneInfo tz, DateTime dateTime)
         {
             if (dateTime.Kind == DateTimeKind.Local)
-                return TimeZoneInfo.ConvertTimeFromUtc(dateTime.AsUnspecified(), tz).AsUnspecified();
+                return TimeZoneInfo.ConvertTimeFromUtc(dateTime.ToUniversalTime(), tz);
             else
-                return TimeZoneInfo.ConvertTimeFromUtc(dateTime, tz).AsUnspecified();
+                return TimeZoneInfo.ConvertTimeFromUtc(dateTime, tz);
         }
     }
 }

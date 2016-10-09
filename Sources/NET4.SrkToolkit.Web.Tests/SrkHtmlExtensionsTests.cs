@@ -213,7 +213,7 @@ namespace SrkToolkit.Web.Tests
             {
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime source = TimeZoneInfo.Utc.ConvertFromUtc(orig);
-                Assert.AreEqual(DateTimeKind.Unspecified, source.Kind);
+                Assert.AreEqual(DateTimeKind.Utc, source.Kind);
                 TimeZoneInfo tz = null;
                 var html = CreateHtmlHelper(new ViewDataDictionary());
                 html.SetTimezone(tz);

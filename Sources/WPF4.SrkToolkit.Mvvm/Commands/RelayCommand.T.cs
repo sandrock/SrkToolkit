@@ -1,33 +1,46 @@
-﻿using System;
-using System.Windows.Input;
-using System.Diagnostics;
-
-namespace SrkToolkit.Mvvm.Commands {
+﻿
+namespace SrkToolkit.Mvvm.Commands
+{
+    using System;
+    using System.Windows.Input;
+    using System.Diagnostics;
 
     /// <summary>
     /// Classic generic RelayCommand implementation for the MVVM pattern.
     /// </summary>
-    public class RelayCommand<T> : ICommand {
-
-        private readonly Predicate<T> _canExecuteFunc;
-        private readonly Action<T> _executeAction;
+    public class RelayCommand<T> : ICommand
+    {
+        private readonly Predicate<T> canExecuteFunc;
+        private readonly Action<T> executeAction;
         private readonly bool canExecutePreventsExecute;
 
+#if SILVERLIGHT || WPF
         /// <summary>
-        /// Event for the CanExecute feature.
+        /// Occurs when changes occur that affect whether or not the command should execute.
         /// </summary>
-        public event EventHandler CanExecuteChanged {
-            add {
-                if (this._canExecuteFunc != null) {
+        public event EventHandler CanExecuteChanged
+        {
+            add
+            {
+                if (this.canExecuteFunc != null)
+                {
                     CommandManager.RequerySuggested += value;
                 }
             }
-            remove {
-                if (this._canExecuteFunc != null) {
+            remove
+            {
+                if (this.canExecuteFunc != null)
+                {
                     CommandManager.RequerySuggested -= value;
                 }
             }
         }
+#elif UWP
+        /// <summary>
+        /// Occurs when changes occur that affect whether or not the command should execute.
+        /// </summary>
+        public event EventHandler CanExecuteChanged;
+#endif
 
         /// <summary>
         /// Create a new instance that can always execute.
@@ -36,7 +49,8 @@ namespace SrkToolkit.Mvvm.Commands {
         /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
         [DebuggerStepThrough]
         public RelayCommand(Action<T> execute)
-            : this(execute, null, false) {
+            : this(execute, null, false)
+        {
         }
 
         /// <summary>
@@ -47,12 +61,14 @@ namespace SrkToolkit.Mvvm.Commands {
         /// <param name="canExecutePreventsExecute">if set to <c>true</c> the canExecute predicate prevents execution.</param>
         /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
         [DebuggerStepThrough]
-        public RelayCommand(Action<T> execute, Predicate<T> canExecute, bool canExecutePreventsExecute) {
-            if (execute == null) {
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute, bool canExecutePreventsExecute)
+        {
+            if (execute == null)
+            {
                 throw new ArgumentNullException("execute");
             }
-            this._executeAction = execute;
-            this._canExecuteFunc = canExecute;
+            this.executeAction = execute;
+            this.canExecuteFunc = canExecute;
             this.canExecutePreventsExecute = canExecutePreventsExecute;
         }
 
@@ -62,8 +78,9 @@ namespace SrkToolkit.Mvvm.Commands {
         /// <param name="parameter">This parameter will always be ignored.</param>
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         [DebuggerStepThrough]
-        public bool CanExecute(object parameter) {
-            return ((this._canExecuteFunc == null) ? true : this._canExecuteFunc.Invoke((T)parameter));
+        public bool CanExecute(object parameter)
+        {
+            return ((this.canExecuteFunc == null) ? true : this.canExecuteFunc.Invoke((T)parameter));
         }
 
         /// <summary>
@@ -71,20 +88,27 @@ namespace SrkToolkit.Mvvm.Commands {
         /// </summary>
         /// <param name="parameter">This parameter will always be ignored.</param>
         [DebuggerStepThrough]
-        public void Execute(object parameter) {
-            if (this.canExecutePreventsExecute && this._canExecuteFunc != null) {
-                if (this._canExecuteFunc((T)parameter))
-                    this._executeAction.Invoke((T)parameter);
-            } else {
-                this._executeAction.Invoke((T)parameter);
+        public void Execute(object parameter)
+        {
+            if (this.canExecutePreventsExecute && this.canExecuteFunc != null)
+            {
+                if (this.canExecuteFunc((T)parameter))
+                    this.executeAction.Invoke((T)parameter);
+            }
+            else
+            {
+                this.executeAction.Invoke((T)parameter);
             }
         }
 
         /// <summary>
         /// Raises the <see cref="E:GalaSoft.MvvmLight.Command.RelayCommand.CanExecuteChanged" /> event.
         /// </summary>
-        public void RaiseCanExecuteChanged() {
+        public void RaiseCanExecuteChanged()
+        {
+#if SILVERLIGHT || WPF
             CommandManager.InvalidateRequerySuggested();
+#endif
         }
     }
 }

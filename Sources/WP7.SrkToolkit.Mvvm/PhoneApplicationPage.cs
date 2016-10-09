@@ -12,7 +12,6 @@ namespace SrkToolkit.Mvvm
     [CLSCompliant(false)]
     public class PhoneApplicationPage : Microsoft.Phone.Controls.PhoneApplicationPage
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PhoneApplicationPage"/> class.
         /// </summary>

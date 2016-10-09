@@ -1,13 +1,19 @@
-﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Windows.Threading;
-using SrkToolkit.Mvvm.Tools;
-using System.Runtime.CompilerServices;
-
+﻿
 namespace SrkToolkit.Mvvm
 {
+    using SrkToolkit.Mvvm.Tools;
+    using System;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+#if SILVERLIGHT || WPF
+    using System.Windows;
+    using System.Windows.Threading;
+#elif UWP
+    using Windows.ApplicationModel;
+#endif
+    using System.Reflection;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// A base class for the ViewModel classes in the MVVM pattern.
@@ -18,6 +24,7 @@ namespace SrkToolkit.Mvvm
 
         #region Threading
 
+#if SILVERLIGHT || WPF
         /// <summary>
         /// Contains the UI Dispatcher.
         /// Use the property <see cref="Dispatcher"/> instead.
@@ -51,6 +58,8 @@ namespace SrkToolkit.Mvvm
                 this.Dispatcher.BeginInvoke(action, null);
         }
 
+#endif
+
         #endregion
 
         #region Is in design mode awareness
@@ -69,6 +78,40 @@ namespace SrkToolkit.Mvvm
             get
             {
                 return IsInDesignModeStatic;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is in design mode.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is in design mode; otherwise, <c>false</c>.
+        /// </value>
+        [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Justification = "The security risk here is neglectible.")]
+        public static bool IsInDesignModeStatic
+        {
+            get
+            {
+#if WPF
+                if (!_isInDesignMode.HasValue)
+                {
+                    _isInDesignMode = new bool?((bool)DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement)).Metadata.DefaultValue);
+                    if (!(_isInDesignMode.Value || !Process.GetCurrentProcess().ProcessName.StartsWith("devenv", StringComparison.Ordinal)))
+                    {
+                        _isInDesignMode = true;
+                    }
+                }
+#elif SILVERLIGHT
+                if (!_isInDesignMode.HasValue)
+                {
+                    _isInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
+                }
+#elif UWP
+                _isInDesignMode = DesignMode.DesignModeEnabled;
+#else
+                throw new NotSupportedException();
+#endif
+                return _isInDesignMode.Value;
             }
         }
 
@@ -117,10 +160,17 @@ namespace SrkToolkit.Mvvm
         [Conditional("DEBUG"), DebuggerStepThrough]
         public void VerifyPropertyName(string propertyName)
         {
+#if SILVERLIGHT || WPF
             if (base.GetType().GetProperty(propertyName) == null)
             {
                 throw new ArgumentException("Property'" + propertyName + "' not found on " + this.GetType().FullName, propertyName);
             }
+#elif UWP
+            if (base.GetType().GetTypeInfo().GetDeclaredProperty(propertyName) == null)
+            {
+                throw new ArgumentException("Property'" + propertyName + "' not found on " + this.GetType().FullName, propertyName);
+            }
+#endif
         }
 
         #region INotifyPropertyChanged Members

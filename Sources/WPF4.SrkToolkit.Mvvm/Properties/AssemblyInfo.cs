@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyTitle("SrkToolkit.Mvvm")]
+[assembly: AssemblyTitle("SrkToolkit.Mvvm for WPF4")]
 [assembly: AssemblyDescription("SrkToolkit.Mvvm for WPF4")]
 
 [assembly: CLSCompliant(true)]

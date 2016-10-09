@@ -72,7 +72,7 @@
       <Link>Internal\DisposableEventHandler.cs</Link>
     </None>
     <Compile Include="..\SrkToolkit.Xaml.AssemblyInfo.cs">
-      <Link>SrkToolkit.Xaml.AssemblyInfo.cs</Link>
+      <Link>Properties\SrkToolkit.Xaml.AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Behaviors\WindowControls.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />

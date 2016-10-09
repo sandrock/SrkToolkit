@@ -24,6 +24,10 @@ Html.GetPageInfo()
 And generate stuff in the layout view.
 
 ```html
+@using SrkToolkit.Web.Open
+@{
+    var pageInfo = Html.GetPageInfo();
+}
 <!DOCTYPE html>
 <html @Html.Raw(pageInfo.OpenGraph.ToHtmlAttributeNamespaces())>
 <head>

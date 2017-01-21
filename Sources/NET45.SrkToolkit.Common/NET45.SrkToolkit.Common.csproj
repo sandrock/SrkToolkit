@@ -100,6 +100,9 @@
     <Compile Include="..\NET4.SrkToolkit.Common\RetryLogic.cs">
       <Link>RetryLogic.cs</Link>
     </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\StringComparerEx.cs">
+      <Link>StringComparerEx.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\StringReplacer.cs">
       <Link>StringReplacer.cs</Link>
     </Compile>

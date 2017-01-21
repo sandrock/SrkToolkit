@@ -74,6 +74,7 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="RetryLogic.cs" />
+    <Compile Include="StringComparerEx.cs" />
     <Compile Include="StringReplacer.cs" />
     <Compile Include="System.Collections.Generic\SrkIDictionaryExtensions.cs" />
     <Compile Include="System.Collections.Generic\SrkIListExtensions.cs" />

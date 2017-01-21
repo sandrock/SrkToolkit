@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="RetryLogicTests.NET45.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringComparerExTests.cs" />
     <Compile Include="TestTraceListener.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -147,7 +147,7 @@ if not %ERRORLEVEL% == 0 (
 set /p version=<%outputDirectory%\version.txt
 echo Done: %version%
 
-set version=%version%-pre
+@REM set version=%version%-pre
 echo Done: %version%
 
 

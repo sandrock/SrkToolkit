@@ -66,14 +66,13 @@ namespace SrkToolkit.Web.HttpErrors
                 requestContext = new RequestContext(new HttpContextWrapper(context), routeData);
             }
 
-            Exception exception = context.Server.GetLastError();
-
-            context.Response.Clear();
-
+            // get the error for the current request
+            Exception exception = context.Error;
+            context.ClearError();
             HttpException httpException = exception as HttpException;
 
+            // define the correct action depending on the error (500, 404, 403...)
             routeData.Values.Add("controller", "Error");
-
             if (httpException == null)
             {
                 routeData.Values.Add("action", "Internal");
@@ -101,9 +100,6 @@ namespace SrkToolkit.Web.HttpErrors
             // Pass exception details to the target error View.
             routeData.DataTokens.Add(ResultServiceBase.RouteDataExceptionKey, exception);
 
-            // Clear the error on server.
-            context.Server.ClearError();
-
             // Avoid IIS7 getting in the middle
             context.Response.TrySkipIisCustomErrors = true;
 
@@ -122,9 +118,13 @@ namespace SrkToolkit.Web.HttpErrors
                 Trace.TraceError(ex.ToString());
 
                 if (includeExceptionDetails)
+                {
                     BasicHttpErrorResponse.Execute(context, exception, ex);
+                }
                 else
+                {
                     BasicHttpErrorResponse.Execute(context, null);
+                }
             }
 
             Trace.WriteLine("ErrorControllerHandler: Application_Error: end");

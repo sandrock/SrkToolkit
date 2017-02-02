@@ -65,7 +65,7 @@ echo -----------------------------
 cd ..
 cd Sources
 set solutionDirectory=%CD%
-REM %msbuild4% "SrkToolkit - VS11.sln" /p:Configuration=Release /nologo /verbosity:q
+%msbuild4% "SrkToolkit - VS11.sln" /p:Configuration=Release /nologo /verbosity:q
 
 if not %ERRORLEVEL% == 0 (
  echo ERROR: build failed. exiting.
@@ -80,6 +80,12 @@ echo Copy libs
 echo -----------------------------
 cd %currentDirectory%
 cd ..
+
+mkdir %outputDirectory%\SrkToolkit.Services
+mkdir %outputDirectory%\SrkToolkit.Services\lib
+mkdir %outputDirectory%\SrkToolkit.Services\lib\net40
+xcopy /Q /Y Binaries\NET4\SrkToolkit.Services.dll %outputDirectory%\SrkToolkit.Services\lib\net40
+xcopy /Q /Y Binaries\NET4\SrkToolkit.Services.xml %outputDirectory%\SrkToolkit.Services\lib\net40
 
 mkdir %outputDirectory%\SrkToolkit.Common
 mkdir %outputDirectory%\SrkToolkit.Common\lib
@@ -148,7 +154,7 @@ set /p version=<%outputDirectory%\version.txt
 echo Done: %version%
 
 @REM set version=%version%-pre
-echo Done: %version%
+@REM echo Done: %version%
 
 
 
@@ -178,12 +184,12 @@ echo -----------------------------
 echo Hit return to continue...
 pause 
 cd %outputDirectory%
-%nuget% push SrkToolkit.Common.%version%.nupkg
-%nuget% push SrkToolkit.Domain.%version%.nupkg
-%nuget% push SrkToolkit.Web.AspMvc4.%version%.nupkg
-%nuget% push SrkToolkit.Web.AspMvc5.%version%.nupkg
-%nuget% push SrkToolkit.Domain.AspMvc4.%version%.nupkg
-%nuget% push SrkToolkit.Domain.AspMvc5.%version%.nupkg
+%nuget% push SrkToolkit.Common.%version%.nupkg -Source https://www.nuget.org
+%nuget% push SrkToolkit.Domain.%version%.nupkg -Source https://www.nuget.org
+%nuget% push SrkToolkit.Web.AspMvc4.%version%.nupkg -Source https://www.nuget.org
+%nuget% push SrkToolkit.Web.AspMvc5.%version%.nupkg -Source https://www.nuget.org
+%nuget% push SrkToolkit.Domain.AspMvc4.%version%.nupkg -Source https://www.nuget.org
+%nuget% push SrkToolkit.Domain.AspMvc5.%version%.nupkg -Source https://www.nuget.org
 echo Done.
 
 

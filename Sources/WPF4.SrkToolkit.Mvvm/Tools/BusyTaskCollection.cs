@@ -1,15 +1,31 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System;
+﻿// 
+// Copyright 2014 SandRock
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
 
-namespace SrkToolkit.Mvvm.Tools {
+namespace SrkToolkit.Mvvm.Tools
+{
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Linq;
+    using System;
 
     /// <summary>
     /// Represent background tasks in a viewmodel.
     /// </summary>
-    public class BusyTaskCollection : ObservableCollection<BusyTask> {
-
+    public class BusyTaskCollection : ObservableCollection<BusyTask>
+    {
         #region Private fields
 
         private bool _isBusy;
@@ -22,10 +38,13 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <summary>
         /// Permits to disable the whole UI for a blocking task.
         /// </summary>
-        public bool IsBusy {
+        public bool IsBusy
+        {
             get { return this._isBusy; }
-            set {
-                if (this._isBusy != value) {
+            set
+            {
+                if (this._isBusy != value)
+                {
                     this._isBusy = value;
                     this.OnPropertyChanged(new PropertyChangedEventArgs("IsBusy"));
                     this.OnPropertyChanged(new PropertyChangedEventArgs("IsNotBusy"));
@@ -41,10 +60,13 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <summary>
         /// Permits to show the user a background task is performing.
         /// </summary>
-        public bool IsProcessing {
+        public bool IsProcessing
+        {
             get { return this._isProcessing; }
-            set {
-                if (this._isProcessing != value) {
+            set
+            {
+                if (this._isProcessing != value)
+                {
                     this._isProcessing = value;
                     this.OnPropertyChanged(new PropertyChangedEventArgs("IsProcessing"));
                     this.OnPropertyChanged(new PropertyChangedEventArgs("IsNotProcessing"));
@@ -62,8 +84,10 @@ namespace SrkToolkit.Mvvm.Tools {
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public BusyTask this[Enum key] {
-            get {
+        public BusyTask this[Enum key]
+        {
+            get
+            {
                 return this[key.ToString()];
             }
         }
@@ -73,8 +97,10 @@ namespace SrkToolkit.Mvvm.Tools {
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public BusyTask this[string key] {
-            get {
+        public BusyTask this[string key]
+        {
+            get
+            {
                 return this.FirstOrDefault(i => i.Key == key);
             }
         }
@@ -82,12 +108,16 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <summary>
         /// Message aggreagated form all tasks currently busy.
         /// </summary>
-        public string AggregateMessage {
-            get {
+        public string AggregateMessage
+        {
+            get
+            {
                 var message = string.Empty;
                 string sep = string.Empty;
-                foreach (var item in this) {
-                    if (!string.IsNullOrEmpty(item.Message)) {
+                foreach (var item in this)
+                {
+                    if (!string.IsNullOrEmpty(item.Message))
+                    {
                         message += sep + item.Message;
                         sep = Environment.NewLine;
                     }
@@ -103,7 +133,9 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <summary>
         /// Initializes a new instance of the <see cref="BusyTaskCollection"/> class.
         /// </summary>
-        public BusyTaskCollection() : base() {
+        public BusyTaskCollection()
+            : base()
+        {
         }
 
         #endregion
@@ -120,8 +152,10 @@ namespace SrkToolkit.Mvvm.Tools {
         /// </summary>
         /// <param name="key"></param>
         /// <param name="isGlobal">pass true to freeze the UI when processing</param>
-        public void Add(string key, bool isGlobal) {
-            this.Add(new BusyTask {
+        public void Add(string key, bool isGlobal)
+        {
+            this.Add(new BusyTask
+            {
                 Key = key,
                 IsGlobal = isGlobal
             });
@@ -132,7 +166,8 @@ namespace SrkToolkit.Mvvm.Tools {
         /// </summary>
         /// <param name="key">The task key.</param>
         /// <param name="isGlobal">pass true to freeze the UI when processing</param>
-        public void Add(Enum key, bool isGlobal) {
+        public void Add(Enum key, bool isGlobal)
+        {
             this.Add(key.ToString(), isGlobal);
         }
 
@@ -143,7 +178,8 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <param name="message">The message.</param>
         /// <param name="isProcessing">if set to <c>true</c> [is processing].</param>
         /// <param name="type">The type.</param>
-        public void Update(string key, string message, bool isProcessing, BusyTaskType type) {
+        public void Update(string key, string message, bool isProcessing, BusyTaskType type)
+        {
             var task = this[key];
             task.Message = message;
             task.IsProcessing = isProcessing;
@@ -160,7 +196,8 @@ namespace SrkToolkit.Mvvm.Tools {
         /// </summary>
         /// <param name="index">The index.</param>
         /// <param name="item">The item.</param>
-        protected override void InsertItem(int index, BusyTask item) {
+        protected override void InsertItem(int index, BusyTask item)
+        {
             base.InsertItem(index, item);
 
             item.PropertyChanged += OnItemPropertyChanged;
@@ -172,7 +209,8 @@ namespace SrkToolkit.Mvvm.Tools {
         /// Removes the item.
         /// </summary>
         /// <param name="index">The index.</param>
-        protected override void RemoveItem(int index) {
+        protected override void RemoveItem(int index)
+        {
             if (this[index] != null)
                 this[index].PropertyChanged -= OnItemPropertyChanged;
 
@@ -184,8 +222,10 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <summary>
         /// Clears the items.
         /// </summary>
-        protected override void ClearItems() {
-            foreach (var item in this) {
+        protected override void ClearItems()
+        {
+            foreach (var item in this)
+            {
                 item.PropertyChanged -= OnItemPropertyChanged;
             }
 
@@ -198,19 +238,23 @@ namespace SrkToolkit.Mvvm.Tools {
 
         #region Internal stuff
 
-        private void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e) {
+        private void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
             var item = sender as BusyTask;
 
-            if (item != null && e.PropertyName == "IsProcessing") {
+            if (item != null && e.PropertyName == "IsProcessing")
+            {
                 this.ComputeStatus();
             }
         }
 
-        private void ComputeStatus() {
+        private void ComputeStatus()
+        {
             bool isbusy = false;
             bool isprocessing = false;
 
-            foreach (var item in this) {
+            foreach (var item in this)
+            {
                 isprocessing |= item.IsProcessing;
                 isbusy |= item.IsGlobal && item.IsProcessing;
             }
@@ -218,7 +262,7 @@ namespace SrkToolkit.Mvvm.Tools {
             this.IsBusy = isbusy;
             this.IsProcessing = isprocessing;
             this.OnPropertyChanged(new PropertyChangedEventArgs("AggregateMessage"));
-        
+
             var handler = this.StateChangedEvent;
             if (handler != null)
                 handler(this, EventArgs.Empty);

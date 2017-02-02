@@ -1,15 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SrkToolkit.Mvvm.Commands;
+﻿// 
+// Copyright 2014 SandRock
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
 
-namespace SrkToolkit.Mvvm.Tests {
+namespace SrkToolkit.Mvvm.Tests
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using SrkToolkit.Mvvm.Commands;
+
     [TestClass]
-    public class RelayCommandTests {
+    public class RelayCommandTests
+    {
         [TestMethod]
-        public void ExecuteWorks() {
+        public void ExecuteWorks()
+        {
             // prepare
             bool executed = false;
             var execute = new Action(() => executed = true);
@@ -23,11 +42,13 @@ namespace SrkToolkit.Mvvm.Tests {
         }
 
         [TestMethod]
-        public void ExecuteGenericWorks() {
+        public void ExecuteGenericWorks()
+        {
             // prepare
             bool executed = false;
             int param = 42, paramReceived = int.MinValue;
-            var execute = new Action<int>((i) => {
+            var execute = new Action<int>((i) =>
+            {
                 executed = true;
                 paramReceived = i;
             });
@@ -42,11 +63,13 @@ namespace SrkToolkit.Mvvm.Tests {
         }
 
         [TestMethod]
-        public void CanExecuteWorks() {
+        public void CanExecuteWorks()
+        {
             // prepare
             bool executed = false;
             var execute = new Action(() => { });
-            var can = new Func<bool>(() => {
+            var can = new Func<bool>(() =>
+            {
                 executed = true;
                 return false;
             });
@@ -62,12 +85,14 @@ namespace SrkToolkit.Mvvm.Tests {
         }
 
         [TestMethod]
-        public void CanExecuteGenericWorks() {
+        public void CanExecuteGenericWorks()
+        {
             // prepare
             bool executed = false;
             int param = 42, paramReceived = int.MinValue;
             var execute = new Action<int>((i) => { });
-            var can = new Predicate<int>((i) => {
+            var can = new Predicate<int>((i) =>
+            {
                 executed = true;
                 paramReceived = i;
                 return false;
@@ -84,14 +109,17 @@ namespace SrkToolkit.Mvvm.Tests {
         }
 
         [TestMethod]
-        public void CanExecutePreventsExecuteWorks() {
+        public void CanExecutePreventsExecuteWorks()
+        {
             // prepare
             bool executed = false;
             bool execed = false;
-            var execute = new Action(() => {
+            var execute = new Action(() =>
+            {
                 execed = true;
             });
-            var can = new Func<bool>(() => {
+            var can = new Func<bool>(() =>
+            {
                 executed = true;
                 return false;
             });
@@ -105,15 +133,18 @@ namespace SrkToolkit.Mvvm.Tests {
         }
 
         [TestMethod]
-        public void CanExecutePreventsExecuteGenericWorks() {
+        public void CanExecutePreventsExecuteGenericWorks()
+        {
             // prepare
             bool executed = false;
             bool execed = false;
             int param = 42, paramReceived = int.MinValue;
-            var execute = new Action<int>((i) => {
+            var execute = new Action<int>((i) =>
+            {
                 execed = true;
             });
-            var can = new Predicate<int>((i) => {
+            var can = new Predicate<int>((i) =>
+            {
                 executed = true;
                 paramReceived = i;
                 return false;
@@ -128,14 +159,17 @@ namespace SrkToolkit.Mvvm.Tests {
         }
 
         [TestMethod]
-        public void CanExecutePreventsNotExecuteWorks() {
+        public void CanExecutePreventsNotExecuteWorks()
+        {
             // prepare
             bool executed = false;
             bool execed = false;
-            var execute = new Action(() => {
+            var execute = new Action(() =>
+            {
                 execed = true;
             });
-            var can = new Func<bool>(() => {
+            var can = new Func<bool>(() =>
+            {
                 executed = true;
                 return false;
             });
@@ -149,15 +183,18 @@ namespace SrkToolkit.Mvvm.Tests {
         }
 
         [TestMethod]
-        public void CanExecutePreventsNotExecuteGenericWorks() {
+        public void CanExecutePreventsNotExecuteGenericWorks()
+        {
             // prepare
             bool executed = false;
             bool execed = false;
             int param = 42, paramReceived = int.MinValue;
-            var execute = new Action<int>((i) => {
+            var execute = new Action<int>((i) =>
+            {
                 execed = true;
             });
-            var can = new Predicate<int>((i) => {
+            var can = new Predicate<int>((i) =>
+            {
                 executed = true;
                 paramReceived = i;
                 return false;

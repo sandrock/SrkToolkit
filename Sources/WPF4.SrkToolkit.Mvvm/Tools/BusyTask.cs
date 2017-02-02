@@ -1,12 +1,29 @@
-﻿using System;
-using SrkToolkit.Mvvm;
+﻿// 
+// Copyright 2014 SandRock
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
 
-namespace SrkToolkit.Mvvm.Tools {
+namespace SrkToolkit.Mvvm.Tools
+{
+    using System;
+    using SrkToolkit.Mvvm;
 
     /// <summary>
     /// Represent a background task in a viewmodel.
     /// </summary>
-    public class BusyTask : ViewModelBase {
+    public class BusyTask : ViewModelBase
+    {
         private bool _isProcessing;
         private string _message;
         private BusyTaskType _type;
@@ -22,7 +39,7 @@ namespace SrkToolkit.Mvvm.Tools {
         /// Use the property <see cref="Name"/> instead.
         /// </summary>
         private string name;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BusyTask"/> class.
         /// </summary>
@@ -42,7 +59,8 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <summary>
         /// Message to display like "Downloading data... ".
         /// </summary>
-        public string Message {
+        public string Message
+        {
             get { return this._message; }
             set { this.SetValue(ref this._message, value, "Message"); }
         }
@@ -73,10 +91,13 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <value>
         ///   <c>true</c> if the task currently processing; otherwise, <c>false</c>.
         /// </value>
-        public bool IsProcessing {
+        public bool IsProcessing
+        {
             get { return this._isProcessing; }
-            set {
-                if (this.SetValue(ref this._isProcessing, value, "IsProcessing")) {
+            set
+            {
+                if (this.SetValue(ref this._isProcessing, value, "IsProcessing"))
+                {
                     this.RaisePropertyChanged("IsNotProcessing");
                 }
                 this.IsQueued = false;
@@ -90,7 +111,8 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <value>
         ///   <c>true</c> if the task not currently processing; otherwise, <c>false</c>.
         /// </value>
-        public bool IsNotProcessing {
+        public bool IsNotProcessing
+        {
             get { return !this._isProcessing; }
         }
 
@@ -116,10 +138,13 @@ namespace SrkToolkit.Mvvm.Tools {
         /// Optionnal task type.
         /// Permit to display a red/green message.
         /// </summary>
-        public BusyTaskType Type {
+        public BusyTaskType Type
+        {
             get { return this._type; }
-            set {
-                if (this._type != value) {
+            set
+            {
+                if (this._type != value)
+                {
                     this._type = value;
                     this.RaisePropertyChanged("Type");
                     this.RaisePropertyChanged("IsError");
@@ -131,17 +156,19 @@ namespace SrkToolkit.Mvvm.Tools {
         /// <summary>
         /// Simple accessor linked to <see cref="Type"/>.
         /// </summary>
-        public bool IsError {
+        public bool IsError
+        {
             get { return this._type == BusyTaskType.Error; }
         }
 
         /// <summary>
         /// Simple accessor linked to <see cref="Type"/>.
         /// </summary>
-        public bool IsConfirmation {
+        public bool IsConfirmation
+        {
             get { return this._type == BusyTaskType.Confirmation; }
         }
-        
+
         /// <summary>
         /// Unique key.
         /// </summary>

@@ -24,7 +24,6 @@ namespace SrkToolkit.Xaml.Behaviors
     /// </remarks>
     public class WindowControls : Behavior<Window>
     {
-
         #region Constants
 
         private const Int32 WM_EXITSIZEMOVE = 0x0232;

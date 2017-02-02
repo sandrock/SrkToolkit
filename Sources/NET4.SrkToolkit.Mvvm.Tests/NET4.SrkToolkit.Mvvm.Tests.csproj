@@ -67,13 +67,13 @@
     <Compile Include="ViewModelBaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WPF4.SrkToolkit.Mvvm\WPF4.SrkToolkit.Mvvm.csproj">
-      <Project>{A842E52E-4001-4BD8-BDCD-C95630D984D4}</Project>
-      <Name>WPF4.SrkToolkit.Mvvm</Name>
-    </ProjectReference>
+    <None Include="SrkToolkit.snk" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SrkToolkit.snk" />
+    <ProjectReference Include="..\WPF4.SrkToolkit.Mvvm\WPF4.SrkToolkit.Mvvm.csproj">
+      <Project>{a842e52e-4001-4bd8-bdcd-c95630d984d4}</Project>
+      <Name>WPF4.SrkToolkit.Mvvm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

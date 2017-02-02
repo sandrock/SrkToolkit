@@ -1,7 +1,10 @@
+
 SrkToolkit
 ==========
 
 Here goes another set of libraries to help out. Separated into a few assemblies to avoid loading too much stuff in your app.
+
+License: Apache License Version 2.0
 
 Assemblies
 --------------------

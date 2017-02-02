@@ -39,6 +39,5 @@ namespace SrkToolkit.Xaml.Internal
                 });
             });
         }
-
     }
 }

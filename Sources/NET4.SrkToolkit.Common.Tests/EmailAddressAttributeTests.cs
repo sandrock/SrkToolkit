@@ -9,6 +9,7 @@ namespace SrkToolkit.Common.Tests
     using SrkToolkit.DataAnnotations;
     using System.ComponentModel.DataAnnotations;
 
+    [TestClass]
     public class EmailAddressAttributeTests
     {
         [TestClass]
@@ -17,42 +18,50 @@ namespace SrkToolkit.Common.Tests
             [TestMethod]
             public void NullValue_IsValid()
             {
-                string value = null;
+                string value = null, name = "Email";
                 var attr = new EmailAddressAttribute();
-                var result = attr.GetIsValid(value, null);
+                var context = new ValidationContext(new object(), null, null);
+                context.MemberName = name;
+                var result = attr.GetValidationResult(value, context);
 
                 Assert.IsNull(result);
-                //Assert.AreEqual(result.ErrorMessage, "A valid email address is required.");
             }
 
             [TestMethod]
             public void EmptyValue_IsValid()
             {
-                string value = "";
+                string value = "", name = "Email";
                 var attr = new EmailAddressAttribute();
-                var result = attr.GetIsValid(value, null);
+                var context = new ValidationContext(new object(), null, null);
+                context.MemberName = name;
+                var result = attr.GetValidationResult(value, context);
 
                 Assert.IsNull(result);
-                //Assert.AreEqual(result.ErrorMessage, "A valid email address is required.");
             }
 
             [TestMethod]
             public void InvalidAddress_IsInvalid()
             {
-                string value = "test";
+                string value = "test", name = "Email";
                 var attr = new EmailAddressAttribute();
-                var result = attr.GetIsValid(value, null);
+                var context = new ValidationContext(new object(), null, null);
+                context.MemberName = name;
+                var result = attr.GetValidationResult(value, context);
 
                 Assert.IsNotNull(result);
-                Assert.AreEqual(result.ErrorMessage, "A valid email address is required.");
+                Assert.AreEqual("A valid email address is required.", result.ErrorMessage);
+                Assert.AreEqual(1, result.MemberNames.Count());
+                Assert.AreEqual(name, result.MemberNames.Single());
             }
 
             [TestMethod]
             public void ValidAddress_IsValid()
             {
-                string value = "test@test.com";
+                string value = "test@test.com", name = "Email";
                 var attr = new EmailAddressAttribute();
-                var result = attr.GetIsValid(value, null);
+                var context = new ValidationContext(new object(), null, null);
+                context.MemberName = name;
+                var result = attr.GetValidationResult(value, context);
 
                 Assert.IsNull(result);
             }
@@ -60,9 +69,11 @@ namespace SrkToolkit.Common.Tests
             [TestMethod]
             public void ValidTagAddress_IsValid()
             {
-                string value = "test+test@test.com";
+                string value = "test+test@test.com", name = "Email";
                 var attr = new EmailAddressAttribute();
-                var result = attr.GetIsValid(value, null);
+                var context = new ValidationContext(new object(), null, null);
+                context.MemberName = name;
+                var result = attr.GetValidationResult(value, context);
 
                 Assert.IsNull(result);
             }
@@ -70,9 +81,11 @@ namespace SrkToolkit.Common.Tests
             [TestMethod]
             public void ValidParisAddress_IsValid()
             {
-                string value = "test@test.paris";
+                string value = "test@test.paris", name = "Email";
                 var attr = new EmailAddressAttribute();
-                var result = attr.GetIsValid(value, null);
+                var context = new ValidationContext(new object(), null, null);
+                context.MemberName = name;
+                var result = attr.GetValidationResult(value, context);
 
                 Assert.IsNull(result);
             }

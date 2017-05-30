@@ -5,6 +5,7 @@ namespace Sparkle.UnitTests
     using SrkToolkit.DataAnnotations;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -147,6 +148,20 @@ namespace Sparkle.UnitTests
                 Assert.IsTrue(TwitterUsernameAttribute.GetUsername("https://www.twitter.com/@username", out username));
                 Assert.AreEqual("username", username);
             }
+        }
+
+        [TestMethod]
+        public void ObviousInvalid()
+        {
+            var attr = new TwitterUsernameAttribute();
+            string value = "foo bar", name = "Twitter";
+            var context = new ValidationContext(new object(), null, null);
+            context.MemberName = name;
+            var result = attr.GetValidationResult(value, context);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(@"Invalid Twitter username. You must provide the username or the url to your account.", result.ErrorMessage);
+            Assert.AreEqual(1, result.MemberNames.Count());
+            Assert.AreEqual(name, result.MemberNames.Single());
         }
     }
 }

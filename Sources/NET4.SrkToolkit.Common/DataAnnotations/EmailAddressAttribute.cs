@@ -90,6 +90,7 @@ namespace SrkToolkit.DataAnnotations
             this.SetResourceAccessorByPropertyLookup();
 
             string text = Convert.ToString(value, CultureInfo.CurrentCulture);
+            var memberNames = validationContext != null && !string.IsNullOrEmpty(validationContext.MemberName) ? new string[] { validationContext.MemberName, } : null;
             if (this.AllowMultiple)
             {
                 var addresses = SrkToolkit.Common.Validation.Validate.ManyEmailAddresses(text);
@@ -101,18 +102,20 @@ namespace SrkToolkit.DataAnnotations
 
                 if (count < this.MinimumAddresses)
                 {
-                    return new ValidationResult(string.Format(
+                    var message = string.Format(
                         this.errorMessageAccessors[1](),
                         count,
-                        this.MinimumAddresses));
+                        this.MinimumAddresses);
+                    return new ValidationResult(message, memberNames);
                 }
 
                 if (this.MaximumAddresses > 0 && count > this.MaximumAddresses)
                 {
-                    return new ValidationResult(string.Format(
+                    var message = string.Format(
                         this.errorMessageAccessors[2](),
                         count,
-                        this.MaximumAddresses));
+                        this.MaximumAddresses);
+                    return new ValidationResult(message, memberNames);
                 }
 
                 return null;
@@ -131,7 +134,7 @@ namespace SrkToolkit.DataAnnotations
                 }
                 else
                 {
-                    return new ValidationResult(this.ErrorMessageString);
+                    return new ValidationResult(this.ErrorMessageString, memberNames);
                 }
             }
         }

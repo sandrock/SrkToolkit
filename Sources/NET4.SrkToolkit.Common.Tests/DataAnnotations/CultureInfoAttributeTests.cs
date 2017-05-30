@@ -8,6 +8,7 @@ namespace SrkToolkit.Common.Tests.DataAnnotations
     using System.Text;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using SrkToolkit.DataAnnotations;
+    using System.ComponentModel.DataAnnotations;
 
     [TestClass]
     public class CultureInfoAttributeTests
@@ -69,10 +70,14 @@ namespace SrkToolkit.Common.Tests.DataAnnotations
         {
             var attr = new CultureInfoAttribute();
             attr.AllowNeutralCulture = false;
-            string value = "fr";
-            bool expected = false;
-            bool result = attr.IsValid(value);
-            Assert.AreEqual(expected, result);
+            string value = "fr", name = "Culture";
+            var context = new ValidationContext(new object(), null, null);
+            context.MemberName = name;
+            var result = attr.GetValidationResult(value, context);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("The culture is not valid.", result.ErrorMessage);
+            Assert.AreEqual(1, result.MemberNames.Count());
+            Assert.AreEqual(name, result.MemberNames.Single());
         }
 
         [TestMethod]

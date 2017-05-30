@@ -64,6 +64,23 @@ namespace SrkToolkit.DataAnnotations
             if (value == null)
                 return true;
 
+            if (value is string)
+            {
+                var stringValue = (string)value;
+                if (!string.IsNullOrEmpty(stringValue))
+                {
+                    DateTime date;
+                    if (DateTime.TryParse(stringValue, out date))
+                    {
+                        value = DateTime.Parse(stringValue);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+
             if (value is DateTime || value is DateTime?)
             {
                 DateTime? val = (DateTime?)value;

@@ -9,6 +9,7 @@ namespace SrkToolkit.Common.Tests.DataAnnotations
     using System.Text.RegularExpressions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using SrkToolkit.DataAnnotations;
+    using System.ComponentModel.DataAnnotations;
 
     [TestClass]
     public class PhoneNumberAttributeTests
@@ -133,6 +134,50 @@ namespace SrkToolkit.Common.Tests.DataAnnotations
                 Assert.IsFalse(PhoneNumberAttribute.ConvertNationalToInternational(input, culture, out output));
                 Assert.IsNull(output);
             }
+        }
+
+        [TestMethod]
+        public void ReturnsTrueWithEmptyValue()
+        {
+            var attr = new PhoneNumberAttribute();
+            string value = string.Empty;
+            bool expected = true;
+            bool result = attr.IsValid(value);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ReturnsTrueWithNullValue()
+        {
+            var attr = new PhoneNumberAttribute();
+            string value = null;
+            bool expected = true;
+            bool result = attr.IsValid(value);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ReturnsTrueWithValidValue()
+        {
+            var attr = new PhoneNumberAttribute();
+            string value = "+33123456798";
+            bool expected = true;
+            bool result = attr.IsValid(value);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ReturnsFalseWithObviousInvalid()
+        {
+            var attr = new PhoneNumberAttribute();
+            string value = "foobar", name = "PhoneNumber";
+            var context = new ValidationContext(new object(), null, null);
+            context.MemberName = name;
+            var result = attr.GetValidationResult(value, context);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Use the international phone number format (+xxyyyyyyyyyy).", result.ErrorMessage);
+            Assert.AreEqual(1, result.MemberNames.Count());
+            Assert.AreEqual(name, result.MemberNames.Single());
         }
     }
 }

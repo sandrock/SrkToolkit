@@ -37,7 +37,7 @@ namespace SrkToolkit.DataAnnotations
         /// The regex pattern to match an email address.
         /// </summary>
         ////public   const string SingleRegexPattern = "^[a-z0-9_\\+-]+(\\.[a-z0-9_\\+-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*\\.([a-z]{2,4})$";
-        public const string EmailAddressRegex = @"[a-z0-9\u007F-\uFFFF][a-z0-9\u007F-\uFFFF_\.+-]+@[a-z0-9\.-]+\.[a-z0-9]+";
+        public const string EmailAddressRegex = @"[a-z0-9\u007F-\uFFFF][a-z0-9\u007F-\uFFFF_\.+'-]+@[a-z0-9\.-]+\.[a-z0-9]+";
         private Func<string>[] errorMessageAccessors;
 
         /// <summary>

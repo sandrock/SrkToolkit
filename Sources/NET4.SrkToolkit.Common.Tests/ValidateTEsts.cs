@@ -70,6 +70,14 @@ namespace SrkToolkit.Common.Tests
                 var result = Validate.EmailAddress(input);
                 Assert.AreEqual(input, result);
             }
+
+            [TestMethod]
+            public void EmailCharacterSingleQuote()
+            {
+                string input = "testspec'alchar@toto.com";
+                var result = Validate.EmailAddress(input);
+                Assert.AreEqual(input, result);
+            }
         }
 
         [TestClass]

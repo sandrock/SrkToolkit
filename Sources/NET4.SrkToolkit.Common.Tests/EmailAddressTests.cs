@@ -252,6 +252,27 @@ namespace SrkToolkit.Common.Tests
                 Assert.AreEqual(domain, email.DomainPart);
                 Assert.AreEqual(address, email.Value);
             }
+
+            [TestMethod]
+            public void SplitsEmailInParts_EmptyTag_SingleQuote()
+            {
+                // prepare
+                string user = "danna.o'harra";
+                string tag = "";
+                string domain = "space.com";
+                string local = user + (string.IsNullOrEmpty(tag) ? "" : ("+" + tag));
+                string address = local + "@" + domain;
+
+                // execute
+                var email = new EmailAddress(user, tag, domain);
+
+                // verify
+                Assert.AreEqual(local, email.LocalPart);
+                Assert.AreEqual(user, email.AccountPart);
+                Assert.AreEqual(null, email.TagPart);
+                Assert.AreEqual(domain, email.DomainPart);
+                Assert.AreEqual(address, email.Value);
+            }
         }
 
         [TestClass]

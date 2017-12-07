@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>SrkToolkit.Common</id>
-    <version>1.1.134</version>
+    <version>1.1.135</version>
     <authors>SandRock, pyDez</authors>
     <owners>SandRock</owners>
     <licenseUrl>https://github.com/sandrock/SrkToolkit/blob/master/LICENSE</licenseUrl>
@@ -10,7 +10,7 @@
     <iconUrl>https://raw.githubusercontent.com/sandrock/SrkToolkit/master/Sources/logo-200.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SrkToolkit.Common contains various extension methods, validators and utility classes.</description>
-    <releaseNotes>License changed to: Apache License Version 2.0</releaseNotes>
+    <releaseNotes>Breaking changes on SetQueryString and enhancements.</releaseNotes>
     <copyright>Apache License Version 2.0</copyright>
     <tags>extension method extensions methods dataannotations validation SrkToolkit</tags>
   </metadata>

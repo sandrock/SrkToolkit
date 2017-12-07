@@ -75,7 +75,23 @@ namespace System.Web.Mvc
         ////}
 
         /// <summary>
-        /// Replaces or adds a value in the query string of the specified url.
+        /// Replaces or adds values in the query string of the specified url.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="keysAndValues">Pairs of key and value to add/replace.</param>
+        /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
+        public static Uri SetQueryString(this Uri uri, params string[] keysAndValues)
+        {
+            var builder = new UriBuilder();
+            builder.Host = uri.Host;
+            builder.Path = SetQueryString(uri.PathAndQuery, keysAndValues);
+            builder.Port = uri.Port;
+            builder.Scheme = uri.Scheme;
+            return builder.Uri;
+        }
+
+        /// <summary>
+        /// Replaces or adds values in the query string of the specified url.
         /// </summary>
         /// <param name="helper">The helper.</param>
         /// <param name="url">The original URL.</param>
@@ -86,73 +102,90 @@ namespace System.Web.Mvc
         /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
         public static string SetQueryString(this UrlHelper helper, string url, params string[] keysAndValues)
         {
+            return SetQueryString(url, keysAndValues);
+        }
+
+        /// <summary>
+        /// Replaces or adds values in the query string of the specified url.
+        /// </summary>
+        /// <param name="pathAndQuery"></param>
+        /// <param name="keysAndValues">Pairs of key and value to add/replace.</param>
+        /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
+        public static string SetQueryString(string pathAndQuery, params string[] keysAndValues)
+        {
             if (keysAndValues.Length % 2 != 0)
                 throw new ArgumentException("keysAndValues must be contain pairs of key and value", "keysAndValues");
 
             // The plan:
-            // - parse queyr and strings from url into dictionary
+            // - parse query and strings from url into dictionary
             // - update dictionary from keysAndValues
             // - build url
 
-            string path = url;
-            var values = new Dictionary<string, string>();
+            string path = pathAndQuery;
+            var values = new List<KeyValuePair<string, string>>();
+            var baseKeys = new List<string>();
 
             // parse query
             string query = "";
-            var markPos = url.IndexOf('?');
+            var markPos = pathAndQuery.IndexOf('?');
             if (markPos >= 0)
             {
-                path = url.Substring(0, markPos);
-                query = url.Substring(markPos + 1);
+                path = pathAndQuery.Substring(0, markPos);
+                query = pathAndQuery.Substring(markPos + 1);
                 var parts = query.Split(new char[] { '?', '&', }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var part in parts)
                 {
                     var subparts = part.Split(new char[] { '=', });
-                    values.Add(subparts[0], subparts.Length > 1 ? subparts[1] : string.Empty);
-                }
-            }
+                    values.Add(new KeyValuePair<string,string>(subparts[0], subparts.Length > 1 ? subparts[1] : string.Empty));
 
-            // make a dictionary out of keysAndValues
-            var kvs = new Dictionary<string, string>();
-            string theKey = null;
-            for (int i = 0; i < keysAndValues.Length; i++)
-            {
-                if (theKey == null)
-                {
-                    theKey = keysAndValues[i];
-                }
-                else if (keysAndValues[i] != null)
-                {
-                    kvs.Add(
-                        Uri.EscapeDataString(theKey),
-                        keysAndValues[i] != null ? Uri.EscapeDataString(keysAndValues[i]) : string.Empty);
-                    theKey = null;
-                }
-                else
-                {
-                    if (!kvs.ContainsKey(theKey))
+                    if (!baseKeys.Contains(subparts[0]))
                     {
-                        if (values.ContainsKey(theKey))
-                        {
-                            values.Remove(theKey);
-                        }
+                        baseKeys.Add(subparts[0]);
                     }
                 }
             }
 
-            // update dictionary from keysAndValues
-            foreach (var kv in kvs)
+            // read keysAndValues and alter the values
+            string theKey = null, value;
+            for (int i = 0; i < keysAndValues.Length; i++)
             {
-                string key = kv.Key;
-                string value = kv.Value;
-                if (value != null)
+                if (theKey == null)
                 {
-                    values[key] = value;
+                    // the current item is a key
+                    theKey = Uri.EscapeDataString(keysAndValues[i]);
                 }
                 else
                 {
-                    if (values.ContainsKey(key))
-                        values.Remove(key);
+                    value = keysAndValues[i];
+                    if (value != null)
+                    {
+                        // the current item is a non-null value: add the value
+                        value = Uri.EscapeDataString(value);
+                        values.Add(new KeyValuePair<string, string>(theKey, value));
+
+                        if (!baseKeys.Contains(theKey))
+                        {
+                            baseKeys.Add(theKey);
+                        }
+                    }
+                    else
+                    {
+                        // the current item is a null value: remove all values for this key
+                        if (baseKeys.Contains(theKey))
+                        {
+                            for (int j = 0; j < values.Count; j++)
+                            {
+                                if (theKey.Equals(values[j].Key))
+                                {
+                                    values.RemoveAt(j--);
+                                }
+                            }
+
+                            baseKeys.Remove(theKey);
+                        }
+                    }
+
+                    theKey = null;
                 }
             }
 
@@ -161,13 +194,12 @@ namespace System.Web.Mvc
             var builder = new StringBuilder();
             builder.Append(path);
             
-            foreach (string item in values.Keys)
+            foreach (var item in values)
             {
-                string itemValue = values[item];
                 builder.Append(sep);
-                builder.Append(item);
+                builder.Append((item.Key));
                 builder.Append("=");
-                builder.Append(itemValue);
+                builder.Append((item.Value));
                 sep = "&";
             }
 

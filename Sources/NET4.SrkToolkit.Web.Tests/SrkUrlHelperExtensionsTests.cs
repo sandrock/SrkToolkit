@@ -48,6 +48,22 @@ namespace SrkToolkit.Web.Tests
             }
 
             [TestMethod]
+            public void WithNoPath()
+            {
+                // prepare
+                string path = "";
+                string input = path;
+                string expected = "?k1=v1";
+                var helper = GetHelper(path, "");
+
+                // execute
+                string actual = helper.SetQueryString(input, "k1", "v1");
+
+                // verify
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
             public void WithQueryDelimiter()
             {
                 // prepare
@@ -99,7 +115,7 @@ namespace SrkToolkit.Web.Tests
                 string path = "/path";
                 string query = "k1=v0";
                 string input = path + "?" + query;
-                string expected = "/path?k1=v1";
+                string expected = "/path?k1=v0&k1=v1";
                 var helper = GetHelper(path, query);
 
                 // execute
@@ -131,7 +147,7 @@ namespace SrkToolkit.Web.Tests
                 // prepare
                 string path = "/path?k1=v1";
                 string input = path;
-                string expected = "/path?k1=v111&k2=v2";
+                string expected = "/path?k1=v1&k1=v111&k2=v2";
                 var helper = GetHelper(path, "");
 
                 // execute
@@ -194,6 +210,38 @@ namespace SrkToolkit.Web.Tests
 
                 string actual = helper.SetQueryString(url, "nullstuff", null);
 
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
+            public void BaseMultipleValues_SetMultipleValues()
+            {
+                // prepare
+                string path = "/path?k1=v1&k1=v2"; // key has 2 values
+                string input = path;
+                string expected = "/path?k1=v1&k1=v2&k1=v1&k1=v3";
+                var helper = GetHelper(path, "");
+
+                // execute
+                string actual = helper.SetQueryString(input, "k1", "v1", "k1", "v3"); // key has 2 values
+
+                // verify
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
+            public void BaseMultipleValues_ResetAndSetMultipleValues()
+            {
+                // prepare
+                string path = "/path?k1=v1&k1=v2"; // key has 2 values
+                string input = path;
+                string expected = "/path?k1=v1&k1=v3";
+                var helper = GetHelper(path, "");
+
+                // execute
+                string actual = helper.SetQueryString(input, "k1", null, "k1", "v1", "k1", "v3"); // key has 2 values
+
+                // verify
                 Assert.AreEqual(expected, actual);
             }
         }

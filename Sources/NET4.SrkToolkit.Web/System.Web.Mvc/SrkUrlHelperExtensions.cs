@@ -80,6 +80,48 @@ namespace System.Web.Mvc
         /// <param name="uri"></param>
         /// <param name="keysAndValues">Pairs of key and value to add/replace.</param>
         /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
+        public static Uri ResetQueryString(this Uri uri, params string[] keysAndValues)
+        {
+            var builder = new UriBuilder();
+            builder.Host = uri.Host;
+            builder.Path = SetQueryString(uri.PathAndQuery, true, keysAndValues);
+            builder.Port = uri.Port;
+            builder.Scheme = uri.Scheme;
+            return builder.Uri;
+        }
+
+        /// <summary>
+        /// Replaces or adds values in the query string of the specified url.
+        /// </summary>
+        /// <param name="helper">The helper.</param>
+        /// <param name="url">The original URL.</param>
+        /// <param name="keysAndValues">Pairs of key and value to add/replace.</param>
+        /// <returns>
+        /// the modified URL
+        /// </returns>
+        /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
+        public static string ResetQueryString(this UrlHelper helper, string url, params string[] keysAndValues)
+        {
+            return SetQueryString(url, true, keysAndValues);
+        }
+
+        /// <summary>
+        /// Replaces or adds values in the query string of the specified url.
+        /// </summary>
+        /// <param name="pathAndQuery"></param>
+        /// <param name="keysAndValues">Pairs of key and value to add/replace.</param>
+        /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
+        public static string ResetQueryString(string pathAndQuery, params string[] keysAndValues)
+        {
+            return SetQueryString(pathAndQuery, true, keysAndValues);
+        }
+
+        /// <summary>
+        /// Replaces or adds values in the query string of the specified url.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="keysAndValues">Pairs of key and value to add/replace.</param>
+        /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
         public static Uri SetQueryString(this Uri uri, params string[] keysAndValues)
         {
             var builder = new UriBuilder();
@@ -113,6 +155,18 @@ namespace System.Web.Mvc
         /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
         public static string SetQueryString(string pathAndQuery, params string[] keysAndValues)
         {
+            return SetQueryString(pathAndQuery, false, keysAndValues);
+        }
+
+        /// <summary>
+        /// Replaces or adds values in the query string of the specified url.
+        /// </summary>
+        /// <param name="pathAndQuery"></param>
+        /// <param name="resetCurrentKey">if true, the presence of a key will remove previous value and replace it. If false, the new values will be append to previous ones </param>
+        /// <param name="keysAndValues">Pairs of key and value to add/replace.</param>
+        /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
+        private static string SetQueryString(string pathAndQuery, bool resetCurrentKey, params string[] keysAndValues)
+        {
             if (keysAndValues.Length % 2 != 0)
                 throw new ArgumentException("keysAndValues must be contain pairs of key and value", "keysAndValues");
 
@@ -141,6 +195,24 @@ namespace System.Web.Mvc
                     if (!baseKeys.Contains(subparts[0]))
                     {
                         baseKeys.Add(subparts[0]);
+                    }
+                }
+            }
+
+            // remove keys  
+            if (resetCurrentKey)
+            {
+                for (int i = 0; i < keysAndValues.Length; i+=2)
+                {
+                    //read all keys
+                    var key = Uri.EscapeDataString(keysAndValues[i]);
+                    for (int j = 0; j < values.Count; j++)
+                    {
+                        if (values[j].Key == key)
+                        {
+                            values.RemoveAt(j);
+                            j--;
+                        }
                     }
                 }
             }
@@ -205,5 +277,7 @@ namespace System.Web.Mvc
 
             return builder.ToString();
         }
+
+        
     }
 }

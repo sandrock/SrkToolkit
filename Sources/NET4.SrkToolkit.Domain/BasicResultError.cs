@@ -44,6 +44,21 @@ namespace SrkToolkit.Domain
             this.DisplayMessage = displayMessage;
         }
 
+        public BasicResultError(string code, string displayMessage)
+        {
+            this.code = code;
+            this.DisplayMessage = displayMessage;
+        }
+
+        public BasicResultError(string code, string displayMessage, string detail)
+        {
+            this.code = code;
+            this.DisplayMessage = displayMessage;
+            this.Detail = detail;
+        }
+
+        private string code;
+
         /// <summary>
         /// Gets or sets the display message.
         /// </summary>
@@ -59,7 +74,7 @@ namespace SrkToolkit.Domain
         [DataMember(IsRequired = false, Order = 0)]
         string IResultError.Code
         {
-            get { return this.DisplayMessage; }
+            get { return this.code ?? this.DisplayMessage; }
         }
     }
 }

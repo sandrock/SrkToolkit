@@ -76,9 +76,43 @@ namespace SrkToolkit.Web
                 this.includes = new List<Tuple<WebDependency, WebDependencyPosition>>();
             }
 
-            if (!this.includes.Any(i => i.Item1.Name == value.Name))
+
+            var includeCandidate = this.includes.FirstOrDefault(i => i.Item1.Name == value.Name);
+
+            if (includeCandidate == null)
             {
+                // not included yet
                 this.includes.Add(new Tuple<WebDependency, WebDependencyPosition>(value, position));
+            }
+            else
+            {
+                // already included. Take the highest position
+                var replace = false;
+                if (position != WebDependencyPosition.Default)
+                {
+                    if (includeCandidate.Item2 == WebDependencyPosition.Default)
+                    {
+                        replace = true;
+                    }
+                    else if (position < includeCandidate.Item2)
+                    {
+                        replace = true;
+                    }
+                    else
+                    {
+                        // do not replace
+                    }
+                }
+                else
+                {
+                    // position is default, do not replace
+                }
+
+                if (replace)
+                {
+                    this.includes.Remove(includeCandidate);
+                    this.includes.Add(new Tuple<WebDependency, WebDependencyPosition>(value, position));
+                }
             }
 
             return this;

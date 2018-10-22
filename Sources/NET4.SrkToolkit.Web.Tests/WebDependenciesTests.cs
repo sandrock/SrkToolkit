@@ -211,6 +211,82 @@ namespace SrkToolkit.Web.Tests
                 var result = target.RenderIncludes(WebDependencyPosition.Default);
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
+
+            [TestMethod]
+            public void MultipleInclude_shouldChooseTheHighestPosition_WithDefaultFirst()
+            {
+                string expectedEndOfPage = "<!-- WebDependencies/EndOfPage - start -->\r\n"
+                    + "<link href=\"//css1.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+                    + "<!-- WebDependencies/EndOfPage - end -->\r\n";
+
+
+                string expectedDefault = "<!-- WebDependencies/Default - start -->\r\n"
+                    + "<!-- WebDependencies/Default - end -->\r\n";
+
+                var item1 = new WebDependency("test1");
+                item1.Add(new WebDependencyFile("//css1.css", WebDependencyFileType.Css));
+
+                var target = new WebDependencies();
+                target.Include(item1, WebDependencyPosition.Default);
+                target.Include(item1, WebDependencyPosition.EndOfPage);
+
+                var result = target.RenderIncludes(WebDependencyPosition.Default);
+                SrkToolkit.Testing.Assert.AreEqual(expectedDefault, result.ToString());
+
+                result = target.RenderIncludes(WebDependencyPosition.EndOfPage);
+                SrkToolkit.Testing.Assert.AreEqual(expectedEndOfPage, result.ToString());
+            }
+
+            [TestMethod]
+            public void MultipleInclude_shouldChooseTheHighestPosition_WithDefaultSecond()
+            {
+                string expectedEndOfPage = "<!-- WebDependencies/EndOfPage - start -->\r\n"
+                    + "<link href=\"//css1.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+                    + "<!-- WebDependencies/EndOfPage - end -->\r\n";
+
+
+                string expectedDefault = "<!-- WebDependencies/Default - start -->\r\n"
+                    + "<!-- WebDependencies/Default - end -->\r\n";
+
+                var item1 = new WebDependency("test1");
+                item1.Add(new WebDependencyFile("//css1.css", WebDependencyFileType.Css));
+
+                var target = new WebDependencies();
+                target.Include(item1, WebDependencyPosition.EndOfPage);
+                target.Include(item1, WebDependencyPosition.Default);
+
+                var result = target.RenderIncludes(WebDependencyPosition.Default);
+                SrkToolkit.Testing.Assert.AreEqual(expectedDefault, result.ToString());
+
+                result = target.RenderIncludes(WebDependencyPosition.EndOfPage);
+                SrkToolkit.Testing.Assert.AreEqual(expectedEndOfPage, result.ToString());
+            }
+
+            [TestMethod]
+            public void MultipleInclude_shouldChooseTheHighestPosition_WithoutDefault()
+            {
+                string expectedHead = "<!-- WebDependencies/Head - start -->\r\n"
+                    + "<link href=\"//css1.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+                    + "<!-- WebDependencies/Head - end -->\r\n";
+
+
+                string expectedEndOfPage = "<!-- WebDependencies/EndOfPage - start -->\r\n"
+                    + "<!-- WebDependencies/EndOfPage - end -->\r\n";
+
+                var item1 = new WebDependency("test1");
+                item1.Add(new WebDependencyFile("//css1.css", WebDependencyFileType.Css));
+
+                var target = new WebDependencies();
+                target.Include(item1, WebDependencyPosition.EndOfPage);
+                target.Include(item1, WebDependencyPosition.Head);
+
+                var result = target.RenderIncludes(WebDependencyPosition.Head);
+                SrkToolkit.Testing.Assert.AreEqual(expectedHead, result.ToString());
+
+                result = target.RenderIncludes(WebDependencyPosition.EndOfPage);
+                SrkToolkit.Testing.Assert.AreEqual(expectedEndOfPage, result.ToString());
+            }
+
         }
     }
 }

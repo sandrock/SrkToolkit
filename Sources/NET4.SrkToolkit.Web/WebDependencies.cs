@@ -29,7 +29,7 @@ namespace SrkToolkit.Web
     /// </summary>
     public class WebDependencies
     {
-        protected List<Tuple<WebDependency, WebDependencyPosition>> includes;
+        protected Dictionary<string, Tuple<WebDependency, WebDependencyPosition>> includes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WebDependencies"/> class.
@@ -69,20 +69,19 @@ namespace SrkToolkit.Web
         /// <param name="value">The value.</param>
         /// <param name="position">The position.</param>
         /// <returns></returns>
+#pragma warning disable CS0618 // Type or member is obsolete
         public WebDependencies Include(WebDependency value, WebDependencyPosition position = WebDependencyPosition.Default)
         {
             if (this.includes == null)
             {
-                this.includes = new List<Tuple<WebDependency, WebDependencyPosition>>();
+                this.includes = new Dictionary<string, Tuple<WebDependency, WebDependencyPosition>>();
             }
-
-
-            var includeCandidate = this.includes.FirstOrDefault(i => i.Item1.Name == value.Name);
-
-            if (includeCandidate == null)
+            
+            Tuple<WebDependency, WebDependencyPosition> includeCandidate;
+            if (!this.includes.TryGetValue(value.Name, out includeCandidate))
             {
                 // not included yet
-                this.includes.Add(new Tuple<WebDependency, WebDependencyPosition>(value, position));
+                this.includes.Add(value.Name, new Tuple<WebDependency, WebDependencyPosition>(value, position));
             }
             else
             {
@@ -110,13 +109,13 @@ namespace SrkToolkit.Web
 
                 if (replace)
                 {
-                    this.includes.Remove(includeCandidate);
-                    this.includes.Add(new Tuple<WebDependency, WebDependencyPosition>(value, position));
+                    this.includes[value.Name] = new Tuple<WebDependency, WebDependencyPosition>(value, position);
                 }
             }
 
             return this;
         }
+#pragma warning restore CS0618 // Type or member is obsolete
 
         /// <summary>
         /// Renders the dependencies marked for inclusion.
@@ -130,11 +129,12 @@ namespace SrkToolkit.Web
 
             if (this.includes != null && this.includes.Count > 0)
             {
-                var sorted = this.includes.OrderBy(i => i.Item1.Order).ToArray();
+                var sorted = this.includes.Values.OrderBy(i => i.Item1.Order).ToArray();
                 for (int i = 0; i < sorted.Length; i++)
                 {
                     var item = sorted[i].Item1;
                     var itemPosition = sorted[i].Item2;
+#pragma warning disable CS0618 // Type or member is obsolete
                     if (itemPosition == position || itemPosition == WebDependencyPosition.Default && item.DefaultPosition == position)
                     {
                         if (item.Files != null)
@@ -145,6 +145,7 @@ namespace SrkToolkit.Web
                             }
                         }
                     }
+#pragma warning restore CS0618 // Type or member is obsolete
                 }
             }
 

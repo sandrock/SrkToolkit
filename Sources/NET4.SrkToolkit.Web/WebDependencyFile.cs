@@ -139,7 +139,7 @@ namespace SrkToolkit.Web
     public enum WebDependencyPosition
     {
         /// <summary>
-        /// Internal value, do not use.
+        /// Internal value, do not use. During an Include operation, it means to include the item at its default include position.
         /// </summary>
         [Obsolete("Internal value, do not use")]
         Default,

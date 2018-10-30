@@ -25,6 +25,7 @@ namespace System.Web.Mvc
     using System.Web.Routing;
     using SrkToolkit.Web.Open;
     using SrkToolkit.Web;
+    using System.Globalization;
 
     /// <summary>
     /// HTML extensions. 
@@ -46,7 +47,7 @@ namespace System.Web.Mvc
 
         private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
-        #region SetTimezone, GetTimezone, GetUserDate, GetUtcDate
+        #region SetTimezone, GetTimezone, GetUserDate, GetUtcDate, SetCulture, GetCulture
 
         /// <summary>
         /// Sets the timezone for displays of dates and times.
@@ -153,6 +154,108 @@ namespace System.Web.Mvc
             }
 
             throw new NotSupportedException("DateTime.Kind '" + date.Kind + "' is not supported");
+        }
+
+        /// <summary>
+        /// Sets the current culture.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="culture">Culture name.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        /// <exception cref="CultureNotFoundException"></exception>
+        public static HtmlHelper SetCulture(this HtmlHelper html, string culture)
+        {
+            if (string.IsNullOrEmpty(culture))
+                throw new ArgumentException("The value cannot be empty", "culture");
+
+            SrkHtmlExtensions.SetCulture(html, CultureInfo.GetCultureInfo(culture));
+            return html;
+        }
+
+        /// <summary>
+        /// Sets the current culture.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="culture">The culture.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        public static HtmlHelper SetCulture(this HtmlHelper html, CultureInfo culture)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+
+            if (html.ViewContext != null && html.ViewContext.HttpContext != null)
+                html.ViewContext.HttpContext.Items["Culture"] = culture;
+            html.ViewData["Culture"] = culture;
+            return html;
+        }
+
+        /// <summary>
+        /// Gets the current culture.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">html</exception>
+        public static CultureInfo GetCulture(this HtmlHelper html)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+
+            if (html.ViewContext != null && html.ViewContext.HttpContext != null)
+                return (CultureInfo)html.ViewData["Culture"] ?? (CultureInfo)html.ViewContext.HttpContext.Items["Culture"] ?? CultureInfo.CurrentUICulture;
+            return (CultureInfo)html.ViewData["Culture"] ?? CultureInfo.CurrentCulture;
+        }
+
+        /// <summary>
+        /// Sets the current UI culture.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="uICulture">Culture name.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        /// <exception cref="CultureNotFoundException"></exception>
+        public static HtmlHelper SetUICulture(this HtmlHelper html, string uICulture)
+        {
+            if (string.IsNullOrEmpty(uICulture))
+                throw new ArgumentException("The value cannot be empty", "culture");
+
+            SrkHtmlExtensions.SetUICulture(html, CultureInfo.GetCultureInfo(uICulture));
+            return html;
+        }
+
+        /// <summary>
+        /// Sets the current UI culture.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <param name="uICulture">The culture.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        public static HtmlHelper SetUICulture(this HtmlHelper html, CultureInfo uICulture)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+
+            if (html.ViewContext != null && html.ViewContext.HttpContext != null)
+                html.ViewContext.HttpContext.Items["UICulture"] = uICulture;
+            html.ViewData["UICulture"] = uICulture;
+            return html;
+        }
+
+        /// <summary>
+        /// Gets the current UI culture.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">html</exception>
+        public static CultureInfo GetUICulture(this HtmlHelper html)
+        {
+            if (html == null)
+                throw new ArgumentNullException("html");
+
+            if (html.ViewContext != null && html.ViewContext.HttpContext != null)
+                return (CultureInfo)html.ViewData["UICulture"] ?? (CultureInfo)html.ViewContext.HttpContext.Items["UICulture"] ?? CultureInfo.CurrentUICulture;
+            return (CultureInfo)html.ViewData["UICulture"] ?? CultureInfo.CurrentUICulture;
         }
 
         #region Display date/time

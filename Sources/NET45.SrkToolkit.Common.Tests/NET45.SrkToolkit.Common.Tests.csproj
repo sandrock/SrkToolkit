@@ -66,10 +66,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NET4.SrkToolkit.Common\NET4.SrkToolkit.Common.csproj">
-      <Project>{19495a45-67a8-460d-806c-cf158b96bbe9}</Project>
-      <Name>NET4.SrkToolkit.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NET45.SrkToolkit.Common\NET45.SrkToolkit.Common.csproj">
       <Project>{ad101432-1950-4f01-825a-7d108b30da35}</Project>
       <Name>NET45.SrkToolkit.Common</Name>

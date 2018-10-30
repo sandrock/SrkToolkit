@@ -18,6 +18,7 @@ namespace SrkToolkit.Web
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using System.Web;
@@ -147,6 +148,222 @@ namespace SrkToolkit.Web
                 throw new ArgumentNullException("http");
 
             return (TimeZoneInfo)http.Items["Timezone"] ?? TimeZoneInfo.Utc;
+        }
+
+        /// <summary>
+        /// Sets the culture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="culture">The culture name.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="CultureNotFoundException"></exception>
+        public static HttpContextBase SetCulture(this HttpContextBase http, string culture)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            if (culture == null)
+            {
+                throw new ArgumentNullException(nameof(culture));
+            }
+
+            var cultureInfo = CultureInfo.GetCultureInfo(culture);
+
+            http.Items["Culture"] = cultureInfo;
+            return http;
+        }
+
+        /// <summary>
+        /// Sets the culture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="culture">The culture name.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="CultureNotFoundException"></exception>
+        public static HttpContext SetCulture(this HttpContext http, string culture)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            if (culture == null)
+            {
+                throw new ArgumentNullException(nameof(culture));
+            }
+
+            var cultureInfo = CultureInfo.GetCultureInfo(culture);
+
+            http.Items["Culture"] = cultureInfo;
+            return http;
+        }
+
+        /// <summary>
+        /// Sets the culture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="culture">The culture.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static HttpContextBase SetCulture(this HttpContextBase http, CultureInfo culture)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            http.Items["Culture"] = culture;
+            return http;
+        }
+
+        /// <summary>
+        /// Sets the culture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="culture">The culture.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static HttpContext SetCulture(this HttpContext http, CultureInfo culture)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            http.Items["Culture"] = culture;
+            return http;
+        }
+
+        /// <summary>
+        /// Gets the current culture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">html</exception>
+        public static CultureInfo GetCulture(this HttpContextBase http)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            return (CultureInfo)http.Items["Culture"] ?? CultureInfo.CurrentCulture;
+        }
+
+        /// <summary>
+        /// Gets the current culture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">html</exception>
+        public static CultureInfo GetCulture(this HttpContext http)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            return (CultureInfo)http.Items["Culture"] ?? CultureInfo.CurrentCulture;
+        }
+
+        /// <summary>
+        /// Sets the UICulture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="uICulture">The UICulture name.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="CultureNotFoundException"></exception>
+        public static HttpContextBase SetUICulture(this HttpContextBase http, string uICulture)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            if (uICulture == null)
+            {
+                throw new ArgumentNullException(nameof(uICulture));
+            }
+
+            var cultureInfo = CultureInfo.GetCultureInfo(uICulture);
+
+            http.Items["UICulture"] = cultureInfo;
+            return http;
+        }
+
+        /// <summary>
+        /// Sets the UICulture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="uICulture">The UICulture name.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="CultureNotFoundException"></exception>
+        public static HttpContext SetUICulture(this HttpContext http, string uICulture)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            if (uICulture == null)
+            {
+                throw new ArgumentNullException(nameof(uICulture));
+            }
+
+            var cultureInfo = CultureInfo.GetCultureInfo(uICulture);
+
+            http.Items["UICulture"] = cultureInfo;
+            return http;
+        }
+
+        /// <summary>
+        /// Sets the UICulture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="uICulture">The UICulture.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static HttpContextBase SetUICulture(this HttpContextBase http, CultureInfo uICulture)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            http.Items["UICulture"] = uICulture;
+            return http;
+        }
+
+        /// <summary>
+        /// Sets the UICulture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <param name="uICulture">The UICulture.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static HttpContext SetUICulture(this HttpContext http, CultureInfo uICulture)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            http.Items["UICulture"] = uICulture;
+            return http;
+        }
+
+        /// <summary>
+        /// Gets the current UICulture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">html</exception>
+        public static CultureInfo GetUICulture(this HttpContextBase http)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            return (CultureInfo)http.Items["UICulture"] ?? CultureInfo.CurrentUICulture;
+        }
+
+        /// <summary>
+        /// Gets the current UICulture.
+        /// </summary>
+        /// <param name="http">The HTML.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">html</exception>
+        public static CultureInfo GetUICulture(this HttpContext http)
+        {
+            if (http == null)
+                throw new ArgumentNullException("http");
+
+            return (CultureInfo)http.Items["UICulture"] ?? CultureInfo.CurrentUICulture;
         }
 
         /// <summary>

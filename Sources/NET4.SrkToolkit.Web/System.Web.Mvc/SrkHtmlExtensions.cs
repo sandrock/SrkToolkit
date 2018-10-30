@@ -47,7 +47,7 @@ namespace System.Web.Mvc
 
         private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
-        #region SetTimezone, GetTimezone, GetUserDate, GetUtcDate SetCulture, GetCulture
+        #region SetTimezone, GetTimezone, GetUserDate, GetUtcDate, SetCulture, GetCulture
 
         /// <summary>
         /// Sets the timezone for displays of dates and times.
@@ -204,7 +204,7 @@ namespace System.Web.Mvc
 
             if (html.ViewContext != null && html.ViewContext.HttpContext != null)
                 return (CultureInfo)html.ViewData["Culture"] ?? (CultureInfo)html.ViewContext.HttpContext.Items["Culture"] ?? CultureInfo.CurrentUICulture;
-            return (CultureInfo)html.ViewData["Culture"] ?? CultureInfo.CurrentUICulture;
+            return (CultureInfo)html.ViewData["Culture"] ?? CultureInfo.CurrentCulture;
         }
 
         /// <summary>

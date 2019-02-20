@@ -65,15 +65,18 @@ echo -----------------------------
 cd ..
 cd Sources
 set solutionDirectory=%CD%
-%msbuild4% "SrkToolkit - VS11.sln" /p:Configuration=Release /nologo /verbosity:q
+REM %msbuild4% "SrkToolkit - VS11.sln" /p:Configuration=Release /nologo /verbosity:q
+REM 
+REM if not %ERRORLEVEL% == 0 (
+REM  echo ERROR: build failed. exiting.
+REM  cd %currentDirectory%
+REM  pause
+REM  goto end
+REM )
+REM echo Done.
 
-if not %ERRORLEVEL% == 0 (
- echo ERROR: build failed. exiting.
- cd %currentDirectory%
- pause
- goto end
-)
-echo Done.
+echo Please build the solution in RELEASE configuration.
+pause
 
 echo:
 echo Copy libs

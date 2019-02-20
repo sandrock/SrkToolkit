@@ -10,7 +10,7 @@
     <iconUrl>https://raw.githubusercontent.com/sandrock/SrkToolkit/master/Sources/logo-200.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SrkToolkit.Web.AspMvc4 is a bunch of extensions and tools to use with your ASP MVC project.</description>
-    <releaseNotes>License changed to: Apache License Version 2.0</releaseNotes>
+    <releaseNotes>Fixed WebDependencies and Get/Set Culture.</releaseNotes>
     <copyright>Apache License Version 2.0</copyright>
     <tags>AspMvc MVC Mvc5 SrkToolkit Html NavigationLine TempData TempMessage WebDependencies AuthorizeAttribute OpenGraph DisplayDate DisplayTime</tags>
     <dependencies>

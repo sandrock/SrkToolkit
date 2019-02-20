@@ -94,11 +94,18 @@ namespace System
         {
             while (exception != null)
             {
+#if NSTD
+                if (exception is OutOfMemoryException)
+                {
+                    return true;
+                }
+#else
                 if ((exception is OutOfMemoryException && !(exception is InsufficientMemoryException)) ||
                     exception is ThreadAbortException)
                 {
                     return true;
                 }
+#endif
 
                 if (!(exception is TypeInitializationException) && !(exception is TargetInvocationException))
                 {

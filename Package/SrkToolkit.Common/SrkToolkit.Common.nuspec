@@ -10,7 +10,7 @@
     <iconUrl>https://raw.githubusercontent.com/sandrock/SrkToolkit/master/Sources/logo-200.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SrkToolkit.Common contains various extension methods, validators and utility classes.</description>
-    <releaseNotes>Breaking changes on SetQueryString and enhancements.</releaseNotes>
+    <releaseNotes>Moving to netstandard2.0.</releaseNotes>
     <copyright>Apache License Version 2.0</copyright>
     <tags>extension method extensions methods dataannotations validation SrkToolkit</tags>
   </metadata>

@@ -24,6 +24,8 @@ namespace SrkToolkit.Internals
     using System.Threading;
     using System.Threading.Tasks;
 
+    // TODO: support for netstandard
+
     public class RetryLogicState<TReturn>
     {
         private Func<TReturn> actionToExecute;
@@ -521,19 +523,20 @@ namespace SrkToolkit.Internals
         {
             if (this.traceRetryEvents)
             {
-                if(isError)
+                if (isError)
                 {
                     if (exception != null)
                     {
-                        Trace.TraceError(message + Environment.NewLine + exception.ToString() + Environment.NewLine);
+                        Trace.WriteLine(message + Environment.NewLine + exception.ToString() + Environment.NewLine);
                     }
                     else
                     {
-                        Trace.TraceError(message + Environment.NewLine);
+                        Trace.WriteLine(message + Environment.NewLine);
                     }
                 }
-                else{
-                    Trace.TraceInformation(message + Environment.NewLine);
+                else
+                {
+                    Trace.WriteLine(message + Environment.NewLine);
                 }
             }
         }

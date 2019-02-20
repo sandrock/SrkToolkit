@@ -1,0 +1,85 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.2.0</Version>
+    <Authors />
+    <Company />
+    <Product>SrkToolkit</Product>
+    <Description>SrkToolkit.Common for netstandard1.4</Description>
+    <Copyright>Copyright © SandRock 2011</Copyright>
+    <AssemblyName>SrkToolkit.Common</AssemblyName>
+    <RootNamespace>SrkToolkit</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE;NSTD</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;NSTD</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\NET4.SrkToolkit.Common\CompositeDisposable.cs" Link="CompositeDisposable.cs" />
+    <None Include="..\NET4.SrkToolkit.Common\DataAnnotations\CultureInfoAttribute.cs" Link="DataAnnotations\CultureInfoAttribute.cs" />
+    <None Include="..\NET4.SrkToolkit.Common\DataAnnotations\DateRangeAttribute.cs" Link="DataAnnotations\DateRangeAttribute.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\EmailAddressAttribute.cs" Link="DataAnnotations\EmailAddressAttribute.cs" />
+    <None Include="..\NET4.SrkToolkit.Common\DataAnnotations\PhoneNumberAttribute.cs" Link="DataAnnotations\PhoneNumberAttribute.cs" />
+    <None Include="..\NET4.SrkToolkit.Common\DataAnnotations\TimezoneAttribute.cs" Link="DataAnnotations\TimezoneAttribute.cs" />
+    <None Include="..\NET4.SrkToolkit.Common\DataAnnotations\TwitterUsernameAttribute.cs" Link="DataAnnotations\TwitterUsernameAttribute.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\DisposableOnce.cs" Link="DisposableOnce.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\EnumTools.cs" Link="EnumTools.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\Globalization\CultureInfoHelper.cs" Link="Globalization\CultureInfoHelper.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\Internals\Nothing.cs" Link="Internals\Nothing.cs" />
+    <None Include="..\NET4.SrkToolkit.Common\Internals\RetryLogicState.cs" Link="Internals\RetryLogicState.cs" />
+    <None Include="..\NET4.SrkToolkit.Common\IO\RecursiveDelete.cs" Link="IO\RecursiveDelete.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\Resources\Strings.Designer.cs" Link="Resources\Strings.Designer.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\RetryIntervalStrategy.cs" Link="RetryIntervalStrategy.cs" />
+    <None Include="..\NET4.SrkToolkit.Common\RetryLogic.cs" Link="RetryLogic.cs" />
+    <None Include="..\NET4.SrkToolkit.Common\StringComparerEx.cs" Link="StringComparerEx.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\StringReplacer.cs" Link="StringReplacer.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System.Collections.Generic\SrkIDictionaryExtensions.cs" Link="System.Collections.Generic\SrkIDictionaryExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System.Collections.Generic\SrkIListExtensions.cs" Link="System.Collections.Generic\SrkIListExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System.Collections.ObjectModel\SrkObservableCollectionExtensions.cs" Link="System.Collections.ObjectModel\SrkObservableCollectionExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System.Collections.Specialized\SrkNameValueCollectionExtensions.cs" Link="System.Collections.Specialized\SrkNameValueCollectionExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System.Collections\SrkIDictionaryExtensions.cs" Link="System.Collections\SrkIDictionaryExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System.Diagnostics\StopwatchExtensions.cs" Link="System.Diagnostics\StopwatchExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System.Linq\SrkEnumerable.cs" Link="System.Linq\SrkEnumerable.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System\DateTimePrecision.cs" Link="System\DateTimePrecision.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System\SrkArrayExtensions.cs" Link="System\SrkArrayExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System\SrkDateTimeExtensions.cs" Link="System\SrkDateTimeExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System\SrkExceptionExtensions.cs" Link="System\SrkExceptionExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System\SrkStringExtensions.cs" Link="System\SrkStringExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System\SrkTimeZoneInfoExtensions.cs" Link="System\SrkTimeZoneInfoExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System\StringTransformer.cs" Link="System\StringTransformer.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\System\StringTransformer.Urls.cs" Link="System\StringTransformer.Urls.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\Testing\Assert.cs" Link="Testing\Assert.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\Threading.Tasks\TaskEx.cs" Link="Threading.Tasks\TaskEx.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\Validation\EmailAddressUtility.cs" Link="Validation\EmailAddressUtility.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\Validation\Validate.cs" Link="Validation\Validate.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\NET4.SrkToolkit.Common\Resources\Strings.fr.resx" Link="Resources\Strings.fr.resx" />
+    <EmbeddedResource Include="..\NET4.SrkToolkit.Common\Resources\Strings.resx" Link="Resources\Strings.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Collections\" />
+    <Folder Include="Globalization\" />
+    <Folder Include="IO\" />
+    <Folder Include="Validation\" />
+    <Folder Include="Threading.Tasks\" />
+    <Folder Include="Testing\" />
+    <Folder Include="System.Linq\" />
+    <Folder Include="System.Diagnostics\" />
+    <Folder Include="System.Collections.Specialized\" />
+    <Folder Include="System.Collections.ObjectModel\" />
+    <Folder Include="System.Collections.Generic\" />
+    <Folder Include="System.Collections\" />
+    <Folder Include="System\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+</Project>

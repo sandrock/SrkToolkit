@@ -40,7 +40,14 @@ namespace SrkToolkit.Globalization
                 return countriesCache[CultureInfo.CurrentCulture];
 
             var list = new List<Tuple<RegionInfo, CultureInfo>>();
-            var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures & ~CultureTypes.SpecificCultures);
+
+            CultureInfo[] cultures;
+#if NSTD
+            // TODO: support for netstandard
+            throw new NotSupportedException();
+#else
+            cultures = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures & ~CultureTypes.SpecificCultures);
+
             foreach (var culture in cultures)
             {
                 if (!culture.IsNeutralCulture && culture.LCID != 0x7F)
@@ -83,6 +90,7 @@ namespace SrkToolkit.Globalization
             }
 
             return list1;
+#endif
         }
     }
 }

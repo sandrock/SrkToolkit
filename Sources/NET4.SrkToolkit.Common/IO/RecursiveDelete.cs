@@ -71,6 +71,7 @@ namespace SrkToolkit.IO
         /// <param name="progressCallback">The progress callback.</param>
         public void RunAsync(Action callback, Action<int, int> progressCallback)
         {
+            // TODO: support for netstandard
             ThreadPool.QueueUserWorkItem(_ =>
             {
                 this.Execute();

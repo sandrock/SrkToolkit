@@ -102,6 +102,12 @@ xcopy /Q /Y Binaries\NET45\SrkToolkit.Common.dll %outputDirectory%\SrkToolkit.Co
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Common.xml %outputDirectory%\SrkToolkit.Common\lib\net45
 mkdir %outputDirectory%\SrkToolkit.Common\lib\net45\fr
 xcopy /Q /Y Binaries\NET45\fr\SrkToolkit.Common.* %outputDirectory%\SrkToolkit.Common\lib\net45\fr
+mkdir %outputDirectory%\SrkToolkit.Common\lib\netstandard2.0
+xcopy /Q /Y Sources\NSTD.SrkToolkit.Common\bin\Release\netstandard2.0\SrkToolkit.Common.dll %outputDirectory%\SrkToolkit.Common\lib\netstandard2.0
+xcopy /Q /Y Sources\NSTD.SrkToolkit.Common\bin\Release\netstandard2.0\SrkToolkit.Common.xml %outputDirectory%\SrkToolkit.Common\lib\netstandard2.0
+xcopy /Q /Y Sources\NSTD.SrkToolkit.Common\bin\Release\netstandard2.0\SrkToolkit.Common.deps.json %outputDirectory%\SrkToolkit.Common\lib\netstandard2.0
+mkdir %outputDirectory%\SrkToolkit.Common\lib\netstandard2.0\fr
+xcopy /Q /Y Sources\NSTD.SrkToolkit.Common\bin\Release\netstandard2.0\fr\SrkToolkit.Common.* %outputDirectory%\SrkToolkit.Common\lib\netstandard2.0\fr
 
 mkdir %outputDirectory%\SrkToolkit.Web.AspMvc4\
 mkdir %outputDirectory%\SrkToolkit.Web.AspMvc4\lib

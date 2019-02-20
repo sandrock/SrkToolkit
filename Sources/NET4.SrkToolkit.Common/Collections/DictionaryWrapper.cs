@@ -62,7 +62,7 @@ namespace SrkToolkit.Collections
             this.Set(hashtable);
         }
 
-        #region IDictionary<TKey, TValue>
+#region IDictionary<TKey, TValue>
 
         /// <summary>
         /// Adds an element with the provided key and value to the wrapped dictionary.
@@ -201,7 +201,7 @@ namespace SrkToolkit.Collections
             throw new NotSupportedException();
         }
 
-        #endregion
+#endregion
 
         private void Set(Hashtable hashtable)
         {

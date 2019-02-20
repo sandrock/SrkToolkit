@@ -110,6 +110,7 @@ namespace System
                     options = CompareOptions.IgnoreCase;
                     break;
 
+#if !NSTD
                 case StringComparison.InvariantCulture:
                     culture = CultureInfo.InvariantCulture;
                     break;
@@ -118,6 +119,7 @@ namespace System
                     culture = CultureInfo.InvariantCulture;
                     options = CompareOptions.IgnoreCase;
                     break;
+#endif
 
                 case StringComparison.Ordinal:
                     culture = CultureInfo.InvariantCulture;
@@ -181,6 +183,7 @@ namespace System
                     options = CompareOptions.IgnoreCase;
                     break;
 
+#if !NSTD
                 case StringComparison.InvariantCulture:
                     culture = CultureInfo.InvariantCulture;
                     break;
@@ -189,6 +192,7 @@ namespace System
                     culture = CultureInfo.InvariantCulture;
                     options = CompareOptions.IgnoreCase;
                     break;
+#endif
 
                 case StringComparison.Ordinal:
                     culture = CultureInfo.InvariantCulture;

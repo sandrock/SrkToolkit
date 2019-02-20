@@ -243,7 +243,7 @@ namespace SrkToolkit.Common.Validation
             if ((object)other == (object)null)
                 return false;
 
-            return string.Equals(other.Value, this.Value, StringComparison.InvariantCultureIgnoreCase);
+            return string.Equals(other.Value, this.Value, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>

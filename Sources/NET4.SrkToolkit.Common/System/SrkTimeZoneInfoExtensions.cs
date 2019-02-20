@@ -37,9 +37,9 @@ namespace System
             if (dateTime.Kind == DateTimeKind.Utc)
                 return dateTime;
             else if (dateTime.Kind == DateTimeKind.Local)
-                return TimeZoneInfo.ConvertTimeToUtc(dateTime.AsUnspecified(), tz);
+                return TimeZoneInfo.ConvertTime(dateTime.AsUnspecified(), tz, TimeZoneInfo.Utc);
             else
-                return TimeZoneInfo.ConvertTimeToUtc(dateTime, tz);
+                return TimeZoneInfo.ConvertTime(dateTime, tz, TimeZoneInfo.Utc);
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace System
         public static DateTime ConvertFromUtc(this TimeZoneInfo tz, DateTime dateTime)
         {
             if (dateTime.Kind == DateTimeKind.Local)
-                return TimeZoneInfo.ConvertTimeFromUtc(dateTime.ToUniversalTime(), tz);
+                return TimeZoneInfo.ConvertTime(dateTime.ToUniversalTime(), TimeZoneInfo.Utc, tz);
             else
-                return TimeZoneInfo.ConvertTimeFromUtc(dateTime, tz);
+                return TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Utc, tz);
         }
     }
 }

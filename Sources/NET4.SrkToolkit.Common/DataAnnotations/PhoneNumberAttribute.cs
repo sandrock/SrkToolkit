@@ -22,6 +22,8 @@ namespace SrkToolkit.DataAnnotations
     using System.Globalization;
     using System.Text.RegularExpressions;
 
+    // TODO: support for netstandard
+
     /// <summary>
     /// Validates a international phone number.
     /// </summary>

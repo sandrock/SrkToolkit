@@ -23,6 +23,8 @@ namespace SrkToolkit.DataAnnotations
     using System.Text;
     using SrkToolkit.Resources;
 
+    // TODO: support for netstandard
+
     /// <summary>
     /// Validates the field is a valid <see cref="TimeZoneInfo"/> ID.
     /// </summary>

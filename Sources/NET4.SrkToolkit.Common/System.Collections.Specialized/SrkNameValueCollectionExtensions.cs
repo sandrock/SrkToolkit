@@ -21,6 +21,7 @@ namespace System.Collections.Specialized
     using System.Linq;
     using System.Text;
 
+#if !NSTD
     /// <summary>
     /// Extension methods for the <see cref="NameValueCollection"/> class.
     /// </summary>
@@ -55,4 +56,5 @@ namespace System.Collections.Specialized
             }
         }
     }
+#endif
 }

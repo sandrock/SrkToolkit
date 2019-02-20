@@ -22,6 +22,8 @@ namespace SrkToolkit.Common
     using System.Linq;
     using System.Text;
 
+    // TODO: support for netstandard
+
     /// <summary>
     /// A string comparer class that accepts a <see cref="CompareOptions"/> argument.
     /// </summary>

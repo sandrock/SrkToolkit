@@ -24,6 +24,8 @@ namespace SrkToolkit.DataAnnotations
     using System.Globalization;
     using SrkToolkit.Resources;
 
+    // TODO: support for netstandard
+
     /// <summary>
     /// Validates a <see cref="DateTime"/> property by specifying a lower and upper bounds.
     /// </summary>

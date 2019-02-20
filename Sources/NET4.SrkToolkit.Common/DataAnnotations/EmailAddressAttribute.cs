@@ -17,19 +17,26 @@
 namespace SrkToolkit.DataAnnotations
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
+#if !NSTD
+    using System.ComponentModel.DataAnnotations; 
+#endif
     using System.Globalization;
     using System.Text.RegularExpressions;
     using SrkToolkit.Resources;
     using System.Reflection;
 
+    // TODO: support for netstandard
+
     /// <summary>
     /// Validates an email address field (one or multiple addresses).
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
 #if NET45
+    [AttributeUsage(AttributeTargets.Property)]
     public class EmailAddressExAttribute : ValidationAttribute
+#elif NSTD
+    public class EmailAddressAttribute
 #else
+    [AttributeUsage(AttributeTargets.Property)]
     public class EmailAddressAttribute : ValidationAttribute
 #endif
     {
@@ -49,8 +56,10 @@ namespace SrkToolkit.DataAnnotations
         public EmailAddressAttribute()
 #endif
         {
+#if !NSTD
             this.ErrorMessageResourceName = "EmailAddressAttribute_ErrorMessage";
-            this.ErrorMessageResourceType = typeof(Strings);
+            this.ErrorMessageResourceType = typeof(Strings); 
+#endif
         }
 
         /// <summary>
@@ -76,6 +85,7 @@ namespace SrkToolkit.DataAnnotations
         /// </value>
         protected Regex Regex { get; set; }
 
+#if !NSTD
         /// <summary>
         /// Validates the specified value with respect to the current validation attribute.
         /// </summary>
@@ -214,6 +224,7 @@ namespace SrkToolkit.DataAnnotations
         public ValidationResult GetIsValid(object value, ValidationContext context)
         {
             return this.IsValid(value, context);
-        }
+        } 
+#endif
     }
 }

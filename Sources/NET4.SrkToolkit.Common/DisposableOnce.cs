@@ -21,6 +21,7 @@ namespace SrkToolkit
     using System.Linq;
     using System.Text;
     using System.Diagnostics;
+    using SrkToolkit.Internals;
 
     /// <summary>
     /// A disposable object that will cann a delegate on disposal.
@@ -86,7 +87,7 @@ namespace SrkToolkit
                             }
                             catch (Exception ex)
                             {
-                                Trace.TraceError("DisposableOnce caught exception in dispose callback" + Environment.NewLine + ex.ToString());
+                                Trace.WriteLine("DisposableOnce caught exception in dispose callback" + Environment.NewLine + ex.ToString());
                                 throw;
                             }
 

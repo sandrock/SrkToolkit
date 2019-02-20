@@ -24,6 +24,8 @@ namespace SrkToolkit.DataAnnotations
     using System.Text.RegularExpressions;
     using System.Web;
 
+    // TODO: support for netstandard
+
     /// <summary>
     /// Validates a twitter username with some tolerance. Use the static method to clean the username from extra characters.
     /// </summary>

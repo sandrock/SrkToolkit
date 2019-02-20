@@ -16,6 +16,7 @@
 
 namespace SrkToolkit
 {
+    using SrkToolkit.Internals;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -86,7 +87,7 @@ namespace SrkToolkit
                         }
                         catch (Exception ex)
                         {
-                            Trace.TraceError("CompositeDisposable failed to dispose object" + Environment.NewLine + ex.ToString());
+                            Trace.WriteLine("CompositeDisposable failed to dispose object" + Environment.NewLine + ex.ToString());
                             if (ex.IsFatal())
                                 throw;
                         }

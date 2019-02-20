@@ -22,6 +22,8 @@ namespace SrkToolkit
     using System.Linq;
     using System.Threading.Tasks;
 
+    // TODO: support for netstandard
+
     public static class RetryLogic
     {
         static public RetryLogicState<TReturn> Do<TReturn>(Func<TReturn> action)

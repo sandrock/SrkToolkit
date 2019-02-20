@@ -90,6 +90,7 @@ namespace System.Web.Mvc
             return builder.Uri;
         }
 
+#if !NSTD
         /// <summary>
         /// Replaces or adds values in the query string of the specified url.
         /// </summary>
@@ -104,6 +105,7 @@ namespace System.Web.Mvc
         {
             return SetQueryString(url, true, keysAndValues);
         }
+#endif
 
         /// <summary>
         /// Replaces or adds values in the query string of the specified url.
@@ -132,6 +134,7 @@ namespace System.Web.Mvc
             return builder.Uri;
         }
 
+#if !NSTD
         /// <summary>
         /// Replaces or adds values in the query string of the specified url.
         /// </summary>
@@ -145,7 +148,8 @@ namespace System.Web.Mvc
         public static string SetQueryString(this UrlHelper helper, string url, params string[] keysAndValues)
         {
             return SetQueryString(url, keysAndValues);
-        }
+        } 
+#endif
 
         /// <summary>
         /// Replaces or adds values in the query string of the specified url.

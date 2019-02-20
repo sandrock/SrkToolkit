@@ -74,6 +74,7 @@ namespace SrkToolkit.Web.Open
             get { return this.openGraphTag; }
         }
 
+#if !NSTD
         private TagBuilder Tag
         {
             get
@@ -94,7 +95,8 @@ namespace SrkToolkit.Web.Open
 
                 return tag;
             }
-        }
+        } 
+#endif
 
         /// <summary>
         /// Prepare a HTML element of the specified name to contain the item's value.
@@ -205,6 +207,9 @@ namespace SrkToolkit.Web.Open
         /// </returns>
         public override string ToString()
         {
+#if NSTD
+            return "<!-- PageInfoObject: NOT IMPLEMENTED IN NETSTANDARD -->";
+#else
             var tag = this.Tag;
             if (this.openGraphTag != null)
             {
@@ -218,7 +223,8 @@ namespace SrkToolkit.Web.Open
             {
                 return "<!-- PageInfoObject: no HTML to write -->";
             }
-        }
+#endif
+        } 
     }
 
     /// <summary>

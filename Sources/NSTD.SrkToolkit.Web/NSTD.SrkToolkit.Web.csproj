@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>SrkToolkit.Web</AssemblyName>
+    <RootNamespace>SrkToolkit.Web</RootNamespace>
+    <Product>SrkToolkit</Product>
+    <Version>1.2.0-beta1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors />
+    <Company />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;NSTD</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;NSTD</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\NET4.SrkToolkit.Web\Models\HttpErrorModel.cs" Link="Models\HttpErrorModel.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\Models\TempMessage.cs" Link="Models\TempMessage.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\NavigationLine.cs" Link="NavigationLine.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\NavigationLineEntry.cs" Link="NavigationLineEntry.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphName.cs" Link="Open\OpenGraphName.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphNamespace.cs" Link="Open\OpenGraphNamespace.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphObject.cs" Link="Open\OpenGraphObject.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\OpenGraphTag.cs" Link="Open\OpenGraphTag.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfo.cs" Link="Open\PageInfo.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfoItem.cs" Link="Open\PageInfoItem.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\Open\PageInfoObject.cs" Link="Open\PageInfoObject.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\Services\DictionarySessionServiceSource.cs" Link="Services\DictionarySessionServiceSource.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\Services\ISessionServiceSource.cs" Link="Services\ISessionServiceSource.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\System.Web.Mvc\SrkUrlHelperExtensions.cs" Link="System.Web.Mvc\SrkUrlHelperExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\WebDependency.cs" Link="WebDependency.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Web\WebDependencyFile.cs" Link="WebDependencyFile.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Fakes\" />
+    <Folder Include="Filters\" />
+    <Folder Include="HttpErrors\" />
+    <Folder Include="Models\" />
+    <Folder Include="Mvc\" />
+    <Folder Include="Open\" />
+    <Folder Include="Services\" />
+    <Folder Include="System.Web.Mvc\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NSTD.SrkToolkit.Common\NSTD.SrkToolkit.Common.csproj" />
+  </ItemGroup>
+
+</Project>

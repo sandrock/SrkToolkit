@@ -84,5 +84,19 @@ namespace SrkToolkit.Globalization
 
             return list1;
         }
+
+        /// <summary>
+        /// Based on all CultureInfos (Windows & custom), says whether a culture exists or not.
+        /// </summary>
+        /// <returns></returns>
+        public static bool DoesCultureExist(string cultureName, bool considerInvariantCulture = true)
+        {
+            if (cultureName == null || !considerInvariantCulture && string.IsNullOrEmpty(cultureName))
+            {
+                return false;
+            }
+
+            return CultureInfo.GetCultures(CultureTypes.AllCultures).Any(culture => cultureName.Equals(culture.Name, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }

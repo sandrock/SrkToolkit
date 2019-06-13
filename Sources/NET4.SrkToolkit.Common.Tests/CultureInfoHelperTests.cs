@@ -71,7 +71,88 @@ namespace SrkToolkit.Common.Tests
                 var match = countries.SingleOrDefault(c => c.EnglishName == englishName);
                 Assert.IsNotNull(match);
             }
-        
+
+            [TestMethod]
+            public void DoesCultureExist_YesFrenchFrance()
+            {
+                string frenchFrance = "fr-FR";
+                var exists = CultureInfoHelper.DoesCultureExist(frenchFrance);
+                Assert.IsTrue(exists);
+            }
+
+            [TestMethod]
+            public void DoesCultureExist_YesEnglishUs()
+            {
+                string englishUs = "en-US";
+                var exists = CultureInfoHelper.DoesCultureExist(englishUs);
+                Assert.IsTrue(exists);
+            }
+
+            [TestMethod]
+            public void DoesCultureExist_YesCustomCulture()
+            {
+                string frenchRU = "fr-RU";
+                var cultureBuilder = new CultureAndRegionInfoBuilder(frenchRU, CultureAndRegionModifiers.None);
+                cultureBuilder.LoadDataFromCultureInfo(CultureInfo.CreateSpecificCulture("fr-FR"));
+                cultureBuilder.LoadDataFromRegionInfo(new RegionInfo("ru-RU"));
+                cultureBuilder.CultureEnglishName = "French (Russia)";
+                cultureBuilder.CultureNativeName = "France (Russie)";
+                cultureBuilder.CurrencyNativeName = "Euro";
+                cultureBuilder.RegionNativeName = "Россия";
+
+                // Register the culture.
+                try
+                {
+                    cultureBuilder.Register();
+                }
+                catch (InvalidOperationException)
+                {
+                    // Swallow the exception: the culture already is registered.
+                }
+
+                var exists = CultureInfoHelper.DoesCultureExist(frenchRU);
+                Assert.IsTrue(exists);
+            }
+
+            [TestMethod]
+            public void DoesCultureExist_NoUnknownCulture()
+            {
+                string unknownCulture = "zz-ZZ";
+                var exists = CultureInfoHelper.DoesCultureExist(unknownCulture);
+                Assert.IsFalse(exists);
+            }
+
+            [TestMethod]
+            public void DoesCultureExist_NoGarbageString()
+            {
+                string garbage = "coucou";
+                var exists = CultureInfoHelper.DoesCultureExist(garbage);
+                Assert.IsFalse(exists);
+            }
+
+            [TestMethod]
+            public void DoesCultureExist_NoNullValue()
+            {
+                string nullString = null;
+                var exists = CultureInfoHelper.DoesCultureExist(nullString);
+                Assert.IsFalse(exists);
+            }
+
+            [TestMethod]
+            public void DoesCultureExist_ConsiderInvariantCulture_YesEmptyValue()
+            {
+                string emptyString = string.Empty;
+                var exists = CultureInfoHelper.DoesCultureExist(emptyString);
+                Assert.IsTrue(exists);
+            }
+
+            [TestMethod]
+            public void DoesCultureExist_DoNotConsiderInvariantCulture_NoEmptyValue()
+            {
+                string emptyString = string.Empty;
+                var exists = CultureInfoHelper.DoesCultureExist(emptyString, false);
+                Assert.IsFalse(exists);
+            }
         }
     }
 }

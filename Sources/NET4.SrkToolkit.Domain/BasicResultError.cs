@@ -46,18 +46,16 @@ namespace SrkToolkit.Domain
 
         public BasicResultError(string code, string displayMessage)
         {
-            this.code = code;
+            this.Code = code;
             this.DisplayMessage = displayMessage;
         }
 
         public BasicResultError(string code, string displayMessage, string detail)
         {
-            this.code = code;
+            this.Code = code;
             this.DisplayMessage = displayMessage;
             this.Detail = detail;
         }
-
-        private string code;
 
         /// <summary>
         /// Gets or sets the display message.
@@ -71,10 +69,10 @@ namespace SrkToolkit.Domain
         [DataMember(IsRequired = false, Order = 2)]
         public string Detail { get; set; }
 
+        /// <summary>
+        /// Gets the error code.
+        /// </summary>
         [DataMember(IsRequired = false, Order = 0)]
-        string IResultError.Code
-        {
-            get { return this.code ?? this.DisplayMessage; }
-        }
+        public string Code { get; set; }
     }
 }

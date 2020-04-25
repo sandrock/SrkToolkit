@@ -74,7 +74,7 @@ namespace SrkToolkit.Web.Open
             get { return this.openGraphTag; }
         }
 
-#if !NSTD
+#if !NSTD && !NET40
         private TagBuilder Tag
         {
             get
@@ -207,7 +207,7 @@ namespace SrkToolkit.Web.Open
         /// </returns>
         public override string ToString()
         {
-#if NSTD
+#if NSTD || NET40
             return "<!-- PageInfoObject: NOT IMPLEMENTED IN NETSTANDARD -->";
 #else
             var tag = this.Tag;

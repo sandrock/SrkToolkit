@@ -27,6 +27,7 @@ namespace System.Web.Mvc
     /// </summary>
     public static class SrkTagBuilderExtensions
     {
+#if !NSTD && !NET40
         /// <summary>
         /// To the MVC HTML string.
         /// </summary>
@@ -37,5 +38,6 @@ namespace System.Web.Mvc
         {
             return new MvcHtmlString(tagBuilder.ToString(renderMode));
         }
+#endif
     }
 }

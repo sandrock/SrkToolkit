@@ -10,7 +10,7 @@
     <iconUrl>https://raw.githubusercontent.com/sandrock/SrkToolkit/master/Sources/logo-200.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SrkToolkit.Domain is used in your domain layer to provider RPC-style request and result classes.</description>
-    <releaseNotes>Extend BasicResultError.</releaseNotes>
+    <releaseNotes>Support to netstandard2.0. BasicResultError fix. </releaseNotes>
     <copyright>Apache License Version 2.0</copyright>
     <tags>domain SrkToolkit</tags>
   </metadata>

@@ -129,6 +129,11 @@ xcopy /Q /Y Binaries\NET4\SrkToolkit.Domain.xml %outputDirectory%\SrkToolkit.Dom
 mkdir %outputDirectory%\SrkToolkit.Domain\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.dll %outputDirectory%\SrkToolkit.Domain\lib\net45
 xcopy /Q /Y Binaries\NET45\SrkToolkit.Domain.xml %outputDirectory%\SrkToolkit.Domain\lib\net45
+xcopy /Q /Y Sources\NSTD.SrkToolkit.Domain\bin\Release\netstandard2.0\SrkToolkit.Domain.dll %outputDirectory%\SrkToolkit.Domain\lib\netstandard2.0
+xcopy /Q /Y Sources\NSTD.SrkToolkit.Domain\bin\Release\netstandard2.0\SrkToolkit.Domain.xml %outputDirectory%\SrkToolkit.Domain\lib\netstandard2.0
+xcopy /Q /Y Sources\NSTD.SrkToolkit.Domain\bin\Release\netstandard2.0\SrkToolkit.Domain.deps.json %outputDirectory%\SrkToolkit.Domain\lib\netstandard2.0
+mkdir %outputDirectory%\SrkToolkit.Domain\lib\netstandard2.0\fr
+xcopy /Q /Y Sources\NSTD.SrkToolkit.Domain\bin\Release\netstandard2.0\fr\SrkToolkit.Common.* %outputDirectory%\SrkToolkit.Domain\lib\netstandard2.0\fr
 
 mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc4\
 mkdir %outputDirectory%\SrkToolkit.Domain.AspMvc4\lib

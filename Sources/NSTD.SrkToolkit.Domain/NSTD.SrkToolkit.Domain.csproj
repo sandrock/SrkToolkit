@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.2.0-beta1</Version>
+    <Authors />
+    <Company />
+    <Product>SrkToolkit</Product>
+    <Description>SrkToolkit.Common for netstandard1.4</Description>
+    <Copyright>Copyright © SandRock 2011</Copyright>
+    <AssemblyName>SrkToolkit.Domain</AssemblyName>
+    <RootNamespace>SrkToolkit</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;NSTD</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\NET4.SrkToolkit.Common\EnumTools.cs" Link="Internals\EnumTools.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\BaseRequest.cs" Link="BaseRequest.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\BaseResult.cs" Link="BaseResult.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\BasicResult.cs" Link="BasicResult.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\BasicResult.TResultCode.cs" Link="BasicResult.TResultCode.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\BasicResult.TResultCode.Payload.cs" Link="BasicResult.TResultCode.Payload.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\BasicResultError.cs" Link="BasicResultError.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\BasicResultExtensions.cs" Link="BasicResultExtensions.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\IBaseResult.cs" Link="IBaseResult.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\Internals\Names.cs" Link="Internals\Names.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\IResultError.cs" Link="IResultError.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\ResultError.cs" Link="ResultError.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Domain\ResultErrorExtensions.cs" Link="ResultErrorExtensions.cs" />
+    <None Include="..\SrkToolkit.Mvvm.AssemblyInfo.cs" Link="SrkToolkit.Mvvm.AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Internals\" />
+  </ItemGroup>
+
+</Project>

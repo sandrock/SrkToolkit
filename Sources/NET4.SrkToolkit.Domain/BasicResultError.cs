@@ -74,5 +74,12 @@ namespace SrkToolkit.Domain
         /// </summary>
         [DataMember(IsRequired = false, Order = 0)]
         public string Code { get; set; }
+
+        public override string ToString()
+        {
+            return this.Code
+                + " " + this.DisplayMessage
+                ;
+        }
     }
 }

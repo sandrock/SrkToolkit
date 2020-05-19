@@ -141,5 +141,12 @@ namespace SrkToolkit.Domain
         {
             get { return this.Code.ToString(); }
         }
+
+        public override string ToString()
+        {
+            return this.Code
+                + " " + this.DisplayMessage
+                ;
+        }
     }
 }

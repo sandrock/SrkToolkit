@@ -27,8 +27,8 @@ namespace SrkToolkit.Common.Validation
     public static class Validate
     {
 #if NET40
-        private static readonly Regex emailRegex = new Regex(@"^" + EmailAddressExAttribute.EmailAddressRegex + "$", RegexOptions.IgnoreCase);
-        private static readonly Regex emailsRegex = new Regex(EmailAddressExAttribute.EmailAddressRegex, RegexOptions.IgnoreCase);
+        private static readonly Regex emailRegex = new Regex(@"^" + EmailAddressAttribute.EmailAddressRegex + "$", RegexOptions.IgnoreCase);
+        private static readonly Regex emailsRegex = new Regex(EmailAddressAttribute.EmailAddressRegex, RegexOptions.IgnoreCase);
 #else
         private static readonly Regex emailRegex = new Regex(@"^" + EmailAddressExAttribute.EmailAddressRegex + "$", RegexOptions.IgnoreCase);
         private static readonly Regex emailsRegex = new Regex(EmailAddressExAttribute.EmailAddressRegex, RegexOptions.IgnoreCase);

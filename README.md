@@ -9,23 +9,22 @@ License: Apache License Version 2.0
 Assemblies
 --------------------
 
-- [SrkToolkit.Common](Wiki/SrkToolkit.Common.md) (.NET 4.0, 4.5) - [nuget](https://www.nuget.org/packages/SrkToolkit.Common)
-  - [DataAnnotations](Wiki/SrkToolkit.Common.DataAnnotations.md)
-- SrkToolkit.Common.Unsafe (.NET 4.0)
-- [SrkToolkit.Web (for ASP MVC)](Wiki/SrkToolkit.Web.md) (.NET 4.0 for MVC 3, .NET 4.5 for MVC4) - [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc4) - [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc5)
-  - [ActionFilters](Wiki/SrkToolkit.Web-ActionFilters.md)
-  - [HtmlHelpers](Wiki/SrkToolkit.Web-HtmlHelpers.md)
-  - [ModelBinders](Wiki/SrkToolkit.Web-ModelBinders.md)
-  - [ResultAndErrors](Wiki/SrkToolkit.Web-ResultAndErrors.md)
-  - [TempMessages](Wiki/SrkToolkit.Web-TempMessages.md)
-  - [PageInfo](Wiki/SrkToolkit.Web-Open.md)
-- SrkToolit.WebForms (.NET 4.0)
-- SrkToolit.Xaml (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
-- SrkToolkit.Mvvm (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
-- SrkToolkit.Services (.NET 4.0, Windows Phone 7, Windows Phone 7.1, Silverlight 4)
-- SrkToolkit.Domain (.NET 4.0, .NET 4.5) - [nuget](https://www.nuget.org/packages/SrkToolkit.Domain) - [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc4) - [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc5)
+| Assembly                                                 | FX                           | Nuget                                                     | Remark |
+|----------------------------------------------------------|------------------------------|-----------------------------------------------------------|--------|
+| [SrkToolkit.Common](Wiki/SrkToolkit.Common.md)           | net40, net45, netstandard2.0 | [nuget](https://www.nuget.org/packages/SrkToolkit.Common) |        |
+| SrkToolkit.Common.Unsafe                                 | net40                        | |        |
+| [SrkToolkit.Domain](Wiki/SrkToolkit.Domain.md)           | net40, net45, netstandard2.0 | [nuget](https://www.nuget.org/packages/SrkToolkit.Domain) |        |
+| [SrkToolkit.Web (for ASP MVC 3)](Wiki/SrkToolkit.Web.md) | net40                        | [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc4) |        |
+| [SrkToolkit.Web (for ASP MVC 4)](Wiki/SrkToolkit.Web.md) | net45                        | [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc5) |        |
+| SrkToolkit.Domain.AspMvc3                                | net40,                       | [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc4) |        |
+| SrkToolkit.Domain.AspMvc4                                | net45                        | [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc5) |        |
+| SrkToolit.WebForms                                       | net40                        | |        |
+| SrkToolit.Xaml                                           | net40, wp70, wp71, sl4       | |        |
+| SrkToolkit.Mvvm                                          | net40, wp70, wp71, sl4       | |        |
+| SrkToolkit.Services                                      | net40, wp70, wp71, sl4       | |        |
 
 [See all nuget packages](https://www.nuget.org/packages?q=Tags%3A%22SrkToolkit%22)
+
 
 Content at-a-glance
 --------------------

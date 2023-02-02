@@ -17,9 +17,7 @@
 namespace SrkToolkit.DataAnnotations
 {
     using System;
-#if !NSTD
     using System.ComponentModel.DataAnnotations; 
-#endif
     using System.Globalization;
     using System.Text.RegularExpressions;
     using SrkToolkit.Resources;
@@ -30,14 +28,12 @@ namespace SrkToolkit.DataAnnotations
     /// <summary>
     /// Validates an email address field (one or multiple addresses).
     /// </summary>
-#if NET45
-    [AttributeUsage(AttributeTargets.Property)]
-    public class EmailAddressExAttribute : ValidationAttribute
-#elif NSTD
-    public class EmailAddressAttribute
-#else
-    [AttributeUsage(AttributeTargets.Property)]
+#if NET40
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class EmailAddressAttribute : ValidationAttribute
+#else
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
+    public class EmailAddressExAttribute : ValidationAttribute
 #endif
     {
         /// <summary>
@@ -50,10 +46,10 @@ namespace SrkToolkit.DataAnnotations
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailAddressAttribute"/> class.
         /// </summary>
-#if NET45
-        public EmailAddressExAttribute()
-#else
+#if NET40
         public EmailAddressAttribute()
+#else
+        public EmailAddressExAttribute()
 #endif
         {
 #if !NSTD

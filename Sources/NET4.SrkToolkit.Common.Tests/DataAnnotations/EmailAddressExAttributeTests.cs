@@ -11,10 +11,21 @@ namespace SrkToolkit.Common.Tests.DataAnnotations
     [TestClass]
     public class EmailAddressExAttributeTests
     {
+#if NET40
+#else
+#endif
+
+#if NET40
         private static EmailAddressAttribute GetTarget()
         {
             return new EmailAddressAttribute();
         }
+#else
+        private static EmailAddressExAttribute GetTarget()
+        {
+            return new EmailAddressExAttribute();
+        }
+#endif
 
         [TestMethod]
         public void AllowOne_NullValue_Pass()

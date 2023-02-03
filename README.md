@@ -63,7 +63,7 @@ And more...
 Signed code
 --------------------
 
-All assemblies are signed. The real key is not in source control; I keep it to ensure my builds are only made by myself ([yes, I know that not 100% true][1]).
+All assemblies are signed. The real key is not in source control; I keep it to ensure my builds are only made by myself ([yes, I know that is not 100% true][1]).
 
 The latest build can be found here: https://www.nuget.org/packages?q=Tags%3A%22srktoolkit%22
 

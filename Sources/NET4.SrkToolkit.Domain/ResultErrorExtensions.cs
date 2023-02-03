@@ -35,6 +35,23 @@ namespace SrkToolkit.Domain
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="code">The code.</param>
+        /// <returns></returns>
+        public static IList<ResultError<TEnum>> Add<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            collection.Add(new ResultError<TEnum>(code, default(string)));
+            return collection;
+        }
+
+        /// <summary>
+        /// Adds an error to the collection.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
         /// <param name="displayMessage">The display message.</param>
         /// <returns></returns>
         public static IList<ResultError<TEnum>> Add<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, string displayMessage)
@@ -139,6 +156,43 @@ namespace SrkToolkit.Domain
                 throw new ArgumentNullException("collection");
 
             collection.Add(new ResultError<TEnum>(code, enumResourceManager, args));
+            return collection;
+        }
+
+        /// <summary>
+        /// Adds an error to the collection.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
+        /// <param name="displayMessage">The display message.</param>
+        /// <returns></returns>
+        public static IList<BasicResultError> Add<TEnum>(this IList<BasicResultError> collection, TEnum code, string displayMessage)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            collection.Add(new BasicResultError(code.ToString(), displayMessage));
+            return collection;
+        }
+
+        /// <summary>
+        /// Adds a detailled error to the collection.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
+        /// <param name="detail">A detailled error message.</param>
+        /// <param name="displayMessage">The display message.</param>
+        /// <returns></returns>
+        public static IList<ResultError<TEnum>> AddDetail<TEnum>(this IList<ResultError<TEnum>> collection, TEnum code, string detail)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            collection.Add(new ResultError<TEnum>(code, default(string)) { Detail = detail, });
             return collection;
         }
 
@@ -262,6 +316,25 @@ namespace SrkToolkit.Domain
         }
 
         /// <summary>
+        /// Adds a detailled error to the collection.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
+        /// <param name="detail">A detailled error message.</param>
+        /// <param name="displayMessage">The display message.</param>
+        /// <returns></returns>
+        public static IList<BasicResultError> AddDetail<TEnum>(this IList<BasicResultError> collection, TEnum code, string detail, string displayMessage)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            collection.Add(new BasicResultError(code.ToString(), displayMessage, detail));
+            return collection;
+        }
+
+        /// <summary>
         /// Determines whether the specified collection contains the specified error code.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
@@ -276,6 +349,24 @@ namespace SrkToolkit.Domain
                 throw new ArgumentNullException("collection");
 
             return collection.Any(e => e.Code.Equals(code));
+        }
+
+        /// <summary>
+        /// Determines whether the specified collection contains the specified error code.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="code">The code.</param>
+        /// <returns>true if the specified error code is found; otherwise, false</returns>
+        /// <exception cref="System.ArgumentNullException">collection</exception>
+        public static bool ContainsError<TEnum>(this IList<BasicResultError> collection, TEnum code)
+            where TEnum : struct
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            var codeValue = code.ToString();
+            return collection.Any(e => codeValue.Equals(e.Code));
         }
 
         public static PostProcessWrapper<TEnum> WithPostProcess<TEnum>(this IList<ResultError<TEnum>> collection, Func<string, string> postProcess)

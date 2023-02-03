@@ -16,16 +16,16 @@
 
 namespace SrkToolkit.Common.Tests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Should;
     using System;
     using System.Diagnostics;
     using System.IO;
     using System.Threading.Tasks;
+    using Xunit;
 
-    partial class RetryLogicTests
+    public class RetryLogicTests
     {
-        [TestMethod]
+        [Fact]
         public async Task FuncAsync_Should_Be_Tried_3Times_With_ConstantInterval()
         {
             var exceptionCount = 0;
@@ -55,7 +55,7 @@ namespace SrkToolkit.Common.Tests
             successCount.ShouldEqual(0);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task FuncAsync_Should_Be_Tried_3Times_With_ConstantInterval_IsTraced()
         {
             string trace = "";
@@ -98,7 +98,7 @@ namespace SrkToolkit.Common.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ActionAsync_Should_Throw_An_Exception()
         {
             var exceptionCount = 0;
@@ -138,7 +138,7 @@ namespace SrkToolkit.Common.Tests
             successCount.ShouldEqual(0);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ActionAsync_Should_Be_Tried_3Times_With_ConstantInterval()
         {
             var exceptionCount = 0;
@@ -173,7 +173,7 @@ namespace SrkToolkit.Common.Tests
             successCount.ShouldEqual(0);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task FunctionAsync_Should_Be_A_Success()
         {
             var exceptionCount = 0;
@@ -202,7 +202,7 @@ namespace SrkToolkit.Common.Tests
             successCount.ShouldEqual(1);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ActionAsync_Should_Be_A_Success()
         {
             var exceptionCount = 0;
@@ -232,7 +232,7 @@ namespace SrkToolkit.Common.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task ActionAsync_Should_Try_10_Times()
         {
             var exceptionCount = 0;
@@ -264,7 +264,7 @@ namespace SrkToolkit.Common.Tests
             successCount.ShouldEqual(0);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Profile_Should_Be_Frozen()
         {
             var exceptionCount = 0;
@@ -311,7 +311,7 @@ namespace SrkToolkit.Common.Tests
             successCount.ShouldEqual(0);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Retry_Without_Settings_Should_Fail()
         {
             var watch = new Stopwatch();
@@ -332,7 +332,7 @@ namespace SrkToolkit.Common.Tests
             watch.Stop();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Retry_With_Minimal_Settings_Should_Not_Fail()
         {
             var watch = new Stopwatch();
@@ -350,7 +350,7 @@ namespace SrkToolkit.Common.Tests
             watch.Elapsed.ShouldBeGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(4010));
         }
 
-        [TestMethod]
+        [Fact]
         public async Task DeveloperForgetsEndPrepare()
         {
             var exceptionCount = 0;

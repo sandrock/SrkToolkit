@@ -132,13 +132,47 @@ namespace SrkToolkit.Common.Tests
             {
                 Date = new DateTime(2015,2,15,16,42,16,0, DateTimeKind.Unspecified),
             };
+            var culture = new CultureInfo("en-US");
+            var tz = TimeZoneInfo.Local;
             var target = new StringReplacer<UserModel>();
             target.Setup("User.Date", r => r.Model.Date.ToString(r.Parameter ?? "d", r.Culture));
             var text = "Hello {User.Date}";
-            var expected = "Hello 2/15/2015 4:42:16 PM";
+            var expected = "Hello " + model.Date.ToString("d", culture);
+            var result = target.Replace(text, model, culture, tz);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ModelWithReplacerCulture_EnglishUSA()
+        {
+            var model = new UserModel
+            {
+                Date = new DateTime(2015, 2, 15, 16, 42, 16, 0, DateTimeKind.Unspecified),
+            };
             var culture = new CultureInfo("en-US");
             var tz = TimeZoneInfo.Local;
-            var result = target.Replace(text, model, culture, tz);
+            var target = new StringReplacer<UserModel>(culture, tz);
+            target.Setup("User.Date", r => r.Model.Date.ToString(r.Parameter ?? "d", r.Culture));
+            var text = "Hello {User.Date}";
+            var expected = "Hello " + model.Date.ToString("d", culture);
+            var result = target.Replace(text, model);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ModelWithReplacerCulture_FrenchFrance()
+        {
+            var model = new UserModel
+            {
+                Date = new DateTime(2015, 2, 15, 16, 42, 16, 0, DateTimeKind.Unspecified),
+            };
+            var culture = new CultureInfo("fr-FR");
+            var tz = TimeZoneInfo.Local;
+            var target = new StringReplacer<UserModel>(culture, tz);
+            target.Setup("User.Date", r => r.Model.Date.ToString(r.Parameter ?? "d", r.Culture));
+            var text = "Hello {User.Date}";
+            var expected = "Hello " + model.Date.ToString("d", culture);
+            var result = target.Replace(text, model);
             Assert.AreEqual(expected, result);
         }
 

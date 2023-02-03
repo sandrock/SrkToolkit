@@ -34,12 +34,23 @@ namespace SrkToolkit.Common
         private Dictionary<string, Func<StringReplacement<object>, string>> replacements = new Dictionary<string, Func<StringReplacement<object>, string>>();
         ////private StringReplacement defaultReplacement = StringReplacement.Empty;
         private Func<StringReplacement<object>, string> defaultReplacement;
+        private CultureInfo lang;
+        private TimeZoneInfo tz;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StringReplacer"/> class.
         /// </summary>
         public StringReplacer()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringReplacer"/> class.
+        /// </summary>
+        public StringReplacer(CultureInfo lang, TimeZoneInfo tz)
+        {
+            this.lang = lang;
+            this.tz = tz;
         }
 
         /// <summary>
@@ -72,7 +83,7 @@ namespace SrkToolkit.Common
         /// <returns>the modified text</returns>
         public string Replace(string text)
         {
-            return this.Replace(text, CultureInfo.CurrentCulture, TimeZoneInfo.Local);
+            return this.Replace(text, this.lang ?? CultureInfo.CurrentCulture, this.tz ?? TimeZoneInfo.Local);
         }
 
         /// <summary>
@@ -135,12 +146,23 @@ namespace SrkToolkit.Common
 
         private Dictionary<string, Func<StringReplacement<TModel>, string>> replacements = new Dictionary<string, Func<StringReplacement<TModel>, string>>();
         private Func<StringReplacement<TModel>, string> defaultReplacement;
+        private CultureInfo lang;
+        private TimeZoneInfo tz;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StringReplacer{TModel}"/> class.
         /// </summary>
         public StringReplacer()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringReplacer{TModel}"/> class.
+        /// </summary>
+        public StringReplacer(CultureInfo lang, TimeZoneInfo tz)
+        {
+            this.lang = lang;
+            this.tz = tz;
         }
 
         /// <summary>

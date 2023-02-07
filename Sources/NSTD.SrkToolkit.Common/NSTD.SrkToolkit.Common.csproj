@@ -23,12 +23,22 @@
 
   <ItemGroup>
     <Compile Include="..\NET4.SrkToolkit.Common\CompositeDisposable.cs" Link="CompositeDisposable.cs" />
-    <None Include="..\NET4.SrkToolkit.Common\DataAnnotations\CultureInfoAttribute.cs" Link="DataAnnotations\CultureInfoAttribute.cs" />
-    <None Include="..\NET4.SrkToolkit.Common\DataAnnotations\DateRangeAttribute.cs" Link="DataAnnotations\DateRangeAttribute.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\CultureInfoAttribute.cs">
+      <Link>DataAnnotations\CultureInfoAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\DateRangeAttribute.cs">
+      <Link>DataAnnotations\DateRangeAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\EmailAddressAttribute.cs" Link="DataAnnotations\EmailAddressAttribute.cs" />
-    <None Include="..\NET4.SrkToolkit.Common\DataAnnotations\PhoneNumberAttribute.cs" Link="DataAnnotations\PhoneNumberAttribute.cs" />
-    <None Include="..\NET4.SrkToolkit.Common\DataAnnotations\TimezoneAttribute.cs" Link="DataAnnotations\TimezoneAttribute.cs" />
-    <None Include="..\NET4.SrkToolkit.Common\DataAnnotations\TwitterUsernameAttribute.cs" Link="DataAnnotations\TwitterUsernameAttribute.cs" />
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\PhoneNumberAttribute.cs">
+      <Link>DataAnnotations\PhoneNumberAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\TimezoneAttribute.cs">
+      <Link>DataAnnotations\TimezoneAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NET4.SrkToolkit.Common\DataAnnotations\TwitterUsernameAttribute.cs">
+      <Link>DataAnnotations\TwitterUsernameAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\NET4.SrkToolkit.Common\DisposableOnce.cs" Link="DisposableOnce.cs" />
     <Compile Include="..\NET4.SrkToolkit.Common\EnumTools.cs" Link="EnumTools.cs" />
     <Compile Include="..\NET4.SrkToolkit.Common\Globalization\CultureInfoHelper.cs" Link="Globalization\CultureInfoHelper.cs" />

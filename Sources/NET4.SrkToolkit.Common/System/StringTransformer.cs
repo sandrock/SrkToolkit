@@ -330,11 +330,6 @@ namespace System
             if (input == null)
                 return null;
 
-#if NSTD
-            // TODO: support for netstandard
-            throw new NotSupportedException();
-#else
-
             string stFormD = input.Normalize(NormalizationForm.FormD);
             int len = stFormD.Length;
             StringBuilder sb = new StringBuilder(input.Length);
@@ -356,7 +351,6 @@ namespace System
             }
 
             return sb.ToString().Normalize(NormalizationForm.FormC);
-#endif
         }
 
         /// <summary>

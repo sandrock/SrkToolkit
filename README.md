@@ -6,6 +6,16 @@ Here goes another set of libraries to help out. Separated into a few assemblies 
 
 License: Apache License Version 2.0
 
+
+Branches
+--------------------
+
+- `release/2.0` next major release (WIP)
+- `release/1.2` current stable release
+- `release/1.1` old release (hotfixes only)
+
+
+
 Assemblies
 --------------------
 

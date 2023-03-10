@@ -1,0 +1,131 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>default</LangVersion>
+    <RootNamespace>SrkToolkit.Web.AspNetCore2</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.0.0-preview1</Version>
+    <Authors>SandRock</Authors>
+    <Description>SrkToolkit.Web.AspNetCore2 is a bunch of extensions and tools to use with your ASP MVC Core project.</Description>
+    <PackageProjectUrl>https://github.com/sandrock/SrkToolkit/</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/sandrock/SrkToolkit/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>SrkToolkit AspMvc AspMvcCore MVC Html NavigationLine TempData TempMessage WebDependencies AuthorizeAttribute OpenGraph DisplayDate DisplayTime</PackageTags>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\SrkToolkit.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DefineConstants>TRACE;ASPMVCCORE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DefineConstants>TRACE;ASPMVCCORE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\SrkToolkit.snk">
+      <Link>SrkToolkit.snk</Link>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.34" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.1.21" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Fakes" />
+    <Folder Include="Filters" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SrkToolkit.Web.AspMvc5\NavigationLine.cs">
+      <Link>Open\NavigationLine.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspMvc5\NavigationLineEntry.cs">
+      <Link>Open\NavigationLineEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspMvc5\Open\OpenGraphName.cs">
+      <Link>Open\OpenGraphName.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspMvc5\Open\OpenGraphNamespace.cs">
+      <Link>Open\OpenGraphNamespace.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspMvc5\Open\OpenGraphObject.cs">
+      <Link>Open\OpenGraphObject.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspMvc5\Open\OpenGraphTag.cs">
+      <Link>Open\OpenGraphTag.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspMvc5\Open\PageInfo.cs">
+      <Link>Open\PageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspMvc5\Open\PageInfoItem.cs">
+      <Link>Open\PageInfoItem.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspMvc5\Open\PageInfoObject.cs">
+      <Link>Open\PageInfoObject.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspMvc5\Open\SrkOpenGraphHtmlExtensions.cs">
+      <Link>Open\SrkOpenGraphHtmlExtensions.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SrkToolkit.Common\SrkToolkit.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="WebDependenciesExtensions.cs" />
+    <None Include="WebDependenciesExtensions.cs" />
+    <Compile Remove="WebDependencies.cs" />
+    <None Include="WebDependencies.cs" />
+    <Compile Remove="SrkHttpApplication.tt.cs" />
+    <None Include="SrkHttpApplication.tt.cs" />
+    <Compile Remove="SrkHttpApplication.cs" />
+    <None Include="SrkHttpApplication.cs" />
+    <Compile Remove="JsonNetResult.cs" />
+    <None Include="JsonNetResult.cs" />
+    <Compile Remove="Services\ResultServiceBase.cs" />
+    <None Include="Services\ResultServiceBase.cs" />
+    <Compile Remove="Services\ResultService.cs" />
+    <None Include="Services\ResultService.cs" />
+    <Compile Remove="Services\HttpBaseSessionServiceSource.cs" />
+    <None Include="Services\HttpBaseSessionServiceSource.cs" />
+    <Compile Remove="Services\BaseSessionService.cs" />
+    <None Include="Services\BaseSessionService.cs" />
+    <Compile Remove="Mvc\DecimalModelBinder.cs" />
+    <None Include="Mvc\DecimalModelBinder.cs" />
+    <Compile Remove="Mvc\IntegerModelBinder.cs" />
+    <None Include="Mvc\IntegerModelBinder.cs" />
+    <Compile Remove="HttpErrors\BaseErrorController.cs" />
+    <None Include="HttpErrors\BaseErrorController.cs" />
+    <Compile Remove="HttpErrors\BasicHttpErrorResponse.cs" />
+    <None Include="HttpErrors\BasicHttpErrorResponse.cs" />
+    <Compile Remove="HttpErrors\ErrorControllerHandler.cs" />
+    <None Include="HttpErrors\ErrorControllerHandler.cs" />
+    <Compile Remove="HttpErrors\IErrorController.cs" />
+    <None Include="HttpErrors\IErrorController.cs" />
+    <Compile Remove="Fakes\BasicHttpContext.cs" />
+    <None Include="Fakes\BasicHttpContext.cs" />
+    <Compile Remove="Fakes\BasicHttpRequest.cs" />
+    <None Include="Fakes\BasicHttpRequest.cs" />
+    <Compile Remove="Fakes\BasicHttpSessionState.cs" />
+    <None Include="Fakes\BasicHttpSessionState.cs" />
+    <Compile Remove="Filters\AuthorizeAttribute.cs" />
+    <None Include="Filters\AuthorizeAttribute.cs" />
+    <Compile Remove="System.Web.Mvc\SrkTagBuilderExtensions.cs" />
+    <None Include="System.Web.Mvc\SrkTagBuilderExtensions.cs" />
+    <Compile Remove="System.Web.Mvc\SrkViewExtensions.cs" />
+    <None Include="System.Web.Mvc\SrkViewExtensions.cs" />
+  </ItemGroup>
+
+</Project>

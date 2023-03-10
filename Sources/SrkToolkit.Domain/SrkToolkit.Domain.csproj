@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <TargetFrameworks>net46;net7.0;netstandard2.0</TargetFrameworks>
+    <LangVersion>9</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.0.0-preview1</Version>
+    <Authors>SandRock</Authors>
+    <Description>SrkToolkit.Domain is used in your domain layer to provider RPC-style request and result classes.</Description>
+    <PackageProjectUrl>https://github.com/sandrock/SrkToolkit/</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/sandrock/SrkToolkit/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>SrkToolkit domain</PackageTags>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\SrkToolkit.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\SrkToolkit.snk">
+      <Link>SrkToolkit.snk</Link>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SrkToolkit.Common\EnumTools.cs">
+      <Link>Internals\EnumTools.cs</Link>
+    </Compile>
+  </ItemGroup>
+  
+</Project>

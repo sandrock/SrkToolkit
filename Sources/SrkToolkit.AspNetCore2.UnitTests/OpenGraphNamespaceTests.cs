@@ -16,47 +16,46 @@
 
 namespace SrkToolkit.Web.Tests
 {
+    using SrkToolkit.Web.Open;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using SrkToolkit.Web.Open;
+    using Xunit;
 
-    [TestClass]
     public class OpenGraphNamespaceTests
     {
-        [TestMethod]
+        [Fact]
         public void HasDefinedName()
         {
             var nsName  = "test";
             var ns = new OpenGraphNamespace(nsName, "http://nsname/");
-            Assert.AreEqual(nsName, ns.Name);
+            Assert.Equal(nsName, ns.Name);
         }
 
-        ////[TestMethod]
+        ////[Fact]
         ////public void ImplicitOperatorHasDefinedName()
         ////{
         ////    var nsName = "test";
         ////    OpenGraphNamespace ns = nsName;
-        ////    Assert.AreEqual(nsName, ns.Name);
+        ////    Assert.Equal(nsName, ns.Name);
         ////}
 
-        [TestMethod]
+        [Fact]
         public void CustomRendersHtmlAttribute()
         {
             var nsName  = "test";
             var ns = new OpenGraphNamespace(nsName, "http://myns.me/test");
             var expected = " xmlns:test=\"http://myns.me/test\" ";
-            Assert.AreEqual(expected, ns.ToHtmlAttributeString());
+            Assert.Equal(expected, ns.ToHtmlAttributeString());
         }
 
-        [TestMethod]
+        [Fact]
         public void DefaultRendersHtmlAttribute()
         {
             var name = new OpenGraphName("test");
             var expected = " xmlns:og=\"http://ogp.me/ns#\" ";
-            Assert.AreEqual(expected, name.Namespace.ToHtmlAttributeString());
+            Assert.Equal(expected, name.Namespace.ToHtmlAttributeString());
         }
     }
 }

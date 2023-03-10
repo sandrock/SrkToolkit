@@ -16,106 +16,103 @@
 
 namespace SrkToolkit.Web.Tests
 {
+    using SrkToolkit.Web.Fakes;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Web;
-    using SrkToolkit.Web.Fakes;
+    using Xunit;
 
     public class SrkRequestExtensionsTests
     {
-        [TestClass]
         public class IsUrlLocalToHostMethod
         {
-            [TestMethod]
+            [Fact]
             public void LocalNoSlash_IsNotLocal()
             {
                 HttpRequestBase request = null;
                 string url = "controller/action/id";
-                Assert.IsFalse(SrkRequestExtensions.IsUrlLocalToHost(request, url));
+                Assert.False(SrkRequestExtensions.IsUrlLocalToHost(request, url));
             }
 
-            [TestMethod]
+            [Fact]
             public void LocalSlash_IsLocal()
             {
                 HttpRequestBase request = null;
                 string url = "/controller/action/id";
-                Assert.IsTrue(SrkRequestExtensions.IsUrlLocalToHost(request, url));
+                Assert.True(SrkRequestExtensions.IsUrlLocalToHost(request, url));
             }
         
-            [TestMethod]
+            [Fact]
             public void WithProtocal_IsNotLocal()
             {
                 HttpRequestBase request = null;
                 string url = "http://test.com/controller/action/id";
-                Assert.IsFalse(SrkRequestExtensions.IsUrlLocalToHost(request, url));
+                Assert.False(SrkRequestExtensions.IsUrlLocalToHost(request, url));
             }
         }
 
-        [TestClass]
         public class PrefersJsonMethod
         {
-            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            [Fact, ExpectedException(typeof(ArgumentNullException))]
             public void ArgNullThrows()
             {
                 BasicHttpRequest request = null;
                 SrkRequestExtensions.PrefersJson(request);
             }
 
-            [TestMethod]
+            [Fact]
             public void NullAcceptTypesReturnsFalse()
             {
                 string[] acceptTypes = null;
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.IsFalse(SrkRequestExtensions.PrefersJson(request));
+                Assert.False(SrkRequestExtensions.PrefersJson(request));
             }
 
-            [TestMethod]
+            [Fact]
             public void EmptyAcceptTypesReturnsFalse()
             {
                 string[] acceptTypes = new string[0];
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.IsFalse(SrkRequestExtensions.PrefersJson(request));
+                Assert.False(SrkRequestExtensions.PrefersJson(request));
             }
 
-            [TestMethod]
+            [Fact]
             public void HtmlAcceptTypesReturnsFalse()
             {
                 string[] acceptTypes = new string[] { "text/html", "application/xhtml+xml", "application/xml", "*/*", };
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.IsFalse(SrkRequestExtensions.PrefersJson(request));
+                Assert.False(SrkRequestExtensions.PrefersJson(request));
             }
 
-            [TestMethod]
+            [Fact]
             public void JsonXmlAcceptTypesReturnsFalse()
             {
                 string[] acceptTypes = new string[] { "application/json", "application/xml", };
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.IsTrue(SrkRequestExtensions.PrefersJson(request));
+                Assert.True(SrkRequestExtensions.PrefersJson(request));
             }
 
-            [TestMethod]
+            [Fact]
             public void XmlJsonAcceptTypesReturnsFalse()
             {
                 string[] acceptTypes = new string[] { "application/xml", "application/json", };
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.IsFalse(SrkRequestExtensions.PrefersJson(request));
+                Assert.False(SrkRequestExtensions.PrefersJson(request));
             }
 
-            [TestMethod]
+            [Fact]
             public void TextJsonAcceptTypesReturnsFalse()
             {
                 string[] acceptTypes = new string[] { "text/json", "application/xml", };
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.IsTrue(SrkRequestExtensions.PrefersJson(request));
+                Assert.True(SrkRequestExtensions.PrefersJson(request));
             }
         }
     }

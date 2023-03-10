@@ -16,7 +16,6 @@
 
 namespace SrkToolkit.Web.Tests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using SrkToolkit.Web.Open;
     using System;
     using System.Collections.Generic;
@@ -24,11 +23,11 @@ namespace SrkToolkit.Web.Tests
     using System.Linq;
     using System.Text;
     using System.Threading;
+    using Xunit;
 
-    [TestClass]
     public class PageInfoTests
     {
-        [TestMethod]
+        [Fact]
         public void BasicUsage()
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
@@ -55,7 +54,7 @@ namespace SrkToolkit.Web.Tests
             SrkToolkit.Testing.Assert.Contains("<meta content=\"AE4F67862-B1\" name=\"analytics1\" />", result);
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenGraphTitle()
         {
             var title = "super page title";
@@ -64,7 +63,7 @@ namespace SrkToolkit.Web.Tests
             SrkToolkit.Testing.Assert.AreEqual("<title>" + title + "</title><meta property=\"og:title\" content=\"" + title.ProperHtmlAttributeEscape() + "\" />", result);
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenGraphDescription()
         {
             var title = "super page title";
@@ -73,7 +72,7 @@ namespace SrkToolkit.Web.Tests
             SrkToolkit.Testing.Assert.AreEqual("<meta content=\"" + title + "\" name=\"description\" /><meta property=\"og:description\" content=\"" + title.ProperHtmlAttributeEscape() + "\" />", result);
         }
 
-        [TestMethod]
+        [Fact]
         public void AlternateLanguage()
         {
             var name = "fr-CA";
@@ -83,19 +82,19 @@ namespace SrkToolkit.Web.Tests
             SrkToolkit.Testing.Assert.AreEqual("<link href=\"" + href + "\" hrefLang=\"" + name + "\" rel=\"alternate\" type=\"text/html\" /><meta property=\"og:locale:alternate\" content=\"" + name.Replace("-", "_").ProperHtmlAttributeEscape() + "\" />", result);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainsNot()
         {
             var page = new PageInfo();
-            Assert.IsFalse(page.Contains("title"));
+            Assert.False(page.Contains("title"));
         }
 
-        [TestMethod]
+        [Fact]
         public void Contains()
         {
             var page = new PageInfo();
             page.Set(PageInfo.Title, "hello");
-            Assert.IsTrue(page.Contains("title"));
+            Assert.True(page.Contains("title"));
         }
     }
 }

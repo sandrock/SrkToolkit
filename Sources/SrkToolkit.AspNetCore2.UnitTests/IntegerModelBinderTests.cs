@@ -17,18 +17,19 @@
 #if DEBUG
 namespace SrkToolkit.Web.Tests
 {
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+    using SrkToolkit.Web.Mvc;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Globalization;
-    using SrkToolkit.Web.Mvc;
     using System.Web.Mvc;
+    using Xunit;
 
     public class IntegerModelBinderTests
     {
-        [TestClass]
         public class ConvertFrenchStyleDecimals
         {
             static List<Expectation<int>> intExpectations;
@@ -47,7 +48,7 @@ namespace SrkToolkit.Web.Tests
                 return new CultureInfo(name);
             }
 
-            [TestMethod]
+            [Fact]
             public void IntegerExpectations()
             {
                 var target = new IntegerModelBinder<int>();
@@ -56,11 +57,11 @@ namespace SrkToolkit.Web.Tests
                     object value;
                     var valueProvider = new ValueProviderResult(expectation.Input, expectation.Input, expectation.Culture);
                     var result = target.BindModelImpl(valueProvider, out value);
-                    Assert.AreEqual(expectation.Expected, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
+                    Assert.Equal(expectation.Expected, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void IntNotNullable()
             {
                 // typical bug we don't want to see
@@ -72,10 +73,10 @@ namespace SrkToolkit.Web.Tests
                 object value;
                 var valueProvider = new ValueProviderResult(input, input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
-                Assert.AreEqual(1, result.Errors.Count);
+                Assert.Equal(1, result.Errors.Count);
             }
 
-            [TestMethod]
+            [Fact]
             public void IntIsNullable()
             {
                 // typical bug we don't want to see
@@ -87,21 +88,20 @@ namespace SrkToolkit.Web.Tests
                 object value;
                 var valueProvider = new ValueProviderResult(input, input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
-                Assert.AreEqual(expected, value);
-                Assert.AreEqual(0, result.Errors.Count);
+                Assert.Equal(expected, value);
+                Assert.Equal(0, result.Errors.Count);
             }
         }
 
-        [TestClass]
         public class RegisterMethod
         {
-            [TestMethod]
+            [Fact]
             public void Works()
             {
                 var binders = new ModelBinderDictionary();
                 IntegerModelBinder.Register(binders);
-                Assert.AreEqual(14, binders.Count);
-                Assert.IsTrue(binders.All(b => b.Value.GetType().Name == "IntegerModelBinder`1"));
+                Assert.Equal(14, binders.Count);
+                Assert.True(binders.All(b => b.Value.GetType().Name == "IntegerModelBinder`1"));
             }
         }
 

@@ -16,21 +16,24 @@
 
 namespace SrkToolkit.Web.Tests
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.AspNetCore.Mvc.ViewEngines;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
+    using Microsoft.AspNetCore.Routing;
+    using Moq;
+    using SrkToolkit.Web.Fakes;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Web.Mvc;
-    using Moq;
-    using System.Web.Routing;
-    using System.Web;
-    using System.IO;
-    using System.Diagnostics;
     using System.Threading;
-    using System.Globalization;
-    using System.ComponentModel.DataAnnotations;
-    using SrkToolkit.Web.Fakes;
+    using System.Web.Mvc;
+    using Xunit;
 
     public class SrkHtmlExtensionsTests
     {
@@ -54,10 +57,9 @@ namespace SrkToolkit.Web.Tests
             return new HtmlHelper(mockViewContext, mockViewDataContainer.Object);
         }
 
-        [TestClass]
         public class SetTimezoneMethod
         {
-            [TestMethod]
+            [Fact]
             public void WorksWithTzObject1()
             {
                 var data = new ViewDataDictionary();
@@ -65,11 +67,11 @@ namespace SrkToolkit.Web.Tests
                 var html = CreateHtmlHelper(data);
                 SrkHtmlExtensions.SetTimezone(html, tz);
 
-                Assert.IsNotNull(data["Timezone"]);
-                Assert.AreEqual(tz, data["Timezone"]);
+                Assert.NotNull(data["Timezone"]);
+                Assert.Equal(tz, data["Timezone"]);
             }
 
-            [TestMethod]
+            [Fact]
             public void WorksWithTzObject2()
             {
                 var data = new ViewDataDictionary();
@@ -77,11 +79,11 @@ namespace SrkToolkit.Web.Tests
                 var html = CreateHtmlHelper(data);
                 SrkHtmlExtensions.SetTimezone(html, tz);
 
-                Assert.IsNotNull(data["Timezone"]);
-                Assert.AreEqual(tz, data["Timezone"]);
+                Assert.NotNull(data["Timezone"]);
+                Assert.Equal(tz, data["Timezone"]);
             }
 
-            [TestMethod]
+            [Fact]
             public void WorksWithTzName1()
             {
                 var data = new ViewDataDictionary();
@@ -90,11 +92,11 @@ namespace SrkToolkit.Web.Tests
                 var html = CreateHtmlHelper(data);
                 SrkHtmlExtensions.SetTimezone(html, tzName);
 
-                Assert.IsNotNull(data["Timezone"]);
-                Assert.AreEqual(tz, data["Timezone"]);
+                Assert.NotNull(data["Timezone"]);
+                Assert.Equal(tz, data["Timezone"]);
             }
 
-            [TestMethod]
+            [Fact]
             public void WorksWithTzName2()
             {
                 var data = new ViewDataDictionary();
@@ -103,11 +105,11 @@ namespace SrkToolkit.Web.Tests
                 var html = CreateHtmlHelper(data);
                 SrkHtmlExtensions.SetTimezone(html, tzName);
 
-                Assert.IsNotNull(data["Timezone"]);
-                Assert.AreEqual(tz, data["Timezone"]);
+                Assert.NotNull(data["Timezone"]);
+                Assert.Equal(tz, data["Timezone"]);
             }
 
-            [TestMethod, ExpectedException(typeof(ArgumentException))]
+            [Fact, ExpectedException(typeof(ArgumentException))]
             public void NullTzName()
             {
                 string tzName = null;
@@ -115,7 +117,7 @@ namespace SrkToolkit.Web.Tests
                 SrkHtmlExtensions.SetTimezone(html, tzName);
             }
 
-            [TestMethod, ExpectedException(typeof(ArgumentException))]
+            [Fact, ExpectedException(typeof(ArgumentException))]
             public void EmptyTzName()
             {
                 string tzName = string.Empty;
@@ -123,7 +125,7 @@ namespace SrkToolkit.Web.Tests
                 SrkHtmlExtensions.SetTimezone(html, tzName);
             }
 
-            [TestMethod, ExpectedException(typeof(TimeZoneNotFoundException))]
+            [Fact, ExpectedException(typeof(TimeZoneNotFoundException))]
             public void InvalidTzName()
             {
                 string tzName = "Lunar Standard Time";
@@ -131,7 +133,7 @@ namespace SrkToolkit.Web.Tests
                 SrkHtmlExtensions.SetTimezone(html, tzName);
             }
 
-            [TestMethod]
+            [Fact]
             public void GetterWorks1()
             {
                 var data = new ViewDataDictionary();
@@ -141,11 +143,11 @@ namespace SrkToolkit.Web.Tests
                 SrkHtmlExtensions.SetTimezone(html, tzName);
                 var result = SrkHtmlExtensions.GetTimezone(html);
 
-                Assert.IsNotNull(result);
-                Assert.AreEqual(tz, result);
+                Assert.NotNull(result);
+                Assert.Equal(tz, result);
             }
 
-            [TestMethod]
+            [Fact]
             public void GetterWorks2()
             {
                 var data = new ViewDataDictionary();
@@ -155,11 +157,11 @@ namespace SrkToolkit.Web.Tests
                 SrkHtmlExtensions.SetTimezone(html, tzName);
                 var result = SrkHtmlExtensions.GetTimezone(html);
 
-                Assert.IsNotNull(result);
-                Assert.AreEqual(tz, result);
+                Assert.NotNull(result);
+                Assert.Equal(tz, result);
             }
 
-            [TestMethod]
+            [Fact]
             public void WorksWhenSetInHttpContext1()
             {
                 var data = new ViewDataDictionary();
@@ -169,11 +171,11 @@ namespace SrkToolkit.Web.Tests
                 html.ViewContext.HttpContext.SetTimezone(tz);
                 var result = SrkHtmlExtensions.GetTimezone(html);
 
-                Assert.IsNotNull(result);
-                Assert.AreEqual(tz, result);
+                Assert.NotNull(result);
+                Assert.Equal(tz, result);
             }
 
-            [TestMethod]
+            [Fact]
             public void WorksWhenSetInHttpContext2()
             {
                 var data = new ViewDataDictionary();
@@ -183,15 +185,14 @@ namespace SrkToolkit.Web.Tests
                 html.ViewContext.HttpContext.SetTimezone(tz);
                 var result = SrkHtmlExtensions.GetTimezone(html);
 
-                Assert.IsNotNull(result);
-                Assert.AreEqual(tz, result);
+                Assert.NotNull(result);
+                Assert.Equal(tz, result);
             }
         }
 
-        [TestClass]
         public class GetUserDateMethod
         {
-            [TestMethod]
+            [Fact]
             public void UndefinedTzIsUtc_ArgIsUtc_ResultIsUtc()
             {
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
@@ -202,16 +203,16 @@ namespace SrkToolkit.Web.Tests
                 DateTime utcResult;
                 var result = SrkHtmlExtensions.GetUserDate(html, source, out utcResult);
 
-                Assert.AreEqual(source, result);
-                Assert.AreEqual(source, utcResult);
+                Assert.Equal(source, result);
+                Assert.Equal(source, utcResult);
             }
 
-            [TestMethod]
+            [Fact]
             public void UndefinedTzIsUtc_ArgIsLocal_ResultIsUtc()
             {
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime source = orig.ToLocalTime();
-                Assert.AreEqual(DateTimeKind.Local, source.Kind);
+                Assert.Equal(DateTimeKind.Local, source.Kind);
                 TimeZoneInfo tz = null;
                 var html = CreateHtmlHelper(new ViewDataDictionary());
                 html.SetTimezone(tz);
@@ -219,16 +220,16 @@ namespace SrkToolkit.Web.Tests
                 DateTime utcResult;
                 var result = SrkHtmlExtensions.GetUserDate(html, source, out utcResult);
 
-                Assert.AreEqual(orig, result);
-                Assert.AreEqual(orig, utcResult);
+                Assert.Equal(orig, result);
+                Assert.Equal(orig, utcResult);
             }
 
-            [TestMethod]
+            [Fact]
             public void UndefinedTzIsUtc_ArgIsUnspecified_ResultIsUtc()
             {
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime source = TimeZoneInfo.Utc.ConvertFromUtc(orig);
-                Assert.AreEqual(DateTimeKind.Utc, source.Kind);
+                Assert.Equal(DateTimeKind.Utc, source.Kind);
                 TimeZoneInfo tz = null;
                 var html = CreateHtmlHelper(new ViewDataDictionary());
                 html.SetTimezone(tz);
@@ -236,11 +237,11 @@ namespace SrkToolkit.Web.Tests
                 DateTime utcResult;
                 var result = SrkHtmlExtensions.GetUserDate(html, source, out utcResult);
 
-                Assert.AreEqual(orig, result);
-                Assert.AreEqual(orig, utcResult);
+                Assert.Equal(orig, result);
+                Assert.Equal(orig, utcResult);
             }
 
-            [TestMethod]
+            [Fact]
             public void RomanceTz_ArgIsUtc_ResultIsRomance()
             {
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
@@ -252,50 +253,49 @@ namespace SrkToolkit.Web.Tests
                 DateTime utcResult;
                 var result = SrkHtmlExtensions.GetUserDate(html, source, out utcResult);
 
-                Assert.AreEqual(source, result, "wrong user result");
-                Assert.AreEqual(orig, utcResult, "wrong UTC result");
+                Assert.Equal(source, result, "wrong user result");
+                Assert.Equal(orig, utcResult, "wrong UTC result");
             }
 
-            [TestMethod]
+            [Fact]
             public void RomanceTz_ArgIsLocal_ResultIsRomance()
             {
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime source = orig.ToLocalTime();
                 DateTime expected = tz.ConvertFromUtc(orig);
-                Assert.AreEqual(DateTimeKind.Local, source.Kind);
+                Assert.Equal(DateTimeKind.Local, source.Kind);
                 var html = CreateHtmlHelper(new ViewDataDictionary());
                 html.SetTimezone(tz);
 
                 DateTime utcResult;
                 var result = SrkHtmlExtensions.GetUserDate(html, source, out utcResult);
 
-                Assert.AreEqual(expected, result, "wrong user result");
-                Assert.AreEqual(orig, utcResult, "wrong UTC result");
+                Assert.Equal(expected, result, "wrong user result");
+                Assert.Equal(orig, utcResult, "wrong UTC result");
             }
 
-            [TestMethod]
+            [Fact]
             public void RomanceTz_ArgIsUnspecified_ResultIsUtc()
             {
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime source = tz.ConvertFromUtc(orig);
-                Assert.AreEqual(DateTimeKind.Unspecified, source.Kind);
+                Assert.Equal(DateTimeKind.Unspecified, source.Kind);
                 var html = CreateHtmlHelper(new ViewDataDictionary());
                 html.SetTimezone(tz);
 
                 DateTime utcResult;
                 var result = SrkHtmlExtensions.GetUserDate(html, source, out utcResult);
 
-                Assert.AreEqual(source, result, "wrong user result");
-                Assert.AreEqual(orig, utcResult, "wrong UTC result");
+                Assert.Equal(source, result, "wrong user result");
+                Assert.Equal(orig, utcResult, "wrong UTC result");
             }
         }
 
-        [TestClass]
         public class DisplayDateMethod
         {
-            [TestMethod]
+            [Fact]
             public void UserIsUtc_ArgIsUtc_ResultIsUtc()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -307,10 +307,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsUtc_ArgIsLocal_ResultIsUtc()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -325,10 +325,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsUtc_ArgIsUser_ResultIsUtc()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -341,10 +341,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsRomance_ArgIsUtc_ResultIsRomance()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -357,10 +357,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsRomance_ArgIsLocal_ResultIsRomance()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -376,10 +376,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsRomance_ArgIsUser_ResultIsRomance()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -393,14 +393,13 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
         }
 
-        [TestClass]
         public class DisplayDateTimeMethod
         {
-            [TestMethod]
+            [Fact]
             public void UserIsUtc_ArgIsUtc_ResultIsUtc()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -412,10 +411,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsUtc_ArgIsLocal_ResultIsUtc()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -430,10 +429,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsUtc_ArgIsUser_ResultIsUtc()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -446,10 +445,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsRomance_ArgIsUtc_ResultIsRomance()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -462,10 +461,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsRomance_ArgIsLocal_ResultIsRomance()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -481,10 +480,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsRomance_ArgIsUser_ResultIsRomance()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -498,14 +497,13 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
         }
 
-        [TestClass]
         public class DisplayTimeMethod
         {
-            [TestMethod]
+            [Fact]
             public void UserIsUtc_ArgIsUtc_ResultIsUtc()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -517,10 +515,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsUtc_ArgIsLocal_ResultIsUtc()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -535,10 +533,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsUtc_ArgIsUser_ResultIsUtc()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -551,10 +549,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsRomance_ArgIsUtc_ResultIsRomance()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -567,10 +565,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsRomance_ArgIsLocal_ResultIsRomance()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -586,10 +584,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void UserIsRomance_ArgIsUser_ResultIsRomance()
             {
                 Thread.CurrentThread.CurrentCulture = TestCulture1;
@@ -603,26 +601,25 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
 
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
         }
 
-        [TestClass]
         public class JsDateMethod
         {
             private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
-            [TestMethod]
+            [Fact]
             public void BackAndForth_UtcIn()
             {
                 long epoch = 13912786171000L; // GMT: Sat, 01 Feb 2014 18:16:57 GMT
                 DateTime utc = UnixEpoch.AddMilliseconds(epoch);
                 var result = SrkHtmlExtensions.JsDate(null, utc);
                 var expected = "new Date(13912786171000)";
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void BackAndForth_UserTzIn()
             {
                 long epoch = 13912786171000L; // GMT: Sat, 01 Feb 2014 18:16:57 GMT
@@ -633,10 +630,10 @@ namespace SrkToolkit.Web.Tests
                 html.SetTimezone(tz);
                 var result = SrkHtmlExtensions.JsDate(html, user);
                 var expected = "new Date(13912786171000)";
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void BackAndForth_LocalTzIn()
             {
                 long epoch = 13912786171000L; // GMT: Sat, 01 Feb 2014 18:16:57 GMT
@@ -645,33 +642,31 @@ namespace SrkToolkit.Web.Tests
                 var html = CreateHtmlHelper(new ViewDataDictionary());
                 var result = SrkHtmlExtensions.JsDate(html, local);
                 var expected = "new Date(13912786171000)";
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
         }
 
-        [TestClass]
         public class DisplayTextMethod
         {
-            [TestMethod]
+            [Fact]
             public void BugWithSingleQuoteAndTwotter()
             {
                 var input = "J'ai ajouté une";
                 var expected = "J&#x27;ai ajouté une";
                 var result = SrkHtmlExtensions.DisplayText(null, input, twitterLinks: true, makeParagraphs: false);
-                SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
+                SrkToolkit.Testing.Assert.Equal(expected, result.ToString());
             }
         }
 
-        [TestClass]
         public class HasOtherValidationErrorsMethod
         {
-            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            [Fact, ExpectedException(typeof(ArgumentNullException))]
             public void ThrowsWhenArg0IsNull()
             {
                 SrkHtmlExtensions.HasOtherValidationErrors(null);
             }
 
-            [TestMethod]
+            [Fact]
             public void ModelIsValid_ReturnsFalse()
             {
                 var model = new TestModel { Name = "hello", };
@@ -679,10 +674,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.HasOtherValidationErrors(html);
 
-                Assert.IsFalse(result);
+                Assert.False(result);
             }
 
-            [TestMethod]
+            [Fact]
             public void ModelIsPropertyInvalid_ReturnsFalse()
             {
                 var model = new TestModel { Name = null, };
@@ -690,10 +685,10 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.HasOtherValidationErrors(html);
 
-                Assert.IsFalse(result);
+                Assert.False(result);
             }
 
-            [TestMethod]
+            [Fact]
             public void ModelIsOtherInvalid_ReturnsFalse()
             {
                 var model = new TestModel { Name = "hello", };
@@ -702,14 +697,13 @@ namespace SrkToolkit.Web.Tests
 
                 var result = SrkHtmlExtensions.HasOtherValidationErrors(html);
 
-                Assert.IsTrue(result);
+                Assert.True(result);
             }
         }
 
-        [TestClass]
         public class ValidationSummaryExMethod
         {
-            [TestMethod]
+            [Fact]
             public void ModelIsOtherInvalid_Shows()
             {
                 var model = new TestModel { Name = "hello", };
@@ -717,70 +711,69 @@ namespace SrkToolkit.Web.Tests
                 html.ViewData.ModelState.AddModelError(string.Empty, "Other error");
                 var response = SrkHtmlExtensions.ValidationSummaryEx(html);
                 var isDisplayed = response != null && response.ToString().Length > 0;
-                Assert.IsTrue(isDisplayed);
+                Assert.True(isDisplayed);
             }
 
-            [TestMethod]
+            [Fact]
             public void ModelIsPropertyInvalid_Hides()
             {
                 var model = new TestModel { Name = "hello", };
                 var html = GetHtmlHelper(model);
                 var response = SrkHtmlExtensions.ValidationSummaryEx(html);
                 var isDisplayed = response != null && response.ToString().Length > 0;
-                Assert.IsFalse(isDisplayed);
+                Assert.False(isDisplayed);
             }
 
-            [TestMethod]
+            [Fact]
             public void ModelIsValid_Hides()
             {
                 var model = new TestModel { Name = "hello", };
                 var html = GetHtmlHelper(model);
                 var response = SrkHtmlExtensions.ValidationSummaryEx(html);
                 var isDisplayed = response != null && response.ToString().Length > 0;
-                Assert.IsFalse(isDisplayed);
+                Assert.False(isDisplayed);
             }
         }
 
-        [TestClass]
         public class DescriptionForMethod
         {
-            [TestMethod]
+            [Fact]
             public void NoDescriptionReturnsEmptyString()
             {
                 var model = new TestModel();
                 var html = this.GetHtmlHeper<TestModel>(model);
                 var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Name);
-                Assert.IsNull(result.ToString().NullIfEmpty());
+                Assert.Null(result.ToString().NullIfEmpty());
             }
 
-            [TestMethod]
+            [Fact]
             public void EmptyDescriptionReturnsEmptyString()
             {
                 var model = new TestModel();
                 var html = this.GetHtmlHeper<TestModel>(model);
                 var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Description);
-                Assert.IsNull(result.ToString().NullIfEmpty());
+                Assert.Null(result.ToString().NullIfEmpty());
             }
 
-            [TestMethod]
+            [Fact]
             public void ValidDescriptionReturnsHtmlAndValue()
             {
                 var model = new TestModel();
                 var html = this.GetHtmlHeper<TestModel>(model);
                 var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Description2);
-                Assert.AreEqual("<span data-for=\"Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
+                Assert.Equal("<span data-for=\"Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
             }
 
-            [TestMethod]
+            [Fact]
             public void ForIsValidAtLevel1()
             {
                 var model = new TestModel();
                 var html = this.GetHtmlHeper<TestModel>(model);
                 var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Description2);
-                Assert.AreEqual("<span data-for=\"Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
+                Assert.Equal("<span data-for=\"Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
             }
 
-            [TestMethod]
+            [Fact]
             public void ForIsValidAtLevel2()
             {
                 var model = new TestModel
@@ -789,16 +782,16 @@ namespace SrkToolkit.Web.Tests
                 };
                 var html = this.GetHtmlHeper<TestModel>(model);
                 var result = SrkHtmlExtensions.DescriptionFor(html, m => m.SubModel.Description2);
-                Assert.AreEqual("<span data-for=\"SubModel_Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
+                Assert.Equal("<span data-for=\"SubModel_Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
             }
 
-            [TestMethod]
+            [Fact]
             public void AcceptsHtmlAttributes()
             {
                 var model = new TestModel();
                 var html = this.GetHtmlHeper<TestModel>(model);
                 var result = SrkHtmlExtensions.DescriptionFor(html, m => m.Description2, new { attr1 = "value", });
-                Assert.AreEqual("<span attr1=\"value\" data-for=\"Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
+                Assert.Equal("<span attr1=\"value\" data-for=\"Description2\">Desc a2a</span>", result.ToString().NullIfEmpty());
             }
 
             private HtmlHelper<TModel> GetHtmlHeper<TModel>(TModel model)
@@ -816,34 +809,33 @@ namespace SrkToolkit.Web.Tests
             }
         }
 
-        [TestClass]
         public class CallLinkMethod
         {
-            [TestMethod]
+            [Fact]
             public void InternationalFrenchStandardFormat()
             {
                 string phone = "+33 123456789";
                 string expected = @"<a class=""tel"" href=""tel:" + phone + @""">" + phone + "</a>";
                 var result = SrkHtmlExtensions.CallLink(null, phone);
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void NationalFrenchStandardFormat()
             {
                 string phone = "0123456789";
                 string expected = @"<a class=""tel"" href=""tel:" + phone + @""">" + phone + "</a>";
                 var result = SrkHtmlExtensions.CallLink(null, phone);
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void NationalUsaStandardFormat()
             {
                 string phone = "123-456-7890";
                 string expected = @"<a class=""tel"" href=""tel:" + phone + @""">" + phone + "</a>";
                 var result = SrkHtmlExtensions.CallLink(null, phone);
-                Assert.AreEqual(expected, result.ToString());
+                Assert.Equal(expected, result.ToString());
             }
         }
 

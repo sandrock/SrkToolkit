@@ -16,43 +16,42 @@
 
 namespace SrkToolkit.Web.Tests
 {
+    using SrkToolkit.Web.Open;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using SrkToolkit.Web.Open;
+    using Xunit;
 
-    [TestClass]
     public class OpenGraphNameTests
     {
-        [TestMethod]
+        [Fact]
         public void HasDefinedNameAndNamespace()
         {
             var name = "toto";
             var nsName = "super";
             var ns = new OpenGraphNamespace(nsName, "a");
             var obj = new OpenGraphName(ns, name);
-            Assert.AreEqual(nsName, obj.NamespaceName);
-            Assert.AreEqual(name, obj.Name);
+            Assert.Equal(nsName, obj.NamespaceName);
+            Assert.Equal(name, obj.Name);
         }
 
-        ////[TestMethod]
+        ////[Fact]
         ////public void StringImplicitOperatorGivesOgNamespaceName()
         ////{
         ////    var name = "toto";
         ////    OpenGraphName obj = name;
-        ////    Assert.AreEqual("og", obj.NamespaceName);
-        ////    Assert.AreEqual(name, obj.Name);
+        ////    Assert.Equal("og", obj.NamespaceName);
+        ////    Assert.Equal(name, obj.Name);
         ////}
 
-        [TestMethod]
+        [Fact]
         public void NameCtorGivesOgNamespaceName()
         {
             var name = "toto";
             OpenGraphName obj = new OpenGraphName(name);
-            Assert.AreEqual("og", obj.NamespaceName);
-            Assert.AreEqual(name, obj.Name);
+            Assert.Equal("og", obj.NamespaceName);
+            Assert.Equal(name, obj.Name);
         }
     }
 }

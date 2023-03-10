@@ -20,21 +20,19 @@ namespace SrkToolkit.Web.Tests
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class WebDependenciesTests
     {
-        [TestClass]
         public class RenderMethod
         {
-            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            [Fact, ExpectedException(typeof(ArgumentNullException))]
             public void ArgNull()
             {
                 new WebDependencies().Render(null);
             }
 
-            [TestMethod]
+            [Fact]
             public void JsWorks()
             {
                 string expected = "<script src=\"//js.js\" type=\"text/javascript\"></script>\r\n";
@@ -44,7 +42,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void CssWorks()
             {
                 string expected = "<link href=\"//css.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n";
@@ -54,7 +52,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void CssWithMediaWorks()
             {
                 string expected = "<link href=\"//css.css\" media=\"all\" rel=\"stylesheet\" type=\"text/css\" />\r\n";
@@ -67,7 +65,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void CssWithMediasWorks()
             {
                 string expected = "<link href=\"//css.css\" media=\"all, braille\" rel=\"stylesheet\" type=\"text/css\" />\r\n";
@@ -80,7 +78,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void JsWithAttributesWorks()
             {
                 string expected = "<script data-main=\"Scripts/main\" src=\"//js.js\" type=\"text/javascript\"></script>\r\n";
@@ -94,7 +92,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void JsWith1AttributeAsStringParamsWorks()
             {
                 string expected = "<script data-main=\"Scripts/main\" src=\"//js.js\" type=\"text/javascript\"></script>\r\n";
@@ -109,7 +107,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void JsWith2AttributeAsStringParamsWorks()
             {
                 string expected = "<script data-hello=\"world\" data-main=\"Scripts/main\" src=\"//js.js\" type=\"text/javascript\"></script>\r\n";
@@ -124,7 +122,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void AppliesOrder_AllZero_Order1()
             {
                 string expected = "<!-- WebDependencies/Default - start -->\r\n"
@@ -146,7 +144,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void AppliesOrder_AllZero_Order2()
             {
                 string expected = "<!-- WebDependencies/Default - start -->\r\n"
@@ -168,7 +166,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void AppliesOrder_Ordered_Order1()
             {
                 string expected = "<!-- WebDependencies/Default - start -->\r\n"
@@ -190,7 +188,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void AppliesOrder_Ordered_Order2()
             {
                 string expected = "<!-- WebDependencies/Default - start -->\r\n"
@@ -212,7 +210,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void MultipleInclude_shouldChooseTheHighestPosition_WithDefaultFirst()
             {
                 string expectedEndOfPage = "<!-- WebDependencies/EndOfPage - start -->\r\n"
@@ -237,7 +235,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expectedEndOfPage, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void MultipleInclude_shouldChooseTheHighestPosition_WithDefaultSecond()
             {
                 string expectedEndOfPage = "<!-- WebDependencies/EndOfPage - start -->\r\n"
@@ -262,7 +260,7 @@ namespace SrkToolkit.Web.Tests
                 SrkToolkit.Testing.Assert.AreEqual(expectedEndOfPage, result.ToString());
             }
 
-            [TestMethod]
+            [Fact]
             public void MultipleInclude_shouldChooseTheHighestPosition_WithoutDefault()
             {
                 string expectedHead = "<!-- WebDependencies/Head - start -->\r\n"

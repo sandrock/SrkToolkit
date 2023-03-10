@@ -16,47 +16,57 @@
 
 namespace SrkToolkit.Web.Tests
 {
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Web.Mvc;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     public class SrkMvcCollectionExtensionsTests
     {
-        [TestClass]
         public class ToSelectListMethod
         {
-            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            [Fact]
             public void NullCollectionThrows()
             {
                 List<object> collection = null;
-                var result = SrkMvcCollectionExtensions.ToSelectList(collection, o => o.ToString(), o => o.ToString(), o => false);
+
+                Assert.Throws<ArgumentNullException>(() =>
+                {
+                    var result = SrkMvcCollectionExtensions.ToSelectList(collection, o => o.ToString(), o => o.ToString(), o => false);
+                });
             }
 
-            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            [Fact]
             public void NullValueSelectorThrows()
             {
                 List<object> collection = null;
-                var result = SrkMvcCollectionExtensions.ToSelectList(collection, null, o => o.ToString(), o => false);
+                Assert.Throws<ArgumentNullException>(() =>
+                {
+                    var result = SrkMvcCollectionExtensions.ToSelectList(collection, null, o => o.ToString(), o => false);
+                });
             }
 
-            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            [Fact]
             public void NullDisplaySelectorThrows()
             {
                 List<object> collection = null;
-                var result = SrkMvcCollectionExtensions.ToSelectList(collection, o => o.ToString(), null, o => false);
+                Assert.Throws<ArgumentNullException>(() =>
+                {
+                    var result = SrkMvcCollectionExtensions.ToSelectList(collection, o => o.ToString(), null, o => false);
+                });
             }
 
-            [TestMethod]
+            [Fact]
             public void NullSelectedSelectorDoesNotThrow()
             {
                 List<object> collection = new List<object>();
                 var result = SrkMvcCollectionExtensions.ToSelectList(collection, o => o.ToString(), o => o.ToString(), null);
             }
 
-            [TestMethod]
+            [Fact]
             public void SimpleListAndNullSelectedSelector()
             {
                 List<Tuple<int, string>> collection = GetSimpleList();
@@ -64,7 +74,7 @@ namespace SrkToolkit.Web.Tests
                 Verify(collection, result, null);
             }
 
-            [TestMethod]
+            [Fact]
             public void SimpleListWithSelectedSelector()
             {
                 List<Tuple<int, string>> collection = GetSimpleList();
@@ -87,17 +97,17 @@ namespace SrkToolkit.Web.Tests
 
             private static void Verify(List<Tuple<int, string>> collection, IList<SelectListItem> result, int? selected)
             {
-                Assert.AreEqual(collection.Count, result.Count());
+                Assert.Equal(collection.Count, result.Count());
                 for (int i = 0; i < collection.Count; i++)
                 {
                     var item = result.Skip(i).First();
-                    Assert.AreEqual(collection[i].Item1.ToString(), item.Value);
-                    Assert.AreEqual(collection[i].Item2.ToString(), item.Text);
+                    Assert.Equal(collection[i].Item1.ToString(), item.Value);
+                    Assert.Equal(collection[i].Item2.ToString(), item.Text);
 
                     if (selected != null && selected.Value == collection[i].Item1)
-                        Assert.IsTrue(item.Selected);
+                        Assert.True(item.Selected);
                     else
-                        Assert.IsFalse(item.Selected);
+                        Assert.False(item.Selected);
                 }
             }
         }

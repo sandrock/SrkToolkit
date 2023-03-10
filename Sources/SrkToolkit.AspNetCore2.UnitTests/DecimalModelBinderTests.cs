@@ -16,12 +16,14 @@
 
 namespace SrkToolkit.Web.Tests
 {
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+    using SrkToolkit.Web.Mvc;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Globalization;
-    using SrkToolkit.Web.Mvc;
     using Xunit;
 
     public class DecimalModelBinderTests
@@ -88,7 +90,7 @@ namespace SrkToolkit.Web.Tests
                     object value;
                     var valueProvider = new ValueProviderResult(expectation.Input, expectation.Input, expectation.Culture);
                     var result = target.BindModelImpl(valueProvider, out value);
-                    Assert.AreEqual(expectation.Expected, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
+                    Assert.Equal(expectation.Expected, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
                 }
             }
 
@@ -101,7 +103,7 @@ namespace SrkToolkit.Web.Tests
                     object value;
                     var valueProvider = new ValueProviderResult(expectation.Input, expectation.Input, expectation.Culture);
                     var result = target.BindModelImpl(valueProvider, out value);
-                    Assert.AreEqual(expectation.Expected, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
+                    Assert.Equal(expectation.Expected, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
                 }
             }
 
@@ -117,8 +119,8 @@ namespace SrkToolkit.Web.Tests
                 object value;
                 var valueProvider = new ValueProviderResult(input, input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
-                Assert.AreEqual(expected, value);
-                Assert.AreEqual(0, result.Errors.Count);
+                Assert.Equal(expected, value);
+                Assert.Equal(0, result.Errors.Count);
             }
 
             [Fact]
@@ -133,7 +135,7 @@ namespace SrkToolkit.Web.Tests
                 object value;
                 var valueProvider = new ValueProviderResult(input, input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
-                Assert.AreEqual(1, result.Errors.Count);
+                Assert.Equal(1, result.Errors.Count);
             }
 
             [Fact]
@@ -148,8 +150,8 @@ namespace SrkToolkit.Web.Tests
                 object value;
                 var valueProvider = new ValueProviderResult(input, input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
-                Assert.AreEqual(expected, value);
-                Assert.AreEqual(0, result.Errors.Count);
+                Assert.Equal(expected, value);
+                Assert.Equal(0, result.Errors.Count);
             }
 
             [Fact]
@@ -162,7 +164,7 @@ namespace SrkToolkit.Web.Tests
                     object value;
                     var valueProvider = new ValueProviderResult(expectation.Input, expectation.Input, expectation.Culture);
                     var result = target.BindModelImpl(valueProvider, out value);
-                    Assert.AreEqual(expectedValue, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
+                    Assert.Equal(expectedValue, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
                 }
             }
 
@@ -176,7 +178,7 @@ namespace SrkToolkit.Web.Tests
                     object value;
                     var valueProvider = new ValueProviderResult(expectation.Input, expectation.Input, expectation.Culture);
                     var result = target.BindModelImpl(valueProvider, out value);
-                    Assert.AreEqual(expectedValue, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
+                    Assert.Equal(expectedValue, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
                 }
             }
 
@@ -192,8 +194,8 @@ namespace SrkToolkit.Web.Tests
                 object value;
                 var valueProvider = new ValueProviderResult(input, input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
-                Assert.AreEqual(expected, value);
-                Assert.AreEqual(0, result.Errors.Count);
+                Assert.Equal(expected, value);
+                Assert.Equal(0, result.Errors.Count);
             }
 
             [Fact]
@@ -208,7 +210,7 @@ namespace SrkToolkit.Web.Tests
                 object value;
                 var valueProvider = new ValueProviderResult(input, input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
-                Assert.AreEqual(1, result.Errors.Count);
+                Assert.Equal(1, result.Errors.Count);
             }
 
             [Fact]
@@ -223,8 +225,8 @@ namespace SrkToolkit.Web.Tests
                 object value;
                 var valueProvider = new ValueProviderResult(input, input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
-                Assert.AreEqual(expected, value);
-                Assert.AreEqual(0, result.Errors.Count);
+                Assert.Equal(expected, value);
+                Assert.Equal(0, result.Errors.Count);
             }
 
             [Fact]
@@ -239,8 +241,8 @@ namespace SrkToolkit.Web.Tests
                 object value;
                 var valueProvider = new ValueProviderResult(input, input, culture);
                 var result = target.BindModelImpl(null, out value);
-                Assert.AreEqual(expected, value);
-                Assert.AreEqual(0, result.Errors.Count);
+                Assert.Equal(expected, value);
+                Assert.Equal(0, result.Errors.Count);
             }
 
             [Fact]
@@ -254,8 +256,8 @@ namespace SrkToolkit.Web.Tests
                 object value;
                 var valueProvider = new ValueProviderResult(input, input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
-                Assert.AreEqual(expected, value);
-                Assert.AreEqual(0, result.Errors.Count);
+                Assert.Equal(expected, value);
+                Assert.Equal(0, result.Errors.Count);
             }
         }
 
@@ -266,7 +268,7 @@ namespace SrkToolkit.Web.Tests
             {
                 var binders = new ModelBinderDictionary();
                 DecimalModelBinder.Register(binders);
-                Assert.AreEqual(6, binders.Count);
+                Assert.Equal(6, binders.Count);
             }
         }
 

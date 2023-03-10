@@ -16,30 +16,28 @@
 
 namespace SrkToolkit.Web.Tests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using SrkToolkit.Web.Fakes;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Xunit;
 
-    [TestClass]
     public class SrkHttpContextExtensionsTests
     {
-        [TestClass]
         public class SetTimezoneMethod
         {
-            [TestMethod]
+            [Fact]
             public void WorksWithTzObject()
             {
                 var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 var http = new BasicHttpContext();
                 SrkHttpContextExtensions.SetTimezone(http, tz);
 
-                Assert.IsNotNull(http.Items["Timezone"]);
-                Assert.AreEqual(tz, http.Items["Timezone"]);
+                Assert.NotNull(http.Items["Timezone"]);
+                Assert.Equal(tz, http.Items["Timezone"]);
             }
 
-            [TestMethod]
+            [Fact]
             public void WorksWithTzName()
             {
                 var tzName = "Romance Standard Time";
@@ -47,11 +45,11 @@ namespace SrkToolkit.Web.Tests
                 var http = new BasicHttpContext();
                 SrkHttpContextExtensions.SetTimezone(http, tzName);
 
-                Assert.IsNotNull(http.Items["Timezone"]);
-                Assert.AreEqual(tz, http.Items["Timezone"]);
+                Assert.NotNull(http.Items["Timezone"]);
+                Assert.Equal(tz, http.Items["Timezone"]);
             }
 
-            [TestMethod, ExpectedException(typeof(ArgumentException))]
+            [Fact, ExpectedException(typeof(ArgumentException))]
             public void NullTzName()
             {
                 string tzName = null;
@@ -59,7 +57,7 @@ namespace SrkToolkit.Web.Tests
                 SrkHttpContextExtensions.SetTimezone(http, tzName);
             }
 
-            [TestMethod, ExpectedException(typeof(ArgumentException))]
+            [Fact, ExpectedException(typeof(ArgumentException))]
             public void EmptyTzName()
             {
                 string tzName = string.Empty;
@@ -67,7 +65,7 @@ namespace SrkToolkit.Web.Tests
                 SrkHttpContextExtensions.SetTimezone(http, tzName);
             }
 
-            [TestMethod, ExpectedException(typeof(TimeZoneNotFoundException))]
+            [Fact, ExpectedException(typeof(TimeZoneNotFoundException))]
             public void InvalidTzName()
             {
                 string tzName = "Lunar Standard Time";
@@ -75,7 +73,7 @@ namespace SrkToolkit.Web.Tests
                 SrkHttpContextExtensions.SetTimezone(http, tzName);
             }
 
-            [TestMethod]
+            [Fact]
             public void GetterWorks()
             {
                 var tzName = "Romance Standard Time";
@@ -84,8 +82,8 @@ namespace SrkToolkit.Web.Tests
                 SrkHttpContextExtensions.SetTimezone(http, tzName);
                 var result = SrkHttpContextExtensions.GetTimezone(http);
 
-                Assert.IsNotNull(result);
-                Assert.AreEqual(tz, result);
+                Assert.NotNull(result);
+                Assert.Equal(tz, result);
             }
         }
     }

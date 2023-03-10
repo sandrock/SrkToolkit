@@ -16,50 +16,48 @@
 
 namespace SrkToolkit.Web.Tests
 {
+    using SrkToolkit.Web.Open;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using SrkToolkit.Web.Open;
-    using System.Web;
+    using Xunit;
 
-    [TestClass]
     public class OpenGraphObjectTests
     {
-        [TestMethod]
+        [Fact]
         public void EmptyObjectRendersNothing()
         {
             var obj = new OpenGraphObject();
-            Assert.AreEqual(string.Empty, obj.ToString());
+            Assert.Equal(string.Empty, obj.ToString());
         }
 
-        [TestMethod]
+        [Fact]
         public void BasicObjectRendersTags()
         {
             var obj = new OpenGraphObject("my super title", new Uri("http://test.org/my-super-title"));
             var expected = Meta("og:title", "my super title") + Meta("og:url", "http://test.org/my-super-title");
-            Assert.AreEqual(expected, obj.ToString());
+            Assert.Equal(expected, obj.ToString());
         }
 
-        [TestMethod]
+        [Fact]
         public void BasicObjectRendersNamespaces()
         {
             var obj = new OpenGraphObject("my super title", new Uri("http://test.org/my-super-title"));
             var expected = " xmlns:og=\"http://ogp.me/ns#\" ";
-            Assert.AreEqual(expected, obj.ToHtmlAttributeNamespaces());
+            Assert.Equal(expected, obj.ToHtmlAttributeNamespaces());
         }
 
-        [TestMethod]
+        [Fact]
         public void RendersMultipleNamespaces()
         {
             var obj = new OpenGraphObject("my super title", new Uri("http://test.org/my-super-title"));
             obj.Add(new OpenGraphTag(new OpenGraphName("key", "xxx", "http://xxx/aaa/#"), "value"));
             var expected = " xmlns:og=\"http://ogp.me/ns#\"  xmlns:xxx=\"http://xxx/aaa/#\" ";
-            Assert.AreEqual(expected, obj.ToHtmlAttributeNamespaces());
+            Assert.Equal(expected, obj.ToHtmlAttributeNamespaces());
         }
 
-        [TestMethod]
+        [Fact]
         public void TypicalHomepageWithLogo()
         {
             var obj = new OpenGraphObject("welcome to mysite", new Uri("http://mysite.com/"));
@@ -69,7 +67,7 @@ namespace SrkToolkit.Web.Tests
                 + Meta("og:url", "http://mysite.com/")
                 + Meta("og:image", "http://mysite.com/Content/loog.png")
                 + Meta("og:description", "With mysite, build your blog in 2 minutes");
-            Assert.AreEqual(expected, obj.ToString());
+            Assert.Equal(expected, obj.ToString());
         }
 
         private string Meta(string key, string value)

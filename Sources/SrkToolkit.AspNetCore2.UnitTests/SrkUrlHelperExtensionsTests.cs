@@ -16,22 +16,22 @@
 
 namespace SrkToolkit.Web.Tests
 {
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc.Routing;
+    using Microsoft.AspNetCore.Routing;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Web.Mvc;
-    using System.Web.Routing;
-    using System.Web;
-    using System.IO;
+    using Xunit;
 
     public class SrkUrlHelperExtensionsTests
     {
-        [TestClass]
         public class SetQueryStringMethod
         {
-            [TestMethod]
+            [Fact]
             public void WithNoQuery()
             {
                 // prepare
@@ -44,10 +44,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.SetQueryString(input, "k1", "v1");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void WithNoPath()
             {
                 // prepare
@@ -60,10 +60,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.SetQueryString(input, "k1", "v1");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void WithQueryDelimiter()
             {
                 // prepare
@@ -77,10 +77,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.SetQueryString(input, "k1", "v1");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void WithOtherQueryKey()
             {
                 // prepare
@@ -94,7 +94,7 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.SetQueryString(input, "k1", "v1");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
             private static UrlHelper GetHelper(string path, string query)
@@ -108,7 +108,7 @@ namespace SrkToolkit.Web.Tests
                 return helper;
             }
 
-            [TestMethod]
+            [Fact]
             public void WithSameQueryKey()
             {
                 // prepare
@@ -122,10 +122,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.SetQueryString(input, "k1", "v1");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void MultipleValues()
             {
                 // prepare
@@ -138,10 +138,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.SetQueryString(input, "k1", "v111", "k2", "v2");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void MultipleValuesOneSet()
             {
                 // prepare
@@ -154,10 +154,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.SetQueryString(input, "k1", "v111", "k2", "v2");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void SpecialCharInOriginalQuery()
             {
                 string path = @"/Area/Ctrl/Action";
@@ -168,10 +168,10 @@ namespace SrkToolkit.Web.Tests
 
                 string actual = helper.SetQueryString(url, "page", "2");
 
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void SpecialCharInNewQueryValue()
             {
                 string path = @"/Area/Ctrl/Action";
@@ -182,10 +182,10 @@ namespace SrkToolkit.Web.Tests
 
                 string actual = helper.SetQueryString(url, "search", "hello world");
 
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void NullValueProducesNoKVP()
             {
                 string path = @"/Area/Ctrl/Action";
@@ -196,10 +196,10 @@ namespace SrkToolkit.Web.Tests
 
                 string actual = helper.SetQueryString(url, "nullstuff", null);
 
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void NullValueRemovesExistingValue()
             {
                 string path = @"/Area/Ctrl/Action";
@@ -210,10 +210,10 @@ namespace SrkToolkit.Web.Tests
 
                 string actual = helper.SetQueryString(url, "nullstuff", null);
 
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void BaseMultipleValues_SetMultipleValues()
             {
                 // prepare
@@ -226,10 +226,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.SetQueryString(input, "k1", "v1", "k1", "v3"); // key has 2 values
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void BaseMultipleValues_ResetAndSetMultipleValues()
             {
                 // prepare
@@ -242,14 +242,13 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.SetQueryString(input, "k1", null, "k1", "v1", "k1", "v3"); // key has 2 values
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
         }
         
-        [TestClass]
         public class ResetQueryStringMethod
         {
-            [TestMethod]
+            [Fact]
             public void WithNoQuery()
             {
                 // prepare
@@ -262,10 +261,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.ResetQueryString(input, "k1", "v1");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void WithNoPath()
             {
                 // prepare
@@ -278,10 +277,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.ResetQueryString(input, "k1", "v1");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void WithQueryDelimiter()
             {
                 // prepare
@@ -295,10 +294,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.ResetQueryString(input, "k1", "v1");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void WithOtherQueryKey()
             {
                 // prepare
@@ -312,7 +311,7 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.ResetQueryString(input, "k1", "v1");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
             private static UrlHelper GetHelper(string path, string query)
@@ -326,7 +325,7 @@ namespace SrkToolkit.Web.Tests
                 return helper;
             }
 
-            [TestMethod]
+            [Fact]
             public void WithSameQueryKey()
             {
                 // prepare
@@ -340,10 +339,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.ResetQueryString(input, "k1", "v1");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void MultipleValues()
             {
                 // prepare
@@ -356,10 +355,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.ResetQueryString(input, "k1", "v111", "k2", "v2");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void MultipleValuesOneSet()
             {
                 // prepare
@@ -372,10 +371,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.ResetQueryString(input, "k1", "v111", "k2", "v2");
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void SpecialCharInOriginalQuery()
             {
                 string path = @"/Area/Ctrl/Action";
@@ -386,10 +385,10 @@ namespace SrkToolkit.Web.Tests
 
                 string actual = helper.ResetQueryString(url, "page", "2");
 
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void SpecialCharInNewQueryValue()
             {
                 string path = @"/Area/Ctrl/Action";
@@ -400,10 +399,10 @@ namespace SrkToolkit.Web.Tests
 
                 string actual = helper.ResetQueryString(url, "search", "hello world");
 
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void NullValueProducesNoKVP()
             {
                 string path = @"/Area/Ctrl/Action";
@@ -414,10 +413,10 @@ namespace SrkToolkit.Web.Tests
 
                 string actual = helper.ResetQueryString(url, "nullstuff", null);
 
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void NullValueRemovesExistingValue()
             {
                 string path = @"/Area/Ctrl/Action";
@@ -428,10 +427,10 @@ namespace SrkToolkit.Web.Tests
 
                 string actual = helper.ResetQueryString(url, "nullstuff", null);
 
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void BaseMultipleValues_SetMultipleValues()
             {
                 // prepare
@@ -444,10 +443,10 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.ResetQueryString(input, "k1", "v1", "k1", "v3"); // key has 2 values
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
 
-            [TestMethod]
+            [Fact]
             public void BaseMultipleValues_ResetAndSetMultipleValues()
             {
                 // prepare
@@ -460,7 +459,7 @@ namespace SrkToolkit.Web.Tests
                 string actual = helper.ResetQueryString(input, "k1", null, "k1", "v1", "k1", "v3"); // key has 2 values
 
                 // verify
-                Assert.AreEqual(expected, actual);
+                Assert.Equal(expected, actual);
             }
         }
     }

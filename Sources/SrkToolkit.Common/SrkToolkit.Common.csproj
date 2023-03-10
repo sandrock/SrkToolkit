@@ -18,6 +18,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SrkToolkit.snk</AssemblyOriginatorKeyFile>
     <RootNamespace>SrkToolkit</RootNamespace>
+    <PackageIcon>logo-200.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\logo-200.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+      <Link>logo-200.png</Link>
+    </None>
     <None Include="..\SrkToolkit.snk">
       <Link>SrkToolkit.snk</Link>
     </None>

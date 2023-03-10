@@ -19,11 +19,40 @@ Branches
 Assemblies
 --------------------
 
+### v2.0 (netstandard2.0 and AspNetCore, keep partial support for net46)  
+
+Keep support for latest .NET Framework and MVC5, full support for AspNetCore.  
+
+| Assembly                                                 | FX                            | Nuget                                                              | Remark |
+|----------------------------------------------------------|-------------------------------|--------------------------------------------------------------------|--------|
+| [SrkToolkit.Common](Wiki/SrkToolkit.Common.md)           | net46, netstandard2.0, net7.0 | [nuget](https://www.nuget.org/packages/SrkToolkit.Common)          |        |
+| [SrkToolkit.Domain](Wiki/SrkToolkit.Domain.md)           | net46, netstandard2.0, net7.0 | [nuget](https://www.nuget.org/packages/SrkToolkit.Domain)          |        |
+| [SrkToolkit.Web.AspMvcCore2](Wiki/SrkToolkit.Web.md)     | netstandard2.0, net7.0        | [nuget](https://www.nuget.org/packages/SrkToolkit.Web.AspMvcCore2) |        |
+| SrkToolkit.Domain.AspMvcCore2                            | netstandard2.0, net7.0,       | [nuget](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvcCore2)  |        |
+
+### v1.2 (support for net40 and MVC 4, net45 and MVC 5, netstandard2.0)  
+
+Keep support for many .NET Framework and MVC5, growing support for AspNetCore.
+
 | Assembly                                                 | FX                           | Nuget                                                     | Remark |
 |----------------------------------------------------------|------------------------------|-----------------------------------------------------------|--------|
 | [SrkToolkit.Common](Wiki/SrkToolkit.Common.md)           | net40, net45, netstandard2.0 | [nuget](https://www.nuget.org/packages/SrkToolkit.Common) |        |
-| SrkToolkit.Common.Unsafe                                 | net40                        | |        |
 | [SrkToolkit.Domain](Wiki/SrkToolkit.Domain.md)           | net40, net45, netstandard2.0 | [nuget](https://www.nuget.org/packages/SrkToolkit.Domain) |        |
+| [SrkToolkit.Web (for ASP MVC 3)](Wiki/SrkToolkit.Web.md) | net40                        | [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc4) |        |
+| [SrkToolkit.Web (for ASP MVC 4)](Wiki/SrkToolkit.Web.md) | net45                        | [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc5) |        |
+| SrkToolkit.Domain.AspMvc3                                | net40,                       | [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc4) |        |
+| SrkToolkit.Domain.AspMvc4                                | net45                        | [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc5) |        |
+| SrkToolit.WebForms                                       | net40                        | |        |
+
+### v1.1 (support for net40 and MVC 4, net45 and MVC 5)  
+
+Support for many .NET Framework and MVC4/MVC5.
+
+| Assembly                                                 | FX                           | Nuget                                                     | Remark |
+|----------------------------------------------------------|------------------------------|-----------------------------------------------------------|--------|
+| [SrkToolkit.Common](Wiki/SrkToolkit.Common.md)           | net40, net45                 | [nuget](https://www.nuget.org/packages/SrkToolkit.Common) |        |
+| SrkToolkit.Common.Unsafe                                 | net40                        | |        |
+| [SrkToolkit.Domain](Wiki/SrkToolkit.Domain.md)           | net40, net45                 | [nuget](https://www.nuget.org/packages/SrkToolkit.Domain) |        |
 | [SrkToolkit.Web (for ASP MVC 3)](Wiki/SrkToolkit.Web.md) | net40                        | [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc4) |        |
 | [SrkToolkit.Web (for ASP MVC 4)](Wiki/SrkToolkit.Web.md) | net45                        | [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc5) |        |
 | SrkToolkit.Domain.AspMvc3                                | net40,                       | [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc4) |        |

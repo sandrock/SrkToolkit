@@ -14,7 +14,7 @@
 // limitations under the License.
 // 
 
-namespace System.Web.Mvc
+namespace SrkToolkit.Web
 {
     using Microsoft.AspNetCore.Html;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -24,6 +24,7 @@ namespace System.Web.Mvc
     using Microsoft.AspNetCore.Routing;
     using SrkToolkit.AspNetCore;
     using SrkToolkit.Web;
+    using SrkToolkit.Web.Models;
     using SrkToolkit.Web.Open;
     using System;
     using System.Collections.Generic;

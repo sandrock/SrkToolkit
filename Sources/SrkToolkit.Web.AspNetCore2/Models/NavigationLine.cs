@@ -14,7 +14,7 @@
 // limitations under the License.
 // 
 
-namespace SrkToolkit.Web.Open
+namespace SrkToolkit.Web.Models
 {
     using System;
     using System.Collections.Generic;

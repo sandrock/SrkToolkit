@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>default</LangVersion>
-    <RootNamespace>SrkToolkit.Web.AspNetCore2</RootNamespace>
+    <RootNamespace>SrkToolkit.Web</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>2.0.145-preview1</Version>
     <Authors>SandRock</Authors>
@@ -37,6 +37,8 @@
     <None Include="..\SrkToolkit.snk">
       <Link>SrkToolkit.snk</Link>
     </None>
+    <Compile Remove="SrkViewExtensions.cs" />
+    <None Include="SrkViewExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,12 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\SrkToolkit.Web.AspMvc5\NavigationLine.cs">
-      <Link>Open\NavigationLine.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Web.AspMvc5\NavigationLineEntry.cs">
-      <Link>Open\NavigationLineEntry.cs</Link>
-    </Compile>
     <Compile Include="..\SrkToolkit.Web.AspMvc5\Open\OpenGraphName.cs">
       <Link>Open\OpenGraphName.cs</Link>
     </Compile>
@@ -87,6 +83,8 @@
 
   <ItemGroup>
     <Compile Remove="WebDependenciesExtensions.cs" />
+    <None Include="SrkTagBuilderExtensions.cs" />
+    <None Include="SrkViewExtensions.cs" />
     <None Include="WebDependenciesExtensions.cs" />
     <Compile Remove="WebDependencies.cs" />
     <None Include="WebDependencies.cs" />
@@ -125,9 +123,11 @@
     <Compile Remove="Filters\AuthorizeAttribute.cs" />
     <None Include="Filters\AuthorizeAttribute.cs" />
     <Compile Remove="System.Web.Mvc\SrkTagBuilderExtensions.cs" />
-    <None Include="System.Web.Mvc\SrkTagBuilderExtensions.cs" />
     <Compile Remove="System.Web.Mvc\SrkViewExtensions.cs" />
-    <None Include="System.Web.Mvc\SrkViewExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="System.Web.Mvc" />
   </ItemGroup>
 
 </Project>

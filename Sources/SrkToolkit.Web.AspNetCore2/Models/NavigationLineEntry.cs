@@ -14,31 +14,31 @@
 // limitations under the License.
 // 
 
-namespace System.Web.Mvc
+namespace SrkToolkit.Web.Models
 {
-    using Microsoft.AspNetCore.Html;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
     /// <summary>
-    /// Extension methods for the <see cref="TagBuilder"/> class.
+    /// An navigation entry in a navigation line.
     /// </summary>
-    public static class SrkTagBuilderExtensions
+    public class NavigationLineEntry
     {
-#if !NSTD && !NET40
         /// <summary>
-        /// To the MVC HTML string.
+        /// Gets or sets the name of the link.
         /// </summary>
-        /// <param name="tagBuilder">The tag builder.</param>
-        /// <param name="renderMode">The render mode.</param>
-        /// <returns></returns>
-        public static HtmlString ToMvcHtmlString(this TagBuilder tagBuilder, TagRenderMode renderMode)
-        {
-            return new HtmlString(tagBuilder.ToString(renderMode));
-        }
-#endif
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the URL of the link.
+        /// </summary>
+        public string Url { get; set; }
+
+        /// <summary>
+        /// Extra collection to store various data.
+        /// </summary>
+        public Dictionary<string, object> Items { get; set; }
     }
 }

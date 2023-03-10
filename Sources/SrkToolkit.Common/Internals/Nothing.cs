@@ -16,6 +16,9 @@
 
 namespace SrkToolkit.Internals
 {
+    /// <summary>
+    /// An empty class with a meaningful name. 
+    /// </summary>
     public sealed class Nothing
     {
     }

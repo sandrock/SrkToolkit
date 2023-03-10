@@ -10,21 +10,10 @@ namespace SrkToolkit.Common.Tests.DataAnnotations
 
     public class EmailAddressExAttributeTests
     {
-#if NET40 || NETFRAMEWORK
-#else
-#endif
-
-#if NET40 || NETFRAMEWORK
-        private static EmailAddressAttribute GetTarget()
-        {
-            return new EmailAddressAttribute();
-        }
-#else
         private static EmailAddressExAttribute GetTarget()
         {
             return new EmailAddressExAttribute();
         }
-#endif
 
         [Fact]
         public void AllowOne_NullValue_Pass()

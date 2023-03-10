@@ -18,14 +18,11 @@ namespace SrkToolkit.DataAnnotations
 {
     using SrkToolkit.Resources;
     using System;
+    using System.ComponentModel.DataAnnotations; 
     using System.Globalization;
     using System.Reflection;
     using System.Text.RegularExpressions;
 
-#if NET40 || NETFRAMEWORK
-    using System.ComponentModel.DataAnnotations; 
-#endif
-    
     // This namespace is hard to support with multi-framework
     // NET40: reference to System.ComponentModel.DataAnnotations
     // NET46: nuget?
@@ -34,15 +31,7 @@ namespace SrkToolkit.DataAnnotations
     /// <summary>
     /// Validates an email address field (one or multiple addresses).
     /// </summary>
-#if NET40
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
-    public class EmailAddressAttribute : ValidationAttribute
-#elif NETFRAMEWORK
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class EmailAddressExAttribute : ValidationAttribute
-#else
-    public class EmailAddressExAttribute
-#endif
     {
         /// <summary>
         /// The regex pattern to match an email address.
@@ -54,17 +43,11 @@ namespace SrkToolkit.DataAnnotations
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailAddressAttribute"/> class.
         /// </summary>
-#if NET40 || NETFRAMEWORK
-        public EmailAddressAttribute()
+        public EmailAddressExAttribute()
         {
             this.ErrorMessageResourceName = "EmailAddressAttribute_ErrorMessage";
             this.ErrorMessageResourceType = typeof(Strings); 
         }
-#else
-        public EmailAddressExAttribute()
-        {
-        }
-#endif
 
         /// <summary>
         /// Gets or sets a value indicating whether to allow multiple addresses in a single field. Default is false. Use <see cref="SrkToolkit.Common.Validation.Validate.ManyEmailAddresses"/> to parse addresses.
@@ -89,7 +72,6 @@ namespace SrkToolkit.DataAnnotations
         /// </value>
         protected Regex Regex { get; set; }
 
-#if NET40 || NETFRAMEWORK
         /// <summary>
         /// Validates the specified value with respect to the current validation attribute.
         /// </summary>
@@ -229,6 +211,5 @@ namespace SrkToolkit.DataAnnotations
         {
             return this.IsValid(value, context);
         } 
-#endif
     }
 }

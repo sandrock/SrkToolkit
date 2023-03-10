@@ -17,6 +17,7 @@
     <FileVersion>2.0.0.0</FileVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SrkToolkit.snk</AssemblyOriginatorKeyFile>
+    <RootNamespace>SrkToolkit</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,7 +33,16 @@
   <ItemGroup>
     <EmbeddedResource Update="Resources\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>SrkToolkit.Resources</CustomToolNamespace>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
   </ItemGroup>
 
 </Project>

@@ -55,8 +55,6 @@ namespace SrkToolkit
                 this.collection.Add(new WeakReference(disposable));
         }
 
-        #region IDisposable members
-
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
@@ -95,7 +93,5 @@ namespace SrkToolkit
                 });
             }
         }
-
-        #endregion
     }
 }

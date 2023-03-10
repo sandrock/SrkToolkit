@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="Should" Version="1.1.20" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,73 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\AssertTests.cs">
-      <Link>AssertTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\CompositeDisposableTests.cs">
-      <Link>CompositeDisposableTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\CultureInfoHelperTests.cs">
-      <Link>CultureInfoHelperTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\DictionaryWrapperTests.cs">
-      <Link>DictionaryWrapperTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\DisaposableOnceTests.cs">
-      <Link>DisaposableOnceTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\EmailAddressTests.cs">
-      <Link>EmailAddressTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\EnumStrings.Designer.cs">
-      <Link>EnumStrings.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\EnumToolsTests.cs">
-      <Link>EnumToolsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\ObservableCollectionExtensionsTests.cs">
-      <Link>ObservableCollectionExtensionsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\SrkArrayExtensionsTests.cs">
-      <Link>SrkArrayExtensionsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\SrkDateTimeExtensionsTests.cs">
-      <Link>SrkDateTimeExtensionsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\SrkIDictionaryExtensionsTests.cs">
-      <Link>SrkIDictionaryExtensionsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\SrkIListExtensionsTests.cs">
-      <Link>SrkIListExtensionsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\SrkNameValueCollectionExtensions.cs">
-      <Link>SrkNameValueCollectionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\SrkStringExtensionsTests.cs">
-      <Link>SrkStringExtensionsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\SrkStringTransformer.cs">
-      <Link>SrkStringTransformer.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\SrkTimeZoneInfoExtensionsTests.cs">
-      <Link>SrkTimeZoneInfoExtensionsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\StringReplacerTests.cs">
-      <Link>StringReplacerTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Common.FxUnitTests\ValidateTEsts.cs">
-      <Link>ValidateTEsts.cs</Link>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="..\SrkToolkit.Common.FxUnitTests\EnumStrings.fr.resx">
-      <Link>EnumStrings.fr.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\SrkToolkit.Common.FxUnitTests\EnumStrings.resx">
-      <Link>EnumStrings.resx</Link>
+    <EmbeddedResource Update="EnumStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
+
 
 </Project>

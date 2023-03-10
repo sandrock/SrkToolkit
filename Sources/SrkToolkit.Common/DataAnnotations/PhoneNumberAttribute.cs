@@ -14,8 +14,6 @@
 // limitations under the License.
 // 
 
-#if NETFRAMEWORK
-
 namespace SrkToolkit.DataAnnotations
 {
     using SrkToolkit.Resources;
@@ -89,4 +87,3 @@ namespace SrkToolkit.DataAnnotations
         }
     }
 }
-#endif

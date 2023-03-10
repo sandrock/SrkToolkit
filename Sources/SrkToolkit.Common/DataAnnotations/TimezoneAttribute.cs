@@ -14,16 +14,14 @@
 // limitations under the License.
 // 
 
-#if NETFRAMEWORK
-
 namespace SrkToolkit.DataAnnotations
 {
+    using SrkToolkit.Resources;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Text;
-    using SrkToolkit.Resources;
 
     // TODO: support for netstandard
 
@@ -72,4 +70,3 @@ namespace SrkToolkit.DataAnnotations
         }
     }
 }
-#endif

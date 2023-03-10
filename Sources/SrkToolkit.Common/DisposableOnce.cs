@@ -24,7 +24,7 @@ namespace SrkToolkit
     using SrkToolkit.Internals;
 
     /// <summary>
-    /// A disposable object that will cann a delegate on disposal.
+    /// A disposable object that will call a delegate on disposal.
     /// </summary>
     public sealed class DisposableOnce : IDisposable
     {

@@ -24,6 +24,7 @@ namespace SrkToolkit
 
     // TODO: support for netstandard
 
+    [Obsolete("Use a proper code library for that")]
     public static class RetryLogic
     {
         static public RetryLogicState<TReturn> Do<TReturn>(Func<TReturn> action)

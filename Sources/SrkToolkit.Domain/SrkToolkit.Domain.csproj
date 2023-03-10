@@ -6,11 +6,12 @@
     <TargetFrameworks>net46;net7.0;netstandard2.0</TargetFrameworks>
     <LangVersion>9</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.0-preview1</Version>
+    <Version>2.0.144-preview1</Version>
     <Authors>SandRock</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Description>SrkToolkit.Domain is used in your domain layer to provider RPC-style request and result classes.</Description>
     <PackageProjectUrl>https://github.com/sandrock/SrkToolkit/</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/sandrock/SrkToolkit/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageReleaseNotes>Preview 1 of SrkToolkit v2. Not ready for production; use at your own risk. </PackageReleaseNotes>
     <PackageTags>SrkToolkit domain</PackageTags>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>2.0.0.0</FileVersion>

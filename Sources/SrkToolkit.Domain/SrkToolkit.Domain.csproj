@@ -19,6 +19,14 @@
     <AssemblyOriginatorKeyFile>..\SrkToolkit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DefineConstants>TRACE;ASS_DOMAIN</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DefineConstants>TRACE;ASS_DOMAIN</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="..\SrkToolkit.snk">
       <Link>SrkToolkit.snk</Link>

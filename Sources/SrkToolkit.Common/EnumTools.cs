@@ -31,10 +31,11 @@ namespace SrkToolkit
     /// Helps you work with enums.
     /// </summary>
 #if ASS_DOMAIN
-    internal static class EnumTools
+    internal
 #else
-    public static class EnumTools
+    public
 #endif
+    static class EnumTools
     {
         /// <summary>
         /// Gets the description of a enum value from a resource file.

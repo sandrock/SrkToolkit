@@ -43,11 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Fakes" />
-    <Folder Include="Filters" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="..\SrkToolkit.Web.AspMvc5\NavigationLine.cs">
       <Link>Open\NavigationLine.cs</Link>
     </Compile>

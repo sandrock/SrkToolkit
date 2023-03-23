@@ -50,8 +50,6 @@
     <None Include="SrkRequestExtensionsTests.cs" />
     <Compile Remove="SrkUrlHelperExtensionsTests.cs" />
     <None Include="SrkUrlHelperExtensionsTests.cs" />
-    <Compile Remove="WebDependenciesTests.cs" />
-    <None Include="WebDependenciesTests.cs" />
   </ItemGroup>
 
 </Project>

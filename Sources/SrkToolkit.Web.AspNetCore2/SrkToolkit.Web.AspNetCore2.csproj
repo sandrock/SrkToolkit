@@ -47,6 +47,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.1.21" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.0.0" />
   </ItemGroup>
 
@@ -82,12 +83,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="WebDependenciesExtensions.cs" />
     <None Include="SrkTagBuilderExtensions.cs" />
     <None Include="SrkViewExtensions.cs" />
-    <None Include="WebDependenciesExtensions.cs" />
-    <Compile Remove="WebDependencies.cs" />
-    <None Include="WebDependencies.cs" />
     <Compile Remove="SrkHttpApplication.tt.cs" />
     <None Include="SrkHttpApplication.tt.cs" />
     <Compile Remove="SrkHttpApplication.cs" />

@@ -17,17 +17,20 @@
 namespace SrkToolkit.Web
 {
     using Microsoft.AspNetCore.Html;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Text.Encodings.Web;
 
     /// <summary>
     /// Manages web dependencies such as scripts and styles.
     /// </summary>
     public class WebDependencies
     {
+        private readonly PathString requestPathBase;
         protected Dictionary<string, Tuple<WebDependency, WebDependencyPosition>> includes;
 
         /// <summary>
@@ -35,6 +38,17 @@ namespace SrkToolkit.Web
         /// </summary>
         public WebDependencies()
         {
+        }
+
+        public WebDependencies(PathString requestPathBase)
+        {
+            this.requestPathBase = requestPathBase;
+        }
+
+        protected string ApplicationVirtualPath
+        {
+            get { return this.requestPathBase.HasValue ? this.requestPathBase.ToString() : "/"; }
+            ////set { this.requestPathBase = new PathString(value); }
         }
 
         /// <summary>
@@ -50,7 +64,7 @@ namespace SrkToolkit.Web
 
             if (value.Files != null)
             {
-                var sb = new StringBuilder();
+                using var sb = new StringWriter();
                 for (int i = 0; i < value.Files.Count; i++)
                 {
                     RenderDependency(value.Files[i], sb);
@@ -123,8 +137,8 @@ namespace SrkToolkit.Web
         /// <returns></returns>
         public HtmlString RenderIncludes(WebDependencyPosition position)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("<!-- WebDependencies/" + position + " - start -->");
+            using var sb = new StringWriter();
+            sb.WriteLine("<!-- WebDependencies/" + position + " - start -->");
 
             if (this.includes != null && this.includes.Count > 0)
             {
@@ -148,11 +162,11 @@ namespace SrkToolkit.Web
                 }
             }
 
-            sb.AppendLine("<!-- WebDependencies/" + position + " - end -->");
+            sb.WriteLine("<!-- WebDependencies/" + position + " - end -->");
             return new HtmlString(sb.ToString());
         }
 
-        protected static void RenderDependency(WebDependencyFile value, StringBuilder sb)
+        protected void RenderDependency(WebDependencyFile value, StringWriter sb)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -164,7 +178,7 @@ namespace SrkToolkit.Web
             {
                 if (webPath[0].Equals('~') && webPath[1].Equals('/'))
                 {
-                    var virtualPath = HostingEnvironment.ApplicationVirtualPath ?? "/"; // Root:"/", Subfolder:"/a/b"
+                    var virtualPath = this.ApplicationVirtualPath ?? "/"; // Root:"/", Subfolder:"/a/b"
                     webPath = virtualPath + webPath.Substring(1); // Root:"//Content/Site.css", Subfolder:"/a/b/Content/Site.css"
                     webPath = "/" + webPath.TrimStart('/'); // Root:"/Content/Site.css", Subfolder:"/a/b/Content/Site.css"
                 }
@@ -186,7 +200,8 @@ namespace SrkToolkit.Web
                         tag.MergeAttributes(value.Attributes); 
                     }
 
-                    sb.AppendLine(tag.ToString(TagRenderMode.Normal));
+                    tag.WriteTo(sb, HtmlEncoder.Default);
+                    sb.WriteLine();
                     break;
 
                 case WebDependencyFileType.Css:
@@ -214,11 +229,13 @@ namespace SrkToolkit.Web
                         tag.MergeAttributes(value.Attributes); 
                     }
 
-                    sb.AppendLine(tag.ToString(TagRenderMode.SelfClosing));
+                    tag.TagRenderMode = TagRenderMode.SelfClosing;
+                    tag.WriteTo(sb, HtmlEncoder.Default);
+                    sb.WriteLine();
                     break;
 
                 default:
-                    sb.AppendLine("<!-- ERROR: unknown web dependency file type '" + value.Type + "' -->");
+                    sb.WriteLine("<!-- ERROR: unknown web dependency file type '" + value.Type + "' -->");
                     break;
             }
         }

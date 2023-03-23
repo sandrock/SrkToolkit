@@ -16,6 +16,8 @@
 
 namespace SrkToolkit.Web
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Razor;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -32,7 +34,7 @@ namespace SrkToolkit.Web
         /// <param name="view">The view.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">view</exception>
-        public static WebDependencies WebDependencies(this WebViewPage view)
+        public static WebDependencies WebDependencies(this IRazorPage view)
         {
             if (view == null)
                 throw new ArgumentNullException("view");
@@ -45,7 +47,7 @@ namespace SrkToolkit.Web
 
             if (obj == null)
             {
-                obj = new WebDependencies();
+                obj = new WebDependencies(view.ViewContext.HttpContext.Request.PathBase);
                 view.ViewContext.ViewData["WebDependencies"] = obj;
                 if (view.ViewContext.HttpContext != null)
                     view.ViewContext.HttpContext.Items["WebDependencies"] = obj;
@@ -73,7 +75,7 @@ namespace SrkToolkit.Web
 
             if (obj == null)
             {
-                obj = new WebDependencies();
+                obj = new WebDependencies(controller.Request.PathBase);
                 controller.ViewData["WebDependencies"] = obj;
                 if (controller.HttpContext != null)
                     controller.HttpContext.Items["WebDependencies"] = obj;

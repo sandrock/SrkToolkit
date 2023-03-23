@@ -26,10 +26,13 @@ namespace SrkToolkit.Web.Tests
     {
         public class RenderMethod
         {
-            [Fact, ExpectedException(typeof(ArgumentNullException))]
+            [Fact]
             public void ArgNull()
             {
-                new WebDependencies().Render(null);
+                Assert.Throws<ArgumentNullException>(() =>
+                {
+                    new WebDependencies().Render(null);
+                });
             }
 
             [Fact]

@@ -34,12 +34,30 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SrkToolkit.Domain\SrkToolkit.Domain.csproj" />
-    <ProjectReference Include="..\SrkToolkit.Web.AspNetCore2\SrkToolkit.Web.AspNetCore2.csproj" />
+    <ProjectReference Include="..\SrkToolkit.Domain\SrkToolkit.Domain.csproj" PackageVersion="[2.0.0, 3.0.0)" />
+    <ProjectReference Include="..\SrkToolkit.Web.AspNetCore2\SrkToolkit.Web.AspNetCore2.csproj" PackageVersion="[2.0.0, 3.0.0)" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.0.0" />
   </ItemGroup>
 
+  <Target Name="UseExplicitPackageVersions" BeforeTargets="GenerateNuspec">
+    <ItemGroup>
+      <_ProjectReferenceWithExplicitPackageVersion Include="@(ProjectReference->'%(FullPath)')"
+                                                   Condition="'%(ProjectReference.PackageVersion)' != ''" />
+      <_ProjectReferenceWithExactPackageVersion Include="@(ProjectReference->'%(FullPath)')"
+                                                Condition="'%(ProjectReference.ExactVersion)' == 'true'" />
+      <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)"
+                                              Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExplicitPackageVersion)'">
+        <ProjectVersion>@(_ProjectReferenceWithExplicitPackageVersion->'%(PackageVersion)')</ProjectVersion>
+      </_ProjectReferenceWithReassignedVersion>
+      <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)"
+                                              Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExactPackageVersion)'">
+        <ProjectVersion>[@(_ProjectReferencesWithVersions->'%(ProjectVersion)')]</ProjectVersion>
+      </_ProjectReferenceWithReassignedVersion>
+      <_ProjectReferencesWithVersions Remove="@(_ProjectReferenceWithReassignedVersion)" />
+      <_ProjectReferencesWithVersions Include="@(_ProjectReferenceWithReassignedVersion)" />
+    </ItemGroup>
+  </Target>
 </Project>

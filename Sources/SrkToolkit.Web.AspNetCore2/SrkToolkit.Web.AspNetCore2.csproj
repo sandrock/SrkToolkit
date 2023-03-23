@@ -78,7 +78,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SrkToolkit.Common\SrkToolkit.Common.csproj" />
+    <ProjectReference Include="..\SrkToolkit.Common\SrkToolkit.Common.csproj" PackageVersion="[2.0.0, 3.0.0)" />
   </ItemGroup>
 
   <ItemGroup>
@@ -130,4 +130,18 @@
     <Folder Include="System.Web.Mvc" />
   </ItemGroup>
 
+  <Target Name="UseExplicitPackageVersions" BeforeTargets="GenerateNuspec">
+    <ItemGroup>
+      <_ProjectReferenceWithExplicitPackageVersion Include="@(ProjectReference->'%(FullPath)')" Condition="'%(ProjectReference.PackageVersion)' != ''" />
+      <_ProjectReferenceWithExactPackageVersion Include="@(ProjectReference->'%(FullPath)')" Condition="'%(ProjectReference.ExactVersion)' == 'true'" />
+      <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)" Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExplicitPackageVersion)'">
+        <ProjectVersion>@(_ProjectReferenceWithExplicitPackageVersion->'%(PackageVersion)')</ProjectVersion>
+      </_ProjectReferenceWithReassignedVersion>
+      <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)" Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExactPackageVersion)'">
+        <ProjectVersion>[@(_ProjectReferencesWithVersions->'%(ProjectVersion)')]</ProjectVersion>
+      </_ProjectReferenceWithReassignedVersion>
+      <_ProjectReferencesWithVersions Remove="@(_ProjectReferenceWithReassignedVersion)" />
+      <_ProjectReferencesWithVersions Include="@(_ProjectReferenceWithReassignedVersion)" />
+    </ItemGroup>
+  </Target>
 </Project>

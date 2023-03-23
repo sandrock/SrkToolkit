@@ -1033,7 +1033,7 @@ namespace SrkToolkit.Web
         #endregion
 
         #region Submit
-/*
+
         /// <summary>
         /// Returns a submit input element by using the specified HTML helper and the name of the form field.
         /// </summary>
@@ -1045,7 +1045,7 @@ namespace SrkToolkit.Web
             var builder = new TagBuilder("input");
             builder.MergeAttribute("type", "submit");
             builder.MergeAttribute("value", value);
-            return new HtmlString(builder.ToString(TagRenderMode.SelfClosing));
+            return builder.ToHtmlString();
         }
 
         /// <summary>
@@ -1061,7 +1061,7 @@ namespace SrkToolkit.Web
             builder.MergeAttribute("type", "submit");
             builder.MergeAttribute("name", name);
             builder.MergeAttribute("value", value);
-            return new HtmlString(builder.ToString(TagRenderMode.SelfClosing));
+            return builder.ToHtmlString();
         }
 
         /// <summary>
@@ -1080,9 +1080,9 @@ namespace SrkToolkit.Web
             builder.MergeAttribute("type", "submit");
             builder.MergeAttribute("name", name);
             builder.MergeAttribute("value", value);
-            return new HtmlString(builder.ToString(TagRenderMode.SelfClosing));
+            return builder.ToHtmlString();
         }
-*/
+
         #endregion
 
         #region File

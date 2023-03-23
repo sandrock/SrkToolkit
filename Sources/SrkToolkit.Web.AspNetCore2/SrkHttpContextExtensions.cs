@@ -379,14 +379,14 @@ namespace SrkToolkit.Web
         /// <param name="shortTimeFormat">The short time format for Html.DisplayShortTime(DateTime).</param>
         /// <param name="shortTimespanFormat">The short timespan format for Html.DisplayShortTime(TimeSpan).</param>
         /// <exception cref="System.ArgumentNullException">httpContext</exception>
-        public static void SetDateTimeFormats(this HttpContextBase httpContext, string dateFormat = null, string dateTzFormat = null, string timeFormat = null, string timeTzFormat = null, string timespanFormat = null, string dateTimeFormat = null, string shortTimeFormat = null, string shortTimespanFormat = null)
+        public static void SetDateTimeFormats(this HttpContext httpContext, string dateFormat = null, string dateTzFormat = null, string timeFormat = null, string timeTzFormat = null, string timespanFormat = null, string dateTimeFormat = null, string shortTimeFormat = null, string shortTimespanFormat = null)
         {
             if (httpContext == null)
                 throw new ArgumentNullException("httpContext");
 
             var now = DateTime.UtcNow;
-            var values = (string[])httpContext.Items[System.Web.Mvc.SrkHtmlExtensions.defaultDateTimeFormatsKey]
-                ?? System.Web.Mvc.SrkHtmlExtensions.defaultDateTimeFormats.ToArray();
+            var values = (string[])httpContext.Items[SrkHtmlExtensions.DefaultDateTimeFormatsKey]
+                ?? SrkHtmlExtensions.DefaultDateTimeFormats.ToArray();
 
             if (!string.IsNullOrEmpty(dateFormat))
             {
@@ -436,7 +436,7 @@ namespace SrkToolkit.Web
                 values[7] = shortTimespanFormat;
             }
 
-            httpContext.Items[System.Web.Mvc.SrkHtmlExtensions.defaultDateTimeFormatsKey] = values;
+            httpContext.Items[SrkHtmlExtensions.DefaultDateTimeFormatsKey] = values;
         }
 *//*
         /// <summary>

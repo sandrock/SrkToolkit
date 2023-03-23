@@ -22,24 +22,23 @@ namespace SrkToolkit.Web
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
     using Microsoft.AspNetCore.Routing;
-    using SrkToolkit.AspNetCore;
     using SrkToolkit.Web;
     using SrkToolkit.Web.Models;
     using SrkToolkit.Web.Open;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using System.Linq.Expressions;
-    using System.Globalization;
 
     /// <summary>
     /// HTML extensions. 
     /// </summary>
     public static class SrkHtmlExtensions
     {
-        internal const string defaultDateTimeFormatsKey = "SrkDisplayDateFormat";
-        internal static readonly string[] defaultDateTimeFormats = new string[]
+        internal const string DefaultDateTimeFormatsKey = "SrkDisplayDateFormat";
+        internal static readonly string[] DefaultDateTimeFormats = new string[]
         {
             /* 0 => */ "D", // date
             /* 1 => */ "D zzz", // date + tz
@@ -51,7 +50,7 @@ namespace SrkToolkit.Web
             /* 7 => */ "g", // short timespan
         };
 
-        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         #region SetTimezone, GetTimezone, GetUserDate, GetUtcDate, SetCulture, GetCulture
 
@@ -66,6 +65,7 @@ namespace SrkToolkit.Web
         public static IHtmlHelper SetTimezone(this IHtmlHelper html, string timeZoneName)
         {
             if (string.IsNullOrEmpty(timeZoneName))
+                // ReSharper disable once LocalizableElement
                 throw new ArgumentException("The value cannot be empty", "timeZoneName");
 
             SrkHtmlExtensions.SetTimezone(html, TimeZoneInfo.FindSystemTimeZoneById(timeZoneName));
@@ -107,7 +107,7 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
-        /// Gets a <see cref="DateTime"/> based on the user's <see cref="TimeZoneInfo"/> specified with <see cref="SetTimezone"/>.
+        /// Gets a <see cref="DateTime"/> based on the user's <see cref="TimeZoneInfo"/> specified with <see cref="SetTimezone(Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper,string)"/>.
         /// </summary>
         /// <param name="html">The HTML.</param>
         /// <param name="date">The date.</param>
@@ -137,7 +137,7 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
-        /// Gets the UTC <see cref="DateTime"/> based on the user's <see cref="TimeZoneInfo"/> specified with <see cref="SetTimezone"/>.
+        /// Gets the UTC <see cref="DateTime"/> based on the user's <see cref="TimeZoneInfo"/> specified with <see cref="SetTimezone(Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper,string)"/>.
         /// </summary>
         /// <param name="html">The HTML.</param>
         /// <param name="date">The date.</param>
@@ -320,7 +320,7 @@ namespace SrkToolkit.Web
             if (html.ViewContext.HttpContext == null)
                 throw new ArgumentNullException("html.ViewContext.HttpContext");
 
-            var values = (string[])html.ViewContext.HttpContext.Items[defaultDateTimeFormatsKey] ?? defaultDateTimeFormats.ToArray();
+            var values = (string[])html.ViewContext.HttpContext.Items[DefaultDateTimeFormatsKey] ?? DefaultDateTimeFormats.ToArray();
 
             return values;
         }
@@ -449,7 +449,7 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
-        /// Displays a time.
+        /// Displays a time (part as a date).
         /// </summary>
         /// <param name="html">The HTML.</param>
         /// <param name="date">The date value.</param>
@@ -483,7 +483,7 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
-        /// Displays a time.
+        /// Displays a time (part as a date).
         /// </summary>
         /// <param name="html">The HTML.</param>
         /// <param name="date">The date value.</param>
@@ -515,7 +515,7 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
-        /// Displays a time.
+        /// Displays a time (part as a date).
         /// </summary>
         /// <param name="html">The HTML.</param>
         /// <param name="date">The date value.</param>
@@ -547,6 +547,160 @@ namespace SrkToolkit.Web
         }
 
         /// <summary>
+        /// Displays a duration. 
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static HtmlString DisplayTimeSpan(this IHtmlHelper html, TimeSpan? value)
+        {
+            return DisplayTimeSpan(html, value, false, null, true);
+        }
+
+        /// <summary>
+        /// Displays a duration. 
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="value"></param>
+        /// <param name="showMilliseconds"></param>
+        /// <returns></returns>
+        public static HtmlString DisplayTimeSpan(this IHtmlHelper html, TimeSpan? value, bool showMilliseconds)
+        {
+            return DisplayTimeSpan(html, value, showMilliseconds, null, true);
+        }
+
+        /// <summary>
+        /// Displays a duration. 
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="value"></param>
+        /// <param name="showMilliseconds"></param>
+        /// <param name="nullValue"></param>
+        /// <param name="asHtml"></param>
+        /// <returns></returns>
+        public static HtmlString DisplayTimeSpan(this IHtmlHelper html, TimeSpan? value, bool showMilliseconds, object nullValue, bool asHtml)
+        {
+            var b = new StringBuilder();
+            string tmp;
+
+            if (value == null && nullValue is TimeSpan)
+            {
+                value = (TimeSpan)nullValue;
+            }
+
+            if (value != null)
+            {
+                tmp = value.Value.ToInvariantString();
+
+                var lang = CultureInfo.CurrentCulture;
+                var title = value.Value.ToInvariantString()
+                    + " | " + value.Value.TotalDays.ToString("F2", lang) + " days" 
+                    + " | " + value.Value.TotalHours.ToString("F2", lang) + " hours"
+                    + " | " + value.Value.TotalSeconds.ToString("F2", lang) + " seconds"
+                    + " | " + value.Value.TotalMilliseconds.ToString("F2", lang) + " milliseconds"
+                    ;
+
+                if (asHtml)
+                {
+                    b.Append(@"<span class=""TimeSpan"" title=""");
+                    b.Append(title.ProperHtmlAttributeEscape());
+                    b.Append(@""">");
+                }
+
+                if (value.Value.Days != 0)
+                {
+                    tmp = Math.Abs(value.Value.Days).ToString();
+                    if (asHtml)
+                    {
+                        b.Append(@"<span class=""TimeSpanDays"">");
+                        b.Append(tmp);
+                        b.Append(@"</span>.");
+                    }
+                    else
+                    {
+                        b.Append(tmp);
+                        b.Append(".");
+                    }
+                }
+
+                if (value.Value.Days != 0 || value.Value.Hours != 0)
+                {
+                    tmp = Math.Abs(value.Value.Hours).ToString("00");
+                    if (asHtml)
+                    {
+                        b.Append(@"<span class=""TimeSpanHours"">");
+                        b.Append(tmp);
+                        b.Append(@"</span>:");
+                    }
+                    else
+                    {
+                        b.Append(tmp);
+                        b.Append(":");
+                    }
+                }
+
+                tmp = Math.Abs(value.Value.Minutes).ToString("00");
+                if (asHtml)
+                {
+                    b.Append(@"<span class=""TimeSpanMinutes"">");
+                    b.Append(tmp);
+                    b.Append(@"</span>:");
+                }
+                else
+                {
+                    b.Append(tmp);
+                        b.Append(":");
+                }
+
+                tmp = Math.Abs(value.Value.Seconds).ToString("00");
+                if (asHtml)
+                {
+                    b.Append(@"<span class=""TimeSpanSeconds"">");
+                    b.Append(tmp);
+                    b.Append(@"</span>");
+                }
+                else
+                {
+                    b.Append(tmp);
+                }
+
+                if (showMilliseconds)
+                {
+                    tmp = Math.Abs(value.Value.Milliseconds).ToString("000");
+                    if (asHtml)
+                    {
+                        b.Append(@".<span class=""TimeSpanMs"">");
+                        b.Append(tmp);
+                        b.Append(@"</span>");
+                    }
+                    else
+                    {
+                        b.Append(".");
+                        b.Append(tmp);
+                    }
+                }
+
+                if (asHtml) b.Append(@"</span>");
+            }
+            else if (nullValue != null)
+            {
+                tmp = nullValue.ToString();
+                if (asHtml)
+                {
+                    b.Append(@"<span class=""TimeSpan"">");
+                    b.Append(tmp.ProperHtmlEscape());
+                    b.Append(@"</span>");
+                }
+                else
+                {
+                    b.Append(tmp);
+                }
+            }
+
+            return new HtmlString(b.ToString());
+        }
+
+        /// <summary>
         /// Returns the date (to UTC) in JavaScript format like 'new Date(123456789000)'.
         /// </summary>
         /// <param name="html">The HTML.</param>
@@ -566,7 +720,7 @@ namespace SrkToolkit.Web
              * ToString("F0") is important to avoid the exponential notation.
              */
             string value = "new Date("
-                + (utc.ToPrecision(precision).Subtract(UnixEpoch).TotalMilliseconds).ToString("F0")
+                + (utc.ToPrecision(precision).Subtract(unixEpoch).TotalMilliseconds).ToString("F0")
                 + ")";
             return new HtmlString(value);
         }
@@ -791,7 +945,7 @@ namespace SrkToolkit.Web
             Expression<Func<TModel, TProperty>> expression,
             object htmlAttributes)
         {
-            return DescriptionFor(helper, expression, null, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+            return DescriptionFor(helper, expression, null, IHtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
         /// <summary>
@@ -956,7 +1110,7 @@ namespace SrkToolkit.Web
         /// <returns>An input element whose type attribute is set to "file".</returns>
         public static HtmlString File(this IHtmlHelper html, string name, object htmlAttributes)
         {
-            var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            var attributes = IHtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
             var builder = new TagBuilder("input");
             builder.MergeAttributes<string, object>(attributes);
             builder.MergeAttribute("type", "file");
@@ -1080,10 +1234,10 @@ namespace SrkToolkit.Web
         public static NavigationLine NavigationLine(this IHtmlHelper html)
         {
             if (html.ViewContext == null)
-                throw new ArgumentNullException("ViewContext is not set", "ctrl");
+                throw new ArgumentNullException("html.ViewContext", "ViewContext is not set");
 
             if (html.ViewContext.HttpContext == null)
-                throw new ArgumentNullException("HttpContext is not set", "ctrl");
+                throw new ArgumentNullException("html.ViewContext.HttpContext", "HttpContext is not set");
 
             var line = html.ViewContext.HttpContext.Items[SrkControllerExtensions.NavigationLineKey] as NavigationLine;
             if (line == null)
@@ -1117,7 +1271,7 @@ namespace SrkToolkit.Web
         {
             var tag = new TagBuilder("a");
             tag.Attributes.Add("href", "tel:" + phoneNumber);
-            var attrCollection = HtmlHelper.AnonymousObjectToHtmlAttributes(attributes);
+            var attrCollection = IHtmlHelper.AnonymousObjectToHtmlAttributes(attributes);
             tag.MergeAttributes<string, object>(attrCollection, true);
             ////tag.SetInnerText(phoneNumber); // AspNet
             tag.InnerHtml.Append(phoneNumber); // AspNetCore?

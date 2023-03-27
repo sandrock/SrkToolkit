@@ -17,6 +17,7 @@
 namespace SrkToolkit.Web.Tests
 {
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Routing;
     using Microsoft.AspNetCore.Routing;
     using System;
@@ -24,13 +25,19 @@ namespace SrkToolkit.Web.Tests
     using System.IO;
     using System.Linq;
     using System.Text;
-    using System.Web.Mvc;
     using Xunit;
 
     public class SrkUrlHelperExtensionsTests
     {
         public class SetQueryStringMethod
         {
+            private readonly AspNetCoreTestContext context;
+
+            public SetQueryStringMethod()
+            {
+                this.context = new AspNetCoreTestContext();
+            }
+
             [Fact]
             public void WithNoQuery()
             {
@@ -96,7 +103,7 @@ namespace SrkToolkit.Web.Tests
                 // verify
                 Assert.Equal(expected, actual);
             }
-
+/*
             private static UrlHelper GetHelper(string path, string query)
             {
                 var httpRequest = new HttpRequest("", "http://localhost/" + path, query);
@@ -107,7 +114,7 @@ namespace SrkToolkit.Web.Tests
                 var helper = new UrlHelper(new RequestContext(wrapped, new RouteData()));
                 return helper;
             }
-
+*/
             [Fact]
             public void WithSameQueryKey()
             {
@@ -244,10 +251,22 @@ namespace SrkToolkit.Web.Tests
                 // verify
                 Assert.Equal(expected, actual);
             }
+
+            private IUrlHelper GetHelper(string path, string empty)
+            {
+                return this.context.Url;
+            }
         }
         
         public class ResetQueryStringMethod
         {
+            private readonly AspNetCoreTestContext context;
+
+            public ResetQueryStringMethod()
+            {
+                this.context = new AspNetCoreTestContext();
+            }
+
             [Fact]
             public void WithNoQuery()
             {
@@ -313,7 +332,7 @@ namespace SrkToolkit.Web.Tests
                 // verify
                 Assert.Equal(expected, actual);
             }
-
+/*
             private static UrlHelper GetHelper(string path, string query)
             {
                 var httpRequest = new HttpRequest("", "http://localhost/" + path, query);
@@ -324,7 +343,7 @@ namespace SrkToolkit.Web.Tests
                 var helper = new UrlHelper(new RequestContext(wrapped, new RouteData()));
                 return helper;
             }
-
+*/
             [Fact]
             public void WithSameQueryKey()
             {
@@ -460,6 +479,11 @@ namespace SrkToolkit.Web.Tests
 
                 // verify
                 Assert.Equal(expected, actual);
+            }
+
+            private IUrlHelper GetHelper(string path, string empty)
+            {
+                return this.context.Url;
             }
         }
     }

@@ -16,6 +16,8 @@
 
 namespace SrkToolkit.Web.Tests
 {
+    using Microsoft.AspNetCore.Http;
+    using SrkToolkit.AspNetCore;
     using SrkToolkit.Web.Fakes;
     using System;
     using System.Collections.Generic;
@@ -23,32 +25,32 @@ namespace SrkToolkit.Web.Tests
     using System.Text;
     using Xunit;
 
-    public class SrkRequestExtensionsTests
+    public class SrkHttpRequestExtensionsTests
     {
         public class IsUrlLocalToHostMethod
         {
             [Fact]
             public void LocalNoSlash_IsNotLocal()
             {
-                HttpRequestBase request = null;
+                HttpRequest request = null;
                 string url = "controller/action/id";
-                Assert.False(SrkRequestExtensions.IsUrlLocalToHost(request, url));
+                Assert.False(SrkHttpRequestExtensions.IsUrlLocalToHost(request, url));
             }
 
             [Fact]
             public void LocalSlash_IsLocal()
             {
-                HttpRequestBase request = null;
+                HttpRequest request = null;
                 string url = "/controller/action/id";
-                Assert.True(SrkRequestExtensions.IsUrlLocalToHost(request, url));
+                Assert.True(SrkHttpRequestExtensions.IsUrlLocalToHost(request, url));
             }
         
             [Fact]
             public void WithProtocal_IsNotLocal()
             {
-                HttpRequestBase request = null;
+                HttpRequest request = null;
                 string url = "http://test.com/controller/action/id";
-                Assert.False(SrkRequestExtensions.IsUrlLocalToHost(request, url));
+                Assert.False(SrkHttpRequestExtensions.IsUrlLocalToHost(request, url));
             }
         }
 
@@ -58,7 +60,7 @@ namespace SrkToolkit.Web.Tests
             public void ArgNullThrows()
             {
                 BasicHttpRequest request = null;
-                SrkRequestExtensions.PrefersJson(request);
+                SrkHttpRequestExtensions.PrefersJson(request);
             }
 
             [Fact]
@@ -67,7 +69,7 @@ namespace SrkToolkit.Web.Tests
                 string[] acceptTypes = null;
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.False(SrkRequestExtensions.PrefersJson(request));
+                Assert.False(SrkHttpRequestExtensions.PrefersJson(request));
             }
 
             [Fact]
@@ -76,7 +78,7 @@ namespace SrkToolkit.Web.Tests
                 string[] acceptTypes = new string[0];
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.False(SrkRequestExtensions.PrefersJson(request));
+                Assert.False(SrkHttpRequestExtensions.PrefersJson(request));
             }
 
             [Fact]
@@ -85,7 +87,7 @@ namespace SrkToolkit.Web.Tests
                 string[] acceptTypes = new string[] { "text/html", "application/xhtml+xml", "application/xml", "*/*", };
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.False(SrkRequestExtensions.PrefersJson(request));
+                Assert.False(SrkHttpRequestExtensions.PrefersJson(request));
             }
 
             [Fact]
@@ -94,7 +96,7 @@ namespace SrkToolkit.Web.Tests
                 string[] acceptTypes = new string[] { "application/json", "application/xml", };
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.True(SrkRequestExtensions.PrefersJson(request));
+                Assert.True(SrkHttpRequestExtensions.PrefersJson(request));
             }
 
             [Fact]
@@ -103,7 +105,7 @@ namespace SrkToolkit.Web.Tests
                 string[] acceptTypes = new string[] { "application/xml", "application/json", };
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.False(SrkRequestExtensions.PrefersJson(request));
+                Assert.False(SrkHttpRequestExtensions.PrefersJson(request));
             }
 
             [Fact]
@@ -112,7 +114,7 @@ namespace SrkToolkit.Web.Tests
                 string[] acceptTypes = new string[] { "text/json", "application/xml", };
                 var request = new BasicHttpRequest();
                 request.AcceptTypesCollection = acceptTypes;
-                Assert.True(SrkRequestExtensions.PrefersJson(request));
+                Assert.True(SrkHttpRequestExtensions.PrefersJson(request));
             }
         }
     }

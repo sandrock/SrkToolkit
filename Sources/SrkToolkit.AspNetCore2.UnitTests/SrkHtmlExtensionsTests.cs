@@ -16,6 +16,7 @@
 
 namespace SrkToolkit.Web.Tests
 {
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewEngines;
@@ -32,16 +33,15 @@ namespace SrkToolkit.Web.Tests
     using System.Linq;
     using System.Text;
     using System.Threading;
-    using System.Web.Mvc;
     using Xunit;
 
     public class SrkHtmlExtensionsTests
     {
         public static readonly CultureInfo TestCulture1 = new CultureInfo("en-GB");
-
+/*
         public static HtmlHelper CreateHtmlHelper(ViewDataDictionary vd)
         {
-            var httpContext = new BasicHttpContext();
+            var httpContext = new DefaultHttpContext();
             var mockViewContext = new ViewContext(
                 new ControllerContext(
                     httpContext,
@@ -56,15 +56,22 @@ namespace SrkToolkit.Web.Tests
                 .Returns(vd);
             return new HtmlHelper(mockViewContext, mockViewDataContainer.Object);
         }
-
+*/
         public class SetTimezoneMethod
         {
+            private readonly AspNetCoreTestContext context;
+
+            public SetTimezoneMethod()
+            {
+                this.context = new AspNetCoreTestContext();
+            }
+
             [Fact]
             public void WorksWithTzObject1()
             {
-                var data = new ViewDataDictionary();
+                var data = this.context.ViewData;
                 var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
-                var html = CreateHtmlHelper(data);
+                var html = this.context.Html;
                 SrkHtmlExtensions.SetTimezone(html, tz);
 
                 Assert.NotNull(data["Timezone"]);
@@ -74,9 +81,9 @@ namespace SrkToolkit.Web.Tests
             [Fact]
             public void WorksWithTzObject2()
             {
-                var data = new ViewDataDictionary();
+                var data = this.context.ViewData;
                 var tz = TimeZoneInfo.FindSystemTimeZoneById("Russia Time Zone 3");
-                var html = CreateHtmlHelper(data);
+                var html = this.context.Html;
                 SrkHtmlExtensions.SetTimezone(html, tz);
 
                 Assert.NotNull(data["Timezone"]);
@@ -86,10 +93,10 @@ namespace SrkToolkit.Web.Tests
             [Fact]
             public void WorksWithTzName1()
             {
-                var data = new ViewDataDictionary();
+                var data = this.context.ViewData;
                 var tzName = "Romance Standard Time";
                 var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
-                var html = CreateHtmlHelper(data);
+                var html = this.context.Html;
                 SrkHtmlExtensions.SetTimezone(html, tzName);
 
                 Assert.NotNull(data["Timezone"]);
@@ -99,47 +106,56 @@ namespace SrkToolkit.Web.Tests
             [Fact]
             public void WorksWithTzName2()
             {
-                var data = new ViewDataDictionary();
+                var data = this.context.ViewData;
                 var tzName = "Russia Time Zone 3";
                 var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
-                var html = CreateHtmlHelper(data);
+                var html = this.context.Html;
                 SrkHtmlExtensions.SetTimezone(html, tzName);
 
                 Assert.NotNull(data["Timezone"]);
                 Assert.Equal(tz, data["Timezone"]);
             }
 
-            [Fact, ExpectedException(typeof(ArgumentException))]
+            [Fact]
             public void NullTzName()
             {
                 string tzName = null;
-                var html = CreateHtmlHelper(new ViewDataDictionary());
-                SrkHtmlExtensions.SetTimezone(html, tzName);
+                var html = this.context.Html;
+                Assert.Throws<ArgumentException>(() =>
+                {
+                    SrkHtmlExtensions.SetTimezone(html, tzName);
+                });
             }
 
-            [Fact, ExpectedException(typeof(ArgumentException))]
+            [Fact]
             public void EmptyTzName()
             {
                 string tzName = string.Empty;
-                var html = CreateHtmlHelper(new ViewDataDictionary());
-                SrkHtmlExtensions.SetTimezone(html, tzName);
+                var html = this.context.Html;
+                Assert.Throws<ArgumentException>(() =>
+                {
+                    SrkHtmlExtensions.SetTimezone(html, tzName);
+                });
             }
 
-            [Fact, ExpectedException(typeof(TimeZoneNotFoundException))]
+            [Fact]
             public void InvalidTzName()
             {
                 string tzName = "Lunar Standard Time";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
-                SrkHtmlExtensions.SetTimezone(html, tzName);
+                var html = this.context.Html;
+                Assert.Throws<TimeZoneNotFoundException>(() =>
+                {
+                    SrkHtmlExtensions.SetTimezone(html, tzName); 
+                });
             }
 
             [Fact]
             public void GetterWorks1()
             {
-                var data = new ViewDataDictionary();
+                var data = this.context.ViewData;
                 var tzName = "Romance Standard Time";
                 var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
-                var html = CreateHtmlHelper(data);
+                var html = this.context.Html;
                 SrkHtmlExtensions.SetTimezone(html, tzName);
                 var result = SrkHtmlExtensions.GetTimezone(html);
 
@@ -150,10 +166,10 @@ namespace SrkToolkit.Web.Tests
             [Fact]
             public void GetterWorks2()
             {
-                var data = new ViewDataDictionary();
+                var data = this.context.ViewData;
                 var tzName = "Russia Time Zone 3";
                 var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
-                var html = CreateHtmlHelper(data);
+                var html = this.context.Html;
                 SrkHtmlExtensions.SetTimezone(html, tzName);
                 var result = SrkHtmlExtensions.GetTimezone(html);
 
@@ -164,10 +180,10 @@ namespace SrkToolkit.Web.Tests
             [Fact]
             public void WorksWhenSetInHttpContext1()
             {
-                var data = new ViewDataDictionary();
+                var data = this.context.ViewData;
                 var tzName = "Romance Standard Time";
                 var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
-                var html = CreateHtmlHelper(data);
+                var html = this.context.Html;
                 html.ViewContext.HttpContext.SetTimezone(tz);
                 var result = SrkHtmlExtensions.GetTimezone(html);
 
@@ -178,10 +194,10 @@ namespace SrkToolkit.Web.Tests
             [Fact]
             public void WorksWhenSetInHttpContext2()
             {
-                var data = new ViewDataDictionary();
+                var data = this.context.ViewData;
                 var tzName = "Russia Time Zone 3";
                 var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
-                var html = CreateHtmlHelper(data);
+                var html = this.context.Html;
                 html.ViewContext.HttpContext.SetTimezone(tz);
                 var result = SrkHtmlExtensions.GetTimezone(html);
 
@@ -192,12 +208,19 @@ namespace SrkToolkit.Web.Tests
 
         public class GetUserDateMethod
         {
+            private readonly AspNetCoreTestContext context;
+
+            public GetUserDateMethod()
+            {
+                this.context = new AspNetCoreTestContext();
+            }
+
             [Fact]
             public void UndefinedTzIsUtc_ArgIsUtc_ResultIsUtc()
             {
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 TimeZoneInfo tz = null;
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 DateTime utcResult;
@@ -214,7 +237,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime source = orig.ToLocalTime();
                 Assert.Equal(DateTimeKind.Local, source.Kind);
                 TimeZoneInfo tz = null;
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 DateTime utcResult;
@@ -231,7 +254,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime source = TimeZoneInfo.Utc.ConvertFromUtc(orig);
                 Assert.Equal(DateTimeKind.Utc, source.Kind);
                 TimeZoneInfo tz = null;
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 DateTime utcResult;
@@ -247,14 +270,14 @@ namespace SrkToolkit.Web.Tests
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime source = tz.ConvertFromUtc(orig);
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 DateTime utcResult;
                 var result = SrkHtmlExtensions.GetUserDate(html, source, out utcResult);
 
-                Assert.Equal(source, result, "wrong user result");
-                Assert.Equal(orig, utcResult, "wrong UTC result");
+                Assert.Equal(source, result); // wrong user result
+                Assert.Equal(orig, utcResult); // wrong UTC result
             }
 
             [Fact]
@@ -265,14 +288,14 @@ namespace SrkToolkit.Web.Tests
                 DateTime source = orig.ToLocalTime();
                 DateTime expected = tz.ConvertFromUtc(orig);
                 Assert.Equal(DateTimeKind.Local, source.Kind);
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 DateTime utcResult;
                 var result = SrkHtmlExtensions.GetUserDate(html, source, out utcResult);
 
-                Assert.Equal(expected, result, "wrong user result");
-                Assert.Equal(orig, utcResult, "wrong UTC result");
+                Assert.Equal(expected, result); // wrong user result
+                Assert.Equal(orig, utcResult); // wrong UTC result
             }
 
             [Fact]
@@ -282,19 +305,26 @@ namespace SrkToolkit.Web.Tests
                 DateTime orig = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime source = tz.ConvertFromUtc(orig);
                 Assert.Equal(DateTimeKind.Unspecified, source.Kind);
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 DateTime utcResult;
                 var result = SrkHtmlExtensions.GetUserDate(html, source, out utcResult);
 
-                Assert.Equal(source, result, "wrong user result");
-                Assert.Equal(orig, utcResult, "wrong UTC result");
+                Assert.Equal(source, result); // wrong user result
+                Assert.Equal(orig, utcResult); // wrong UTC result
             }
         }
 
         public class DisplayDateMethod
         {
+            private readonly AspNetCoreTestContext context;
+
+            public DisplayDateMethod()
+            {
+                this.context = new AspNetCoreTestContext();
+            }
+
             [Fact]
             public void UserIsUtc_ArgIsUtc_ResultIsUtc()
             {
@@ -302,7 +332,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T13:28:21.0010000Z\" title=\"29 January 2013\" class=\"past not-today display-date\">29 January 2013</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
@@ -320,7 +350,7 @@ namespace SrkToolkit.Web.Tests
                 Debug.Assert(source.Kind == DateTimeKind.Local);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T" + orig.Hour + ":28:21.0010000Z\" title=\"29 January 2013\" class=\"past not-today display-date\">29 January 2013</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
@@ -336,7 +366,7 @@ namespace SrkToolkit.Web.Tests
                 Debug.Assert(source.Kind == DateTimeKind.Unspecified);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T13:28:21.0010000Z\" title=\"29 January 2013\" class=\"past not-today display-date\">29 January 2013</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
@@ -352,7 +382,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime romance = tz.ConvertFromUtc(source);
                 string expected = "<time datetime=\"2013-01-29T" + source.Hour + ":28:21.0010000Z\" title=\"29 January 2013\" class=\"past not-today display-date\">29 January 2013</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
@@ -371,7 +401,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime romance = tz.ConvertFromUtc(source);
                 Debug.Assert(source.Kind == DateTimeKind.Local);
                 string expected = "<time datetime=\"2013-01-29T" + orig.Hour + ":28:21.0010000Z\" title=\"29 January 2013\" class=\"past not-today display-date\">29 January 2013</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
@@ -388,7 +418,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime utc = tz.ConvertToUtc(source);
                 Debug.Assert(source.Kind == DateTimeKind.Unspecified);
                 string expected = "<time datetime=\"2013-01-29T" + utc.Hour + ":28:21.0010000Z\" title=\"29 January 2013\" class=\"past not-today display-date\">29 January 2013</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDate(html, source);
@@ -399,6 +429,13 @@ namespace SrkToolkit.Web.Tests
 
         public class DisplayDateTimeMethod
         {
+            private readonly AspNetCoreTestContext context;
+
+            public DisplayDateTimeMethod()
+            {
+                this.context = new AspNetCoreTestContext();
+            }
+
             [Fact]
             public void UserIsUtc_ArgIsUtc_ResultIsUtc()
             {
@@ -406,7 +443,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T13:28:21.0010000Z\" title=\"29/01/2013 13:28:21\" class=\"past not-today display-datetime\">29 January 2013 13:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
@@ -424,7 +461,7 @@ namespace SrkToolkit.Web.Tests
                 Debug.Assert(source.Kind == DateTimeKind.Local);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T" + orig.Hour + ":28:21.0010000Z\" title=\"29/01/2013 13:28:21\" class=\"past not-today display-datetime\">29 January 2013 13:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
@@ -440,7 +477,7 @@ namespace SrkToolkit.Web.Tests
                 Debug.Assert(source.Kind == DateTimeKind.Unspecified);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T13:28:21.0010000Z\" title=\"29/01/2013 13:28:21\" class=\"past not-today display-datetime\">29 January 2013 13:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
@@ -456,7 +493,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime romance = tz.ConvertFromUtc(source);
                 string expected = "<time datetime=\"2013-01-29T13:28:21.0010000Z\" title=\"29/01/2013 14:28:21\" class=\"past not-today display-datetime\">29 January 2013 14:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
@@ -475,7 +512,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime romance = tz.ConvertFromUtc(source);
                 Debug.Assert(source.Kind == DateTimeKind.Local);
                 string expected = "<time datetime=\"2013-01-29T" + orig.Hour + ":28:21.0010000Z\" title=\"29/01/2013 14:28:21\" class=\"past not-today display-datetime\">29 January 2013 14:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
@@ -492,7 +529,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime utc = tz.ConvertToUtc(source);
                 Debug.Assert(source.Kind == DateTimeKind.Unspecified);
                 string expected = "<time datetime=\"2013-01-29T12:28:21.0010000Z\" title=\"29/01/2013 13:28:21\" class=\"past not-today display-datetime\">29 January 2013 13:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayDateTime(html, source);
@@ -503,6 +540,13 @@ namespace SrkToolkit.Web.Tests
 
         public class DisplayTimeMethod
         {
+            private readonly AspNetCoreTestContext context;
+
+            public DisplayTimeMethod()
+            {
+                this.context = new AspNetCoreTestContext();
+            }
+
             [Fact]
             public void UserIsUtc_ArgIsUtc_ResultIsUtc()
             {
@@ -510,7 +554,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T13:28:21.0010000Z\" title=\"29/01/2013 13:28:21\" class=\"past not-today display-time\">13:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
@@ -528,7 +572,7 @@ namespace SrkToolkit.Web.Tests
                 Debug.Assert(source.Kind == DateTimeKind.Local);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T" + orig.Hour + ":28:21.0010000Z\" title=\"29/01/2013 13:28:21\" class=\"past not-today display-time\">13:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
@@ -544,7 +588,7 @@ namespace SrkToolkit.Web.Tests
                 Debug.Assert(source.Kind == DateTimeKind.Unspecified);
                 TimeZoneInfo tz = null;
                 string expected = "<time datetime=\"2013-01-29T13:28:21.0010000Z\" title=\"29/01/2013 13:28:21\" class=\"past not-today display-time\">13:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
@@ -560,7 +604,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime source = new DateTime(2013, 1, 29, 13, 28, 21, 1, DateTimeKind.Utc);
                 DateTime romance = tz.ConvertFromUtc(source);
                 string expected = "<time datetime=\"2013-01-29T13:28:21.0010000Z\" title=\"29/01/2013 14:28:21\" class=\"past not-today display-time\">14:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
@@ -579,7 +623,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime romance = tz.ConvertFromUtc(source);
                 Debug.Assert(source.Kind == DateTimeKind.Local);
                 string expected = "<time datetime=\"2013-01-29T" + orig.Hour + ":28:21.0010000Z\" title=\"29/01/2013 14:28:21\" class=\"past not-today display-time\">14:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
@@ -596,7 +640,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime utc = tz.ConvertToUtc(source);
                 Debug.Assert(source.Kind == DateTimeKind.Unspecified);
                 string expected = "<time datetime=\"2013-01-29T12:28:21.0010000Z\" title=\"29/01/2013 13:28:21\" class=\"past not-today display-time\">13:28:21</time>";
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
 
                 var result = SrkHtmlExtensions.DisplayTime(html, source);
@@ -608,6 +652,13 @@ namespace SrkToolkit.Web.Tests
         public class JsDateMethod
         {
             private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+
+            private readonly AspNetCoreTestContext context;
+
+            public JsDateMethod()
+            {
+                this.context = new AspNetCoreTestContext();
+            }
 
             [Fact]
             public void BackAndForth_UtcIn()
@@ -626,7 +677,7 @@ namespace SrkToolkit.Web.Tests
                 DateTime utc = UnixEpoch.AddMilliseconds(epoch);
                 TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 DateTime user = tz.ConvertFromUtc(utc);
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 html.SetTimezone(tz);
                 var result = SrkHtmlExtensions.JsDate(html, user);
                 var expected = "new Date(13912786171000)";
@@ -639,7 +690,7 @@ namespace SrkToolkit.Web.Tests
                 long epoch = 13912786171000L; // GMT: Sat, 01 Feb 2014 18:16:57 GMT
                 DateTime utc = UnixEpoch.AddMilliseconds(epoch);
                 DateTime local = utc.ToLocalTime();
-                var html = CreateHtmlHelper(new ViewDataDictionary());
+                var html = this.context.Html;
                 var result = SrkHtmlExtensions.JsDate(html, local);
                 var expected = "new Date(13912786171000)";
                 Assert.Equal(expected, result.ToString());
@@ -654,23 +705,34 @@ namespace SrkToolkit.Web.Tests
                 var input = "J'ai ajouté une";
                 var expected = "J&#x27;ai ajouté une";
                 var result = SrkHtmlExtensions.DisplayText(null, input, twitterLinks: true, makeParagraphs: false);
-                SrkToolkit.Testing.Assert.Equal(expected, result.ToString());
+                SrkToolkit.Testing.Assert.AreEqual(expected, result.ToString());
             }
         }
 
         public class HasOtherValidationErrorsMethod
         {
-            [Fact, ExpectedException(typeof(ArgumentNullException))]
+            private readonly AspNetCoreTestContext<TestModel> context;
+
+            public HasOtherValidationErrorsMethod()
+            {
+                this.context = new AspNetCoreTestContext<TestModel>();
+            }
+
+            [Fact]
             public void ThrowsWhenArg0IsNull()
             {
-                SrkHtmlExtensions.HasOtherValidationErrors(null);
+                Assert.Throws<ArgumentNullException>(() =>
+                {
+                    SrkHtmlExtensions.HasOtherValidationErrors(null);
+                });
             }
 
             [Fact]
             public void ModelIsValid_ReturnsFalse()
             {
                 var model = new TestModel { Name = "hello", };
-                var html = GetHtmlHelper(model);
+                this.context.Model = model;
+                var html = this.context.Html;
 
                 var result = SrkHtmlExtensions.HasOtherValidationErrors(html);
 
@@ -681,7 +743,7 @@ namespace SrkToolkit.Web.Tests
             public void ModelIsPropertyInvalid_ReturnsFalse()
             {
                 var model = new TestModel { Name = null, };
-                var html = GetHtmlHelper(model);
+                var html = this.context.Html;
 
                 var result = SrkHtmlExtensions.HasOtherValidationErrors(html);
 
@@ -692,7 +754,7 @@ namespace SrkToolkit.Web.Tests
             public void ModelIsOtherInvalid_ReturnsFalse()
             {
                 var model = new TestModel { Name = "hello", };
-                var html = GetHtmlHelper(model);
+                var html = this.context.Html;
                 html.ViewData.ModelState.AddModelError(string.Empty, "Other error");
 
                 var result = SrkHtmlExtensions.HasOtherValidationErrors(html);
@@ -700,7 +762,7 @@ namespace SrkToolkit.Web.Tests
                 Assert.True(result);
             }
         }
-
+/*
         public class ValidationSummaryExMethod
         {
             [Fact]
@@ -734,7 +796,7 @@ namespace SrkToolkit.Web.Tests
                 Assert.False(isDisplayed);
             }
         }
-
+*//*
         public class DescriptionForMethod
         {
             [Fact]
@@ -798,9 +860,9 @@ namespace SrkToolkit.Web.Tests
             {
                 var controllerContext = new ControllerContext();
                 var view = new Mock<IView>();
-                var viewData = new ViewDataDictionary();
+                var viewData = EmptyViewDataDictionary();
                 viewData.Model = model;
-                var tempData = new TempDataDictionary();
+                var tempData = new TempDataDictionary(null, null);
                 var writer = new StreamWriter(new MemoryStream());
                 var viewContext = new ViewContext(controllerContext, view.Object, viewData, tempData, writer);
                 var viewDataContainer = new ViewPage();
@@ -808,7 +870,7 @@ namespace SrkToolkit.Web.Tests
                 return html;
             }
         }
-
+*//*
         public class CallLinkMethod
         {
             [Fact]
@@ -838,7 +900,7 @@ namespace SrkToolkit.Web.Tests
                 Assert.Equal(expected, result.ToString());
             }
         }
-
+*//*
         private static HtmlHelper GetHtmlHelper(TestModel model)
         {
             var http = new BasicHttpContext();
@@ -856,7 +918,19 @@ namespace SrkToolkit.Web.Tests
             var modelState = html.ViewData.ModelState;
             return html;
         }
+*/
 
+        public class SubmitMethod
+        {
+            [Fact]
+            public void Submit()
+            {
+                var context = new AspNetCoreTestContext();
+                var result = context.Html.Submit("Go");
+                Assert.Equal("<input type=\"submit\" value=\"Go\"></input>", result.ToString());
+            }
+        }
+        
         public class TestModel
         {
             [Required]

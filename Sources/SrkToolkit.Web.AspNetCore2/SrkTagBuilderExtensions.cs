@@ -22,6 +22,7 @@ namespace SrkToolkit.Web
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Text.Encodings.Web;
 
     /// <summary>
     /// Extension methods for the <see cref="TagBuilder"/> class.
@@ -47,7 +48,9 @@ namespace SrkToolkit.Web
                 throw new ArgumentNullException(nameof(tag));
             }
 
-            return new HtmlString(tag.ToString());
+            using var writer = new StringWriter();
+            tag.WriteTo(writer, HtmlEncoder.Default);
+            return new HtmlString(writer.ToString());
         }
     }
 }

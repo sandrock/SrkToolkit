@@ -16,6 +16,7 @@
 
 namespace SrkToolkit.Web
 {
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Routing;
     using System;
     using System.Collections.Generic;
@@ -91,7 +92,6 @@ namespace SrkToolkit.Web
             return builder.Uri;
         }
 
-#if !NSTD
         /// <summary>
         /// Replaces or adds values in the query string of the specified url.
         /// </summary>
@@ -102,11 +102,10 @@ namespace SrkToolkit.Web
         /// the modified URL
         /// </returns>
         /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
-        public static string ResetQueryString(this UrlHelper helper, string url, params string[] keysAndValues)
+        public static string ResetQueryString(this IUrlHelper helper, string url, params string[] keysAndValues)
         {
             return SetQueryString(url, true, keysAndValues);
         }
-#endif
 
         /// <summary>
         /// Replaces or adds values in the query string of the specified url.
@@ -135,7 +134,6 @@ namespace SrkToolkit.Web
             return builder.Uri;
         }
 
-#if !NSTD
         /// <summary>
         /// Replaces or adds values in the query string of the specified url.
         /// </summary>
@@ -146,11 +144,10 @@ namespace SrkToolkit.Web
         /// the modified URL
         /// </returns>
         /// <exception cref="System.ArgumentException">keysAndValues must be contain pairs of key and value;keysAndValues</exception>
-        public static string SetQueryString(this UrlHelper helper, string url, params string[] keysAndValues)
+        public static string SetQueryString(this IUrlHelper helper, string url, params string[] keysAndValues)
         {
             return SetQueryString(url, keysAndValues);
         } 
-#endif
 
         /// <summary>
         /// Replaces or adds values in the query string of the specified url.

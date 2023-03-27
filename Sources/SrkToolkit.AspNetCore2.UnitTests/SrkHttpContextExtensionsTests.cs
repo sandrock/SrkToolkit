@@ -26,11 +26,18 @@ namespace SrkToolkit.Web.Tests
     {
         public class SetTimezoneMethod
         {
+            private readonly AspNetCoreTestContext context;
+
+            public SetTimezoneMethod()
+            {
+                this.context = new AspNetCoreTestContext();
+            }
+
             [Fact]
             public void WorksWithTzObject()
             {
                 var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
-                var http = new BasicHttpContext();
+                var http = this.context.Context;
                 SrkHttpContextExtensions.SetTimezone(http, tz);
 
                 Assert.NotNull(http.Items["Timezone"]);
@@ -42,35 +49,44 @@ namespace SrkToolkit.Web.Tests
             {
                 var tzName = "Romance Standard Time";
                 var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
-                var http = new BasicHttpContext();
+                var http = this.context.Context;
                 SrkHttpContextExtensions.SetTimezone(http, tzName);
 
                 Assert.NotNull(http.Items["Timezone"]);
                 Assert.Equal(tz, http.Items["Timezone"]);
             }
 
-            [Fact, ExpectedException(typeof(ArgumentException))]
+            [Fact]
             public void NullTzName()
             {
                 string tzName = null;
-                var http = new BasicHttpContext();
-                SrkHttpContextExtensions.SetTimezone(http, tzName);
+                var http = this.context.Context;
+                Assert.Throws<ArgumentException>(() =>
+                {
+                    SrkHttpContextExtensions.SetTimezone(http, tzName);
+                });
             }
 
-            [Fact, ExpectedException(typeof(ArgumentException))]
+            [Fact]
             public void EmptyTzName()
             {
                 string tzName = string.Empty;
-                var http = new BasicHttpContext();
-                SrkHttpContextExtensions.SetTimezone(http, tzName);
+                var http = this.context.Context;
+                Assert.Throws<ArgumentException>(() =>
+                {
+                    SrkHttpContextExtensions.SetTimezone(http, tzName);
+                });
             }
 
-            [Fact, ExpectedException(typeof(TimeZoneNotFoundException))]
+            [Fact]
             public void InvalidTzName()
             {
                 string tzName = "Lunar Standard Time";
-                var http = new BasicHttpContext();
-                SrkHttpContextExtensions.SetTimezone(http, tzName);
+                var http = this.context.Context;
+                Assert.Throws<TimeZoneNotFoundException>(() =>
+                {
+                    SrkHttpContextExtensions.SetTimezone(http, tzName);
+                });
             }
 
             [Fact]
@@ -78,7 +94,7 @@ namespace SrkToolkit.Web.Tests
             {
                 var tzName = "Romance Standard Time";
                 var tz = TimeZoneInfo.FindSystemTimeZoneById(tzName);
-                var http = new BasicHttpContext();
+                var http = this.context.Context;
                 SrkHttpContextExtensions.SetTimezone(http, tzName);
                 var result = SrkHttpContextExtensions.GetTimezone(http);
 

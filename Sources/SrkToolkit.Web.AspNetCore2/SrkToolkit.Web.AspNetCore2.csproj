@@ -37,6 +37,8 @@
     <None Include="..\SrkToolkit.snk">
       <Link>SrkToolkit.snk</Link>
     </None>
+    <Compile Remove="SrkHttpRequestExtensions.cs" />
+    <None Include="SrkHttpRequestExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>

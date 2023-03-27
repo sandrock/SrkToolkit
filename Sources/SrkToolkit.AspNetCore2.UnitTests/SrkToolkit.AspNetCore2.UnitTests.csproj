@@ -43,8 +43,6 @@
     <None Include="DecimalModelBinderTests.cs" />
     <Compile Remove="IntegerModelBinderTests.cs" />
     <None Include="IntegerModelBinderTests.cs" />
-    <Compile Remove="SrkRequestExtensionsTests.cs" />
-    <None Include="SrkRequestExtensionsTests.cs" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@
     <LangVersion>default</LangVersion>
     <RootNamespace>SrkToolkit.Web</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.145-preview1</Version>
+    <Version>2.0.146-preview1</Version>
     <Authors>SandRock</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Description>SrkToolkit.Web.AspNetCore2 is a bunch of extensions and components to use with your ASP MVC Core project.</Description>
@@ -37,8 +37,6 @@
     <None Include="..\SrkToolkit.snk">
       <Link>SrkToolkit.snk</Link>
     </None>
-    <Compile Remove="SrkViewExtensions.cs" />
-    <None Include="SrkViewExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>

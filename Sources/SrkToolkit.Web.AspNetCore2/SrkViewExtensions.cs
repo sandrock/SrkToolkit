@@ -16,6 +16,7 @@
 
 namespace SrkToolkit.Web
 {
+    using Microsoft.AspNetCore.Mvc.Razor;
     using SrkToolkit.Web.Models;
     using System;
     using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace SrkToolkit.Web
     using System.Text;
 
     /// <summary>
-    /// Extension methods for <see cref="WebViewPage"/>.
+    /// Extension methods for <see cref="IRazorPage"/>.
     /// </summary>
     public static class SrkViewExtensions
     {
@@ -32,12 +33,13 @@ namespace SrkToolkit.Web
         /// </summary>
         /// <param name="view"></param>
         /// <returns></returns>
-        public static IList<TempMessage> TempMessages(this WebViewPage view)
+        public static IList<TempMessage> TempMessages(this IRazorPage view)
         {
-            if (view.TempData == null)
-                return new List<TempMessage>();
+            if (view == null)
+                throw new ArgumentNullException(nameof(view));
 
-            var list = view.TempData[TempMessage.TempDataKey] as IList<TempMessage>;
+            var data = view.ViewContext.TempData;
+            var list = data[TempMessage.TempDataKey] as IList<TempMessage>;
             return list ?? new List<TempMessage>();
         }
     }

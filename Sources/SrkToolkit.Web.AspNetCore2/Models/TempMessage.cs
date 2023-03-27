@@ -19,7 +19,6 @@ namespace SrkToolkit.Web.Models
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web;
 
     /// <summary>
     /// A message to display at the next loaded web page.

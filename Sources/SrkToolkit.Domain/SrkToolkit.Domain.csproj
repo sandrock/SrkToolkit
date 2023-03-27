@@ -6,7 +6,7 @@
     <TargetFrameworks>net46;net7.0;netstandard2.0</TargetFrameworks>
     <LangVersion>9</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.145-preview1</Version>
+    <Version>2.0.146-preview1</Version>
     <Authors>SandRock</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Description>SrkToolkit.Domain is used in your domain layer to provider RPC-style request and result classes.</Description>

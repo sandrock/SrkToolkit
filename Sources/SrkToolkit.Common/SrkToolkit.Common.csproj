@@ -6,7 +6,7 @@
     <TargetFrameworks>net40;net7.0;netstandard2.0</TargetFrameworks>
     <LangVersion>9</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.145-preview1</Version>
+    <Version>2.0.146-preview1</Version>
     <Authors>SandRock, pyDez</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Description>SrkToolkit.Common contains various extension methods, validators and utility classes.</Description>

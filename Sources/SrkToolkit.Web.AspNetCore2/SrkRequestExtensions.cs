@@ -22,7 +22,6 @@ namespace SrkToolkit.Web
     using System.Globalization;
     using System.Linq;
     using System.Text;
-    using System.Web;
 
     /// <summary>
     /// Extension methods for the <see cref="HttpRequest"/> classes.

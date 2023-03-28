@@ -37,6 +37,7 @@ public class AspNetCoreTestContext<T>
     private ActionContext action;
     private RouteData routeData;
     private TempDataDictionary tempData;
+    private ITempDataProvider tempDataProvider;
 
     /// <summary>
     /// Helps generate a HttpContext and all the ASP and MVC objects in order to do component testing.
@@ -158,7 +159,7 @@ public class AspNetCoreTestContext<T>
                     this.ActionContext,
                     new NullView(),
                     this.ViewData,
-                    this.tempData ?? (this.tempData = new TempDataDictionary(this.Context, new Mock<ITempDataProvider>().Object)),
+                    this.tempData ?? (this.tempData = new TempDataDictionary(this.Context, this.TempDataProvider)),
                     new StringWriter(),
                     new HtmlHelperOptions());
                 this.html.Contextualize(viewContext);
@@ -182,6 +183,16 @@ public class AspNetCoreTestContext<T>
 
             return this.url;
         }
+    }
+
+    public ITempDataDictionary TempData
+    {
+        get { return this.tempData ?? (this.tempData = new TempDataDictionary(this.Context, this.TempDataProvider)); }
+    }
+
+    internal ITempDataProvider TempDataProvider
+    {
+        get { return this.tempDataProvider ?? (this.tempDataProvider = new Mock<ITempDataProvider>().Object); }
     }
 }
 

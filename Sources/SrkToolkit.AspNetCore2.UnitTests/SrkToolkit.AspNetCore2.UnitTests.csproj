@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SrkToolkit.Domain.AspNetCore2\SrkToolkit.Domain.AspNetCore2.csproj" />
     <ProjectReference Include="..\SrkToolkit.Web.AspNetCore2\SrkToolkit.Web.AspNetCore2.csproj" />
   </ItemGroup>
 

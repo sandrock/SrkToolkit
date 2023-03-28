@@ -29,8 +29,6 @@
     <None Include="..\SrkToolkit.snk">
       <Link>SrkToolkit.snk</Link>
     </None>
-    <Compile Remove="SrkDomainControllerExtensions.cs" />
-    <None Include="SrkDomainControllerExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,16 +42,12 @@
 
   <Target Name="UseExplicitPackageVersions" BeforeTargets="GenerateNuspec">
     <ItemGroup>
-      <_ProjectReferenceWithExplicitPackageVersion Include="@(ProjectReference->'%(FullPath)')"
-                                                   Condition="'%(ProjectReference.PackageVersion)' != ''" />
-      <_ProjectReferenceWithExactPackageVersion Include="@(ProjectReference->'%(FullPath)')"
-                                                Condition="'%(ProjectReference.ExactVersion)' == 'true'" />
-      <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)"
-                                              Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExplicitPackageVersion)'">
+      <_ProjectReferenceWithExplicitPackageVersion Include="@(ProjectReference->'%(FullPath)')" Condition="'%(ProjectReference.PackageVersion)' != ''" />
+      <_ProjectReferenceWithExactPackageVersion Include="@(ProjectReference->'%(FullPath)')" Condition="'%(ProjectReference.ExactVersion)' == 'true'" />
+      <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)" Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExplicitPackageVersion)'">
         <ProjectVersion>@(_ProjectReferenceWithExplicitPackageVersion->'%(PackageVersion)')</ProjectVersion>
       </_ProjectReferenceWithReassignedVersion>
-      <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)"
-                                              Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExactPackageVersion)'">
+      <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)" Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExactPackageVersion)'">
         <ProjectVersion>[@(_ProjectReferencesWithVersions->'%(ProjectVersion)')]</ProjectVersion>
       </_ProjectReferenceWithReassignedVersion>
       <_ProjectReferencesWithVersions Remove="@(_ProjectReferenceWithReassignedVersion)" />

@@ -190,6 +190,12 @@ public class AspNetCoreTestContext<T>
         get { return this.tempData ?? (this.tempData = new TempDataDictionary(this.Context, this.TempDataProvider)); }
     }
 
+    public ControllerContext CreateControllerContext()
+    {
+        var item = new ControllerContext(this.ActionContext);
+        return item;
+    }
+
     internal ITempDataProvider TempDataProvider
     {
         get { return this.tempDataProvider ?? (this.tempDataProvider = new Mock<ITempDataProvider>().Object); }

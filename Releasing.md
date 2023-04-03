@@ -1,20 +1,17 @@
 ﻿
-Evaluate next version identifier by running the build app
+Releasing
+================
 
+1. Evaluate next version.
+2. Change all CSPROJ files to use the new version number (`2\.0\.(\d+)-preview1+` -> `2.0.666-preview2`)
+3. Build
+4. Commit
+5. Build
+6. Update the `SrkToolkit.Mvvm.AssemblyInfo.cs` file accordingly. (???) 
+7. publish   
 ```batch
-cd Tools
-.\build.bat
-```
-
-Update the `SrkToolkit.Mvvm.AssemblyInfo.cs` file accordingly. 
-
-Run the build script again.
-
-then:
-
-```batch
-cd Package
-..\tools\nuget.exe push -src https://api.nuget.org/v3/index.json .\SrkToolkit.*.1.2.140.nupkg -apikey xxx
+find . -wholename '*/Release/*2.0.147-*.nupkg' \
+     -exec dotnet nuget push "{}" -s https://api.nuget.org/v3/index.json --api-key XXX \;
 ```
 
 

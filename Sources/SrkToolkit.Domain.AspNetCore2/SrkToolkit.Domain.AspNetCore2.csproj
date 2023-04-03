@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>SrkToolkit.Domain.AspNetCore2</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.146-preview1</Version>
+    <Version>2.0.147-preview2</Version>
     <Authors>SandRock</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Description>SrkToolkit.Domain.AspNetCore2 contains extension methods for SrkToolkit.Domain in the context of a ASP MVC Core application.</Description>
@@ -18,6 +18,7 @@
     <FileVersion>2.0.0.0</FileVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SrkToolkit.snk</AssemblyOriginatorKeyFile>
+    <PackageReadmeFile>SrkToolkit.Domain.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,6 +39,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\Wiki\SrkToolkit.Domain.md">
+      <PackagePath></PackagePath>
+      <Link>SrkToolkit.Domain.md</Link>
+    </Content>
   </ItemGroup>
 
   <Target Name="UseExplicitPackageVersions" BeforeTargets="GenerateNuspec">

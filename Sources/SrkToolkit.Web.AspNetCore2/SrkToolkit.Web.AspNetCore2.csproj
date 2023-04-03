@@ -6,7 +6,7 @@
     <LangVersion>default</LangVersion>
     <RootNamespace>SrkToolkit.Web</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.146-preview1</Version>
+    <Version>2.0.147-preview2</Version>
     <Authors>SandRock</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Description>SrkToolkit.Web.AspNetCore2 is a bunch of extensions and components to use with your ASP MVC Core project.</Description>
@@ -18,6 +18,7 @@
     <FileVersion>2.0.0.0</FileVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SrkToolkit.snk</AssemblyOriginatorKeyFile>
+    <PackageReadmeFile>SrkToolkit.Web.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -125,6 +126,13 @@
 
   <ItemGroup>
     <Folder Include="System.Web.Mvc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\Wiki\SrkToolkit.Web.md">
+      <PackagePath></PackagePath>
+      <Link>SrkToolkit.Web.md</Link>
+    </Content>
   </ItemGroup>
 
   <Target Name="UseExplicitPackageVersions" BeforeTargets="GenerateNuspec">

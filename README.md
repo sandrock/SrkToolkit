@@ -1,5 +1,5 @@
 
-SrkToolkit
+SrkToolkit ![](Sources/logo-32.png)
 ==========
 
 Here goes another set of libraries to help out: SandRock's toolkit. Separated into a few assemblies to avoid loading too much stuff in your app.

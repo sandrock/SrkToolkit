@@ -204,7 +204,15 @@ namespace SrkToolkit.Web.Services
             get { return this.httpContext; }
         }
 
-        internal ActionResult JsonErrorWithException(int httpCode, string errorCode, string errorMessage, Exception exception)
+        /// <summary>
+        /// Returns a JSON ActionResult containing the exception details. 
+        /// </summary>
+        /// <param name="httpCode"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="errorMessage"></param>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        public ActionResult JsonErrorWithException(int httpCode, string errorCode, string errorMessage, Exception exception)
         {
             return new JsonNetResult
             {
@@ -220,7 +228,12 @@ namespace SrkToolkit.Web.Services
             };
         }
 
-        private object DescribeException(Exception exception)
+        /// <summary>
+        /// Returns an anonymous object containing the exception details. 
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        public static object DescribeException(Exception exception)
         {
             if (exception != null)
             {

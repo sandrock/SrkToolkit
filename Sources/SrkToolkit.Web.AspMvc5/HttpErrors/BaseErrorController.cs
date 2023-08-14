@@ -215,9 +215,16 @@ namespace SrkToolkit.Web.HttpErrors
                 msg.Exception = RouteData.DataTokens.ContainsKey(ResultServiceBase.RouteDataExceptionKey) ? RouteData.DataTokens[ResultServiceBase.RouteDataExceptionKey] as Exception : null;
             }
 
-            this.Response.StatusCode = msg.Code;
-
-            this.Response.Charset = "utf-8";
+            ////if (!this.Response.HeadersWritten)
+            try
+            {
+                this.Response.StatusCode = msg.Code;
+                this.Response.Charset = "utf-8";
+            }
+            catch (HttpException)
+            {
+                // headers already sent
+            }
 
             this.OnErrorResponseReady(action, model, code);
 

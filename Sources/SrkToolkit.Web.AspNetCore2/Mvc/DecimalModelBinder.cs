@@ -16,13 +16,21 @@
 
 namespace SrkToolkit.Web.Mvc
 {
+#if ASPMVCCORE
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
+#endif
+    
+#if ASPMVC
+    using System.Web;
+    using System.Web.Mvc;
+#endif
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Web.Mvc;
     using System.Globalization;
     using System.Reflection;
 

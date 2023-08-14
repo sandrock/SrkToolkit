@@ -16,8 +16,17 @@
 
 namespace SrkToolkit.Web
 {
+#if ASPMVCCORE
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Routing;
+#endif
+    
+#if ASPMVC
+    using System.Web.Mvc;
+    using System.Web.Caching;
+    using System.Web.Routing;
+#endif
+
     using SrkToolkit.Web.Models;
     using SrkToolkit.Web.Open;
     using System;
@@ -52,7 +61,8 @@ namespace SrkToolkit.Web
 
             return line;
         }
-/*
+
+#if ASPMVC
         /// <summary>
         /// Gets an item from the HTTP cache.
         /// </summary>
@@ -63,7 +73,7 @@ namespace SrkToolkit.Web
         /// <param name="buildData">The build data.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [Obsolete("Under devleopment")]
+        [Obsolete("Under development")]
         public static T GetFromCache<T>(this Controller ctrl, TimeSpan duration, CacheItemPriority priority, Func<T> buildData, string id)
             where T : class
         {
@@ -88,7 +98,7 @@ namespace SrkToolkit.Web
         /// <param name="priority">The priority.</param>
         /// <param name="buildData">The build data.</param>
         /// <returns></returns>
-        [Obsolete("Under devleopment")]
+        [Obsolete("Under development")]
         public static T GetFromCache<T>(this Controller ctrl, TimeSpan duration, CacheItemPriority priority, Func<T> buildData)
             where T : class
         {
@@ -103,7 +113,7 @@ namespace SrkToolkit.Web
 
             return value;
         }
-*//*
+
         /// <summary>
         /// Clears an item from the HTTP cache.
         /// </summary>
@@ -111,7 +121,7 @@ namespace SrkToolkit.Web
         /// <param name="ctrl">The controller.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [Obsolete("Under devleopment")]
+        [Obsolete("Under development")]
         public static T ClearFromCache<T>(this Controller ctrl, string id)
             where T : class
         {
@@ -133,7 +143,7 @@ namespace SrkToolkit.Web
         /// <typeparam name="T"></typeparam>
         /// <param name="ctrl">The control.</param>
         /// <returns></returns>
-        [Obsolete("Under devleopment")]
+        [Obsolete("Under development")]
         public static T ClearFromCache<T>(this Controller ctrl)
             where T : class
         {
@@ -148,7 +158,7 @@ namespace SrkToolkit.Web
 
             return null;
         }
-*/
+#endif
         /// <summary>
         /// Gets a action result that will redirect the user to the specified local path. Fallbacks to a second path. Then fallbacks to /Home/Index
         /// </summary>
@@ -177,7 +187,7 @@ namespace SrkToolkit.Web
                 return new RedirectToRouteResult(values);
             }
         }
-/*
+#if ASPMVC
         /// <summary>
         /// Gets the first valid local URL from the method arguments.
         /// </summary>
@@ -216,7 +226,8 @@ namespace SrkToolkit.Web
 
             return null;
         }
-*/
+#endif
+
         /// <summary>
         /// Helps attach descriptors to a page in order to generate meta/link tags.
         /// </summary>

@@ -16,7 +16,17 @@
 
 namespace SrkToolkit.Web
 {
+#if ASPMVCCORE
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Razor;
+#endif
+    
+#if ASPMVC
+    using System.Web;
+    using System.Web.Mvc;
+#endif
+
     using SrkToolkit.Web.Models;
     using System;
     using System.Collections.Generic;
@@ -33,7 +43,13 @@ namespace SrkToolkit.Web
         /// </summary>
         /// <param name="view"></param>
         /// <returns></returns>
-        public static IList<TempMessage> TempMessages(this IRazorPage view)
+        public static IList<TempMessage> TempMessages(
+#if ASPMVC
+            this WebViewPage view
+#elif ASPMVCCORE
+            this IRazorPage view
+#endif
+            )
         {
             if (view == null)
                 throw new ArgumentNullException(nameof(view));

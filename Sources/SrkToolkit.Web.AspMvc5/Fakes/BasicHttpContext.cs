@@ -16,17 +16,17 @@
 
 namespace SrkToolkit.Web.Fakes
 {
-    using Microsoft.AspNetCore.Http;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Principal;
     using System.Text;
+    using System.Web;
 
     /// <summary>
     /// Implementation of <see cref="HttpContextBase"/> where the developer can set any property to any value.
     /// </summary>
-    public class BasicHttpContext : HttpContext
+    public class BasicHttpContext : HttpContextBase
     {
         private HttpSessionStateBase session;
         private IPrincipal user;

@@ -339,7 +339,11 @@ namespace SrkToolkit.Web.Open
         /// </returns>
         public string ToString(PageInfoObjectSection sections, bool indented)
         {
+#if ASPMVCCORE
+            var sb = new StringWriter();
+#elif ASPMVC
             var sb = new StringBuilder();
+#endif
             this.Write(sb, sections, indented);
             return sb.ToString();
         }
@@ -350,7 +354,13 @@ namespace SrkToolkit.Web.Open
         /// <param name="sb">The sb.</param>
         /// <param name="sections">the desires sections</param>
         /// <param name="indented">if true the generated html will be indented</param>
-        public void Write(StringBuilder sb, PageInfoObjectSection sections, bool indented)
+        public void Write(
+#if ASPMVCCORE
+            StringWriter sb,
+#elif ASPMVC
+            StringBuilder sb,
+#endif
+            PageInfoObjectSection sections, bool indented)
         {
             if (sb == null)
                 throw new ArgumentNullException("sb");

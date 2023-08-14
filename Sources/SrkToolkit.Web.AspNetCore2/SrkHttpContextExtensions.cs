@@ -16,7 +16,18 @@
 
 namespace SrkToolkit.Web
 {
+
+#if ASPMVCCORE
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Routing;
+#endif
+    
+#if ASPMVC
+    using System.Web;
+    using System.Web.Mvc;
+#endif
+
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -41,7 +52,8 @@ namespace SrkToolkit.Web
 
             return httpContext.User != null && httpContext.User.Identity != null ? httpContext.User.Identity.Name.NullIfEmptyOrWhitespace() : null;
         }
-/*
+
+#if ASPMVC
         /// <summary>
         /// Fast access to HttpContext.User.Identity.Name.
         /// </summary>
@@ -55,7 +67,7 @@ namespace SrkToolkit.Web
 
             return httpContext.User != null && httpContext.User.Identity != null ? httpContext.User.Identity.Name.NullIfEmptyOrWhitespace() : null;
         }
-*//*
+
         /// <summary>
         /// Sets the timezone for displays of dates and times.
         /// </summary>
@@ -72,7 +84,7 @@ namespace SrkToolkit.Web
             SrkHttpContextExtensions.SetTimezone(http, TimeZoneInfo.FindSystemTimeZoneById(timeZoneName));
             return http;
         }
-*//*
+
         /// <summary>
         /// Sets the timezone for displays of dates and times.
         /// </summary>
@@ -88,7 +100,8 @@ namespace SrkToolkit.Web
             http.Items["Timezone"] = timeZone;
             return http;
         }
-*/
+#endif
+
         /// <summary>
         /// Sets the timezone for displays of dates and times.
         /// </summary>
@@ -121,7 +134,8 @@ namespace SrkToolkit.Web
             http.Items["Timezone"] = timeZone;
             return http;
         }
-/*
+
+#if ASPMVC
         /// <summary>
         /// Gets the timezone for displays of dates and times.
         /// </summary>
@@ -135,7 +149,8 @@ namespace SrkToolkit.Web
 
             return (TimeZoneInfo)http.Items["Timezone"] ?? TimeZoneInfo.Utc;
         }
-*/
+#endif
+
         /// <summary>
         /// Gets the timezone for displays of dates and times.
         /// </summary>
@@ -149,7 +164,8 @@ namespace SrkToolkit.Web
 
             return (TimeZoneInfo)http.Items["Timezone"] ?? TimeZoneInfo.Utc;
         }
-/*
+
+#if ASPMVC
         /// <summary>
         /// Sets the culture.
         /// </summary>
@@ -173,7 +189,8 @@ namespace SrkToolkit.Web
             http.Items["Culture"] = cultureInfo;
             return http;
         }
-*/
+#endif
+
         /// <summary>
         /// Sets the culture.
         /// </summary>
@@ -197,7 +214,8 @@ namespace SrkToolkit.Web
             http.Items["Culture"] = cultureInfo;
             return http;
         }
-/*
+
+#if ASPMVC
         /// <summary>
         /// Sets the culture.
         /// </summary>
@@ -213,7 +231,8 @@ namespace SrkToolkit.Web
             http.Items["Culture"] = culture;
             return http;
         }
-*/
+#endif
+
         /// <summary>
         /// Sets the culture.
         /// </summary>
@@ -229,7 +248,8 @@ namespace SrkToolkit.Web
             http.Items["Culture"] = culture;
             return http;
         }
-/*
+
+#if ASPMVC
         /// <summary>
         /// Gets the current culture.
         /// </summary>
@@ -243,7 +263,8 @@ namespace SrkToolkit.Web
 
             return (CultureInfo)http.Items["Culture"] ?? CultureInfo.CurrentCulture;
         }
-*/
+#endif
+
         /// <summary>
         /// Gets the current culture.
         /// </summary>
@@ -257,7 +278,8 @@ namespace SrkToolkit.Web
 
             return (CultureInfo)http.Items["Culture"] ?? CultureInfo.CurrentCulture;
         }
-/*
+
+#if ASPMVC
         /// <summary>
         /// Sets the UICulture.
         /// </summary>
@@ -281,7 +303,8 @@ namespace SrkToolkit.Web
             http.Items["UICulture"] = cultureInfo;
             return http;
         }
-*/
+#endif
+
         /// <summary>
         /// Sets the UICulture.
         /// </summary>
@@ -305,7 +328,8 @@ namespace SrkToolkit.Web
             http.Items["UICulture"] = cultureInfo;
             return http;
         }
-/*
+
+#if ASPMVC
         /// <summary>
         /// Sets the UICulture.
         /// </summary>
@@ -321,7 +345,8 @@ namespace SrkToolkit.Web
             http.Items["UICulture"] = uICulture;
             return http;
         }
-*/
+#endif
+
         /// <summary>
         /// Sets the UICulture.
         /// </summary>
@@ -337,7 +362,8 @@ namespace SrkToolkit.Web
             http.Items["UICulture"] = uICulture;
             return http;
         }
-/*
+
+#if ASPMVC
         /// <summary>
         /// Gets the current UICulture.
         /// </summary>
@@ -351,7 +377,8 @@ namespace SrkToolkit.Web
 
             return (CultureInfo)http.Items["UICulture"] ?? CultureInfo.CurrentUICulture;
         }
-*/
+#endif
+
         /// <summary>
         /// Gets the current UICulture.
         /// </summary>
@@ -365,7 +392,8 @@ namespace SrkToolkit.Web
 
             return (CultureInfo)http.Items["UICulture"] ?? CultureInfo.CurrentUICulture;
         }
-/*
+
+#if ASPMVC
         /// <summary>
         /// Sets the date and time formats.
         /// </summary>
@@ -379,7 +407,7 @@ namespace SrkToolkit.Web
         /// <param name="shortTimeFormat">The short time format for Html.DisplayShortTime(DateTime).</param>
         /// <param name="shortTimespanFormat">The short timespan format for Html.DisplayShortTime(TimeSpan).</param>
         /// <exception cref="System.ArgumentNullException">httpContext</exception>
-        public static void SetDateTimeFormats(this HttpContext httpContext, string dateFormat = null, string dateTzFormat = null, string timeFormat = null, string timeTzFormat = null, string timespanFormat = null, string dateTimeFormat = null, string shortTimeFormat = null, string shortTimespanFormat = null)
+        public static void SetDateTimeFormats(this HttpContextBase httpContext, string dateFormat = null, string dateTzFormat = null, string timeFormat = null, string timeTzFormat = null, string timespanFormat = null, string dateTimeFormat = null, string shortTimeFormat = null, string shortTimespanFormat = null)
         {
             if (httpContext == null)
                 throw new ArgumentNullException("httpContext");
@@ -438,7 +466,7 @@ namespace SrkToolkit.Web
 
             httpContext.Items[SrkHtmlExtensions.DefaultDateTimeFormatsKey] = values;
         }
-*//*
+
         /// <summary>
         /// Gets the date and time formats.
         /// </summary>
@@ -450,11 +478,12 @@ namespace SrkToolkit.Web
             if (httpContext == null)
                 throw new ArgumentNullException("httpContext");
 
-            var values = (string[])httpContext.Items[System.Web.Mvc.SrkHtmlExtensions.defaultDateTimeFormatsKey]
-                ?? System.Web.Mvc.SrkHtmlExtensions.defaultDateTimeFormats.ToArray();
+            var values = (string[])httpContext.Items[System.Web.Mvc.SrkHtmlExtensions.DefaultDateTimeFormatsKey]
+                ?? System.Web.Mvc.SrkHtmlExtensions.DefaultDateTimeFormats.ToArray();
 
             return values;
         }
-*/
+#endif
+
     }
 }

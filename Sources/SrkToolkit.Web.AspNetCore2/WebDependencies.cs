@@ -16,21 +16,33 @@
 
 namespace SrkToolkit.Web
 {
+#if ASPMVCCORE
     using Microsoft.AspNetCore.Html;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using System.Text.Encodings.Web;
+#endif
+    
+#if ASPMVC
+    using System.Web;
+    using System.Web.Mvc;
+    using System.Web.Hosting;
+#endif
+
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Text;
-    using System.Text.Encodings.Web;
 
     /// <summary>
     /// Manages web dependencies such as scripts and styles.
     /// </summary>
     public class WebDependencies
     {
+#if ASPMVCCORE
         private readonly PathString requestPathBase;
+#endif
         protected Dictionary<string, Tuple<WebDependency, WebDependencyPosition>> includes;
 
         /// <summary>
@@ -40,6 +52,7 @@ namespace SrkToolkit.Web
         {
         }
 
+#if ASPMVCCORE
         public WebDependencies(PathString requestPathBase)
         {
             this.requestPathBase = requestPathBase;
@@ -50,6 +63,13 @@ namespace SrkToolkit.Web
             get { return this.requestPathBase.HasValue ? this.requestPathBase.ToString() : "/"; }
             ////set { this.requestPathBase = new PathString(value); }
         }
+#endif
+#if ASPMVC
+        protected string ApplicationVirtualPath
+        {
+            get { return HostingEnvironment.ApplicationVirtualPath; }
+        }
+#endif
 
         /// <summary>
         /// Renders the specified dependency.
@@ -70,10 +90,18 @@ namespace SrkToolkit.Web
                     RenderDependency(value.Files[i], sb);
                 }
 
+#if ASPMVCCORE
                 return new HtmlString(sb.ToString());
+#elif ASPMVC
+                return MvcHtmlString.Create(sb.ToString());
+#endif
             }
 
+#if ASPMVCCORE
             return HtmlString.Empty;
+#elif ASPMVC
+            return MvcHtmlString.Empty;
+#endif
         }
 
         /// <summary>
@@ -200,8 +228,12 @@ namespace SrkToolkit.Web
                         tag.MergeAttributes(value.Attributes); 
                     }
 
+#if ASPMVCCORE
                     tag.WriteTo(sb, HtmlEncoder.Default);
                     sb.WriteLine();
+#elif ASPMVC
+                    sb.WriteLine(tag.ToString(TagRenderMode.Normal));
+#endif
                     break;
 
                 case WebDependencyFileType.Css:
@@ -229,8 +261,13 @@ namespace SrkToolkit.Web
                         tag.MergeAttributes(value.Attributes); 
                     }
 
+#if ASPMVCCORE
                     tag.TagRenderMode = TagRenderMode.SelfClosing;
                     tag.WriteTo(sb, HtmlEncoder.Default);
+                    sb.WriteLine();
+#elif ASPMVC
+                    sb.WriteLine(tag.ToString(TagRenderMode.SelfClosing));
+#endif
                     sb.WriteLine();
                     break;
 

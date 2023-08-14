@@ -1,14 +1,26 @@
 ﻿
 namespace SrkToolkit.AspNetCore
 {
+
+#if ASPMVCCORE
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Routing;
+#endif
+    
+#if ASPMVC
+    using System.Web;
+    using System.Web.Mvc;
+#endif
+
+
     using System;
     using System.Diagnostics;
     using System.Linq;
-    using System.Net.Http;
 
     public static class SrkHttpRequestExtensions
     {
+#if ASPMVCCORE
         public static bool PrefersJson(this HttpRequestMessage request)
         {
             if (request.Headers.Accept.Any())
@@ -24,9 +36,10 @@ namespace SrkToolkit.AspNetCore
 
             return false;
         }
+#endif
 
+/*
         // TODO: support HttpRequest.PrefersJson, but which nuget?
-#if !NETSTANDARD
         public static bool PrefersJson(this HttpRequest request)
         {
             Debug.Assert(request != null, nameof(request) + " != null");
@@ -43,6 +56,7 @@ namespace SrkToolkit.AspNetCore
 
             return false;
         }
-#endif
+*/
+
     }
 }

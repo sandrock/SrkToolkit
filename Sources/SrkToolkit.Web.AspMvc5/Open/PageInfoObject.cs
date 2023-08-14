@@ -16,15 +16,17 @@
 
 namespace SrkToolkit.Web.Open
 {
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
 #if ASPMVCCORE
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using System.Text.Encodings.Web;
+#endif
 
-#else
+#if ASPMVC
     using System.Web.Mvc;
 #endif
 
@@ -80,9 +82,6 @@ namespace SrkToolkit.Web.Open
             get { return this.openGraphTag; }
         }
 
-#if ASPNETCORE
-#endif
-#if !NSTD && !NET40
         private TagBuilder Tag
         {
             get
@@ -98,14 +97,17 @@ namespace SrkToolkit.Web.Open
 
                 if (this.tagValue != null)
                 {
-                    ////tag.SetInnerText(this.tagValue); // net40
+#if ASPMVCCORE
                     tag.InnerHtml.Append(this.tagValue); // netstandard2.0
+#endif
+#if ASPMVC
+                    tag.SetInnerText(this.tagValue); // net40
+#endif
                 }
 
                 return tag;
             }
         } 
-#endif
 
         /// <summary>
         /// Prepare a HTML element of the specified name to contain the item's value.
@@ -216,25 +218,56 @@ namespace SrkToolkit.Web.Open
         /// </returns>
         public override string ToString()
         {
+#if ASPMVCCORE
+            var sb = new StringWriter();
+#elif ASPMVC
+            var sb = new StringBuilder();
+#endif
+            this.ToString(sb);
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that contains the generated HTML tags.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that contains the generated HTML tags.
+        /// </returns>
+        public void ToString(
+#if ASPMVCCORE
+            StringWriter sb
+#elif ASPMVC
+            StringBuilder sb
+#endif
+            )
+        {
 #if NSTD || NET40
             return "<!-- PageInfoObject: NOT IMPLEMENTED IN NETSTANDARD -->";
 #else
             var tag = this.Tag;
             if (this.openGraphTag != null)
             {
-                return this.openGraphTag.ToString();
+#if ASPMVCCORE
+                sb.Write(this.openGraphTag.ToString());
+#else
+                sb.Append(this.openGraphTag.ToString());
+#endif
             }
             else if (tag != null)
             {
 #if ASPMVCCORE
-                return tag.ToString();
+                tag.WriteTo(sb, HtmlEncoder.Default);
 #else
-                return tag.ToString(singleTagNames.Contains(this.tagName) ? TagRenderMode.SelfClosing : TagRenderMode.Normal);
+                sb.Append(tag.ToString(singleTagNames.Contains(this.tagName) ? TagRenderMode.SelfClosing : TagRenderMode.Normal));
 #endif
             }
             else
             {
-                return "<!-- PageInfoObject: no HTML to write -->";
+#if ASPMVCCORE
+                sb.Write("<!-- PageInfoObject: no HTML to write -->");
+#else
+                sb.Append("<!-- PageInfoObject: no HTML to write -->");
+#endif
             }
 #endif
         } 

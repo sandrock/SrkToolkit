@@ -114,7 +114,11 @@ namespace SrkToolkit.Web.Open
         /// </returns>
         public override string ToString()
         {
+#if ASPMVCCORE
+            var sb = new StringWriter();
+#elif ASPMVC
             var sb = new StringBuilder();
+#endif
             this.ToString(sb, PageInfo.defaultSections, false);
             return sb.ToString();
         }
@@ -125,7 +129,13 @@ namespace SrkToolkit.Web.Open
         /// <param name="sb">The <see cref="StringBuilder"/> to write to.</param>
         /// <param name="sections">The sections to use.</param>
         /// <exception cref="System.ArgumentNullException">sb</exception>
-        public void ToString(StringBuilder sb, PageInfoObjectSection sections, bool indented)
+        public void ToString(
+#if ASPMVCCORE
+            StringWriter sb,
+#elif ASPMVC
+            StringBuilder sb,
+#endif
+            PageInfoObjectSection sections, bool indented)
         {
             if (sb == null)
                 throw new ArgumentNullException("sb");
@@ -135,10 +145,18 @@ namespace SrkToolkit.Web.Open
                 if ((obj.Section & sections) != 0)
                 {
                     obj.SetValue(this.Value);
+
+#if ASPMVCCORE
+                    if (indented)
+                        sb.WriteLine(obj.ToString());
+                    else
+                        sb.Write(obj.ToString());
+#elif ASPMVC
                     if (indented)
                         sb.AppendLine(obj.ToString());
                     else
                         sb.Append(obj.ToString());
+#endif
                 }
             }
         }

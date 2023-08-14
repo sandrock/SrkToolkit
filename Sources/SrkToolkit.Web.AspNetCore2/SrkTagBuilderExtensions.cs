@@ -16,31 +16,42 @@
 
 namespace SrkToolkit.Web
 {
+#if ASPMVCCORE
     using Microsoft.AspNetCore.Html;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using System.Text.Encodings.Web;
+#endif
+    
+#if ASPMVC
+    using System.Web;
+    using System.Web.Mvc;
+#endif
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Text.Encodings.Web;
 
     /// <summary>
     /// Extension methods for the <see cref="TagBuilder"/> class.
     /// </summary>
     public static class SrkTagBuilderExtensions
     {
-/*
+
+#if ASPMVC
         /// <summary>
         /// To the MVC HTML string.
         /// </summary>
         /// <param name="tagBuilder">The tag builder.</param>
         /// <param name="renderMode">The render mode.</param>
         /// <returns></returns>
-        public static HtmlString ToMvcHtmlString(this TagBuilder tagBuilder, TagRenderMode renderMode)
+        public static MvcHtmlString ToMvcHtmlString(this TagBuilder tagBuilder, TagRenderMode renderMode)
         {
-            return new HtmlString(tagBuilder.ToString(renderMode));
+            return new MvcHtmlString(tagBuilder.ToString(renderMode));
         }
-*/
+#endif
+
+#if ASPMVCCORE
         public static HtmlString ToHtmlString(this TagBuilder tag)
         {
             if (tag == null)
@@ -52,5 +63,6 @@ namespace SrkToolkit.Web
             tag.WriteTo(writer, HtmlEncoder.Default);
             return new HtmlString(writer.ToString());
         }
+#endif
     }
 }

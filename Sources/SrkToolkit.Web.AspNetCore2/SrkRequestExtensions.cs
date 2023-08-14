@@ -16,7 +16,17 @@
 
 namespace SrkToolkit.Web
 {
+#if ASPMVCCORE
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Routing;
+#endif
+    
+#if ASPMVC
+    using System.Web;
+    using System.Web.Mvc;
+#endif
+
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -41,13 +51,23 @@ namespace SrkToolkit.Web
         /// <returns>
         ///   <c>true</c> if [is XML HTTP request] [the specified request]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsXmlHttpRequest(this HttpRequest request)
+        public static bool IsXmlHttpRequest(
+#if ASPMVCCORE
+            this HttpRequest request
+#elif ASPMVC
+            this HttpRequestBase request
+#endif
+            )
         {
             var header = request.Headers["X-Requested-With"];
             if (string.IsNullOrEmpty(header))
                 return false;
 
+#if ASPMVCCORE
             return xhrValues.Any(searchValue => header.Any(value => value.Equals(searchValue, StringComparison.OrdinalIgnoreCase)));
+#elif ASPMVC
+            return xhrValues.Contains(header.ToUpperInvariant());
+#endif
         }
 
         /// <summary>
@@ -55,9 +75,20 @@ namespace SrkToolkit.Web
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns></returns>
-        public static bool IsHttpGetRequest(this HttpRequest request)
+        public static bool IsHttpGetRequest(
+#if ASPMVCCORE
+            this HttpRequest request
+#elif ASPMVC
+            this HttpRequestBase request
+#endif
+            )
         {
+
+#if ASPMVCCORE
             return "GET".Equals(request.Method, StringComparison.OrdinalIgnoreCase);
+#elif ASPMVC
+            return "GET".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+#endif
         }
 
         /// <summary>
@@ -65,9 +96,20 @@ namespace SrkToolkit.Web
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns></returns>
-        public static bool IsHttpPostRequest(this HttpRequest request)
+        public static bool IsHttpPostRequest(
+#if ASPMVCCORE
+            this HttpRequest request
+#elif ASPMVC
+            this HttpRequestBase request
+#endif
+            )
         {
+
+#if ASPMVCCORE
             return "POST".Equals(request.Method, StringComparison.OrdinalIgnoreCase);
+#elif ASPMVC
+            return "POST".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+#endif
         }
 
         /// <summary>
@@ -75,9 +117,20 @@ namespace SrkToolkit.Web
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns></returns>
-        public static bool IsHttpDeleteRequest(this HttpRequest request)
+        public static bool IsHttpDeleteRequest(
+#if ASPMVCCORE
+            this HttpRequest request
+#elif ASPMVC
+            this HttpRequestBase request
+#endif
+            )
         {
+
+#if ASPMVCCORE
             return "DELETE".Equals(request.Method, StringComparison.OrdinalIgnoreCase);
+#elif ASPMVC
+            return "DELETE".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+#endif
         }
 
         /// <summary>
@@ -85,9 +138,20 @@ namespace SrkToolkit.Web
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns></returns>
-        public static bool IsHttpPutRequest(this HttpRequest request)
+        public static bool IsHttpPutRequest(
+#if ASPMVCCORE
+            this HttpRequest request
+#elif ASPMVC
+            this HttpRequestBase request
+#endif
+            )
         {
+
+#if ASPMVCCORE
             return "PUT".Equals(request.Method, StringComparison.OrdinalIgnoreCase);
+#elif ASPMVC
+            return "PUT".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+#endif
         }
 
         /// <summary>
@@ -95,9 +159,20 @@ namespace SrkToolkit.Web
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns></returns>
-        public static bool IsHttpHeadRequest(this HttpRequest request)
+        public static bool IsHttpHeadRequest(
+#if ASPMVCCORE
+            this HttpRequest request
+#elif ASPMVC
+            this HttpRequestBase request
+#endif
+            )
         {
+
+#if ASPMVCCORE
             return "HEAD".Equals(request.Method, StringComparison.OrdinalIgnoreCase);
+#elif ASPMVC
+            return "HEAD".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase);
+#endif
         }
 
         /// <summary>
@@ -106,7 +181,13 @@ namespace SrkToolkit.Web
         /// <param name="request">The request.</param>
         /// <param name="url">The URL.</param>
         /// <returns></returns>
-        public static bool IsUrlLocalToHost(this HttpRequest request, string url)
+        public static bool IsUrlLocalToHost(
+#if ASPMVCCORE
+            this HttpRequest request,
+#elif ASPMVC
+            this HttpRequestBase request,
+#endif
+          string url)
         {
             return IsUrlLocalToHost(url);
         }
@@ -127,12 +208,23 @@ namespace SrkToolkit.Web
         /// <param name="request">The request.</param>
         /// <returns>true if the first accept type is JSON; otherwise, false</returns>
         /// <exception cref="System.ArgumentNullException">request</exception>
-        public static bool PrefersJson(this HttpRequest request)
+        public static bool PrefersJson(
+#if ASPMVCCORE
+            this HttpRequest request
+#elif ASPMVC
+            this HttpRequestBase request
+#endif
+            )
         {
             if (request == null)
                 throw new ArgumentNullException("request");
 
+
+#if ASPMVCCORE
             return PrefersJson(request.Headers["Accept"]);
+#elif ASPMVC
+            return PrefersJson(request.AcceptTypes);
+#endif
         }
 
         private static bool PrefersJson(string[] acceptTypes)

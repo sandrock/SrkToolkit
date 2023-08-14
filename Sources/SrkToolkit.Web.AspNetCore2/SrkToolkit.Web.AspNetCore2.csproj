@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <LangVersion>default</LangVersion>
+    <LangVersion>10</LangVersion>
     <RootNamespace>SrkToolkit.Web</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>2.0.147-preview2</Version>
@@ -91,7 +91,6 @@
     <Compile Remove="SrkHttpApplication.cs" />
     <None Include="SrkHttpApplication.cs" />
     <Compile Remove="JsonNetResult.cs" />
-    <None Include="JsonNetResult.cs" />
     <Compile Remove="Services\ResultServiceBase.cs" />
     <None Include="Services\ResultServiceBase.cs" />
     <Compile Remove="Services\ResultService.cs" />
@@ -122,10 +121,6 @@
     <None Include="Filters\AuthorizeAttribute.cs" />
     <Compile Remove="System.Web.Mvc\SrkTagBuilderExtensions.cs" />
     <Compile Remove="System.Web.Mvc\SrkViewExtensions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="System.Web.Mvc" />
   </ItemGroup>
 
   <ItemGroup>

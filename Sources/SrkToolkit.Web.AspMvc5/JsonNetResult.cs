@@ -16,7 +16,6 @@
 
 namespace SrkToolkit.Web
 {
-    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Diagnostics;
     using System.Runtime.Serialization.Json;
@@ -60,7 +59,7 @@ namespace SrkToolkit.Web
         /// <value>
         /// The JSON serializer.
         /// </value>
-        public static Action<object, HttpResponse> Serializer { get; set; }
+        public static Action<object, HttpResponseBase> Serializer { get; set; }
 
         /// <summary>
         /// Gets or sets the content encoding.

@@ -13,7 +13,12 @@ namespace SrkToolkit.Common.Tests
     {
         public class GetCountriesMethod
         {
-            static IList<RegionInfo> countries = CultureInfoHelper.GetCountries();
+            private IList<RegionInfo> countries;
+
+            public GetCountriesMethod()
+            {
+                this.countries = CultureInfoHelper.GetCountries();
+            }
 
             [Fact]
             public void HasUK()

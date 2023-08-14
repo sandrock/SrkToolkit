@@ -34,6 +34,7 @@ namespace SrkToolkit.Globalization
         /// Based on Windows CultureInfos, returns a list of all countries.
         /// </summary>
         /// <returns></returns>
+        [Obsolete("This method has unexpected results depending on the execution environment. Have your own unit tests to ensure the results are okay for you. ")]
         public static IList<RegionInfo> GetCountries()
         {
             if (countriesCache.ContainsKey(CultureInfo.CurrentCulture))

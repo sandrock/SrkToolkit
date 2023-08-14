@@ -17,20 +17,18 @@
 namespace SrkToolkit.Services.Tests
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Linq;
     using System.Threading.Tasks;
+    using Xunit;
 
-    [TestClass]
-    public class ApplicationServicesTests
+    public class ApplicationServicesTests : IDisposable
     {
-        [TestCleanup]
-        public void Cleanup()
+        public void Dispose()
         {
             ApplicationServices.Clear();
         }
 
-        [TestMethod, TestCategory(Category.Unit)]
+        [Fact, Trait("TestCategory", Category.Unit)]
         public void RegisterInstanceAndResolve()
         {
             // prepare
@@ -42,10 +40,10 @@ namespace SrkToolkit.Services.Tests
             resolved = ApplicationServices.Resolve<InterfaceA>();
 
             // verify
-            Assert.AreEqual(subject, resolved);
+            Assert.Equal(subject, resolved);
         }
 
-        [TestMethod, TestCategory(Category.Unit), ExpectedException(typeof(ArgumentException))]
+        [Fact, Trait("TestCategory", Category.Unit)]
         public void CannotRegisterAgain()
         {
             // prepare
@@ -54,10 +52,10 @@ namespace SrkToolkit.Services.Tests
 
             // execute
             ApplicationServices.Register<InterfaceA, ClassA>(subject1);
-            ApplicationServices.Register<InterfaceA, ClassA>(subject2);
+            Assert.Throws<ArgumentException>(() => ApplicationServices.Register<InterfaceA, ClassA>(subject2));
         }
 
-        [TestMethod, TestCategory(Category.Unit)]
+        [Fact, Trait("TestCategory", Category.Unit)]
         public void RegisterNewAndResolve()
         {
             // prepare
@@ -69,17 +67,17 @@ namespace SrkToolkit.Services.Tests
             resolved = ApplicationServices.Resolve<InterfaceA>();
 
             // verify
-            Assert.IsNotNull(resolved);
-            Assert.IsInstanceOfType(resolved, typeof(ClassA));
+            Assert.NotNull(resolved);
+            Assert.IsType<ClassA>(resolved);
 
             // execute again
             resolved1 = ApplicationServices.Resolve<InterfaceA>();
 
             // verify
-            Assert.AreSame(resolved1, resolved);
+            Assert.Same(resolved1, resolved);
         }
 
-        [TestMethod, TestCategory(Category.Unit)]
+        [Fact, Trait("TestCategory", Category.Unit)]
         public void RegisterClassInstanceAndResolve()
         {
             // prepare
@@ -92,18 +90,18 @@ namespace SrkToolkit.Services.Tests
             resolved = ApplicationServices.Resolve<ClassA>();
 
             // verify
-            Assert.IsNotNull(resolved);
-            Assert.IsInstanceOfType(resolved, typeof(ClassA));
-            Assert.AreSame(instance, resolved);
+            Assert.NotNull(resolved);
+            Assert.IsType<ClassA>(resolved);
+            Assert.Same(instance, resolved);
 
             // execute again
             resolved1 = ApplicationServices.Resolve<ClassA>();
 
             // verify
-            Assert.AreSame(instance, resolved1);
+            Assert.Same(instance, resolved1);
         }
 
-        [TestMethod, TestCategory(Category.Unit)]
+        [Fact, Trait("TestCategory", Category.Unit)]
         public void RegisterFactoryAndResolve()
         {
             // prepare
@@ -116,26 +114,24 @@ namespace SrkToolkit.Services.Tests
             resolved = ApplicationServices.Resolve<InterfaceA>();
 
             // verify
-            Assert.IsNotNull(resolved);
-            Assert.IsInstanceOfType(resolved, typeof(ClassA));
+            Assert.NotNull(resolved);
+            Assert.IsType<ClassA>(resolved);
 
             // execute again
             resolved1 = ApplicationServices.Resolve<InterfaceA>();
 
             // verify
-            Assert.AreSame(resolved1, resolved);
+            Assert.Same(resolved1, resolved);
         }
 
-        [TestClass]
-        public class ExecuteIfRegisteredMethod
+        public class ExecuteIfRegisteredMethod : IDisposable
         {
-            [TestCleanup]
-            public void Cleanup()
+            public void Dispose()
             {
                 ApplicationServices.Clear();
             }
 
-            [TestMethod]
+            [Fact]
             public void DoesNothingIfNotRegistered()
             {
                 // prepare
@@ -145,10 +141,10 @@ namespace SrkToolkit.Services.Tests
                 result = ApplicationServices.ExecuteIfRegistered<InterfaceA>(a => a.Run());
 
                 // verify
-                Assert.IsFalse(result);
+                Assert.False(result);
             }
 
-            [TestMethod]
+            [Fact]
             public void WorksIfRegistered()
             {
                 // prepare
@@ -161,11 +157,11 @@ namespace SrkToolkit.Services.Tests
                 result = ApplicationServices.ExecuteIfRegistered<InterfaceA>(a => a.Run());
 
                 // verify
-                Assert.IsTrue(result);
-                Assert.IsTrue(instance.Ran);
+                Assert.True(result);
+                Assert.True(instance.Ran);
             }
 
-            [TestMethod]
+            [Fact]
             public void WorksIfInstantiated()
             {
                 // prepare
@@ -179,21 +175,19 @@ namespace SrkToolkit.Services.Tests
                 result = ApplicationServices.ExecuteIfRegistered<InterfaceA>(a => a.Run());
 
                 // verify
-                Assert.IsTrue(result);
-                Assert.IsTrue(instance.Ran);
+                Assert.True(result);
+                Assert.True(instance.Ran);
             }
         }
 
-        [TestClass]
-        public class ExecuteIfReadyMethod
+        public class ExecuteIfReadyMethod : IDisposable
         {
-            [TestCleanup]
-            public void Cleanup()
+            public void Dispose()
             {
                 ApplicationServices.Clear();
             }
 
-            [TestMethod]
+            [Fact]
             public void DoesNothingIfNotRegistered()
             {
                 // prepare
@@ -203,10 +197,10 @@ namespace SrkToolkit.Services.Tests
                 result = ApplicationServices.ExecuteIfReady<InterfaceA>(a => a.Run());
 
                 // verify
-                Assert.IsFalse(result);
+                Assert.False(result);
             }
 
-            [TestMethod]
+            [Fact]
             public void DoesNothingIfRegisteredAndNotReady()
             {
                 // prepare
@@ -219,11 +213,11 @@ namespace SrkToolkit.Services.Tests
                 result = ApplicationServices.ExecuteIfReady<InterfaceA>(a => a.Run());
 
                 // verify
-                Assert.IsFalse(result);
-                Assert.IsFalse(instance.Ran);
+                Assert.False(result);
+                Assert.False(instance.Ran);
             }
 
-            [TestMethod]
+            [Fact]
             public void WorksIfInstantiated()
             {
                 // prepare
@@ -237,21 +231,19 @@ namespace SrkToolkit.Services.Tests
                 result = ApplicationServices.ExecuteIfReady<InterfaceA>(a => a.Run());
 
                 // verify
-                Assert.IsTrue(result);
-                Assert.IsTrue(instance.Ran);
+                Assert.True(result);
+                Assert.True(instance.Ran);
             }
         }
 
-        [TestClass]
-        public class RegisterFactoryMethod
+        public class RegisterFactoryMethod : IDisposable
         {
-            [TestCleanup]
-            public void Cleanup()
+            public void Dispose()
             {
                 ApplicationServices.Clear();
             }
 
-            [TestMethod]
+            [Fact]
             public void ResolvesNewInstanceAtEachResolveCall()
             {
                 // prepare
@@ -264,27 +256,25 @@ namespace SrkToolkit.Services.Tests
                 resolved = ApplicationServices.Resolve<InterfaceA>();
 
                 // verify
-                Assert.IsNotNull(resolved);
-                Assert.IsInstanceOfType(resolved, typeof(ClassA));
+                Assert.NotNull(resolved);
+                Assert.IsType<ClassA>(resolved);
 
                 // execute again
                 resolved1 = ApplicationServices.Resolve<InterfaceA>();
 
                 // verify
-                Assert.AreNotSame(resolved1, resolved);
+                Assert.NotSame(resolved1, resolved);
             }
         }
 
-        [TestClass]
-        public class SyncRootMethod
+        public class SyncRootMethod : IDisposable
         {
-            [TestCleanup]
-            public void Cleanup()
+            public void Dispose()
             {
                 ApplicationServices.Clear();
             }
 
-            [TestMethod]
+            [Fact]
             public void AllowThreadSafeRegistration()
             {
                 // prepare
@@ -305,7 +295,7 @@ namespace SrkToolkit.Services.Tests
 
                 // verify
                 var resolved1 = ApplicationServices.Resolve<InterfaceA>();
-                Assert.IsNotNull(resolved1);
+                Assert.NotNull(resolved1);
             }
         }
 

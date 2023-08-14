@@ -17,65 +17,62 @@
 namespace SrkToolkit.Services.Tests
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     ///This is a test class for <see cref="AppEventBus"/> and is intended
     ///to contain all <see cref="AppEventBus"/> Unit Tests
     ///</summary>
-    [TestClass()]
     public class AppEventBusTest
     {
-        [TestClass]
         public class RegisterMethod
         {
-            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            [Fact]
             public void ValidatesInputs0()
             {
                 Action<object, DateTime> action = null;
-                new AppEventBus().Register(action);
+                Assert.Throws<ArgumentNullException>(() => new AppEventBus().Register(action));
             }
 
-            [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+            [Fact]
             public void ValidatesInputs1()
             {
                 Action<object, DateTime> action = (s, e) => { };
-                new AppEventBus().Register(action, null);
+                Assert.Throws<ArgumentNullException>(() => new AppEventBus().Register(action, null));
             }
 
-            [TestMethod, TestCategory(Category.Unit)]
+            [Fact, Trait("TestCategory", Category.Unit)]
             public void ReturnsDisposable0()
             {
                 Action<object, DateTime> action = (s, e) => { };
                 var result = new AppEventBus().Register(action);
 
-                Assert.IsNotNull(result);
+                Assert.NotNull(result);
                 result.Dispose();
-                Assert.IsTrue(result.IsDisposed);
+                Assert.True(result.IsDisposed);
             }
 
-            [TestMethod, TestCategory(Category.Unit)]
+            [Fact, Trait("TestCategory", Category.Unit)]
             public void ReturnsDisposable1()
             {
                 Action<object, DateTime> action = (s, e) => { };
                 var result = new AppEventBus().Register(action, new object());
 
-                Assert.IsNotNull(result);
+                Assert.NotNull(result);
                 result.Dispose();
-                Assert.IsTrue(result.IsDisposed);
+                Assert.True(result.IsDisposed);
             }
         }
 
-        [TestClass]
         public class PublishMethod
         {
-            [TestMethod, TestCategory(Category.Unit)]
+            [Fact, Trait("TestCategory", Category.Unit)]
             public void DoesNothingIfNoRegistrations()
             {
                 new AppEventBus().Publish(new object(), new object());
             }
 
-            [TestMethod, TestCategory(Category.Unit)]
+            [Fact, Trait("TestCategory", Category.Unit)]
             public void PublishesToAllRegistered()
             {
                 // prepare
@@ -88,11 +85,11 @@ namespace SrkToolkit.Services.Tests
                 bus.Publish(new object(), DateTime.Now);
 
                 // verify
-                Assert.IsTrue(a);
-                Assert.IsTrue(b);
+                Assert.True(a);
+                Assert.True(b);
             }
 
-            [TestMethod, TestCategory(Category.Unit)]
+            [Fact, Trait("TestCategory", Category.Unit)]
             public void DoesNotPublishToOthers()
             {
                 // prepare
@@ -106,12 +103,12 @@ namespace SrkToolkit.Services.Tests
                 bus.Publish(new object(), DateTime.Now);
 
                 // verify
-                Assert.IsTrue(a);
-                Assert.IsTrue(b);
-                Assert.IsFalse(c);
+                Assert.True(a);
+                Assert.True(b);
+                Assert.False(c);
             }
 
-            [TestMethod, TestCategory(Category.Unit)]
+            [Fact, Trait("TestCategory", Category.Unit)]
             public void DoesNotPublishToSelf()
             {
                 // prepare
@@ -126,12 +123,12 @@ namespace SrkToolkit.Services.Tests
                 bus.Publish(o1, DateTime.Now);
 
                 // verify
-                Assert.IsTrue(a);
-                Assert.IsFalse(b);
-                Assert.IsTrue(c);
+                Assert.True(a);
+                Assert.False(b);
+                Assert.True(c);
             }
 
-            [TestMethod, TestCategory(Category.Unit)]
+            [Fact, Trait("TestCategory", Category.Unit)]
             public void WorksManyTimes()
             {
                 // prepare
@@ -146,27 +143,27 @@ namespace SrkToolkit.Services.Tests
                 bus.Publish(o1, DateTime.Now);
 
                 // verify
-                Assert.IsTrue(a);
-                Assert.IsFalse(b);
-                Assert.IsFalse(c);
+                Assert.True(a);
+                Assert.False(b);
+                Assert.False(c);
 
                 // execute
                 a = b = c = false;
                 bus.Publish(o1, DateTime.Now);
 
                 // verify
-                Assert.IsTrue(a);
-                Assert.IsFalse(b);
-                Assert.IsFalse(c);
+                Assert.True(a);
+                Assert.False(b);
+                Assert.False(c);
 
                 // execute
                 a = b = c = false;
                 bus.Publish(o1, DateTime.Now);
 
                 // verify
-                Assert.IsTrue(a);
-                Assert.IsFalse(b);
-                Assert.IsFalse(c);
+                Assert.True(a);
+                Assert.False(b);
+                Assert.False(c);
             }
         }
     }

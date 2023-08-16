@@ -6,20 +6,21 @@
     <TargetFrameworks>net40;net7.0;netstandard2.0</TargetFrameworks>
     <LangVersion>9</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.147-preview2</Version>
+    <Version>2.0.148-preview2</Version>
     <Authors>SandRock, pyDez</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Description>SrkToolkit.Common contains various extension methods, validators and utility classes.</Description>
     <PackageProjectUrl>https://github.com/sandrock/SrkToolkit/</PackageProjectUrl>
     <PackageTags>SrkToolkit extension method extensions methods dataannotations validation</PackageTags>
-    <PackageReleaseNotes>Preview 1 of SrkToolkit v2. Not ready for production; use at your own risk. </PackageReleaseNotes>
+    <PackageReleaseNotes>Preview 2 of SrkToolkit v2. Not ready for production; use at your own risk. </PackageReleaseNotes>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
+    <FileVersion>2.0.148.0</FileVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SrkToolkit.snk</AssemblyOriginatorKeyFile>
     <RootNamespace>SrkToolkit</RootNamespace>
     <PackageIcon>logo-200.png</PackageIcon>
     <PackageReadmeFile>SrkToolkit.Common.md</PackageReadmeFile>
+    <IsPublishable>true</IsPublishable>
   </PropertyGroup>
 
   <ItemGroup>

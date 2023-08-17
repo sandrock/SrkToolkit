@@ -1,0 +1,169 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>10</LangVersion>
+    <Description>SrkToolkit.Web for .NET 4.5 and ASP MVC 5</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <TargetFrameworks>net472;net462</TargetFrameworks>
+    <Version>2.0.148-preview2</Version>
+    <Authors>SandRock</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Description>SrkToolkit.Web.AspMvc5 is a bunch of extensions and components to use with your ASP MVC project.</Description>
+    <PackageProjectUrl>https://github.com/sandrock/SrkToolkit/</PackageProjectUrl>
+    <PackageReleaseNotes>Preview 1 of SrkToolkit v2. Not ready for production; use at your own risk. </PackageReleaseNotes>
+    <PackageTags>SrkToolkit AspMvc AspMvcCore MVC Html NavigationLine TempData TempMessage WebDependencies AuthorizeAttribute OpenGraph DisplayDate DisplayTime</PackageTags>
+    <PackageIcon>logo-200.png</PackageIcon>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.148.0</FileVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\SrkToolkit.snk</AssemblyOriginatorKeyFile>
+    <PackageReadmeFile>SrkToolkit.Web.md</PackageReadmeFile>
+    <IsPublishable>true</IsPublishable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DefineConstants>TRACE;ASPMVC</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DefineConstants>TRACE;ASPMVC</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\logo-200.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+      <Link>logo-200.png</Link>
+    </None>
+    <None Include="..\SrkToolkit.snk">
+      <Link>SrkToolkit.snk</Link>
+    </None>
+    <Content Include="..\..\Wiki\SrkToolkit.Web.md">
+      <PackagePath></PackagePath>
+      <Link>SrkToolkit.Web.md</Link>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions" Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net45'">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\microsoft.extensions.hosting.abstractions\2.0.0\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net45'" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net45'" />
+    <Reference Include="System.Web.Extensions" Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net45'" />
+    <Reference Include="System.Web.Routing" Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net45'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SrkToolkit.Common\SrkToolkit.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Fakes\" />
+    <Folder Include="Filters\" />
+    <Folder Include="HttpErrors\" />
+    <Folder Include="Models\" />
+    <Folder Include="Mvc\" />
+    <Folder Include="Services\" />
+    <Folder Include="System.Web.Mvc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\Fakes\Dummy.cs">
+      <Link>Fakes\Dummy.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\Filters\Dummy.cs">
+      <Link>Filters\Dummy.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\HttpErrors\Dummy.cs">
+      <Link>HttpErrors\Dummy.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\Internals.cs">
+      <Link>Internals.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\Models\HttpErrorModel.cs">
+      <Link>Models\HttpErrorModel.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\Models\NavigationLine.cs">
+      <Link>Models\NavigationLine.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\Models\NavigationLineEntry.cs">
+      <Link>Models\NavigationLineEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\Models\TempMessage.cs">
+      <Link>Models\TempMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\Mvc\DecimalModelBinder.cs">
+      <Link>Mvc\DecimalModelBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\Mvc\Dummy.cs">
+      <Link>Mvc\Dummy.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\Mvc\IntegerModelBinder.cs">
+      <Link>Mvc\IntegerModelBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\Services\DictionarySessionServiceSource.cs">
+      <Link>Services\DictionarySessionServiceSource.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkControllerExtensions.cs">
+      <Link>SrkControllerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkHttpApplication.cs">
+      <Link>SrkHttpApplication.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkHttpApplication.tt.cs">
+      <Link>SrkHttpApplication.tt.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkHttpContextExtensions.cs">
+      <Link>SrkHttpContextExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkHttpRequestExtensions.cs">
+      <Link>SrkHttpRequestExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkMvcCollectionExtensions.cs">
+      <Link>SrkMvcCollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkRequestExtensions.cs">
+      <Link>SrkRequestExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkTagBuilderExtensions.cs">
+      <Link>SrkTagBuilderExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkTempDataDictionaryExtensions.cs">
+      <Link>SrkTempDataDictionaryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkUrlHelperExtensions.cs">
+      <Link>SrkUrlHelperExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkViewExtensions.cs">
+      <Link>SrkViewExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\WebDependencies.cs">
+      <Link>WebDependencies.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\WebDependenciesExtensions.cs">
+      <Link>WebDependenciesExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\WebDependency.cs">
+      <Link>WebDependency.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Web.AspNetCore2\WebDependencyFile.cs">
+      <Link>WebDependencyFile.cs</Link>
+    </Compile>
+<!--    <Compile Include="Properties\AssemblyInfo.cs" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\SrkToolkit.Web.AspNetCore2\SrkHttpApplication.tt">
+      <Link>SrkHttpApplication.tt</Link>
+    </Content>
+  </ItemGroup>
+
+</Project>

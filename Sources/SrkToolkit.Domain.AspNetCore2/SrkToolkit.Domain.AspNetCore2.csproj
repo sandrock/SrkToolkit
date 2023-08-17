@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>SrkToolkit.Domain.AspNetCore2</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.0.148-preview2</Version>
+    <Authors>SandRock</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Description>SrkToolkit.Domain.AspNetCore2 contains extension methods for SrkToolkit.Domain in the context of a ASP MVC Core application.</Description>
+    <PackageProjectUrl>https://github.com/sandrock/SrkToolkit/</PackageProjectUrl>
+    <PackageReleaseNotes>Preview 1 of SrkToolkit v2. Not ready for production; use at your own risk. </PackageReleaseNotes>
+    <PackageTags>SrkToolkit domain AspMvcCore</PackageTags>
+    <PackageIcon>logo-200.png</PackageIcon>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.148.0</FileVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\SrkToolkit.snk</AssemblyOriginatorKeyFile>
+    <PackageReadmeFile>SrkToolkit.Domain.md</PackageReadmeFile>
+    <TargetFrameworks>net7.0;netstandard2.0</TargetFrameworks>
+    <IsPublishable>true</IsPublishable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\logo-200.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+      <Link>logo-200.png</Link>
+    </None>
+    <None Include="..\SrkToolkit.snk">
+      <Link>SrkToolkit.snk</Link>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SrkToolkit.Domain\SrkToolkit.Domain.csproj" PackageVersion="[2.0.0, 3.0.0)" />
+    <ProjectReference Include="..\SrkToolkit.Web.AspNetCore2\SrkToolkit.Web.AspNetCore2.csproj" PackageVersion="[2.0.0, 3.0.0)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\Wiki\SrkToolkit.Domain.md">
+      <PackagePath></PackagePath>
+      <Link>SrkToolkit.Domain.md</Link>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="UseExplicitPackageVersions" BeforeTargets="GenerateNuspec">
+    <ItemGroup>
+      <_ProjectReferenceWithExplicitPackageVersion Include="@(ProjectReference->'%(FullPath)')" Condition="'%(ProjectReference.PackageVersion)' != ''" />
+      <_ProjectReferenceWithExactPackageVersion Include="@(ProjectReference->'%(FullPath)')" Condition="'%(ProjectReference.ExactVersion)' == 'true'" />
+      <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)" Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExplicitPackageVersion)'">
+        <ProjectVersion>@(_ProjectReferenceWithExplicitPackageVersion->'%(PackageVersion)')</ProjectVersion>
+      </_ProjectReferenceWithReassignedVersion>
+      <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)" Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExactPackageVersion)'">
+        <ProjectVersion>[@(_ProjectReferencesWithVersions->'%(ProjectVersion)')]</ProjectVersion>
+      </_ProjectReferenceWithReassignedVersion>
+      <_ProjectReferencesWithVersions Remove="@(_ProjectReferenceWithReassignedVersion)" />
+      <_ProjectReferencesWithVersions Include="@(_ProjectReferenceWithReassignedVersion)" />
+    </ItemGroup>
+  </Target>
+</Project>

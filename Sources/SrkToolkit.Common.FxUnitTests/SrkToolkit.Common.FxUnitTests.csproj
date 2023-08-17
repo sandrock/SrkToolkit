@@ -1,0 +1,127 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="Should" Version="1.1.20" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.1.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SrkToolkit.Common\SrkToolkit.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="EnumStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\SrkToolkit.Common.CoreUnitTests\EnumStrings.fr.resx">
+      <Link>EnumStrings.fr.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\SrkToolkit.Common.CoreUnitTests\EnumStrings.resx">
+      <Link>EnumStrings.resx</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\AssertTests.cs">
+      <Link>AssertTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\CompositeDisposableTests.cs">
+      <Link>CompositeDisposableTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\CultureInfoHelperTests.cs">
+      <Link>CultureInfoHelperTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\DataAnnotations\CultureInfoAttributeTests.cs">
+      <Link>DataAnnotations\CultureInfoAttributeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\DataAnnotations\EmailAddressExAttributeTests.cs">
+      <Link>DataAnnotations\EmailAddressExAttributeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\DataAnnotations\PhoneNumberAttributeTests.cs">
+      <Link>DataAnnotations\PhoneNumberAttributeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\DataAnnotations\TimezoneAttributeTests.cs">
+      <Link>DataAnnotations\TimezoneAttributeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\DataAnnotations\TwitterUsernameAttributeTests.cs">
+      <Link>DataAnnotations\TwitterUsernameAttributeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\DateRangeAttributeTests.cs">
+      <Link>DateRangeAttributeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\DictionaryWrapperTests.cs">
+      <Link>DictionaryWrapperTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\DisaposableOnceTests.cs">
+      <Link>DisaposableOnceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\EmailAddressAttributeTests.cs">
+      <Link>EmailAddressAttributeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\EmailAddressTests.cs">
+      <Link>EmailAddressTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\EnumStrings.Designer.cs">
+      <Link>EnumStrings.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\EnumToolsTests.cs">
+      <Link>EnumToolsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\ObservableCollectionExtensionsTests.cs">
+      <Link>ObservableCollectionExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\RetryLogicTests.NET4.cs">
+      <Link>RetryLogicTests.NET4.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\SrkArrayExtensionsTests.cs">
+      <Link>SrkArrayExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\SrkDateTimeExtensionsTests.cs">
+      <Link>SrkDateTimeExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\SrkIDictionaryExtensionsTests.cs">
+      <Link>SrkIDictionaryExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\SrkIListExtensionsTests.cs">
+      <Link>SrkIListExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\SrkNameValueCollectionExtensions.cs">
+      <Link>SrkNameValueCollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\SrkStringExtensionsTests.cs">
+      <Link>SrkStringExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\SrkStringTransformer.cs">
+      <Link>SrkStringTransformer.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\SrkTimeZoneInfoExtensionsTests.cs">
+      <Link>SrkTimeZoneInfoExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\StringReplacerTests.cs">
+      <Link>StringReplacerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\SrkToolkit.Common.CoreUnitTests\ValidateTEsts.cs">
+      <Link>ValidateTEsts.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+
+</Project>

@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <TargetFrameworks>net46;net7.0;netstandard2.0</TargetFrameworks>
+    <LangVersion>9</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.0.148-preview2</Version>
+    <Authors>SandRock</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Description>SrkToolkit.Domain is used in your domain layer to provider RPC-style request and result classes.</Description>
+    <PackageProjectUrl>https://github.com/sandrock/SrkToolkit/</PackageProjectUrl>
+    <PackageReleaseNotes>Preview 1 of SrkToolkit v2. Not ready for production; use at your own risk. </PackageReleaseNotes>
+    <PackageTags>SrkToolkit domain</PackageTags>
+    <PackageIcon>logo-200.png</PackageIcon>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.148.0</FileVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\SrkToolkit.snk</AssemblyOriginatorKeyFile>
+    <PackageReadmeFile>SrkToolkit.Domain.md</PackageReadmeFile>
+    <IsPublishable>true</IsPublishable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DefineConstants>TRACE;ASS_DOMAIN</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DefineConstants>TRACE;ASS_DOMAIN</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\logo-200.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+      <Link>logo-200.png</Link>
+    </None>
+    <None Include="..\SrkToolkit.snk">
+      <Link>SrkToolkit.snk</Link>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SrkToolkit.Common\EnumTools.cs">
+      <Link>Internals\EnumTools.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\Wiki\SrkToolkit.Domain.md">
+      <PackagePath></PackagePath>
+      <Link>SrkToolkit.Domain.md</Link>
+    </Content>
+  </ItemGroup>
+  
+</Project>

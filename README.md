@@ -1,8 +1,8 @@
 
-SrkToolkit
+SrkToolkit ![](Sources/logo-32.png)
 ==========
 
-Here goes another set of libraries to help out. Separated into a few assemblies to avoid loading too much stuff in your app.
+Here goes another set of libraries to help out: SandRock's toolkit. Separated into a few assemblies to avoid loading too much stuff in your app.
 
 License: Apache License Version 2.0
 
@@ -11,19 +11,52 @@ Branches
 --------------------
 
 - `release/2.0` current major release (WIP)
+    - `dev/v2.0.0` current development effort
 - `release/1.2` previous release (hotfixes only)
 - `release/1.1` old release (hotfixes only)
 
 
-
-Assemblies
+Assemblies and nugets
 --------------------
+
+### v2.0 (netstandard2.0 and AspNetCore, keep partial support for net46) - "near stable" 
+
+Keep support for latest .NET Framework and MVC5, full support for AspNetCore.  
+
+WARNING: work is in progress
+
+| Assembly                                                 | FX                            | Nuget                                                                            | Remark |
+|----------------------------------------------------------|-------------------------------|----------------------------------------------------------------------------------|--------|
+| [SrkToolkit.Common](Wiki/SrkToolkit.Common.md)           | net46, netstandard2.0, net7.0 | [nuget](https://www.nuget.org/packages/SrkToolkit.Common) prerelease             |        |
+| [SrkToolkit.Domain](Wiki/SrkToolkit.Domain.md)           | net46, netstandard2.0, net7.0 | [nuget](https://www.nuget.org/packages/SrkToolkit.Domain) prerelease             |        |
+| [SrkToolkit.Web.AspMvcCore2](Wiki/SrkToolkit.Web.md)     | netstandard2.0, net7.0        | [nuget](https://www.nuget.org/packages/SrkToolkit.Web.AspMvcCore2) prerelease    |        |
+| SrkToolkit.Domain.AspMvcCore2                            | netstandard2.0, net7.0,       | [nuget](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvcCore2) prerelease |        |
+
+
+### v1.2 (support for net40 and MVC 4, net45 and MVC 5, netstandard2.0) - "stable" 
+
+Keep support for many .NET Framework and MVC5, growing support for newer .NET.
 
 | Assembly                                                 | FX                           | Nuget                                                     | Remark |
 |----------------------------------------------------------|------------------------------|-----------------------------------------------------------|--------|
 | [SrkToolkit.Common](Wiki/SrkToolkit.Common.md)           | net40, net45, netstandard2.0 | [nuget](https://www.nuget.org/packages/SrkToolkit.Common) |        |
-| SrkToolkit.Common.Unsafe                                 | net40                        | |        |
 | [SrkToolkit.Domain](Wiki/SrkToolkit.Domain.md)           | net40, net45, netstandard2.0 | [nuget](https://www.nuget.org/packages/SrkToolkit.Domain) |        |
+| [SrkToolkit.Web (for ASP MVC 3)](Wiki/SrkToolkit.Web.md) | net40                        | [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc4) |        |
+| [SrkToolkit.Web (for ASP MVC 4)](Wiki/SrkToolkit.Web.md) | net45                        | [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc5) |        |
+| SrkToolkit.Domain.AspMvc3                                | net40,                       | [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc4) |        |
+| SrkToolkit.Domain.AspMvc4                                | net45                        | [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc5) |        |
+| SrkToolit.WebForms                                       | net40                        | |        |
+
+
+### v1.1 (support for net40 and MVC 4, net45 and MVC 5) - "obsolete"
+
+Support for many .NET Framework and MVC4/MVC5.
+
+| Assembly                                                 | FX                           | Nuget                                                     | Remark |
+|----------------------------------------------------------|------------------------------|-----------------------------------------------------------|--------|
+| [SrkToolkit.Common](Wiki/SrkToolkit.Common.md)           | net40, net45                 | [nuget](https://www.nuget.org/packages/SrkToolkit.Common) |        |
+| SrkToolkit.Common.Unsafe                                 | net40                        | |        |
+| [SrkToolkit.Domain](Wiki/SrkToolkit.Domain.md)           | net40, net45                 | [nuget](https://www.nuget.org/packages/SrkToolkit.Domain) |        |
 | [SrkToolkit.Web (for ASP MVC 3)](Wiki/SrkToolkit.Web.md) | net40                        | [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc4) |        |
 | [SrkToolkit.Web (for ASP MVC 4)](Wiki/SrkToolkit.Web.md) | net45                        | [nuget mvc5](https://www.nuget.org/packages/SrkToolkit.Web.AspMvc5) |        |
 | SrkToolkit.Domain.AspMvc3                                | net40,                       | [nuget mvc4](https://www.nuget.org/packages/SrkToolkit.Domain.AspMvc4) |        |
@@ -51,6 +84,14 @@ Content at-a-glance
 
 And more...
 
+
+### Request-Result-ErrorCode pattern
+
+`SrkToolkit.Domain` contains a few classes to represent API or domain operations.
+
+Use the `rrr` [code snippet](snippets/visual-studio/srk.domain.snippet) to obtain a set of types for an operation.
+
+
 ### extensions for ASP MVC
  
  - [date and time display helpers](Wiki/SrkToolkit.Web-HtmlHelpers.md) (based on timezone, standard formats, <time /> tag...)
@@ -69,6 +110,7 @@ And more...
  - `HttpRequest`: `.IsXmlHttpRequest()`, `.IsUrlLocalToHost(url)`, `IsPost()`...
 
 And more...
+
 
 Signed code
 --------------------

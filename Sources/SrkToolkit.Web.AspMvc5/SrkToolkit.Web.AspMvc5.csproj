@@ -48,12 +48,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.Extensions.Hosting.Abstractions" Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net45'">
-      <HintPath>..\..\..\..\..\..\.nuget\packages\microsoft.extensions.hosting.abstractions\2.0.0\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http" Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net45'" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net45'" />
@@ -123,9 +121,6 @@
     </Compile>
     <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkHttpContextExtensions.cs">
       <Link>SrkHttpContextExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkHttpRequestExtensions.cs">
-      <Link>SrkHttpRequestExtensions.cs</Link>
     </Compile>
     <Compile Include="..\SrkToolkit.Web.AspNetCore2\SrkMvcCollectionExtensions.cs">
       <Link>SrkMvcCollectionExtensions.cs</Link>

@@ -14,6 +14,8 @@
 // limitations under the License.
 // 
 
+using SrkToolkit.Domain.Tests.Models;
+
 namespace SrkToolkit.Domain.Tests
 {
     using SrkToolkit.Domain;
@@ -38,6 +40,19 @@ namespace SrkToolkit.Domain.Tests
                 var result = list[0].DisplayMessage;
                 Assert.Equal(expected, result);
             }
+        }
+
+        [Fact]
+        public void SucceedWhenForced()
+        {
+            var targetResult = new BasicResult<Error1>();
+            Assert.True(targetResult.Succeed);
+            targetResult.Errors.Add(Error1.Error42, "The detail.", "The error to all failed algorithms.");
+            Assert.False(targetResult.Succeed);
+            targetResult.Succeed = true;
+            Assert.True(targetResult.Succeed);
+            targetResult.Succeed = false;
+            Assert.False(targetResult.Succeed);
         }
 
         public enum Lalala

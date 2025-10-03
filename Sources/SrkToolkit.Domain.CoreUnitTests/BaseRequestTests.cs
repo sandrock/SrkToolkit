@@ -14,6 +14,8 @@
 // limitations under the License.
 // 
 
+using SrkToolkit.Domain.Tests.Models;
+
 namespace SrkToolkit.Domain.Tests
 {
     using SrkToolkit.Domain;
@@ -87,11 +89,6 @@ namespace SrkToolkit.Domain.Tests
                 var unserialized = (Request1)serializer.ReadObject(stream);
                 Assert.Equal(target.Id, unserialized.Id);
             }
-        }
-
-        public class Request1 : BaseRequest
-        {
-            public string Id { get; set; }
         }
     }
 }

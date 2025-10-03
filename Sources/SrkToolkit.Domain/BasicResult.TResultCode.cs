@@ -31,7 +31,8 @@ namespace SrkToolkit.Domain
         where TResultCode : struct
     {
         private IList<ResultError<TResultCode>> errors;
-        
+        private bool? succeed;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseResult{TRequest, TResultCode}"/> class.
         /// </summary>
@@ -53,13 +54,18 @@ namespace SrkToolkit.Domain
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the operation succeeded.
+        /// <para>Gets or sets a value indicating whether the operation succeeded.</para>
+        /// <para>When not set manually, will return a value indicating whether no error exist in the <see cref="Errors"/> collection.</para>
         /// </summary>
         /// <value>
         ///   <c>true</c> if the operation succeeded; otherwise, <c>false</c>.
         /// </value>
         [DataMember(IsRequired = false, Order = 0)]
-        public bool Succeed { get; set; }
+        public bool Succeed
+        {
+            get => succeed ?? (this.errors == null || this.errors.Count == 0);
+            set => succeed = value;
+        }
 
         IList<IResultError> IBaseResult.Errors
         {

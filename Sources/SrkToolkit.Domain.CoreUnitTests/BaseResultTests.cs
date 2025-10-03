@@ -14,6 +14,8 @@
 // limitations under the License.
 // 
 
+using SrkToolkit.Domain.Tests.Models;
+
 namespace SrkToolkit.Domain.Tests
 {
     using SrkToolkit.Domain;
@@ -52,30 +54,36 @@ namespace SrkToolkit.Domain.Tests
             }
         }
 
-        public class Request1 : BaseRequest
+        [Fact]
+        public void SucceedTrueWhenNoErrors()
         {
-            public string Id { get; set; }
+            var targetRequest = new Request1();
+            var targetResult = new Result1(targetRequest);
+            Assert.True(targetResult.Succeed);
         }
 
-        public class Result1 : BaseResult<Request1, Error1>
+        [Fact]
+        public void SucceedFalseWhenAnyError()
         {
-            public Result1()
-            {
-            }
-
-            public Result1(Request1 request)
-                : base(request)
-            {
-            }
-
-            public string Id { get; set; }
+            var targetRequest = new Request1();
+            var targetResult = new Result1(targetRequest);
+            targetResult.Errors.Add(Error1.Error42, "The detail.", "The error to all failed algorithms.");
+            Assert.False(targetResult.Succeed);
         }
 
-        public enum Error1
+        [Fact]
+        public void SucceedWhenForced()
         {
-            Unknown,
-            Error42,
-            IAmNotATeapot,
+            var targetRequest = new Request1();
+            var targetResult = new Result1(targetRequest);
+            Assert.True(targetResult.Succeed);
+            targetResult.Errors.Add(Error1.Error42, "The detail.", "The error to all failed algorithms.");
+            Assert.False(targetResult.Succeed);
+            targetResult.Succeed = true;
+            Assert.True(targetResult.Succeed);
+            targetResult.Succeed = false;
+            Assert.False(targetResult.Succeed);
         }
+
     }
 }

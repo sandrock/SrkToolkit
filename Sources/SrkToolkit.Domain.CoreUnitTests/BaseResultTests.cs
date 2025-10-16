@@ -52,6 +52,44 @@ namespace SrkToolkit.Domain.Tests
             }
         }
 
+        [Fact]
+        public void AddError_NoErrorCode_Direct()
+        {
+            var target = new BaseResult<Request1, Error1>();
+            var error = new ResultError<Error1>();
+            target.Errors.Add(error);
+            ////target.AddError(error);
+            Assert.Equal(1, target.Errors.Count);
+        }
+
+        [Fact]
+        public void AddError_ErrorCode_Direct()
+        {
+            var target = new BaseResult<Request1, Error1>();
+            var error = new ResultError<Error1>();
+            target.Errors.Add(error);
+            ////target.AddError(Lalala.Infinity, null, null);
+            Assert.Equal(1, target.Errors.Count);
+        }
+
+        [Fact]
+        public void AddError_NoErrorCode_Indirect()
+        {
+            IBaseResult target = new BaseResult<Request1, Error1>();
+            var error = new ResultError<Error1>();
+            target.Errors.Add(error);
+            Assert.Equal(1, target.Errors.Count);
+        }
+
+        [Fact]
+        public void AddError_ErrorCode_Indirect()
+        {
+            IBaseResult target = new BaseResult<Request1, Error1>();
+            var error = new ResultError<Error1>();
+            target.Errors.Add(error);
+            Assert.Equal(1, target.Errors.Count);
+        }
+
         public class Request1 : BaseRequest
         {
             public string Id { get; set; }

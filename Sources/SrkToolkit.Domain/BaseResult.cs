@@ -33,6 +33,7 @@ namespace SrkToolkit.Domain
     {
         private TRequest request;
         private IList<ResultError<TResultCode>> errors;
+        private IList<IResultError> proxy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseResult{TRequest, TResultCode}"/> class.
@@ -79,14 +80,13 @@ namespace SrkToolkit.Domain
         /// <summary>
         /// Gets a copy of the errors' collection.
         /// </summary>
+
+        [IgnoreDataMember]
         IList<IResultError> IBaseResult.Errors
         {
             get
             {
-                if (this.errors != null)
-                    return new List<IResultError>(this.errors);
-                else
-                    return new List<IResultError>(0);
+                return this.proxy ?? (this.proxy = new CollectionProxy<ResultError<TResultCode>, IResultError>(this.Errors));
             }
         }
     }

@@ -40,6 +40,44 @@ namespace SrkToolkit.Domain.Tests
             }
         }
 
+        [Fact]
+        public void AddError_NoErrorCode_Direct()
+        {
+            var target = new BasicResult();
+            var error = new BasicResultError();
+            target.Errors.Add(error);
+            ////target.AddError(error);
+            Assert.Equal(1, target.Errors.Count);
+        }
+
+        [Fact]
+        public void AddError_ErrorCode_Direct()
+        {
+            var target = new BasicResult<Lalala>();
+            var error = new ResultError<Lalala>();
+            target.Errors.Add(error);
+            ////target.AddError(Lalala.Infinity, null, null);
+            Assert.Equal(1, target.Errors.Count);
+        }
+
+        [Fact]
+        public void AddError_NoErrorCode_Indirect()
+        {
+            IBaseResult target = new BasicResult();
+            var error = new BasicResultError();
+            target.Errors.Add(error);
+            Assert.Equal(1, target.Errors.Count);
+        }
+
+        [Fact]
+        public void AddError_ErrorCode_Indirect()
+        {
+            IBaseResult target = new BasicResult<Lalala>();
+            var error = new ResultError<Lalala>();
+            target.Errors.Add(error);
+            Assert.Equal(1, target.Errors.Count);
+        }
+
         public enum Lalala
         {
             None,

@@ -24,12 +24,13 @@ namespace SrkToolkit.Domain
 
     /// <summary>
     /// Result for a domain request.
-    /// Incudes a basic error list and a success boolean.
+    /// Includes a basic error list and a success boolean.
     /// </summary>
     [DataContract(Namespace = Names.DataContractNamespace)]
     public class BasicResult : IBaseResult
     {
         private IList<BasicResultError> errors;
+        private CollectionProxy<BasicResultError,IResultError> proxy;
 
         /// <summary>
         /// Gets the errors.
@@ -38,7 +39,11 @@ namespace SrkToolkit.Domain
         public IList<BasicResultError> Errors
         {
             get { return this.errors ?? (this.errors = new List<BasicResultError>()); }
-            set { this.errors = value; }
+            set
+            {
+                this.errors = value;
+                this.proxy = null;
+            }
         }
 
         /// <summary>
@@ -52,10 +57,7 @@ namespace SrkToolkit.Domain
         {
             get
             {
-                if (this.errors != null)
-                    return new List<IResultError>(this.errors);
-                else
-                    return new List<IResultError>(0);
+                return this.proxy ?? (this.proxy = new CollectionProxy<BasicResultError, IResultError>(this.Errors));
             }
         }
     }

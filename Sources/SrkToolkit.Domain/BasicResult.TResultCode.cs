@@ -31,7 +31,8 @@ namespace SrkToolkit.Domain
         where TResultCode : struct
     {
         private IList<ResultError<TResultCode>> errors;
-        
+        private IList<IResultError> proxy;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseResult{TRequest, TResultCode}"/> class.
         /// </summary>
@@ -49,7 +50,11 @@ namespace SrkToolkit.Domain
         public IList<ResultError<TResultCode>> Errors
         {
             get { return this.errors ?? (this.errors = new List<ResultError<TResultCode>>()); }
-            set { this.errors = value; }
+            set
+            {
+                this.errors = value;
+                this.proxy = null;
+            }
         }
 
         /// <summary>
@@ -61,15 +66,22 @@ namespace SrkToolkit.Domain
         [DataMember(IsRequired = false, Order = 0)]
         public bool Succeed { get; set; }
 
+        [IgnoreDataMember]
         IList<IResultError> IBaseResult.Errors
         {
             get
             {
-                if (this.errors != null)
-                    return new List<IResultError>(this.errors);
-                else
-                    return new List<IResultError>(0);
+                return this.proxy ?? (this.proxy = new CollectionProxy<ResultError<TResultCode>, IResultError>(this.Errors));
             }
+        }
+
+        /// <summary>
+        /// Adds a new error using the specified error object (copy). 
+        /// </summary>
+        /// <param name="error"></param>
+        public void AddError(TResultCode code, string message, string detail)
+        {
+            this.Errors.Add(new ResultError<TResultCode>(code, message, detail));
         }
     }
 }

@@ -86,7 +86,7 @@ namespace SrkToolkit.Domain
         public ResultError(TEnum code, string displayMessageFormat, params object[] args)
         {
             this.Code = code;
-            this.DisplayMessage = string.Format(displayMessageFormat, args);
+            this.DisplayMessage = displayMessageFormat != null ? string.Format(displayMessageFormat, args) : null;
         }
 
         /// <summary>

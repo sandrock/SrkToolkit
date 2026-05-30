@@ -18,11 +18,10 @@ namespace SrkToolkit.Web.Services
 {
     using System;
     using System.Collections.Generic;
-    using System.Web;
     using System.Text;
 
     /// <summary>
-    /// Abstraction of <see cref="HttpSessionStateBase"/>.
+    /// Abstraction of a session key/value store.
     /// </summary>
     public interface ISessionServiceSource
     {

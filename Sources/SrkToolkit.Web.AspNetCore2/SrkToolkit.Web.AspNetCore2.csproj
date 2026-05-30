@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net7.0;netstandard2.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>10</LangVersion>
     <RootNamespace>SrkToolkit.Web</RootNamespace>
@@ -83,8 +83,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="SrkViewExtensions.cs" />
     <Compile Remove="Mvc\IntegerModelBinder.cs" />
+    <Compile Remove="Services\HttpBaseSessionServiceSource.cs" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <Compile Remove="Services\BaseSessionService.cs" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
     <None Include="Mvc\IntegerModelBinder.cs" />
     <Compile Remove="SrkTagBuilderExtensions.cs" />
     <None Include="SrkTagBuilderExtensions.cs" />
@@ -96,10 +97,7 @@
     <None Include="Services\ResultService.cs" />
     <Compile Remove="Services\ResultServiceBase.cs" />
     <None Include="Services\ResultServiceBase.cs" />
-    <Compile Remove="Services\HttpBaseSessionServiceSource.cs" />
-    <None Include="Services\HttpBaseSessionServiceSource.cs" />
-    <Compile Remove="Services\BaseSessionService.cs" />
-    <None Include="Services\BaseSessionService.cs" />
+
     <Compile Remove="Mvc\DecimalModelBinder.cs" />
     <None Include="Mvc\DecimalModelBinder.cs" />
     <Compile Remove="HttpErrors\BaseErrorController.cs" />

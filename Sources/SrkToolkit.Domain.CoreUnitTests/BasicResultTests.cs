@@ -40,13 +40,227 @@ namespace SrkToolkit.Domain.Tests
             }
         }
 
+        public class SucceedProperty
+        {
+            [Fact]
+            public void DefaultsToFalse()
+            {
+                var target = new BasicResult();
+                Assert.False(target.Succeed);
+            }
+
+            [Fact]
+            public void CanBeSetToTrue()
+            {
+                var target = new BasicResult();
+                target.Succeed = true;
+                Assert.True(target.Succeed);
+            }
+
+            [Fact]
+            public void DefaultsToFalse_Generic()
+            {
+                var target = new BasicResult<Lalala>();
+                Assert.False(target.Succeed);
+            }
+
+            [Fact]
+            public void CanBeSetToTrue_Generic()
+            {
+                var target = new BasicResult<Lalala>();
+                target.Succeed = true;
+                Assert.True(target.Succeed);
+            }
+        }
+
+        public class ErrorsProperty
+        {
+            [Fact]
+            public void EmptyByDefault()
+            {
+                var target = new BasicResult();
+                Assert.Empty(target.Errors);
+            }
+
+            [Fact]
+            public void LazilyInitialized()
+            {
+                var target = new BasicResult();
+                var first = target.Errors;
+                var second = target.Errors;
+                Assert.Same(first, second);
+            }
+
+            [Fact]
+            public void CanSetNewList()
+            {
+                var target = new BasicResult();
+                var list = new List<BasicResultError> { new BasicResultError("code", "msg") };
+                target.Errors = list;
+                Assert.Equal(1, target.Errors.Count);
+            }
+
+            [Fact]
+            public void EmptyByDefault_Generic()
+            {
+                var target = new BasicResult<Lalala>();
+                Assert.Empty(target.Errors);
+            }
+        }
+
+        public class AddErrorMethod
+        {
+            [Fact]
+            public void AddsOneError()
+            {
+                var target = new BasicResult();
+                var error = new BasicResultError("ERR01", "Something went wrong", "detail text");
+                target.AddError(error);
+                Assert.Equal(1, target.Errors.Count);
+            }
+
+            [Fact]
+            public void CopiesCode()
+            {
+                var target = new BasicResult();
+                target.AddError(new BasicResultError("ERR01", "msg", "detail"));
+                Assert.Equal("ERR01", target.Errors[0].Code);
+            }
+
+            [Fact]
+            public void CopiesDisplayMessage()
+            {
+                var target = new BasicResult();
+                target.AddError(new BasicResultError("ERR01", "Something went wrong", "detail"));
+                Assert.Equal("Something went wrong", target.Errors[0].DisplayMessage);
+            }
+
+            [Fact]
+            public void CopiesDetail()
+            {
+                var target = new BasicResult();
+                target.AddError(new BasicResultError("ERR01", "msg", "detail text"));
+                Assert.Equal("detail text", target.Errors[0].Detail);
+            }
+
+            [Fact]
+            public void CreatesNewInstance()
+            {
+                var target = new BasicResult();
+                var original = new BasicResultError("ERR01", "msg", "detail");
+                target.AddError(original);
+                Assert.NotSame(original, target.Errors[0]);
+            }
+
+            [Fact]
+            public void CanAddMultiple()
+            {
+                var target = new BasicResult();
+                target.AddError(new BasicResultError("ERR01", "First error", null));
+                target.AddError(new BasicResultError("ERR02", "Second error", null));
+                Assert.Equal(2, target.Errors.Count);
+                Assert.Equal("ERR01", target.Errors[0].Code);
+                Assert.Equal("ERR02", target.Errors[1].Code);
+            }
+
+            [Fact]
+            public void NullFieldsAreCopied()
+            {
+                var target = new BasicResult();
+                target.AddError(new BasicResultError(null, null, null));
+                Assert.Single(target.Errors);
+                Assert.Null(target.Errors[0].Code);
+                Assert.Null(target.Errors[0].DisplayMessage);
+                Assert.Null(target.Errors[0].Detail);
+            }
+        }
+
+        public class AddErrorMethod_Generic
+        {
+            [Fact]
+            public void AddsOneError()
+            {
+                var target = new BasicResult<Lalala>();
+                target.AddError(Lalala.One, "Something went wrong", "detail");
+                Assert.Equal(1, target.Errors.Count);
+            }
+
+            [Fact]
+            public void CopiesCode()
+            {
+                var target = new BasicResult<Lalala>();
+                target.AddError(Lalala.Infinity, "msg", "detail");
+                Assert.Equal(Lalala.Infinity, target.Errors[0].Code);
+            }
+
+            [Fact]
+            public void CopiesDisplayMessage()
+            {
+                var target = new BasicResult<Lalala>();
+                target.AddError(Lalala.One, "Something went wrong", "detail");
+                Assert.Equal("Something went wrong", target.Errors[0].DisplayMessage);
+            }
+
+            [Fact]
+            public void CopiesDetail()
+            {
+                var target = new BasicResult<Lalala>();
+                target.AddError(Lalala.One, "msg", "detail text");
+                Assert.Equal("detail text", target.Errors[0].Detail);
+            }
+        }
+
+        public class IBaseResultProxy
+        {
+            [Fact]
+            public void ReflectsDirectlyAddedErrors()
+            {
+                var target = new BasicResult();
+                target.Errors.Add(new BasicResultError("ERR01", "msg", null));
+                IBaseResult proxy = target;
+                Assert.Equal(1, proxy.Errors.Count);
+            }
+
+            [Fact]
+            public void ReflectsAddErrorMethod()
+            {
+                var target = new BasicResult();
+                target.AddError(new BasicResultError("ERR01", "msg", "detail"));
+                IBaseResult proxy = target;
+                Assert.Equal(1, proxy.Errors.Count);
+                Assert.Equal("ERR01", proxy.Errors[0].Code);
+            }
+
+            [Fact]
+            public void ReflectsDirectlyAddedErrors_Generic()
+            {
+                var target = new BasicResult<Lalala>();
+                target.Errors.Add(new ResultError<Lalala>());
+                IBaseResult proxy = target;
+                Assert.Equal(1, proxy.Errors.Count);
+            }
+
+            [Fact]
+            public void ProxyResetAfterSetErrors()
+            {
+                var target = new BasicResult();
+                target.Errors.Add(new BasicResultError("OLD", "old", null));
+                var _ = ((IBaseResult)target).Errors; // force proxy creation
+                var newList = new List<BasicResultError> { new BasicResultError("NEW", "new", null) };
+                target.Errors = newList;
+                IBaseResult proxy = target;
+                Assert.Equal(1, proxy.Errors.Count);
+                Assert.Equal("NEW", proxy.Errors[0].Code);
+            }
+        }
+
+        // Legacy flat tests kept for regression coverage
         [Fact]
         public void AddError_NoErrorCode_Direct()
         {
             var target = new BasicResult();
             var error = new BasicResultError();
             target.Errors.Add(error);
-            ////target.AddError(error);
             Assert.Equal(1, target.Errors.Count);
         }
 
@@ -56,7 +270,6 @@ namespace SrkToolkit.Domain.Tests
             var target = new BasicResult<Lalala>();
             var error = new ResultError<Lalala>();
             target.Errors.Add(error);
-            ////target.AddError(Lalala.Infinity, null, null);
             Assert.Equal(1, target.Errors.Count);
         }
 

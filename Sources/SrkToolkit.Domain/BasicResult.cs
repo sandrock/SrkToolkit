@@ -60,5 +60,14 @@ namespace SrkToolkit.Domain
                 return this.proxy ?? (this.proxy = new CollectionProxy<BasicResultError, IResultError>(this.Errors));
             }
         }
+
+        /// <summary>
+        /// Adds a new error using the specified error object (copy). 
+        /// </summary>
+        /// <param name="error"></param>
+        public void AddError(IResultError error)
+        {
+            this.Errors.Add(new BasicResultError(error.Code, error.DisplayMessage, error.Detail));
+        }
     }
 }

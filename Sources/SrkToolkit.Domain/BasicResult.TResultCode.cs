@@ -81,7 +81,7 @@ namespace SrkToolkit.Domain
         /// <param name="error"></param>
         public void AddError(TResultCode code, string message, string detail)
         {
-            this.Errors.Add(new ResultError<TResultCode>(code, message, detail));
+            this.Errors.Add(new ResultError<TResultCode>(code, message) { Detail = detail });
         }
     }
 }

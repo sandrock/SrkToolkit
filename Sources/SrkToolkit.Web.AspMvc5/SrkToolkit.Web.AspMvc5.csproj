@@ -6,7 +6,7 @@
     <LangVersion>10</LangVersion>
     <Description>SrkToolkit.Web for .NET 4.5 and ASP MVC 5</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <TargetFrameworks>net472;net462</TargetFrameworks>
+    <TargetFramework>net48</TargetFramework>
     <Version>2.0.148-preview2</Version>
     <Authors>SandRock</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

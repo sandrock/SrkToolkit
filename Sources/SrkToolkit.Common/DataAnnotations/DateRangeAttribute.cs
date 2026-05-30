@@ -17,20 +17,27 @@
 namespace SrkToolkit.DataAnnotations
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using SrkToolkit.Resources;
 
-    // TODO: support for netstandard
-
     /// <summary>
     /// Validates a <see cref="DateTime"/> property by specifying a lower and upper bounds.
+    /// Minimum and Maximum must be ISO 8601 strings (e.g. "2015-01-01T00:00:00" or "2015-01-01 00:00").
     /// </summary>
     public class DateRangeAttribute : ValidationAttribute
     {
+        private static readonly string[] iso8601Formats = new[]
+        {
+            "yyyy-MM-ddTHH:mm:ss",
+            "yyyy-MM-dd HH:mm:ss",
+            "yyyy-MM-ddTHH:mm",
+            "yyyy-MM-dd HH:mm",
+            "yyyy-MM-dd",
+        };
+
+        private const string ErrorDisplayFormat = "yyyy-MM-dd HH:mm:ss";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DateRangeAttribute"/> class.
         /// </summary>
@@ -40,17 +47,16 @@ namespace SrkToolkit.DataAnnotations
         {
             this.Minimum = Minimum;
             this.Maximum = Maximum;
-            this.ErrorMessageResourceName = "DateRangeAttribute_ErrorMessage_WTF";
             this.ErrorMessageResourceType = typeof(Strings);
         }
 
         /// <summary>
-        /// Gets or sets the minimum date.
+        /// Gets or sets the minimum date (ISO 8601 string).
         /// </summary>
         public string Minimum { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum date.
+        /// Gets or sets the maximum date (ISO 8601 string).
         /// </summary>
         public string Maximum { get; set; }
 
@@ -64,17 +70,18 @@ namespace SrkToolkit.DataAnnotations
         public override bool IsValid(object value)
         {
             if (value == null)
+            {
                 return true;
+            }
 
             if (value is string)
             {
                 var stringValue = (string)value;
                 if (!string.IsNullOrEmpty(stringValue))
                 {
-                    DateTime date;
-                    if (DateTime.TryParse(stringValue, out date))
+                    if (TryParseIso(stringValue, out DateTime date))
                     {
-                        value = DateTime.Parse(stringValue);
+                        value = date;
                     }
                     else
                     {
@@ -83,28 +90,33 @@ namespace SrkToolkit.DataAnnotations
                 }
             }
 
-            if (value is DateTime || value is DateTime?)
+            if (value is DateTime)
             {
-                DateTime? val = (DateTime?)value;
+                var val = (DateTime)value;
 
-                if (val != null)
+                if (this.Minimum != null)
                 {
-                    if (this.Minimum != null)
+                    if (!TryParseIso(this.Minimum, out DateTime minDate))
                     {
-                        var minDate = DateTime.Parse(this.Minimum);
-                        if (val < minDate)
-                        {
-                            return false;
-                        }
+                        throw new InvalidOperationException("DateRangeAttribute.Minimum is not a valid ISO 8601 date string: " + this.Minimum);
                     }
 
-                    if (this.Maximum != null)
+                    if (val < minDate)
                     {
-                        var maxDate = DateTime.Parse(this.Maximum);
-                        if (maxDate < val)
-                        {
-                            return false;
-                        }
+                        return false;
+                    }
+                }
+
+                if (this.Maximum != null)
+                {
+                    if (!TryParseIso(this.Maximum, out DateTime maxDate))
+                    {
+                        throw new InvalidOperationException("DateRangeAttribute.Maximum is not a valid ISO 8601 date string: " + this.Maximum);
+                    }
+
+                    if (maxDate < val)
+                    {
+                        return false;
                     }
                 }
             }
@@ -123,41 +135,58 @@ namespace SrkToolkit.DataAnnotations
         {
             if (this.Minimum != null && this.Maximum != null)
             {
-                var minDate = DateTime.Parse(this.Minimum);
-                var maxDate = DateTime.Parse(this.Maximum);
-                this.ErrorMessageResourceName = "DateRangeAttribute_ErrorMessage_MinMax";
+                if (!TryParseIso(this.Minimum, out DateTime minDate))
+                {
+                    throw new InvalidOperationException("DateRangeAttribute.Minimum is not a valid ISO 8601 date string: " + this.Minimum);
+                }
+
+                if (!TryParseIso(this.Maximum, out DateTime maxDate))
+                {
+                    throw new InvalidOperationException("DateRangeAttribute.Maximum is not a valid ISO 8601 date string: " + this.Maximum);
+                }
+
                 return string.Format(
                     CultureInfo.CurrentCulture,
-                    base.ErrorMessageString,
+                    Strings.DateRangeAttribute_ErrorMessage_MinMax,
                     name,
-                    minDate.ToString(CultureInfo.CurrentCulture),
-                    maxDate.ToString(CultureInfo.CurrentCulture));
+                    minDate.ToString(ErrorDisplayFormat, CultureInfo.InvariantCulture),
+                    maxDate.ToString(ErrorDisplayFormat, CultureInfo.InvariantCulture));
             }
             else if (this.Minimum != null)
             {
-                var minDate = DateTime.Parse(this.Minimum);
-                this.ErrorMessageResourceName = "DateRangeAttribute_ErrorMessage_Min";
+                if (!TryParseIso(this.Minimum, out DateTime minDate))
+                {
+                    throw new InvalidOperationException("DateRangeAttribute.Minimum is not a valid ISO 8601 date string: " + this.Minimum);
+                }
+
                 return string.Format(
                     CultureInfo.CurrentCulture,
-                    base.ErrorMessageString,
+                    Strings.DateRangeAttribute_ErrorMessage_Min,
                     name,
-                    minDate.ToString(CultureInfo.CurrentCulture));
+                    minDate.ToString(ErrorDisplayFormat, CultureInfo.InvariantCulture));
             }
             else if (this.Maximum != null)
             {
-                var maxDate = DateTime.Parse(this.Maximum);
-                this.ErrorMessageResourceName = "DateRangeAttribute_ErrorMessage_Max";
+                if (!TryParseIso(this.Maximum, out DateTime maxDate))
+                {
+                    throw new InvalidOperationException("DateRangeAttribute.Maximum is not a valid ISO 8601 date string: " + this.Maximum);
+                }
+
                 return string.Format(
                     CultureInfo.CurrentCulture,
-                    base.ErrorMessageString,
+                    Strings.DateRangeAttribute_ErrorMessage_Max,
                     name,
-                    maxDate.ToString(CultureInfo.CurrentCulture));
+                    maxDate.ToString(ErrorDisplayFormat, CultureInfo.InvariantCulture));
             }
             else
             {
-                this.ErrorMessageResourceName = "DateRangeAttribute_ErrorMessage_WTF";
-                return base.ErrorMessageString;
+                return string.Format(CultureInfo.CurrentCulture, Strings.DateRangeAttribute_ErrorMessage_WTF, name);
             }
+        }
+
+        private static bool TryParseIso(string value, out DateTime result)
+        {
+            return DateTime.TryParseExact(value, iso8601Formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out result);
         }
     }
 }

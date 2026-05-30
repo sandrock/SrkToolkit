@@ -1045,7 +1045,9 @@ namespace SrkToolkit.Web
             var builder = new TagBuilder("input");
             builder.MergeAttribute("type", "submit");
             builder.MergeAttribute("value", value);
-            return builder.ToHtmlString();
+            using var writer = new System.IO.StringWriter();
+            builder.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
+            return new HtmlString(writer.ToString());
         }
 
         /// <summary>
@@ -1061,7 +1063,9 @@ namespace SrkToolkit.Web
             builder.MergeAttribute("type", "submit");
             builder.MergeAttribute("name", name);
             builder.MergeAttribute("value", value);
-            return builder.ToHtmlString();
+            using var writer = new System.IO.StringWriter();
+            builder.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
+            return new HtmlString(writer.ToString());
         }
 
         /// <summary>
@@ -1080,7 +1084,9 @@ namespace SrkToolkit.Web
             builder.MergeAttribute("type", "submit");
             builder.MergeAttribute("name", name);
             builder.MergeAttribute("value", value);
-            return builder.ToHtmlString();
+            using var writer = new System.IO.StringWriter();
+            builder.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
+            return new HtmlString(writer.ToString());
         }
 
         #endregion

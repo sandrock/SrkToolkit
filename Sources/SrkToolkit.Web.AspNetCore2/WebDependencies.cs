@@ -85,6 +85,7 @@ namespace SrkToolkit.Web
             if (value.Files != null)
             {
                 using var sb = new StringWriter();
+                sb.NewLine = "\r\n";
                 for (int i = 0; i < value.Files.Count; i++)
                 {
                     RenderDependency(value.Files[i], sb);
@@ -166,6 +167,7 @@ namespace SrkToolkit.Web
         public HtmlString RenderIncludes(WebDependencyPosition position)
         {
             using var sb = new StringWriter();
+            sb.NewLine = "\r\n";
             sb.WriteLine("<!-- WebDependencies/" + position + " - start -->");
 
             if (this.includes != null && this.includes.Count > 0)
@@ -268,7 +270,6 @@ namespace SrkToolkit.Web
 #elif ASPMVC
                     sb.WriteLine(tag.ToString(TagRenderMode.SelfClosing));
 #endif
-                    sb.WriteLine();
                     break;
 
                 default:

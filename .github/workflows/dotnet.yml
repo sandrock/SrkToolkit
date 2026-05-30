@@ -10,25 +10,44 @@ on:
     branches: [ "dev/v2.0.0" ]
 
 jobs:
-  build:
-
+  build-linux:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-      working-directory: ./Sources
+        dotnet-version: 8.0.x
     - name: Setup signin key
       run: mv SrkToolkit.CI-key.snk SrkToolkit.snk
       working-directory: ./Sources
+    - name: Restore dependencies
+      run: dotnet restore SrkToolkit-v2.sln
+      working-directory: ./Sources
     - name: Build
-      run: dotnet build --no-restore -p:DelaySign=true
+      run: dotnet build SrkToolkit-v2.sln --no-restore -p:DelaySign=true
       working-directory: ./Sources
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test SrkToolkit-v2.sln --no-build --verbosity normal --framework net8.0
+      working-directory: ./Sources
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Setup signin key
+      run: mv SrkToolkit.CI-key.snk SrkToolkit.snk
+      working-directory: ./Sources
+    - name: Restore dependencies
+      run: dotnet restore SrkToolkit-v2.sln
+      working-directory: ./Sources
+    - name: Build
+      run: dotnet build SrkToolkit-v2.sln --no-restore -p:DelaySign=true
+      working-directory: ./Sources
+    - name: Test (net48)
+      run: dotnet test SrkToolkit.Common.FxUnitTests/SrkToolkit.Common.FxUnitTests.csproj --no-build --verbosity normal --framework net48
       working-directory: ./Sources

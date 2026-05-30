@@ -256,6 +256,8 @@ namespace SrkToolkit.Web.Open
             else if (tag != null)
             {
 #if ASPMVCCORE
+                if (singleTagNames.Contains(this.tagName))
+                    tag.TagRenderMode = TagRenderMode.SelfClosing;
                 tag.WriteTo(sb, HtmlEncoder.Default);
 #else
                 sb.Append(tag.ToString(singleTagNames.Contains(this.tagName) ? TagRenderMode.SelfClosing : TagRenderMode.Normal));

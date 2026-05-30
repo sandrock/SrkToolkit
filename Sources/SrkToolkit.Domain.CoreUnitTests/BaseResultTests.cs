@@ -52,41 +52,178 @@ namespace SrkToolkit.Domain.Tests
             }
         }
 
+        public class DefaultConstructor
+        {
+            [Fact]
+            public void SucceedDefaultsFalse()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                Assert.False(target.Succeed);
+            }
+
+            [Fact]
+            public void RequestIsNull()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                Assert.Null(target.Request);
+            }
+
+            [Fact]
+            public void ErrorsIsEmpty()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                Assert.Empty(target.Errors);
+            }
+        }
+
+        public class RequestConstructor
+        {
+            [Fact]
+            public void StoresRequest()
+            {
+                var request = new Request1 { Id = "42" };
+                var target = new BaseResult<Request1, Error1>(request);
+                Assert.Same(request, target.Request);
+            }
+
+            [Fact]
+            public void SucceedDefaultsFalse()
+            {
+                var request = new Request1();
+                var target = new BaseResult<Request1, Error1>(request);
+                Assert.False(target.Succeed);
+            }
+        }
+
+        public class SucceedProperty
+        {
+            [Fact]
+            public void CanBeSetToTrue()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                target.Succeed = true;
+                Assert.True(target.Succeed);
+            }
+
+            [Fact]
+            public void CanBeSetBackToFalse()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                target.Succeed = true;
+                target.Succeed = false;
+                Assert.False(target.Succeed);
+            }
+        }
+
+        public class RequestProperty
+        {
+            [Fact]
+            public void CanBeSetViaSetter()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                var request = new Request1 { Id = "99" };
+                target.Request = request;
+                Assert.Same(request, target.Request);
+            }
+
+            [Fact]
+            public void CanBeOverwritten()
+            {
+                var request1 = new Request1 { Id = "1" };
+                var request2 = new Request1 { Id = "2" };
+                var target = new BaseResult<Request1, Error1>(request1);
+                target.Request = request2;
+                Assert.Same(request2, target.Request);
+            }
+        }
+
+        public class ErrorsProperty
+        {
+            [Fact]
+            public void LazilyInitialized()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                var first = target.Errors;
+                var second = target.Errors;
+                Assert.Same(first, second);
+            }
+
+            [Fact]
+            public void CanAddDirectly()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                target.Errors.Add(new ResultError<Error1>(Error1.Error42, "msg"));
+                Assert.Equal(1, target.Errors.Count);
+            }
+
+            [Fact]
+            public void CanAddMultiple()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                target.Errors.Add(new ResultError<Error1>(Error1.Error42, "first"));
+                target.Errors.Add(new ResultError<Error1>(Error1.IAmNotATeapot, "second"));
+                Assert.Equal(2, target.Errors.Count);
+            }
+
+            [Fact]
+            public void CanSetNewList()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                var list = new List<ResultError<Error1>> { new ResultError<Error1>(Error1.Error42, "msg") };
+                target.Errors = list;
+                Assert.Equal(1, target.Errors.Count);
+                Assert.Equal(Error1.Error42, target.Errors[0].Code);
+            }
+        }
+
+        public class IBaseResultProxy
+        {
+            [Fact]
+            public void ReflectsDirectlyAddedErrors()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                target.Errors.Add(new ResultError<Error1>(Error1.Error42, "msg"));
+                IBaseResult proxy = target;
+                Assert.Equal(1, proxy.Errors.Count);
+            }
+
+            [Fact]
+            public void ReflectsErrorCode()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                target.Errors.Add(new ResultError<Error1>(Error1.IAmNotATeapot, "msg"));
+                IBaseResult proxy = target;
+                Assert.Equal(Error1.IAmNotATeapot.ToString(), proxy.Errors[0].Code);
+            }
+
+            [Fact]
+            public void ProxyResetAfterSetErrors()
+            {
+                var target = new BaseResult<Request1, Error1>();
+                target.Errors.Add(new ResultError<Error1>(Error1.Unknown, "old"));
+                var _ = ((IBaseResult)target).Errors; // force proxy creation
+                var newList = new List<ResultError<Error1>> { new ResultError<Error1>(Error1.Error42, "new") };
+                target.Errors = newList;
+                IBaseResult proxy = target;
+                Assert.Equal(1, proxy.Errors.Count);
+                Assert.Equal(Error1.Error42.ToString(), proxy.Errors[0].Code);
+            }
+        }
+
+        // Legacy flat tests kept for regression coverage
         [Fact]
-        public void AddError_NoErrorCode_Direct()
+        public void AddError_Direct()
         {
             var target = new BaseResult<Request1, Error1>();
-            var error = new ResultError<Error1>();
-            target.Errors.Add(error);
-            ////target.AddError(error);
+            target.Errors.Add(new ResultError<Error1>());
             Assert.Equal(1, target.Errors.Count);
         }
 
         [Fact]
-        public void AddError_ErrorCode_Direct()
-        {
-            var target = new BaseResult<Request1, Error1>();
-            var error = new ResultError<Error1>();
-            target.Errors.Add(error);
-            ////target.AddError(Lalala.Infinity, null, null);
-            Assert.Equal(1, target.Errors.Count);
-        }
-
-        [Fact]
-        public void AddError_NoErrorCode_Indirect()
+        public void AddError_Indirect()
         {
             IBaseResult target = new BaseResult<Request1, Error1>();
-            var error = new ResultError<Error1>();
-            target.Errors.Add(error);
-            Assert.Equal(1, target.Errors.Count);
-        }
-
-        [Fact]
-        public void AddError_ErrorCode_Indirect()
-        {
-            IBaseResult target = new BaseResult<Request1, Error1>();
-            var error = new ResultError<Error1>();
-            target.Errors.Add(error);
+            target.Errors.Add(new ResultError<Error1>());
             Assert.Equal(1, target.Errors.Count);
         }
 

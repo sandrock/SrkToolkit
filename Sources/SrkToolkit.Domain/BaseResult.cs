@@ -68,7 +68,11 @@ namespace SrkToolkit.Domain
         public IList<ResultError<TResultCode>> Errors
         {
             get { return this.errors ?? (this.errors = new List<ResultError<TResultCode>>()); }
-            set { this.errors = value; }
+            set
+            {
+                this.errors = value;
+                this.proxy = null;
+            }
         }
 
         /// <summary>

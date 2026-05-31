@@ -40,8 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="DecimalModelBinderTests.cs" />
-    <None Include="DecimalModelBinderTests.cs" />
+
     <Compile Remove="IntegerModelBinderTests.cs" />
     <None Include="IntegerModelBinderTests.cs" />
   </ItemGroup>

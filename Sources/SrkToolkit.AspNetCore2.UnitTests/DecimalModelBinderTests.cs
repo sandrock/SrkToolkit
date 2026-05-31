@@ -1,4 +1,4 @@
-﻿// 
+//
 // Copyright 2014 SandRock
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,18 +12,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 
 namespace SrkToolkit.Web.Tests
 {
     using Microsoft.AspNetCore.Mvc.ModelBinding;
-    using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
     using SrkToolkit.Web.Mvc;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Globalization;
+    using System.Linq;
     using Xunit;
 
     public class DecimalModelBinderTests
@@ -43,7 +41,7 @@ namespace SrkToolkit.Web.Tests
                     // both ',' and '.' -> one of them alone is the decimal separator
                     new Expectation<double>("1.123,456", C("en-US"), 1.123456),
                     new Expectation<double>("1.123,456", C("fr-FR"), 1123.456),
-                    
+
                     // both ',' and '.' -> one of them alone is the decimal separator
                     new Expectation<double>("1,222,123.456", C("en-US"), 1222123.456),
                     new Expectation<double>("1,222,123.456", C("fr-FR"), 1222123.456),
@@ -88,9 +86,9 @@ namespace SrkToolkit.Web.Tests
                 foreach (var expectation in doubleExpectations.Where(c => c.Culture.NumberFormat.NumberDecimalSeparator == "."))
                 {
                     object value;
-                    var valueProvider = new ValueProviderResult(expectation.Input, expectation.Input, expectation.Culture);
+                    var valueProvider = new ValueProviderResult(expectation.Input, expectation.Culture);
                     var result = target.BindModelImpl(valueProvider, out value);
-                    Assert.Equal(expectation.Expected, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
+                    Assert.True(Equals(expectation.Expected, value), "In: '" + expectation.Input + "' " + expectation.Culture.Name);
                 }
             }
 
@@ -101,9 +99,9 @@ namespace SrkToolkit.Web.Tests
                 foreach (var expectation in doubleExpectations.Where(c => c.Culture.NumberFormat.NumberDecimalSeparator == ","))
                 {
                     object value;
-                    var valueProvider = new ValueProviderResult(expectation.Input, expectation.Input, expectation.Culture);
+                    var valueProvider = new ValueProviderResult(expectation.Input, expectation.Culture);
                     var result = target.BindModelImpl(valueProvider, out value);
-                    Assert.Equal(expectation.Expected, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
+                    Assert.True(Equals(expectation.Expected, value), "In: '" + expectation.Input + "' " + expectation.Culture.Name);
                 }
             }
 
@@ -117,7 +115,7 @@ namespace SrkToolkit.Web.Tests
 
                 var target = new DecimalModelBinder<double>();
                 object value;
-                var valueProvider = new ValueProviderResult(input, input, culture);
+                var valueProvider = new ValueProviderResult(input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
                 Assert.Equal(expected, value);
                 Assert.Equal(0, result.Errors.Count);
@@ -126,14 +124,12 @@ namespace SrkToolkit.Web.Tests
             [Fact]
             public void DoubleNotNullable()
             {
-                // typical bug we don't want to see
                 string input = "";
                 var culture = C("fr-FR");
-                ////double expected = 1.2D; // instead of validation error
 
                 var target = new DecimalModelBinder<double>();
                 object value;
-                var valueProvider = new ValueProviderResult(input, input, culture);
+                var valueProvider = new ValueProviderResult(input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
                 Assert.Equal(1, result.Errors.Count);
             }
@@ -141,14 +137,13 @@ namespace SrkToolkit.Web.Tests
             [Fact]
             public void DoubleIsNullable()
             {
-                // typical bug we don't want to see
                 string input = "";
                 var culture = C("fr-FR");
-                double? expected = null; // instead of validation error
+                double? expected = null;
 
                 var target = new DecimalModelBinder<double?>();
                 object value;
-                var valueProvider = new ValueProviderResult(input, input, culture);
+                var valueProvider = new ValueProviderResult(input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
                 Assert.Equal(expected, value);
                 Assert.Equal(0, result.Errors.Count);
@@ -162,9 +157,9 @@ namespace SrkToolkit.Web.Tests
                 {
                     decimal expectedValue = (decimal)expectation.Expected;
                     object value;
-                    var valueProvider = new ValueProviderResult(expectation.Input, expectation.Input, expectation.Culture);
+                    var valueProvider = new ValueProviderResult(expectation.Input, expectation.Culture);
                     var result = target.BindModelImpl(valueProvider, out value);
-                    Assert.Equal(expectedValue, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
+                    Assert.True(Equals(expectedValue, value), "In: '" + expectation.Input + "' " + expectation.Culture.Name);
                 }
             }
 
@@ -176,9 +171,9 @@ namespace SrkToolkit.Web.Tests
                 {
                     decimal expectedValue = (decimal)expectation.Expected;
                     object value;
-                    var valueProvider = new ValueProviderResult(expectation.Input, expectation.Input, expectation.Culture);
+                    var valueProvider = new ValueProviderResult(expectation.Input, expectation.Culture);
                     var result = target.BindModelImpl(valueProvider, out value);
-                    Assert.Equal(expectedValue, value, "In: '" + expectation.Input + "' " + expectation.Culture.Name);
+                    Assert.True(Equals(expectedValue, value), "In: '" + expectation.Input + "' " + expectation.Culture.Name);
                 }
             }
 
@@ -192,7 +187,7 @@ namespace SrkToolkit.Web.Tests
 
                 var target = new DecimalModelBinder<decimal>();
                 object value;
-                var valueProvider = new ValueProviderResult(input, input, culture);
+                var valueProvider = new ValueProviderResult(input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
                 Assert.Equal(expected, value);
                 Assert.Equal(0, result.Errors.Count);
@@ -201,14 +196,12 @@ namespace SrkToolkit.Web.Tests
             [Fact]
             public void DecimalNotNullable()
             {
-                // typical bug we don't want to see
                 string input = "";
                 var culture = C("fr-FR");
-                ////double expected = 1.2D; // instead of validation error
 
                 var target = new DecimalModelBinder<decimal>();
                 object value;
-                var valueProvider = new ValueProviderResult(input, input, culture);
+                var valueProvider = new ValueProviderResult(input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
                 Assert.Equal(1, result.Errors.Count);
             }
@@ -216,14 +209,13 @@ namespace SrkToolkit.Web.Tests
             [Fact]
             public void DecimalIsNullable()
             {
-                // typical bug we don't want to see
                 string input = "";
                 var culture = C("fr-FR");
-                decimal? expected = null; // instead of validation error
+                decimal? expected = null;
 
                 var target = new DecimalModelBinder<decimal?>();
                 object value;
-                var valueProvider = new ValueProviderResult(input, input, culture);
+                var valueProvider = new ValueProviderResult(input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
                 Assert.Equal(expected, value);
                 Assert.Equal(0, result.Errors.Count);
@@ -232,15 +224,11 @@ namespace SrkToolkit.Web.Tests
             [Fact]
             public void DecimalIsNullableNull()
             {
-                // typical bug we don't want to see
-                string input = "";
-                var culture = C("fr-FR");
-                decimal? expected = null; // instead of validation error
+                decimal? expected = null;
 
                 var target = new DecimalModelBinder<decimal?>();
                 object value;
-                var valueProvider = new ValueProviderResult(input, input, culture);
-                var result = target.BindModelImpl(null, out value);
+                var result = target.BindModelImpl(ValueProviderResult.None, out value);
                 Assert.Equal(expected, value);
                 Assert.Equal(0, result.Errors.Count);
             }
@@ -254,21 +242,28 @@ namespace SrkToolkit.Web.Tests
 
                 var target = new DecimalModelBinder<decimal?>();
                 object value;
-                var valueProvider = new ValueProviderResult(input, input, culture);
+                var valueProvider = new ValueProviderResult(input, culture);
                 var result = target.BindModelImpl(valueProvider, out value);
                 Assert.Equal(expected, value);
                 Assert.Equal(0, result.Errors.Count);
             }
         }
 
-        public class RegisterMethod
+        public class ProviderMethod
         {
             [Fact]
-            public void Works()
+            public void ReturnsBinderForDecimal() => Assert.NotNull(new DecimalModelBinderProvider());
+
+            [Fact]
+            public void BinderCoversDecimalDoubleFloat()
             {
-                var binders = new ModelBinderDictionary();
-                DecimalModelBinder.Register(binders);
-                Assert.Equal(6, binders.Count);
+                // Smoke-test that the binder types can be instantiated for all covered types.
+                Assert.IsAssignableFrom<IModelBinder>(new DecimalModelBinder<decimal>());
+                Assert.IsAssignableFrom<IModelBinder>(new DecimalModelBinder<decimal?>());
+                Assert.IsAssignableFrom<IModelBinder>(new DecimalModelBinder<double>());
+                Assert.IsAssignableFrom<IModelBinder>(new DecimalModelBinder<double?>());
+                Assert.IsAssignableFrom<IModelBinder>(new DecimalModelBinder<float>());
+                Assert.IsAssignableFrom<IModelBinder>(new DecimalModelBinder<float?>());
             }
         }
 

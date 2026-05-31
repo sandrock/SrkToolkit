@@ -1,4 +1,4 @@
-﻿// 
+//
 // Copyright 2014 SandRock
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,32 +12,36 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 
 namespace SrkToolkit.Web.Mvc
 {
 #if ASPMVCCORE
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using System.Threading.Tasks;
 #endif
-    
 #if ASPMVC
-    using System.Web;
     using System.Web.Mvc;
 #endif
-
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Globalization;
-    using System.Reflection;
+    using System.Linq;
+
+    /// <summary>
+    /// Carries the result of a <see cref="DecimalModelBinder{T}.BindModelImpl"/> call.
+    /// Exposed publicly so unit tests can inspect errors without depending on MVC internals.
+    /// </summary>
+    public class DecimalModelBinderState
+    {
+        /// <summary>Gets the binding errors collected during parsing.</summary>
+        public List<Exception> Errors { get; } = new List<Exception>();
+    }
 
     /// <summary>
     /// Helps resolve culture-specific nuances in decimal inputs.
-    /// This object will play with decimal and group separators in numbers based on the user's culture.
-    /// The unit tests explains what is happaning in here.
+    /// Plays with decimal and group separators in numbers based on the request culture.
+    /// See the unit tests for a description of the handled cases.
     /// </summary>
     public class DecimalModelBinder<T> : IModelBinder
     {
@@ -77,7 +81,9 @@ namespace SrkToolkit.Web.Mvc
                     }
 
                     if (this.valueType == null)
+                    {
                         this.valueType = type;
+                    }
                 }
 
                 return this.valueType;
@@ -89,58 +95,115 @@ namespace SrkToolkit.Web.Mvc
             get
             {
                 this.valueType = this.ValueType;
-
                 return this.isNullable.GetValueOrDefault();
             }
         }
 
+#if ASPMVCCORE
+        /// <summary>
+        /// Binds the model to a value by using the specified binding context.
+        /// </summary>
+        /// <param name="bindingContext">The binding context.</param>
+        public Task BindModelAsync(ModelBindingContext bindingContext)
+        {
+            if (bindingContext == null)
+            {
+                throw new ArgumentNullException(nameof(bindingContext));
+            }
+
+            var valueResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+
+            if (valueResult == ValueProviderResult.None)
+            {
+                return Task.CompletedTask;
+            }
+
+            bindingContext.ModelState.SetModelValue(bindingContext.ModelName, valueResult);
+
+            object actualValue;
+            var state = this.BindModelImpl(valueResult, out actualValue);
+
+            if (state.Errors.Count > 0)
+            {
+                foreach (var error in state.Errors)
+                {
+                    bindingContext.ModelState.AddModelError(bindingContext.ModelName, error.Message);
+                }
+
+                bindingContext.Result = ModelBindingResult.Failed();
+            }
+            else
+            {
+                bindingContext.Result = ModelBindingResult.Success(actualValue);
+            }
+
+            return Task.CompletedTask;
+        }
+#endif
+
+#if ASPMVC
         /// <summary>
         /// Binds the model to a value by using the specified controller context and binding context.
         /// </summary>
         /// <param name="controllerContext">The controller context.</param>
         /// <param name="bindingContext">The binding context.</param>
-        /// <returns>
-        /// The bound value.
-        /// </returns>
+        /// <returns>The bound value.</returns>
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var valueResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
             object actualValue;
-            var modelState = this.BindModelImpl(valueResult, out actualValue);
+            var state = this.BindModelImpl(valueResult, out actualValue);
+
+            var modelState = new ModelState { Value = valueResult };
+            foreach (var error in state.Errors)
+            {
+                modelState.Errors.Add(error);
+            }
 
             bindingContext.ModelState.Add(bindingContext.ModelName, modelState);
             return actualValue;
         }
+#endif
 
         /// <summary>
-        /// The implementation of the <see cref="BindModel"/> method (separated for unit tests).
+        /// The core parsing implementation, separated for unit testing.
         /// </summary>
-        /// <param name="valueResult">The value result.</param>
-        /// <param name="actualValue">The actual value.</param>
-        /// <returns>the model state</returns>
-        public ModelState BindModelImpl(ValueProviderResult valueResult, out object actualValue)
+        /// <param name="valueResult">The raw value from the value provider.</param>
+        /// <param name="actualValue">The parsed value, or null on failure.</param>
+        /// <returns>A state object containing any parse errors.</returns>
+        public DecimalModelBinderState BindModelImpl(ValueProviderResult valueResult, out object actualValue)
         {
+#if ASPMVCCORE
+            if (valueResult == ValueProviderResult.None)
+#else
             if (valueResult == null)
+#endif
             {
                 actualValue = null;
-                return new ModelState();
+                return new DecimalModelBinderState();
             }
 
-            var modelState = new ModelState { Value = valueResult, };
+            var state = new DecimalModelBinderState();
 
-            if (string.IsNullOrEmpty(valueResult.AttemptedValue))
+#if ASPMVCCORE
+            var attemptedValue = valueResult.FirstValue;
+#else
+            var attemptedValue = valueResult.AttemptedValue;
+#endif
+
+            if (string.IsNullOrEmpty(attemptedValue))
             {
                 if (this.IsNullable)
                 {
                     actualValue = default(T);
-                    return modelState;
+                    return state;
                 }
                 else
                 {
                     actualValue = null;
-                    modelState.Errors.Add(new ArgumentException("The value cannot be empty"));
-                    return modelState;
+                    state.Errors.Add(new ArgumentException("The value cannot be empty"));
+                    return state;
                 }
             }
 
@@ -148,7 +211,7 @@ namespace SrkToolkit.Web.Mvc
             {
                 try
                 {
-                    var attemp = valueResult.AttemptedValue;
+                    var attemp = attemptedValue;
 
                     attemp = attemp.Replace(" ", "");
 
@@ -180,8 +243,8 @@ namespace SrkToolkit.Web.Mvc
                             if (commas > 1)
                             {
                                 actualValue = null;
-                                modelState.Errors.Add(new ArgumentException("Invalid number"));
-                                return modelState;
+                                state.Errors.Add(new ArgumentException("Invalid number"));
+                                return state;
                             }
                             else
                             {
@@ -200,22 +263,20 @@ namespace SrkToolkit.Web.Mvc
                     }
 
                     actualValue = Convert.ChangeType(attemp, this.ValueType, CultureInfo.InvariantCulture);
-                    ////actualValue = Convert.ToDouble(attemp, CultureInfo.InvariantCulture);
                 }
                 catch (FormatException e)
                 {
                     actualValue = null;
-                    modelState.Errors.Add(e);
+                    state.Errors.Add(e);
                 }
             }
             else
             {
                 try
                 {
-                    var attemp = valueResult.AttemptedValue;
+                    var attemp = attemptedValue;
 
                     if (valueResult.Culture.NumberFormat.NumberGroupSeparator != " "
-                     ////&& valueResult.Culture.NumberFormat.NumberDecimalSeparator == "."
                      && attemp.Contains(' '))
                     {
                         attemp = attemp.Replace(" ", valueResult.Culture.NumberFormat.NumberGroupSeparator);
@@ -227,9 +288,14 @@ namespace SrkToolkit.Web.Mvc
                         int decSeps = 1;
                         int firstDecSep = attemp.IndexOf(valueResult.Culture.NumberFormat.NumberDecimalSeparator);
                         if (firstDecSep < 0)
+                        {
                             decSeps = 0;
+                        }
                         else if (firstDecSep != attemp.LastIndexOf(valueResult.Culture.NumberFormat.NumberDecimalSeparator))
+                        {
                             decSeps = 2;
+                        }
+
                         var commas = attemp.Count(c => c == ',');
 
                         if (decSeps > 1)
@@ -237,8 +303,8 @@ namespace SrkToolkit.Web.Mvc
                             if (commas > 1)
                             {
                                 actualValue = null;
-                                modelState.Errors.Add(new ArgumentException("Invalid number"));
-                                return modelState;
+                                state.Errors.Add(new ArgumentException("Invalid number"));
+                                return state;
                             }
                             else
                             {
@@ -253,30 +319,62 @@ namespace SrkToolkit.Web.Mvc
                     }
 
                     actualValue = Convert.ChangeType(attemp, this.ValueType, valueResult.Culture);
-                    ////actualValue = Convert.ToDouble(attemp, valueResult.Culture);
                 }
                 catch (FormatException e)
                 {
                     actualValue = null;
-                    modelState.Errors.Add(e);
+                    state.Errors.Add(e);
                 }
             }
 
-            return modelState;
+            return state;
         }
     }
 
+#if ASPMVCCORE
     /// <summary>
-    /// Helps resolve culture-specific nuances in decimal inputs.
-    /// This object will play with decimal and group separators in numbers based on the user's culture.
-    /// The unit tests explains what is happaning in here.
+    /// Registers <see cref="DecimalModelBinder{T}"/> for <see cref="decimal"/>,
+    /// <see cref="double"/> and <see cref="float"/> (including nullable variants).
+    /// Insert at index 0 so it takes precedence over the built-in numeric binders:
+    /// <code>
+    /// services.AddControllersWithViews(options =>
+    ///     options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider()));
+    /// </code>
+    /// </summary>
+    public class DecimalModelBinderProvider : IModelBinderProvider
+    {
+        /// <inheritdoc />
+        public IModelBinder GetBinder(ModelBinderProviderContext context)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var type = context.Metadata.ModelType;
+            var underlying = Nullable.GetUnderlyingType(type) ?? type;
+
+            if (underlying == typeof(decimal) || underlying == typeof(double) || underlying == typeof(float))
+            {
+                return (IModelBinder)Activator.CreateInstance(typeof(DecimalModelBinder<>).MakeGenericType(type));
+            }
+
+            return null;
+        }
+    }
+#endif
+
+#if ASPMVC
+    /// <summary>
+    /// Registration helper for MVC5.
     /// </summary>
     public static class DecimalModelBinder
     {
         /// <summary>
-        /// Registers this binder for types <see cref="double"/>, <see cref="float"/> and <see cref="decimal"/>.
+        /// Registers <see cref="DecimalModelBinder{T}"/> for <see cref="decimal"/>,
+        /// <see cref="double"/> and <see cref="float"/> (including nullable variants).
         /// </summary>
-        /// <param name="binders">The binders.</param>
+        /// <param name="binders">The binder dictionary.</param>
         public static void Register(ModelBinderDictionary binders)
         {
             Bind<double>(binders);
@@ -291,4 +389,5 @@ namespace SrkToolkit.Web.Mvc
             binders.Add(typeof(T?), new DecimalModelBinder<T?>());
         }
     }
+#endif
 }

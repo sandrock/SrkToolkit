@@ -96,8 +96,6 @@
 
 
 
-    <Compile Remove="Mvc\DecimalModelBinder.cs" />
-    <None Include="Mvc\DecimalModelBinder.cs" />
 
 
     <Compile Remove="System.Web.Mvc\SrkTagBuilderExtensions.cs" />

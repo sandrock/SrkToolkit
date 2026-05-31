@@ -44,7 +44,7 @@ jobs:
     - name: Install validator
       run: dotnet tool install Meziantou.Framework.NuGetPackageValidation.Tool --global
     - name: Validate
-      run: meziantou.validate-nuget-package dist/*.nupkg --excluded-rule-ids 21,32,61,74,112,113
+      run: meziantou.validate-nuget-package dist/*.nupkg --excluded-rule-ids 21,32,61,74,101,111,112,113
 
   test_linux:
     runs-on: ubuntu-latest

@@ -5,6 +5,13 @@
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
   </ItemGroup>
 
+  <!-- Common package metadata for all publishable projects -->
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/sandrock/SrkToolkit/</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/sandrock/SrkToolkit/</PackageProjectUrl>
+  </PropertyGroup>
+
   <!-- Automatic versioning from git tags (e.g. v2.0.149-preview1 → 2.0.149-preview1).
        Projects that are not part of the v2 release track set <MinVerSkip>true</MinVerSkip>
        in their own csproj to opt out. -->

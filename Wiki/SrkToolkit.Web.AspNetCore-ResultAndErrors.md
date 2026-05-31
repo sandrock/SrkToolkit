@@ -117,6 +117,42 @@ To customise a specific error, override the action method:
     }
 
 
+### Using HttpErrorExtensions when you cannot inherit BaseErrorController
+
+If your controller already extends another base class, use the `HttpErrorExtensions`
+static extension methods instead. They expose the same logic without requiring inheritance.
+
+    using SrkToolkit.Web.HttpErrors;
+
+    public class ErrorController : MyBaseController
+    {
+        // Minimum: wire the generic Show action
+        [Route("Error/Show/{code:int}")]
+        public ActionResult Show(int code) => this.HttpErrorShow(code);
+    }
+
+To include exception details in development:
+
+    [Route("Error/Show/{code:int}")]
+    public ActionResult Show(int code)
+        => this.HttpErrorShow(code, includeExceptionDetails: _env.IsDevelopment());
+
+To override a specific code or add logging:
+
+    [Route("Error/Show/{code:int}")]
+    public ActionResult Show(int code)
+        => this.HttpErrorWork(
+            "Show",
+            HttpErrorModel.Create(code, null, null),
+            code,
+            onReady: (action, model, c) => _logger.LogWarning("HTTP {Code} for {Path}", c, model.UrlPath));
+
+`HttpErrorWork` is also callable directly for per-code named actions:
+
+    public ActionResult Forbidden()
+        => this.HttpErrorWork("Forbidden", HttpErrorModel.Create(403, null, null), 403);
+
+
 ### Startup configuration
 
 Wire up both middlewares so that unhandled exceptions and non-success status codes both

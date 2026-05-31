@@ -1,3 +1,4 @@
+// © SandRock, generated 2026-05-31
 //
 // Copyright 2014 SandRock
 //
@@ -19,9 +20,7 @@ namespace SrkToolkit.Web.HttpErrors
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Mvc;
     using SrkToolkit.Web.Models;
-    using SrkToolkit.Web.Services;
     using System;
-    using System.Diagnostics;
     using System.Net;
 
     // Recommended startup wiring:
@@ -31,10 +30,20 @@ namespace SrkToolkit.Web.HttpErrors
     //
     // Both routes reach Show(int code), which handles both IExceptionHandlerPathFeature
     // (unhandled exceptions) and IStatusCodeReExecuteFeature (status-code pages).
+    //
+    // If you cannot inherit this class because your controller already has a base class,
+    // use HttpErrorExtensions instead:
+    //
+    //   public class ErrorController : MyBaseController
+    //   {
+    //       [Route("Error/Show/{code:int}")]
+    //       public ActionResult Show(int code) => this.HttpErrorShow(code);
+    //   }
 
     /// <summary>
     /// Base controller implementing <see cref="IErrorController"/>. Everything is overridable.
     /// Subclass this in your app and register the routes shown above in startup.
+    /// If your controller already extends another base class, use <see cref="HttpErrorExtensions"/> instead.
     /// </summary>
     public class BaseErrorController : Controller, IErrorController
     {
@@ -80,13 +89,13 @@ namespace SrkToolkit.Web.HttpErrors
         public virtual ActionResult Forbidden() => this.Work("Forbidden", HttpErrorModel.Create(403, null, null), 403);
 
         /// <inheritdoc />
-        public virtual ActionResult NotFound() => this.Work("NotFound", HttpErrorModel.Create(404, null, null), 404);
+        public new virtual ActionResult NotFound() => this.Work("NotFound", HttpErrorModel.Create(404, null, null), 404);
 
         /// <inheritdoc />
         public virtual ActionResult Gone() => this.Work("Gone", HttpErrorModel.Create(410, null, null), 410);
 
         /// <inheritdoc />
-        public virtual ActionResult BadRequest() => this.Work("BadRequest", HttpErrorModel.Create(400, null, null), 400);
+        public new virtual ActionResult BadRequest() => this.Work("BadRequest", HttpErrorModel.Create(400, null, null), 400);
 
         /// <inheritdoc />
         public virtual ActionResult MethodNotAllowed() => this.Work("MethodNotAllowed", HttpErrorModel.Create(405, null, null), 405);
@@ -97,49 +106,11 @@ namespace SrkToolkit.Web.HttpErrors
         // --- Shared implementation ---
 
         /// <summary>
-        /// Produces the error response. Returns a JSON envelope for AJAX/JSON requests,
-        /// <c>View("Error", model)</c> otherwise. Override to customise view name or layout.
+        /// Produces the error response. Override to customise view name, layout, or add logging.
+        /// Delegates to <see cref="HttpErrorExtensions.HttpErrorWork"/> with <see cref="OnErrorResponseReady"/> as callback.
         /// </summary>
         protected virtual ActionResult Work(string action, HttpErrorModel model, int code)
-        {
-            Trace.WriteLine("ErrorController." + action + ": begin");
-
-            // When called from per-code actions, resolve original URL from middleware features.
-            if (model.UrlPath == null)
-            {
-                var statusCodeFeature = this.HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
-                var exceptionFeature = this.HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-                model.UrlPath = statusCodeFeature?.OriginalPath
-                    ?? exceptionFeature?.Path
-                    ?? this.Request.Path.ToString();
-            }
-
-            if (string.IsNullOrEmpty(model.Title))
-            {
-                model.Title = "HTTP " + model.Code + " — " + model.CodeName;
-            }
-
-            if (string.IsNullOrEmpty(model.Message))
-            {
-                model.Message = model.CodeDefinition;
-            }
-
-            model.ErrorAction = action;
-            this.Response.StatusCode = code;
-
-            this.OnErrorResponseReady(action, model, code);
-
-            Trace.WriteLine("ErrorController." + action + ": end");
-
-            if (this.Request.IsXmlHttpRequest() || this.Request.PrefersJson())
-            {
-                return new ResultServiceBase(this.HttpContext)
-                    .JsonErrorWithException(code, action, model.Message ?? "Unknown error.", model.Exception);
-            }
-
-            this.Response.ContentType = "text/html; charset=utf-8";
-            return this.View("Error", model);
-        }
+            => this.HttpErrorWork(action, model, code, this.OnErrorResponseReady);
 
         /// <summary>
         /// Called just before the response is written. Override to add logging or metrics.

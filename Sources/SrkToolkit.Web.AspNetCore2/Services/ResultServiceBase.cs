@@ -1,4 +1,4 @@
-﻿// 
+//
 // Copyright 2014 SandRock
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,13 +12,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 
 namespace SrkToolkit.Web.Services
 {
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using SrkToolkit.Web.HttpErrors;
     using System;
 
     /// <summary>
@@ -55,119 +54,102 @@ namespace SrkToolkit.Web.Services
         /// <summary>
         /// Returns a standard JSON result for a successful operation.
         /// </summary>
-        /// <returns></returns>
         public ActionResult JsonSuccess()
         {
-            return new JsonNetResult
+            return new JsonResult(new
             {
-                Data = new
-                {
-                    Success = true,
-                    ErrorCode = default(string),
-                    ErrorMessage = default(string),
-                    Data = default(string),
-                },
-            };
+                Success = true,
+                ErrorCode = default(string),
+                ErrorMessage = default(string),
+                Data = default(string),
+            });
         }
 
         /// <summary>
         /// Returns a standard JSON result containing data.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         public ActionResult JsonSuccess(object data)
         {
-            return new JsonNetResult
+            return new JsonResult(new
             {
-                Data = new
-                {
-                    Success = true,
-                    ErrorCode = default(string),
-                    ErrorMessage = default(string),
-                    Data = data,
-                },
-            };
+                Success = true,
+                ErrorCode = default(string),
+                ErrorMessage = default(string),
+                Data = data,
+            });
         }
 
         /// <summary>
         /// Returns a standard JSON result containing an error.
         /// </summary>
-        /// <returns></returns>
         public ActionResult JsonError()
         {
-            return new JsonNetResult
+            return new JsonResult(new
             {
-                HttpStatusCode = this.JsonErrorHttpStatusCode,
-                Data = new
-                {
-                    Success = false,
-                    ErrorCode = default(string),
-                    ErrorMessage = default(string),
-                    Data = default(string),
-                },
+                Success = false,
+                ErrorCode = default(string),
+                ErrorMessage = default(string),
+                Data = default(string),
+            })
+            {
+                StatusCode = this.JsonErrorHttpStatusCode,
             };
         }
 
         /// <summary>
         /// Returns a standard JSON result containing an error.
         /// </summary>
-        /// <param name="errorCode">helps identify the the error</param>
-        /// <returns></returns>
+        /// <param name="errorCode">helps identify the error</param>
         public ActionResult JsonError(string errorCode)
         {
-            return new JsonNetResult
+            return new JsonResult(new
             {
-                HttpStatusCode = this.JsonErrorHttpStatusCode,
-                Data = new
-                {
-                    Success = false,
-                    ErrorCode = errorCode,
-                    ErrorMessage = default(string),
-                    Data = default(string),
-                },
+                Success = false,
+                ErrorCode = errorCode,
+                ErrorMessage = default(string),
+                Data = default(string),
+            })
+            {
+                StatusCode = this.JsonErrorHttpStatusCode,
             };
         }
 
         /// <summary>
         /// Returns a standard JSON result containing an error.
         /// </summary>
-        /// <param name="errorCode">helps identify the the error</param>
+        /// <param name="errorCode">helps identify the error</param>
         /// <param name="errorMessage">the translated error message to display</param>
-        /// <returns></returns>
         public ActionResult JsonError(string errorCode, string errorMessage)
         {
-            return new JsonNetResult
+            return new JsonResult(new
             {
-                HttpStatusCode = this.JsonErrorHttpStatusCode,
-                Data = new
-                {
-                    Success = false,
-                    ErrorCode = errorCode,
-                    ErrorMessage = errorMessage,
-                    Data = default(string),
-                },
+                Success = false,
+                ErrorCode = errorCode,
+                ErrorMessage = errorMessage,
+                Data = default(string),
+            })
+            {
+                StatusCode = this.JsonErrorHttpStatusCode,
             };
         }
 
         /// <summary>
         /// Returns a standard JSON result containing an error.
         /// </summary>
-        /// <param name="errorCode">helps identify the the error</param>
+        /// <param name="errorCode">helps identify the error</param>
         /// <param name="errorMessage">the translated error message to display</param>
         /// <param name="data">The data.</param>
-        /// <returns></returns>
         public ActionResult JsonError(string errorCode, string errorMessage, object data)
         {
-            return new JsonNetResult
+            return new JsonResult(new
             {
-                HttpStatusCode = this.JsonErrorHttpStatusCode,
-                Data = new
-                {
-                    Success = false,
-                    ErrorCode = errorCode,
-                    ErrorMessage = errorMessage,
-                    Data = data,
-                },
+                Success = false,
+                ErrorCode = errorCode,
+                ErrorMessage = errorMessage,
+                Data = data,
+            })
+            {
+                StatusCode = this.JsonErrorHttpStatusCode,
             };
         }
 
@@ -175,47 +157,43 @@ namespace SrkToolkit.Web.Services
         /// Returns a standard JSON result containing an error.
         /// </summary>
         /// <param name="httpCode">The HTTP code.</param>
-        /// <param name="errorCode">helps identify the the error</param>
+        /// <param name="errorCode">helps identify the error</param>
         /// <param name="errorMessage">the translated error message to display</param>
         /// <param name="data">The data.</param>
-        /// <returns></returns>
         public ActionResult JsonError(int httpCode, string errorCode, string errorMessage, object data)
         {
-            var result = new JsonNetResult
+            return new JsonResult(new
             {
-                Data = new
-                {
-                    Success = false,
-                    ErrorCode = errorCode,
-                    ErrorMessage = errorMessage,
-                    Data = data,
-                },
+                Success = false,
+                ErrorCode = errorCode,
+                ErrorMessage = errorMessage,
+                Data = data,
+            })
+            {
+                StatusCode = httpCode,
             };
-            result.HttpStatusCode = httpCode;
-            return result;
         }
 
         /// <summary>
         /// Gets the HTTP context.
         /// </summary>
-        protected HttpContextBase HttpContext
+        protected HttpContext HttpContext
         {
             get { return this.httpContext; }
         }
 
         internal ActionResult JsonErrorWithException(int httpCode, string errorCode, string errorMessage, Exception exception)
         {
-            return new JsonNetResult
+            return new JsonResult(new
             {
-                HttpStatusCode = httpCode,
-                Data = new
-                {
-                    Success = false,
-                    ErrorCode = errorCode,
-                    ErrorMessage = errorMessage,
-                    Data = default(string),
-                    Exception = DescribeException(exception),
-                },
+                Success = false,
+                ErrorCode = errorCode,
+                ErrorMessage = errorMessage,
+                Data = default(string),
+                Exception = DescribeException(exception),
+            })
+            {
+                StatusCode = httpCode,
             };
         }
 

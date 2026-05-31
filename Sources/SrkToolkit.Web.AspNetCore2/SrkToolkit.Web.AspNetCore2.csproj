@@ -95,8 +95,7 @@
     <None Include="SrkHttpApplication.cs" />
     <Compile Remove="Services\ResultService.cs" />
     <None Include="Services\ResultService.cs" />
-    <Compile Remove="Services\ResultServiceBase.cs" />
-    <None Include="Services\ResultServiceBase.cs" />
+
 
     <Compile Remove="Mvc\DecimalModelBinder.cs" />
     <None Include="Mvc\DecimalModelBinder.cs" />

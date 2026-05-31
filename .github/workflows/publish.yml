@@ -19,8 +19,14 @@ jobs:
     - name: Setup signing key
       run: mv SrkToolkit.CI-key.snk SrkToolkit.snk
       working-directory: ./Sources
+    - name: Restore
+      run: dotnet restore SrkToolkit-v2.sln
+      working-directory: ./Sources
+    - name: Build
+      run: dotnet build SrkToolkit-v2.sln --configuration Release --no-restore
+      working-directory: ./Sources
     - name: Pack
-      run: dotnet pack SrkToolkit-v2.sln --configuration Release -o ../dist/ -p:DelaySign=true
+      run: dotnet pack SrkToolkit-v2.sln --configuration Release --no-build -o ../dist/ -p:DelaySign=true
       working-directory: ./Sources
     - uses: actions/upload-artifact@v4
       with:

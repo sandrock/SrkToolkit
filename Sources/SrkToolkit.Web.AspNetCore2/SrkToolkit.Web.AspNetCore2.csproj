@@ -98,12 +98,7 @@
 
     <Compile Remove="Mvc\DecimalModelBinder.cs" />
     <None Include="Mvc\DecimalModelBinder.cs" />
-    <Compile Remove="HttpErrors\BaseErrorController.cs" />
-    <None Include="HttpErrors\BaseErrorController.cs" />
-    <Compile Remove="HttpErrors\BasicHttpErrorResponse.cs" />
-    <None Include="HttpErrors\BasicHttpErrorResponse.cs" />
-    <Compile Remove="HttpErrors\IErrorController.cs" />
-    <None Include="HttpErrors\IErrorController.cs" />
+
 
     <Compile Remove="System.Web.Mvc\SrkTagBuilderExtensions.cs" />
     <Compile Remove="System.Web.Mvc\SrkViewExtensions.cs" />

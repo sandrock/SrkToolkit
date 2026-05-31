@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- 1xx Informationnel -->
+  <data name="N100" xml:space="preserve"><value>Continuer</value></data>
+  <data name="D100" xml:space="preserve"><value>Le serveur a reçu les en-têtes de la requête et le client doit procéder à l'envoi du corps de la requête.</value></data>
+
+  <data name="N101" xml:space="preserve"><value>Changement de protocole</value></data>
+  <data name="D101" xml:space="preserve"><value>Le demandeur a demandé au serveur de changer de protocole et le serveur accepte de le faire.</value></data>
+
+  <data name="N102" xml:space="preserve"><value>Traitement en cours</value></data>
+  <data name="D102" xml:space="preserve"><value>Le serveur a reçu et traite la requête, mais aucune réponse n'est encore disponible.</value></data>
+
+  <!-- 2xx Succès -->
+  <data name="N200" xml:space="preserve"><value>OK</value></data>
+  <data name="D200" xml:space="preserve"><value>Réponse standard pour les requêtes HTTP réussies.</value></data>
+
+  <data name="N201" xml:space="preserve"><value>Créé</value></data>
+  <data name="D201" xml:space="preserve"><value>La requête a été satisfaite et une nouvelle ressource a été créée.</value></data>
+
+  <data name="N202" xml:space="preserve"><value>Accepté</value></data>
+  <data name="D202" xml:space="preserve"><value>La requête a été acceptée pour traitement, mais le traitement n'est pas terminé.</value></data>
+
+  <data name="N203" xml:space="preserve"><value>Information non officielle</value></data>
+  <data name="D203" xml:space="preserve"><value>Le serveur a traité la requête avec succès, mais retourne des informations pouvant provenir d'une autre source.</value></data>
+
+  <data name="N204" xml:space="preserve"><value>Pas de contenu</value></data>
+  <data name="D204" xml:space="preserve"><value>Le serveur a traité la requête avec succès mais ne retourne pas de contenu.</value></data>
+
+  <data name="N205" xml:space="preserve"><value>Réinitialisation du contenu</value></data>
+  <data name="D205" xml:space="preserve"><value>Le serveur a traité la requête avec succès mais ne retourne pas de contenu. Contrairement à la réponse 204, cette réponse demande que le demandeur réinitialise l'affichage du document.</value></data>
+
+  <data name="N206" xml:space="preserve"><value>Contenu partiel</value></data>
+  <data name="D206" xml:space="preserve"><value>Le serveur délivre uniquement une partie de la ressource suite à un en-tête de plage envoyé par le client.</value></data>
+
+  <data name="N207" xml:space="preserve"><value>Statuts multiples</value></data>
+  <data name="D207" xml:space="preserve"><value>Le corps du message est un message XML pouvant contenir plusieurs codes de réponse distincts.</value></data>
+
+  <data name="N208" xml:space="preserve"><value>Déjà rapporté</value></data>
+  <data name="D208" xml:space="preserve"><value>Les membres d'une liaison DAV ont déjà été énumérés dans une réponse précédente et ne sont pas inclus à nouveau.</value></data>
+
+  <!-- 3xx Redirection -->
+  <data name="N300" xml:space="preserve"><value>Choix multiples</value></data>
+  <data name="D300" xml:space="preserve"><value>Indique plusieurs options pour la ressource que le client peut suivre.</value></data>
+
+  <data name="N301" xml:space="preserve"><value>Déplacé de façon permanente</value></data>
+  <data name="D301" xml:space="preserve"><value>Cette requête et toutes les requêtes futures doivent être dirigées vers l'URI indiquée.</value></data>
+
+  <data name="N302" xml:space="preserve"><value>Trouvé</value></data>
+  <data name="D302" xml:space="preserve"><value>Le client doit effectuer une redirection temporaire.</value></data>
+
+  <data name="N303" xml:space="preserve"><value>Voir ailleurs</value></data>
+  <data name="D303" xml:space="preserve"><value>La réponse à la requête se trouve sous un autre URI via une méthode GET.</value></data>
+
+  <data name="N304" xml:space="preserve"><value>Non modifié</value></data>
+  <data name="D304" xml:space="preserve"><value>La ressource n'a pas été modifiée depuis la version spécifiée par les en-têtes If-Modified-Since ou If-Match.</value></data>
+
+  <data name="N305" xml:space="preserve"><value>Utiliser un proxy</value></data>
+  <data name="D305" xml:space="preserve"><value>La ressource demandée n'est disponible que via un proxy dont l'adresse est fournie dans la réponse.</value></data>
+
+  <data name="N307" xml:space="preserve"><value>Redirection temporaire</value></data>
+  <data name="D307" xml:space="preserve"><value>La requête doit être répétée avec un autre URI ; les requêtes futures doivent toutefois utiliser l'URI d'origine.</value></data>
+
+  <data name="N308" xml:space="preserve"><value>Redirection permanente</value></data>
+  <data name="D308" xml:space="preserve"><value>La requête, et toutes les requêtes futures, doivent être répétées en utilisant un autre URI.</value></data>
+
+  <!-- 4xx Erreurs client -->
+  <data name="N400" xml:space="preserve"><value>Mauvaise requête</value></data>
+  <data name="D400" xml:space="preserve"><value>La requête ne peut pas être satisfaite en raison d'une syntaxe incorrecte.</value></data>
+
+  <data name="N401" xml:space="preserve"><value>Non autorisé</value></data>
+  <data name="D401" xml:space="preserve"><value>L'authentification est requise et a échoué ou n'a pas encore été fournie.</value></data>
+
+  <data name="N402" xml:space="preserve"><value>Paiement requis</value></data>
+  <data name="D402" xml:space="preserve"><value>Réservé pour une utilisation future.</value></data>
+
+  <data name="N403" xml:space="preserve"><value>Interdit</value></data>
+  <data name="D403" xml:space="preserve"><value>La requête était valide, mais le serveur refuse d'y répondre.</value></data>
+
+  <data name="N404" xml:space="preserve"><value>Non trouvé</value></data>
+  <data name="D404" xml:space="preserve"><value>La ressource demandée n'a pas pu être trouvée mais pourrait être disponible à nouveau à l'avenir.</value></data>
+
+  <data name="N405" xml:space="preserve"><value>Méthode non autorisée</value></data>
+  <data name="D405" xml:space="preserve"><value>Une requête a été faite sur une ressource en utilisant une méthode non supportée par cette ressource.</value></data>
+
+  <data name="N406" xml:space="preserve"><value>Non acceptable</value></data>
+  <data name="D406" xml:space="preserve"><value>La ressource demandée ne peut générer que du contenu non acceptable selon les en-têtes Accept envoyés dans la requête.</value></data>
+
+  <data name="N407" xml:space="preserve"><value>Authentification proxy requise</value></data>
+  <data name="D407" xml:space="preserve"><value>Le client doit d'abord s'authentifier auprès du proxy.</value></data>
+
+  <data name="N408" xml:space="preserve"><value>Délai d'attente de la requête</value></data>
+  <data name="D408" xml:space="preserve"><value>Le serveur a dépassé le délai d'attente de la requête.</value></data>
+
+  <data name="N409" xml:space="preserve"><value>Conflit</value></data>
+  <data name="D409" xml:space="preserve"><value>La requête n'a pas pu être traitée en raison d'un conflit, tel qu'un conflit d'édition lors de mises à jour multiples.</value></data>
+
+  <data name="N410" xml:space="preserve"><value>Disparu</value></data>
+  <data name="D410" xml:space="preserve"><value>La ressource demandée n'est plus disponible et ne le sera plus.</value></data>
+
+  <data name="N411" xml:space="preserve"><value>Longueur requise</value></data>
+  <data name="D411" xml:space="preserve"><value>La requête n'a pas spécifié la longueur de son contenu, requise par la ressource demandée.</value></data>
+
+  <data name="N412" xml:space="preserve"><value>Précondition échouée</value></data>
+  <data name="D412" xml:space="preserve"><value>Le serveur ne remplit pas l'une des conditions préalables que le demandeur a posées sur la requête.</value></data>
+
+  <data name="N413" xml:space="preserve"><value>Requête trop volumineuse</value></data>
+  <data name="D413" xml:space="preserve"><value>La requête est plus volumineuse que ce que le serveur est disposé ou capable de traiter.</value></data>
+
+  <data name="N414" xml:space="preserve"><value>URI trop longue</value></data>
+  <data name="D414" xml:space="preserve"><value>L'URI fournie est trop longue pour que le serveur la traite.</value></data>
+
+  <data name="N415" xml:space="preserve"><value>Type de média non supporté</value></data>
+  <data name="D415" xml:space="preserve"><value>L'entité de la requête a un type de média que le serveur ou la ressource ne supporte pas.</value></data>
+
+  <data name="N416" xml:space="preserve"><value>Plage demandée non satisfaisable</value></data>
+  <data name="D416" xml:space="preserve"><value>Le client a demandé une portion du fichier, mais le serveur ne peut pas fournir cette portion.</value></data>
+
+  <data name="N417" xml:space="preserve"><value>Attente échouée</value></data>
+  <data name="D417" xml:space="preserve"><value>Le serveur ne peut pas satisfaire aux exigences du champ d'en-tête Expect de la requête.</value></data>
+
+  <data name="N418" xml:space="preserve"><value>Je suis une théière</value></data>
+  <data name="D418" xml:space="preserve"><value>Ce code a été défini en 1998 comme une blague de l'IETF pour le 1er avril et n'est pas censé être implémenté par de vrais serveurs HTTP.</value></data>
+
+  <data name="N420" xml:space="preserve"><value>Échec de la méthode</value></data>
+  <data name="D420" xml:space="preserve"><value>Non standard, retourné par certaines API lorsque le client est soumis à une limitation de débit.</value></data>
+
+  <data name="N422" xml:space="preserve"><value>Entité non traitable</value></data>
+  <data name="D422" xml:space="preserve"><value>La requête était bien formée mais n'a pas pu être traitée en raison d'erreurs sémantiques.</value></data>
+
+  <data name="N423" xml:space="preserve"><value>Verrouillé</value></data>
+  <data name="D423" xml:space="preserve"><value>La ressource à laquelle on accède est verrouillée.</value></data>
+
+  <data name="N424" xml:space="preserve"><value>Dépendance échouée</value></data>
+  <data name="D424" xml:space="preserve"><value>La requête a échoué en raison de l'échec d'une requête précédente.</value></data>
+
+  <data name="N426" xml:space="preserve"><value>Mise à niveau requise</value></data>
+  <data name="D426" xml:space="preserve"><value>Le client doit passer à un protocole différent tel que TLS/1.0.</value></data>
+
+  <data name="N428" xml:space="preserve"><value>Précondition requise</value></data>
+  <data name="D428" xml:space="preserve"><value>Le serveur d'origine exige que la requête soit conditionnelle.</value></data>
+
+  <data name="N429" xml:space="preserve"><value>Trop de requêtes</value></data>
+  <data name="D429" xml:space="preserve"><value>L'utilisateur a envoyé trop de requêtes dans un laps de temps donné.</value></data>
+
+  <data name="N431" xml:space="preserve"><value>Champs d'en-tête trop volumineux</value></data>
+  <data name="D431" xml:space="preserve"><value>Le serveur ne veut pas traiter la requête car les champs d'en-tête sont trop volumineux.</value></data>
+
+  <data name="N440" xml:space="preserve"><value>Expiration de session</value></data>
+  <data name="D440" xml:space="preserve"><value>Extension Microsoft. Indique que votre session a expiré.</value></data>
+
+  <data name="N450" xml:space="preserve"><value>Bloqué par le contrôle parental Windows</value></data>
+  <data name="D450" xml:space="preserve"><value>Extension Microsoft. Indique que le contrôle parental Windows bloque l'accès à la page web demandée.</value></data>
+
+  <data name="N451" xml:space="preserve"><value>Indisponible pour raisons légales</value></data>
+  <data name="D451" xml:space="preserve"><value>Le serveur refuse l'accès à la ressource suite à une demande légale.</value></data>
+
+  <data name="N494" xml:space="preserve"><value>En-tête de requête trop volumineux</value></data>
+  <data name="D494" xml:space="preserve"><value>Code interne Nginx similaire au 431 mais introduit plus tôt.</value></data>
+
+  <!-- 5xx Erreurs serveur -->
+  <data name="N500" xml:space="preserve"><value>Erreur interne du serveur</value></data>
+  <data name="D500" xml:space="preserve"><value>Une erreur inattendue s'est produite sur le serveur et aucun message plus spécifique n'est disponible.</value></data>
+
+  <data name="N501" xml:space="preserve"><value>Non implémenté</value></data>
+  <data name="D501" xml:space="preserve"><value>Le serveur ne reconnaît pas la méthode de requête ou n'a pas la capacité de satisfaire la requête.</value></data>
+
+  <data name="N502" xml:space="preserve"><value>Mauvaise passerelle</value></data>
+  <data name="D502" xml:space="preserve"><value>Le serveur agissait en tant que passerelle ou proxy et a reçu une réponse invalide du serveur en amont.</value></data>
+
+  <data name="N503" xml:space="preserve"><value>Service indisponible</value></data>
+  <data name="D503" xml:space="preserve"><value>Le serveur est actuellement indisponible car il est surchargé ou en maintenance.</value></data>
+
+  <data name="N504" xml:space="preserve"><value>Délai d'attente de la passerelle</value></data>
+  <data name="D504" xml:space="preserve"><value>Le serveur agissait en tant que passerelle ou proxy et n'a pas reçu de réponse en temps voulu du serveur en amont.</value></data>
+
+  <data name="N505" xml:space="preserve"><value>Version HTTP non supportée</value></data>
+  <data name="D505" xml:space="preserve"><value>Le serveur ne supporte pas la version du protocole HTTP utilisée dans la requête.</value></data>
+
+  <data name="N506" xml:space="preserve"><value>La variante négocie aussi</value></data>
+  <data name="D506" xml:space="preserve"><value>La négociation de contenu transparente pour la requête entraîne une référence circulaire.</value></data>
+
+  <data name="N507" xml:space="preserve"><value>Espace de stockage insuffisant</value></data>
+  <data name="D507" xml:space="preserve"><value>Le serveur est incapable de stocker la représentation nécessaire pour satisfaire la requête.</value></data>
+
+  <data name="N508" xml:space="preserve"><value>Boucle détectée</value></data>
+  <data name="D508" xml:space="preserve"><value>Le serveur a détecté une boucle infinie lors du traitement de la requête.</value></data>
+
+  <data name="N511" xml:space="preserve"><value>Authentification réseau requise</value></data>
+  <data name="D511" xml:space="preserve"><value>Le client doit s'authentifier pour accéder au réseau. Destiné aux proxies intercepteurs utilisés pour contrôler l'accès au réseau.</value></data>
+
+</root>

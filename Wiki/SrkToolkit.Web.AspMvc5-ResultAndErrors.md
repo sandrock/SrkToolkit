@@ -1,5 +1,7 @@
-SrkToolit.Web - ResultService, IErrorController, error handling
-===============================================================
+SrkToolkit.Web.AspMvc5 - ResultService, IErrorController, error handling
+=========================================================================
+
+For the ASP.NET Core version see [SrkToolkit.Web.AspNetCore-ResultAndErrors](SrkToolkit.Web.AspNetCore-ResultAndErrors.md).
 
 Before you start.
 

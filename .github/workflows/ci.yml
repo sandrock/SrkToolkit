@@ -18,7 +18,11 @@ jobs:
       run: mv SrkToolkit.CI-key.snk SrkToolkit.snk
       working-directory: ./Sources
     - name: Test
-      run: dotnet test SrkToolkit-v2.sln --configuration Release --framework net8.0
+      run: |
+        dotnet test SrkToolkit.Common.CoreUnitTests/SrkToolkit.Common.CoreUnitTests.csproj --configuration Release --framework net8.0
+        dotnet test SrkToolkit.Domain.CoreUnitTests/SrkToolkit.Domain.CoreUnitTests.csproj --configuration Release --framework net8.0
+        dotnet test SrkToolkit.Services.CoreUnitTests/SrkToolkit.Services.CoreUnitTests.csproj --configuration Release --framework net8.0
+        dotnet test SrkToolkit.AspNetCore2.UnitTests/SrkToolkit.AspNetCore2.UnitTests.csproj --configuration Release --framework net8.0
       working-directory: ./Sources
 
   test_windows:

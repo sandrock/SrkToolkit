@@ -1,4 +1,4 @@
-﻿// 
+//
 // Copyright 2014 SandRock
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,264 +12,83 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 
 namespace SrkToolkit.Web.Services
 {
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using System;
-    using System.Web;
-    using System.Web.Mvc;
-    using System.Web.Routing;
-    using SrkToolkit.Web.HttpErrors;
+
+    // Ported from MVC5 ResultService<TErrorController> which rendered error views by instantiating
+    // the error controller and calling IController.Execute — a pattern that does not exist in Core.
+    //
+    // In Core, error responses are shaped by the status-code pages middleware. Configure it in
+    // startup with app.UseStatusCodePagesWithReExecute("/Error/{0}") or equivalent, pointing to
+    // your error controller actions, so that the returned status codes trigger the right views.
+    //
+    // The TErrorController generic parameter is gone: the consumer's error controller is invoked
+    // by the middleware, not by this service.
 
     /// <summary>
-    /// Helps return generic HTTP responses.
+    /// Helps return generic HTTP responses. Inherit <see cref="ResultServiceBase"/> for JSON helpers.
     /// </summary>
-    /// <typeparam name="TErrorController">The type of the error controller.</typeparam>
-    public class ResultService<TErrorController> : ResultServiceBase, IResultService
-        where TErrorController : IErrorController, new()
+    public class ResultService : ResultServiceBase, IResultService
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResultService{TErrorController}"/> class.
+        /// Initializes a new instance of the <see cref="ResultService"/> class.
         /// </summary>
-        /// <param name="httpContext">The HTTP context.</param>
-        public ResultService(HttpContextBase httpContext)
+        public ResultService(HttpContext httpContext)
             : base(httpContext)
         {
         }
 
         /// <summary>
-        /// Gets the route to the "forbidden" page.
+        /// Returns a 403 Forbidden result. Configure status-code pages middleware to display a view.
         /// </summary>
-        public static RouteData ForbiddenRoute
-        {
-            get
-            {
-                RouteData routeData = new RouteData();
-                routeData.Values.Add("controller", "Error");
-                routeData.Values.Add("action", "Forbidden");
-                return routeData;
-            }
-        }
-
-        /// <summary>
-        /// Gets the route to the "not found" page.
-        /// </summary>
-        public static RouteData NotFoundRoute
-        {
-            get
-            {
-                RouteData routeData = new RouteData();
-                routeData.Values.Add("controller", "Error");
-                routeData.Values.Add("action", "NotFound");
-                return routeData;
-            }
-        }
-
-        /// <summary>
-        /// Gets the route to the "method not allowed" page.
-        /// </summary>
-        public static RouteData MethodNotAllowedRoute
-        {
-            get
-            {
-                RouteData routeData = new RouteData();
-                routeData.Values.Add("controller", "Error");
-                routeData.Values.Add("action", "MethodNotAllowed");
-                return routeData;
-            }
-        }
-
-        /// <summary>
-        /// Gets the route to the "gone" page.
-        /// </summary>
-        public static RouteData GoneRoute
-        {
-            get
-            {
-                RouteData routeData = new RouteData();
-                routeData.Values.Add("controller", "Error");
-                routeData.Values.Add("action", "Gone");
-                return routeData;
-            }
-        }
-
-        /// <summary>
-        /// Gets the route to the "bad request" page.
-        /// </summary>
-        public static RouteData BadRequestRoute
-        {
-            get
-            {
-                RouteData routeData = new RouteData();
-                routeData.Values.Add("controller", "Error");
-                routeData.Values.Add("action", "BadRequest");
-                return routeData;
-            }
-        }
-
-        /// <summary>
-        /// Gets the route to the "internal error" page.
-        /// </summary>
-        public static RouteData InternalRoute
-        {
-            get
-            {
-                RouteData routeData = new RouteData();
-                routeData.Values.Add("controller", "Error");
-                routeData.Values.Add("action", "Internal");
-                return routeData;
-            }
-        }
-
-        /// <summary>
-        /// Returns a 403 Forbidden view.
-        /// </summary>
-        /// <param name="message">a custom message can be specified. leave null for random message.</param>
         public ActionResult Forbidden(string message = null)
         {
-            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
-
-            var ctrlContext = new ControllerContext();
-            ctrlContext.HttpContext = this.HttpContext;
-            ctrlContext.RouteData = ForbiddenRoute;
-            if (message != null)
-            {
-                ctrlContext.RouteData.Values[ResultServiceBase.RouteDataMessageKey] = message;
-                ctrlContext.RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] = message;
-            }
-
-            IController ctrl = new TErrorController();
-
-            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
-            return null;
+            return new ForbidResult();
         }
 
         /// <summary>
-        /// Returns a 500 error view with a custom message.
+        /// Returns a 404 Not Found result. Configure status-code pages middleware to display a view.
         /// </summary>
-        /// <param name="message">a custom message can be specified. leave null for standard message.</param>
-        public ActionResult Error(string message)
-        {
-            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
-
-            var ctrlContext = new ControllerContext();
-            ctrlContext.HttpContext = this.HttpContext;
-            ctrlContext.RouteData = InternalRoute;
-            ctrlContext.RouteData.Values["error"] = new Exception(message);
-            if (message != null)
-            {
-                ctrlContext.RouteData.Values[ResultServiceBase.RouteDataMessageKey] = message;
-                ctrlContext.RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] = message;
-            }
-
-            IController ctrl = new BaseErrorController
-            {
-                ControllerContext = ctrlContext,
-            };
-
-            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
-            return null;
-        }
-
-        /// <summary>
-        /// Shows a 404 page.
-        /// </summary>
-        /// <param name="message">a custom message can be specified. leave null for random message.</param>
-        /// <returns></returns>
         public ActionResult NotFound(string message = null)
         {
-            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
-
-            var ctrlContext = new ControllerContext();
-            ctrlContext.HttpContext = this.HttpContext;
-            ctrlContext.RouteData = NotFoundRoute;
-            if (message != null)
-            {
-                ctrlContext.RouteData.Values[ResultServiceBase.RouteDataMessageKey] = message;
-                ctrlContext.RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] = message;
-            }
-
-            IController ctrl = new BaseErrorController
-            {
-                ControllerContext = ctrlContext,
-            };
-
-            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
-
-            return null;
-        }
-
-        public ActionResult MethodNotAllowed()
-        {
-            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
-
-            var ctrlContext = new ControllerContext();
-            ctrlContext.HttpContext = this.HttpContext;
-            ctrlContext.RouteData = MethodNotAllowedRoute;
-
-            IController ctrl = new BaseErrorController
-            {
-                ControllerContext = ctrlContext,
-            };
-
-            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
-
-            return null;
+            return new NotFoundResult();
         }
 
         /// <summary>
-        /// Shows a 410 page.
-        /// </summary>
-        /// <param name="message">a custom message can be specified. leave null for random message.</param>
-        /// <returns></returns>
-        public ActionResult Gone(string message = null)
-        {
-            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
-
-            var ctrlContext = new ControllerContext();
-            ctrlContext.HttpContext = this.HttpContext;
-            ctrlContext.RouteData = GoneRoute;
-            if (message != null)
-            {
-                ctrlContext.RouteData.Values[ResultServiceBase.RouteDataMessageKey] = message;
-                ctrlContext.RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] = message;
-            }
-
-            IController ctrl = new BaseErrorController
-            {
-                ControllerContext = ctrlContext,
-            };
-
-            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
-
-            return null;
-        }
-
-        /// <summary>
-        /// Shows a 400 page.
+        /// Returns a 400 Bad Request result. Configure status-code pages middleware to display a view.
         /// </summary>
         public ActionResult BadRequest(string message = null)
         {
-            this.HttpContext.Response.TrySkipIisCustomErrors = true; // motherfucking helpfull
+            return new BadRequestResult();
+        }
 
-            var ctrlContext = new ControllerContext();
-            ctrlContext.HttpContext = this.HttpContext;
-            ctrlContext.RouteData = BadRequestRoute;
-            if (message != null)
-            {
-                ctrlContext.RouteData.Values[ResultServiceBase.RouteDataMessageKey] = message;
-                ctrlContext.RouteData.DataTokens[ResultServiceBase.RouteDataMessageKey] = message;
-            }
+        /// <summary>
+        /// Returns a 410 Gone result.
+        /// </summary>
+        public ActionResult Gone(string message = null)
+        {
+            return new StatusCodeResult(410);
+        }
 
-            IController ctrl = new BaseErrorController
-            {
-                ControllerContext = ctrlContext,
-            };
+        /// <summary>
+        /// Returns a 405 Method Not Allowed result.
+        /// </summary>
+        public ActionResult MethodNotAllowed()
+        {
+            return new StatusCodeResult(405);
+        }
 
-            ctrl.Execute(new RequestContext(this.HttpContext, ctrlContext.RouteData));
-
-            return null;
+        /// <summary>
+        /// Returns a 500 Internal Server Error result.
+        /// </summary>
+        public ActionResult Error(string message = null)
+        {
+            return new StatusCodeResult(500);
         }
     }
 }

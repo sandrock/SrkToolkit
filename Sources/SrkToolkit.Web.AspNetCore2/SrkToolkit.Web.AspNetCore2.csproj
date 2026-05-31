@@ -93,8 +93,7 @@
     <None Include="SrkHttpApplication.tt.cs" />
     <Compile Remove="SrkHttpApplication.cs" />
     <None Include="SrkHttpApplication.cs" />
-    <Compile Remove="Services\ResultService.cs" />
-    <None Include="Services\ResultService.cs" />
+
 
 
     <Compile Remove="Mvc\DecimalModelBinder.cs" />
@@ -105,8 +104,7 @@
     <None Include="HttpErrors\BasicHttpErrorResponse.cs" />
     <Compile Remove="HttpErrors\IErrorController.cs" />
     <None Include="HttpErrors\IErrorController.cs" />
-    <Compile Remove="Filters\AuthorizeAttribute.cs" />
-    <None Include="Filters\AuthorizeAttribute.cs" />
+
     <Compile Remove="System.Web.Mvc\SrkTagBuilderExtensions.cs" />
     <Compile Remove="System.Web.Mvc\SrkViewExtensions.cs" />
   </ItemGroup>

@@ -118,7 +118,9 @@ Test coverage gaps
 ------------------
 
 - `SrkToolkit.Domain.AspNetCore2` has no test project.
-- `SrkToolkit.Web.AspMvc5` has no test project.
+  - `SrkToolkit.Web.AspMvc5` has no modern test project. `NET4.SrkToolkit.Web.Tests` exists
+    but is a v1 shell (MVC 4.0 / MSTest, csproj references .cs files that no longer exist).
+    Shared code is covered by `SrkToolkit.AspNetCore2.UnitTests` via the `#if ASPMVCCORE` path.
 
 
 Ideas
@@ -127,3 +129,35 @@ Ideas
 - Create a `Samples/` directory at repo root containing small runnable projects
   demonstrating how to use the library (e.g. PageInfo, WebDependencies, Domain result
   pattern, DateRangeAttribute). Would serve as both documentation and integration tests.
+
+
+v1 cleanup — Sources/ directory
+--------------------------------
+
+Everything below can be deleted once confirmed no longer needed.
+
+Project folders:
+- NET4.SrkToolkit.Common, NET4.SrkToolkit.Common.Tests, NET4.SrkToolkit.Common.Unsafe
+- NET4.SrkToolkit.Domain, NET4.SrkToolkit.Domain.AspMvc4, NET4.SrkToolkit.Domain.Tests
+- NET4.SrkToolkit.Services, NET4.SrkToolkit.Services.Tests
+- NET4.SrkToolkit.Web, NET4.SrkToolkit.Web.Mvc3, NET4.SrkToolkit.Web.Tests, NET4.SrkToolkit.WebForms
+- NET45.SrkToolkit.Common, NET45.SrkToolkit.Common.Tests
+- NET45.SrkToolkit.Domain, NET45.SrkToolkit.Domain.AspMvc4, NET45.SrkToolkit.Domain.AspMvc5
+- NET45.SrkToolkit.Web.Mvc4, NET45.SrkToolkit.Web.Mvc5, NET45.SrkToolkit.Web.Tests
+- NSTD.SrkToolkit.AspNetCore, NSTD.SrkToolkit.Common, NSTD.SrkToolkit.Domain, NSTD.SrkToolkit.Web
+- RT.SrkToolkit.Services
+- SL4.SrkToolkit.Services
+- WP7.SrkToolkit.Services, WP71.SrkToolkit.Services, WP80.SrkToolkit.Services, WP81.SrkToolkit.Services
+- SrkToolkit.Base, SrkToolkit.Sl4Base, SrkToolkit.Wp7Base
+- SrkToolkit.MvcSamples
+- SrkToolkit.ServiceDefinition, SrkToolkit.WcfServiceRef
+- SrkToolkit.WildServiceRef, SrkToolkit.WildServiceRef.CodeGeneration
+- SrkToolkitSL.ServiceWrapper
+
+Library folders:
+- Libs-NET35, Libs-NET40, Libs-NET45, Libs-SL4, Libs-SL5, Libs-WP70, Libs-WP71
+
+Loose files:
+- SrkToolkit.vsmdi
+- Local.testsettings, TraceAndTestImpact.testsettings
+- SrkToolkit.Mvvm.AssemblyInfo.cs, SrkToolkit.Services.AssemblyInfo.cs

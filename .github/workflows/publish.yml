@@ -1,0 +1,80 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+
+  create_nuget:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        fetch-tags: true
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Setup signing key
+      run: mv SrkToolkit.CI-key.snk SrkToolkit.snk
+      working-directory: ./Sources
+    - name: Pack
+      run: dotnet pack SrkToolkit-v2.sln --configuration Release -o ../dist/ -p:DelaySign=true
+      working-directory: ./Sources
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nupkg
+        path: dist/*.nupkg
+
+  validate_nuget:
+    needs: create_nuget
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: nupkg
+        path: dist/
+    - name: Install validator
+      run: dotnet tool install Meziantou.Framework.NuGetPackageValidation.Tool --global
+    - name: Validate
+      run: meziantou.validate-nuget-package dist/*.nupkg --excluded-rules 21,32,61,74,112,113
+
+  test_linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Setup signing key
+      run: mv SrkToolkit.CI-key.snk SrkToolkit.snk
+      working-directory: ./Sources
+    - name: Test
+      run: dotnet test SrkToolkit-v2.sln --configuration Release --framework net8.0
+      working-directory: ./Sources
+
+  test_windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Setup signing key
+      run: mv SrkToolkit.CI-key.snk SrkToolkit.snk
+      working-directory: ./Sources
+    - name: Test (net48)
+      run: dotnet test SrkToolkit.Common.FxUnitTests/SrkToolkit.Common.FxUnitTests.csproj --configuration Release --framework net48
+      working-directory: ./Sources
+
+  deploy:
+    needs: [create_nuget, validate_nuget, test_linux, test_windows]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: nupkg
+        path: dist/
+    - name: Push to NuGet.org
+      run: dotnet nuget push dist/*.nupkg --api-key ${{ secrets.NUGETKEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

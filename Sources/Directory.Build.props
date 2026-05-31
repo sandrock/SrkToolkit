@@ -5,4 +5,14 @@
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
   </ItemGroup>
 
+  <!-- Automatic versioning from git tags (e.g. v2.0.149-preview1 → 2.0.149-preview1).
+       Projects that are not part of the v2 release track set <MinVerSkip>true</MinVerSkip>
+       in their own csproj to opt out. -->
+  <ItemGroup>
+    <PackageReference Include="MinVer" Version="5.0.0" PrivateAssets="All" />
+  </ItemGroup>
+  <PropertyGroup>
+    <MinVerTagPrefix>v</MinVerTagPrefix>
+  </PropertyGroup>
+
 </Project>

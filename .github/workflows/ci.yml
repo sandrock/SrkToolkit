@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ "dev/v2.0.0" ]
+  pull_request:
+
+jobs:
+
+  test_linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Setup signing key
+      run: mv SrkToolkit.CI-key.snk SrkToolkit.snk
+      working-directory: ./Sources
+    - name: Test
+      run: dotnet test SrkToolkit-v2.sln --configuration Release --framework net8.0
+      working-directory: ./Sources
+
+  test_windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Setup signing key
+      run: mv SrkToolkit.CI-key.snk SrkToolkit.snk
+      working-directory: ./Sources
+    - name: Test (net48)
+      run: dotnet test SrkToolkit.Common.FxUnitTests/SrkToolkit.Common.FxUnitTests.csproj --configuration Release --framework net48
+      working-directory: ./Sources

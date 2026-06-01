@@ -883,22 +883,22 @@ namespace SrkToolkit.Web
         {
             return helper.ViewData.TemplateInfo.GetFullHtmlFieldName(expression);
         }
-/*
         public static string GetFullHtmlFieldId<TModel, TProperty>(this IHtmlHelper<TModel> helper, Expression<Func<TModel, TProperty>> expression)
         {
-            return helper.ViewData.TemplateInfo.GetFullHtmlFieldId(expression);
+            return TagBuilder.CreateSanitizedId(
+                helper.ViewData.TemplateInfo.GetFullHtmlFieldName(expression), "_");
         }
-*/
+
         public static string GetFullHtmlFieldName<TModel, TProperty>(this TemplateInfo templateInfo, Expression<Func<TModel, TProperty>> expression)
         {
             return templateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
         }
-/*
+
         public static string GetFullHtmlFieldId<TModel, TProperty>(this TemplateInfo templateInfo, Expression<Func<TModel, TProperty>> expression)
         {
-            return templateInfo.GetFullHtmlFieldId(ExpressionHelper.GetExpressionText(expression));
+            return TagBuilder.CreateSanitizedId(
+                templateInfo.GetFullHtmlFieldName(expression), "_");
         }
-*/
         public static string GetFullHtmlFieldDisplayName<TModel, TProperty>(this IHtmlHelper<TModel> helper, Expression<Func<TModel, TProperty>> expression)
         {
             var propertyName = helper.GetFullHtmlFieldName(expression);

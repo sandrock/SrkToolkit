@@ -50,12 +50,6 @@ namespace SrkToolkit.Web.Open
             this.Tags.Add(new OpenGraphTag(OpenGraphName.KnownNames.OgTitle, title));
             this.Tags.Add(new OpenGraphTag(OpenGraphName.KnownNames.OgUrl, uri.ToString()));
         }
-        /*
-        public static OpenGraphObject Website
-        {
-            get { return OpenGraphObject.CreateKnownType("website"); }
-        }
-        */
         internal IList<OpenGraphTag> Tags
         {
             get { return this.tags ?? (this.tags = new List<OpenGraphTag>()); }
@@ -332,43 +326,4 @@ namespace SrkToolkit.Web.Open
             return obj;
         }
     }
-    /*
-    public static class OpenGraphVideoObject
-    {
-        public static OpenGraphObject Video(string title, Uri uri, Uri imageUri = null, Uri imageSecureUri = null, string mimeType=null, int? width=null, int? height=null)
-        {
-            return new OpenGraphObject(title, uri).IsVideo(imageUri, imageSecureUri, mimeType, width, height);
-        }
-
-        public static OpenGraphObject IsVideo(this OpenGraphObject obj, Uri imageUri = null, Uri imageSecureUri = null, string mimeType = null, int? width = null, int? height = null)
-        {
-            obj.SetType("music.song");
-
-            if (imageUri != null)
-                obj.Add(new OpenGraphTag("image", imageUri.ToString()));
-
-            if (imageSecureUri != null)
-                obj.Add(new OpenGraphTag("image:secure_url", imageSecureUri.ToString()));
-
-            if (mimeType != null)
-                obj.Add(new OpenGraphTag("image:type", mimeType));
-
-            if (width != null)
-                obj.Add(new OpenGraphTag("image:width", width.Value.ToString(CultureInfo.InvariantCulture)));
-
-            if (height != null)
-                obj.Add(new OpenGraphTag("image:height", height.Value.ToString(CultureInfo.InvariantCulture)));
-
-            return obj;
-        }
-    }
-
-    public enum OpenGraphVideoType
-    {
-        movie,
-        episode,
-        tv_show,
-        other,
-    }
-    */
 }

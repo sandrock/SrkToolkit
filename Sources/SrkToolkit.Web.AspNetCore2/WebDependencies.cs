@@ -61,7 +61,6 @@ namespace SrkToolkit.Web
         protected string ApplicationVirtualPath
         {
             get { return this.requestPathBase.HasValue ? this.requestPathBase.ToString() : "/"; }
-            ////set { this.requestPathBase = new PathString(value); }
         }
 #endif
 #if ASPMVC

@@ -1103,20 +1103,6 @@ namespace SrkToolkit.Web
 
         #endregion
 
-        #region OpenGraph
-/*
-        /// <summary>
-        /// Gets the opengraph object associated with the current HTTP request.
-        /// </summary>
-        /// <param name="html"></param>
-        /// <returns></returns>
-        public static SrkOpenGraphHtmlExtensions OpenGraph(this IHtmlHelper html)
-        {
-            return new SrkOpenGraphHtmlExtensions(html);
-        }
-*/
-        #endregion
-
         #region ActionLink
 /*
         /// <summary>

@@ -485,5 +485,93 @@ namespace SrkToolkit.Web
         }
 #endif
 
+        /// <summary>
+        /// Sets the date and time formats used by Html display helpers for the current request.
+        /// </summary>
+        /// <param name="httpContext">The HTTP context.</param>
+        /// <param name="dateFormat">The date format for Html.DisplayDate(DateTime).</param>
+        /// <param name="dateTzFormat">The date tz format for Html.DisplayDate(DateTimeOffset).</param>
+        /// <param name="timeFormat">The time format for Html.DisplayTime(DateTime).</param>
+        /// <param name="timeTzFormat">The time tz format for Html.DisplayDate(DateTimeOffset).</param>
+        /// <param name="timespanFormat">The timespan format for Html.DisplayTime(TimeSpan).</param>
+        /// <param name="dateTimeFormat">The date time format for Html.DisplayDateTime(DateTime).</param>
+        /// <param name="shortTimeFormat">The short time format for Html.DisplayShortTime(DateTime).</param>
+        /// <param name="shortTimespanFormat">The short timespan format for Html.DisplayShortTime(TimeSpan).</param>
+        /// <exception cref="System.ArgumentNullException">httpContext</exception>
+        public static void SetDateTimeFormats(this HttpContext httpContext, string dateFormat = null, string dateTzFormat = null, string timeFormat = null, string timeTzFormat = null, string timespanFormat = null, string dateTimeFormat = null, string shortTimeFormat = null, string shortTimespanFormat = null)
+        {
+            if (httpContext == null)
+                throw new ArgumentNullException("httpContext");
+
+            var now = DateTime.UtcNow;
+            var values = (string[])httpContext.Items[SrkHtmlExtensions.DefaultDateTimeFormatsKey]
+                ?? SrkHtmlExtensions.DefaultDateTimeFormats.ToArray();
+
+            if (!string.IsNullOrEmpty(dateFormat))
+            {
+                now.ToString(dateFormat);
+                values[0] = dateFormat;
+            }
+
+            if (!string.IsNullOrEmpty(dateTzFormat))
+            {
+                now.ToString(dateTzFormat);
+                values[1] = dateTzFormat;
+            }
+
+            if (!string.IsNullOrEmpty(timeFormat))
+            {
+                now.ToString(timeFormat);
+                values[2] = timeFormat;
+            }
+
+            if (!string.IsNullOrEmpty(timeTzFormat))
+            {
+                now.ToString(timeTzFormat);
+                values[3] = timeTzFormat;
+            }
+
+            if (!string.IsNullOrEmpty(timespanFormat))
+            {
+                TimeSpan.FromMinutes(2D).ToString(timespanFormat);
+                values[4] = timespanFormat;
+            }
+
+            if (!string.IsNullOrEmpty(dateTimeFormat))
+            {
+                now.ToString(dateTimeFormat);
+                values[5] = dateTimeFormat;
+            }
+
+            if (!string.IsNullOrEmpty(shortTimeFormat))
+            {
+                now.ToString(shortTimeFormat);
+                values[6] = shortTimeFormat;
+            }
+
+            if (!string.IsNullOrEmpty(shortTimespanFormat))
+            {
+                TimeSpan.FromMinutes(2D).ToString(shortTimespanFormat);
+                values[7] = shortTimespanFormat;
+            }
+
+            httpContext.Items[SrkHtmlExtensions.DefaultDateTimeFormatsKey] = values;
+        }
+
+        /// <summary>
+        /// Gets the date and time formats used by Html display helpers for the current request.
+        /// </summary>
+        /// <param name="httpContext">The HTTP context.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">httpContext</exception>
+        public static string[] GetDateTimeFormats(this HttpContext httpContext)
+        {
+            if (httpContext == null)
+                throw new ArgumentNullException("httpContext");
+
+            return (string[])httpContext.Items[SrkHtmlExtensions.DefaultDateTimeFormatsKey]
+                ?? SrkHtmlExtensions.DefaultDateTimeFormats.ToArray();
+        }
+
     }
 }

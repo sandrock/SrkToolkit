@@ -265,9 +265,9 @@ namespace SrkToolkit.Web
         }
 
         #region Display date/time
-/*
+
         /// <summary>
-        /// Sets the date and time formats.
+        /// Sets the date and time formats used by display helpers for the current request.
         /// </summary>
         /// <param name="html">The HTML.</param>
         /// <param name="dateFormat">The date format for Html.DisplayDate(DateTime).</param>
@@ -279,11 +279,7 @@ namespace SrkToolkit.Web
         /// <param name="shortTimeFormat">The short time format for Html.DisplayShortTime(DateTime).</param>
         /// <param name="shortTimespanFormat">The short timespan format for Html.DisplayShortTime(TimeSpan).</param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentNullException">html
-        /// or
-        /// html.ViewContext
-        /// or
-        /// html.ViewContext.HttpContext</exception>
+        /// <exception cref="System.ArgumentNullException">html or html.ViewContext or html.ViewContext.HttpContext</exception>
         public static IHtmlHelper SetDateTimeFormats(this IHtmlHelper html, string dateFormat = null, string dateTzFormat = null, string timeFormat = null, string timeTzFormat = null, string timespanFormat = null, string dateTimeFormat = null, string shortTimeFormat = null, string shortTimespanFormat = null)
         {
             if (html == null)
@@ -293,12 +289,10 @@ namespace SrkToolkit.Web
             if (html.ViewContext.HttpContext == null)
                 throw new ArgumentNullException("html.ViewContext.HttpContext");
 
-            html.ViewContext.HttpContext.SetDateTimeFormats(dateFormat, dateTzFormat, timeFormat, timeTzFormat, timespanFormat, dateTimeFormat);
-
+            html.ViewContext.HttpContext.SetDateTimeFormats(dateFormat, dateTzFormat, timeFormat, timeTzFormat, timespanFormat, dateTimeFormat, shortTimeFormat, shortTimespanFormat);
 
             return html;
         }
-*/
         /// <summary>
         /// Gets the date and time formats.
         /// </summary>

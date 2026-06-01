@@ -45,6 +45,7 @@ namespace SrkToolkit.Web.HttpErrors
     /// Subclass this in your app and register the routes shown above in startup.
     /// If your controller already extends another base class, use <see cref="HttpErrorExtensions"/> instead.
     /// </summary>
+    [NonController]
     public class BaseErrorController : Controller, IErrorController
     {
         /// <summary>

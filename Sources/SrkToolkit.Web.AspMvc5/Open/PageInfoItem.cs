@@ -135,7 +135,7 @@ namespace SrkToolkit.Web.Open
 #elif ASPMVC
             StringBuilder sb,
 #endif
-            PageInfoObjectSection sections, bool indented)
+            PageInfoObjectSection sections, bool indented, string basicValueOverride = null)
         {
             if (sb == null)
                 throw new ArgumentNullException("sb");
@@ -144,7 +144,10 @@ namespace SrkToolkit.Web.Open
             {
                 if ((obj.Section & sections) != 0)
                 {
-                    obj.SetValue(this.Value);
+                    var valueToRender = (basicValueOverride != null && (obj.Section & PageInfoObjectSection.Basic) != 0)
+                        ? basicValueOverride
+                        : this.Value;
+                    obj.SetValue(valueToRender);
 
 #if ASPMVCCORE
                     if (indented)

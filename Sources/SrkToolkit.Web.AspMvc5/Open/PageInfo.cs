@@ -219,6 +219,13 @@ namespace SrkToolkit.Web.Open
         }
 
         /// <summary>
+        /// Gets or sets the format string used to compose the HTML title element from the page title and site name.
+        /// {0} is the page title, {1} is the site name. og:title always remains the page title only.
+        /// Set to null to disable composition.
+        /// </summary>
+        public string TitleFormat { get; set; } = "{0} – {1}";
+
+        /// <summary>
         /// Gets the associated open graph tree.
         /// </summary>
         public OpenGraphObject OpenGraph
@@ -365,9 +372,20 @@ namespace SrkToolkit.Web.Open
             if (sb == null)
                 throw new ArgumentNullException("sb");
 
+            string titleOverride = null;
+            if (this.TitleFormat != null)
+            {
+                var titleItem = this.items.FirstOrDefault(i => string.Equals(i.Name, "title", StringComparison.Ordinal));
+                var siteItem = this.items.FirstOrDefault(i => string.Equals(i.Name, "sitename", StringComparison.Ordinal));
+                if (titleItem != null && titleItem.Value != null && siteItem != null && siteItem.Value != null)
+                {
+                    titleOverride = string.Format(this.TitleFormat, titleItem.Value, siteItem.Value);
+                }
+            }
+
             foreach (var item in this.items)
             {
-                item.ToString(sb, sections, indented);
+                item.ToString(sb, sections, indented, string.Equals(item.Name, "title", StringComparison.Ordinal) ? titleOverride : null);
             }
         }
 

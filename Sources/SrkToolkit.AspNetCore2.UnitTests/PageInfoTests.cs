@@ -82,6 +82,71 @@ namespace SrkToolkit.Web.Tests
             SrkToolkit.Testing.Assert.AreEqual("<link href=\"" + href + "\" hrefLang=\"" + name + "\" rel=\"alternate\" type=\"text/html\" /><meta property=\"og:locale:alternate\" content=\"" + name.Replace("-", "_").ProperHtmlAttributeEscape() + "\" />", result);
         }
 
+        public class TitleFormatTests
+        {
+            [Fact]
+            public void DefaultFormat_ComposesHtmlTitle_LeaveOgTitleClean()
+            {
+                var page = new PageInfo()
+                    .Set(PageInfo.Title, "My Page")
+                    .Set(PageInfo.SiteName, "My Site");
+
+                var result = page.ToString(PageInfoObjectSection.Basic | PageInfoObjectSection.OpenGraph, false);
+
+                SrkToolkit.Testing.Assert.Contains("<title>My Page &#x2013; My Site</title>", result);
+                SrkToolkit.Testing.Assert.Contains("og:title\" content=\"My Page\"", result);
+                SrkToolkit.Testing.Assert.Contains("og:site_name\" content=\"My Site\"", result);
+            }
+
+            [Fact]
+            public void CustomFormat_UsesCustomSeparator()
+            {
+                var page = new PageInfo()
+                    .Set(PageInfo.Title, "My Page")
+                    .Set(PageInfo.SiteName, "My Site");
+                page.TitleFormat = "{0} | {1}";
+
+                var result = page.ToString(PageInfoObjectSection.Basic, false);
+
+                SrkToolkit.Testing.Assert.Contains("<title>My Page | My Site</title>", result);
+            }
+
+            [Fact]
+            public void NullFormat_DisablesComposition()
+            {
+                var page = new PageInfo()
+                    .Set(PageInfo.Title, "My Page")
+                    .Set(PageInfo.SiteName, "My Site");
+                page.TitleFormat = null;
+
+                var result = page.ToString(PageInfoObjectSection.Basic, false);
+
+                SrkToolkit.Testing.Assert.Contains("<title>My Page</title>", result);
+            }
+
+            [Fact]
+            public void NoSiteName_TitleRendersAlone()
+            {
+                var page = new PageInfo()
+                    .Set(PageInfo.Title, "My Page");
+
+                var result = page.ToString(PageInfoObjectSection.Basic, false);
+
+                SrkToolkit.Testing.Assert.Contains("<title>My Page</title>", result);
+            }
+
+            [Fact]
+            public void NoTitle_SiteNameRendersNormally()
+            {
+                var page = new PageInfo()
+                    .Set(PageInfo.SiteName, "My Site");
+
+                var result = page.ToString(PageInfoObjectSection.Basic | PageInfoObjectSection.OpenGraph, false);
+
+                SrkToolkit.Testing.Assert.Contains("og:site_name\" content=\"My Site\"", result);
+            }
+        }
+
         [Fact]
         public void ContainsNot()
         {

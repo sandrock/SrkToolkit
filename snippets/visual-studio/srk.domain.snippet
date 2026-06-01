@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Author>SandRock</Author>
+      <Title>rrr Create the base types for a request/result pattern</Title>
+      <Shortcut>rrr</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>Name</ID>
+          <Default>EditStuff</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp">
+        <![CDATA[using SrkToolkit.Domain;
+using System.Runtime.Serialization;
+    
+    [DataContract]
+    public class $Name$Request : BaseRequest
+    {
+        public $Name$Request()
+        {
+        }
+
+        public ILocalResult Execute(IDomainOperationContext context)
+        {
+            var result = new $Name$Result(null);
+            return result.Execute(context, this);
+        }
+    }
+
+    [DataContract]
+    public class $Name$Result : BaseResult<$Name$Request, $Name$Error>
+    {
+        public $Name$Result($Name$Request request)
+            : base(request)
+        {
+        }
+
+        internal $Name$Result Execute($Name$Request request)
+        {
+            // TODO: implement me
+
+            return (this);
+        }
+
+    }
+
+    [DataContract]
+    public enum $Name$Error
+    {
+        Invalid,
+        NotAuthorized,
+    }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

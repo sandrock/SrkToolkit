@@ -214,3 +214,13 @@ Package/SrkToolkit.Services/
 Package/*.nupkg
 
 tools/NuGet.exe
+
+/claude.env
+
+/claude.Dockerfile
+
+/claude.docker-compose.yml
+
+/claude-entrypoint.sh
+
+/.claude*

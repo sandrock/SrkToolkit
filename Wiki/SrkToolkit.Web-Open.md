@@ -29,7 +29,7 @@ And generate stuff in the layout view.
     var pageInfo = Html.GetPageInfo();
 }
 <!DOCTYPE html>
-<html @Html.Raw(pageInfo.OpenGraph.ToHtmlAttributeNamespaces())>
+<html @Html.Raw(pageInfo.OpenGraph?.ToHtmlAttributeNamespaces())>
 <head>
     <meta charset="utf-8" />
 
@@ -38,7 +38,7 @@ And generate stuff in the layout view.
 <!-- END: PageInfo -->
 
 <!-- BEGIN: PageInfo.OpenGraph -->
-@Html.Raw(pageInfo.OpenGraph.ToHtmlString(null, Environment.NewLine, null))
+@Html.Raw(pageInfo.OpenGraph?.ToHtmlString(null, Environment.NewLine, null))
 <!-- END: PageInfo.OpenGraph -->
 ```
 

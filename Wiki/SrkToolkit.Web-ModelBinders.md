@@ -1,24 +1,63 @@
-SrkToolit.Web - Model Binders
-=============================
+SrkToolkit.Web - Model Binders
+==============================
 
-Before you start.
-
-This page is not oriented on "how to use the stuff". It explains how things work internally justifies why things are here, why those things are useful.
-
-There will be another page that explains how to implement this stuff.
-
-If you read what is to follow, you may end-up thinking "WTF is this guy doing?" There is good stuff here but this page does not show it the right way.
-
+This page explains how the model binders work internally and why they exist.
 
 
 DecimalModelBinder
----------------------
+------------------
 
-Here is some context. In France (and some french-speaking countries) something is wrong. The official decimal separator is the comma but the french keyboard has a dot instead of a comma in the numerical keypad. When using the culture "fr-FR", all numbers are displayed like `1 234,56` but every french guy will type `1234.56`. And BHAM goes the form! Invalid input (the textbox bound to a decimal/double does not validate). 
+### The problem
 
-What can a web developer do? The user chooses his/her culture on the website and goes for "Français (France)" so he/she accepts to use the official french way. The system expects spaces and comma as group and decimal separators but something is wrong: there is a dot. I keep telling my users to choose the "English (United Kingdom)" culture but they complain saying "je ne comprend pas, le site est passé en anglais !" (I don't understand, the website went to english).
+In France (and some French-speaking countries) there is a mismatch between the official
+number format and what users actually type. The official decimal separator is the comma
+(e.g. `1 234,56`) but the French keyboard has a dot in the numeric keypad, not a comma.
+When the app is set to `fr-FR`, a user who types `1234.56` triggers a validation error
+because the framework sees a dot where it expects a comma.
 
-This model binder will try to accept inputs not matching exactly the current user culture. French users will be able to type 123.456 without validation error. Typing 123.456,789 is too confusing to be handled though.
+More broadly, users move between locales, copy-paste numbers from spreadsheets, or simply
+type the "wrong" separator by habit. A strict `decimal.Parse` with the request culture
+rejects all of that.
 
-	DecimalModelBinder.Register(ModelBinders.Binders);
+### What it does
 
+`DecimalModelBinder<T>` inspects the raw input string and applies heuristics to infer
+intent based on the number and position of `,` and `.` characters, without requiring the
+user to match the culture exactly.
+
+**Comma-decimal cultures (e.g. `fr-FR`, where `,` is the decimal separator):**
+
+- One comma + one dot → whichever comes first is the thousands separator; the other is
+  the decimal separator. `1,123.456` → `1123.456`; `1.123,456` → `1123.456`.
+- Multiple commas + one dot → commas are thousands separators. `1,222,123.456` → `1222123.456`.
+- Multiple dots + one comma → dots are thousands separators, comma is decimal.
+  `1.222.123,456` → `1222123.456`.
+- One comma + no dot → comma is the decimal separator. `123,456` → `123.456`.
+- Multiple commas + no dot → all commas are thousands separators. `1,234,567` → `1234567`.
+
+**Dot-decimal cultures (e.g. `en-US`, where `.` is the decimal separator):**
+
+- Spaces are replaced by the culture's group separator when appropriate.
+- A comma in the input is treated as a thousands separator when the native decimal
+  separator already appears, or as a decimal separator when it does not.
+
+Inputs that are genuinely ambiguous (e.g. multiple commas and multiple dots) are rejected
+with a validation error.
+
+### `DecimalModelBinderState`
+
+`BindModelImpl` is the core parsing method, deliberately separated from the MVC binding
+machinery so that unit tests can call it directly and inspect the `Errors` list without
+needing a `ModelBindingContext`.
+
+### Registration
+
+**ASP.NET Core** — insert `DecimalModelBinderProvider` at index 0 so it takes precedence
+over the built-in numeric binders:
+
+    services.AddControllersWithViews(options =>
+        options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider()));
+
+**ASP.NET MVC 5** — register in `Application_Start`:
+
+    DecimalModelBinder.Register(ModelBinders.Binders);

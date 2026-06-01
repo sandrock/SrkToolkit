@@ -910,51 +910,36 @@ namespace SrkToolkit.Web
 
         #region DescriptionFor
 
-/*
         /// <summary>
-        /// Returns an HTML span element and the property name of the property that is represented by the specified expression.
+        /// Returns an HTML span element containing the <see cref="System.ComponentModel.DescriptionAttribute"/> value
+        /// of the property represented by <paramref name="expression"/>.
+        /// Returns <see cref="HtmlString.Empty"/> when no description is defined.
         /// </summary>
-        /// <typeparam name="TModel">The type of the model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property.</typeparam>
-        /// <param name="helper">The HTML helper instance that this method extends.</param>
-        /// <param name="expression">An expression that identifies the property to display.</param>
-        /// <returns>An HTML span element and the property name of the property that is represented by the specified expression</returns>
         public static HtmlString DescriptionFor<TModel, TProperty>(
             this IHtmlHelper<TModel> helper,
             Expression<Func<TModel, TProperty>> expression)
         {
             return DescriptionFor(helper, expression, null, null);
         }
+
         /// <summary>
-        /// Returns an HTML span element and the property name of the property that is represented by the specified expression.
+        /// Returns an HTML span element containing the <see cref="System.ComponentModel.DescriptionAttribute"/> value
+        /// of the property represented by <paramref name="expression"/>.
+        /// Returns <see cref="HtmlString.Empty"/> when no description is defined.
         /// </summary>
-        /// <typeparam name="TModel">The type of the model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property.</typeparam>
-        /// <param name="helper">The HTML helper instance that this method extends.</param>
-        /// <param name="expression">An expression that identifies the property to display.</param>
-        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
-        /// <returns>
-        /// An HTML span element and the property name of the property that is represented by the specified expression
-        /// </returns>
         public static HtmlString DescriptionFor<TModel, TProperty>(
             this IHtmlHelper<TModel> helper,
             Expression<Func<TModel, TProperty>> expression,
             object htmlAttributes)
         {
-            return DescriptionFor(helper, expression, null, IHtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+            return DescriptionFor(helper, expression, null, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
         /// <summary>
-        /// Returns an HTML span element and the property name of the property that is represented by the specified expression.
+        /// Returns an HTML span element containing the <see cref="System.ComponentModel.DescriptionAttribute"/> value
+        /// of the property represented by <paramref name="expression"/>.
+        /// Returns <see cref="HtmlString.Empty"/> when no description is defined.
         /// </summary>
-        /// <typeparam name="TModel">The type of the model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property.</typeparam>
-        /// <param name="helper">The HTML helper instance that this method extends.</param>
-        /// <param name="expression">An expression that identifies the property to display.</param>
-        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
-        /// <returns>
-        /// An HTML span element and the property name of the property that is represented by the specified expression
-        /// </returns>
         public static HtmlString DescriptionFor<TModel, TProperty>(
             this IHtmlHelper<TModel> helper,
             Expression<Func<TModel, TProperty>> expression,
@@ -962,41 +947,37 @@ namespace SrkToolkit.Web
         {
             return DescriptionFor(helper, expression, null, htmlAttributes);
         }
-*//*
+
         /// <summary>
-        /// Returns an HTML span element and the property name of the property that is represented by the specified expression.
+        /// Returns an HTML span element containing either <paramref name="descriptionText"/> or the
+        /// <see cref="System.ComponentModel.DescriptionAttribute"/> value of the property represented
+        /// by <paramref name="expression"/>. Returns <see cref="HtmlString.Empty"/> when no description is available.
         /// </summary>
-        /// <typeparam name="TModel">The type of the model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property.</typeparam>
-        /// <param name="helper">The HTML helper instance that this method extends.</param>
-        /// <param name="expression">An expression that identifies the property to display.</param>
-        /// <param name="descriptionText">The description text to display.</param>
-        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
-        /// <returns>
-        /// An HTML span element and the property name of the property that is represented by the specified expression
-        /// </returns>
         public static HtmlString DescriptionFor<TModel, TProperty>(
             this IHtmlHelper<TModel> helper,
             Expression<Func<TModel, TProperty>> expression,
             string descriptionText,
             IDictionary<string, object> htmlAttributes)
         {
-            var meta = ModelMetadata.FromLambdaExpression(expression, helper.ViewData);
-            var value = descriptionText.NullIfEmpty() ?? meta.Description.NullIfEmpty();
+            var htmlFieldName = ExpressionHelper.GetExpressionText(expression);
+            var propertyMetadata = helper.ViewData.ModelMetadata.Properties
+                ?.FirstOrDefault(p => string.Equals(p.PropertyName, htmlFieldName, StringComparison.OrdinalIgnoreCase));
+            var value = descriptionText.NullIfEmpty() ?? propertyMetadata?.Description.NullIfEmpty();
 
             if (string.IsNullOrEmpty(value))
                 return HtmlString.Empty;
 
-            var htmlFieldName = ExpressionHelper.GetExpressionText(expression);
-            var id = TagBuilder.CreateSanitizedId(helper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName));
+            var id = TagBuilder.CreateSanitizedId(
+                helper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName), "_");
             var tag = new TagBuilder("span");
             tag.Attributes.Add("data-for", id);
-            tag.MergeAttributes<string, object>(htmlAttributes, true);
-            ////tag.SetInnerText(value); // AspNet
-            tag.InnerHtml.Append(value); // AspNetCore?
-            return tag.ToMvcHtmlString(TagRenderMode.Normal);
+            if (htmlAttributes != null)
+                tag.MergeAttributes<string, object>(htmlAttributes, true);
+            tag.InnerHtml.Append(value);
+            using var writer = new System.IO.StringWriter();
+            tag.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
+            return new HtmlString(writer.ToString());
         }
-*/
         #endregion
 
         #region BeginFormEx

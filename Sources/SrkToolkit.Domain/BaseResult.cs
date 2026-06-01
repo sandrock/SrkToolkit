@@ -90,7 +90,7 @@ namespace SrkToolkit.Domain
         {
             get
             {
-                return this.proxy ?? (this.proxy = new CollectionProxy<ResultError<TResultCode>, IResultError>(this.Errors));
+                return this.proxy ?? (this.proxy = new CollectionProxy<ResultError<TResultCode>, IResultError>(this.Errors, ResultError<TResultCode>.Convert));
             }
         }
     }

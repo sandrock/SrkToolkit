@@ -148,5 +148,34 @@ namespace SrkToolkit.Domain
                 + " " + this.DisplayMessage
                 ;
         }
+
+        /// <summary>
+        /// Converts any <see cref="IResultError"/> to a <see cref="ResultError{TEnum}"/>.
+        /// If the value is already the right concrete type it is returned as-is.
+        /// Otherwise the code string is parsed via <see cref="Enum.Parse"/> and a new instance is created.
+        /// Used by <see cref="CollectionProxy{TSource,T}"/> so that writing a <see cref="BasicResultError"/>
+        /// through the <see cref="IBaseResult.Errors"/> interface works on typed result classes.
+        /// </summary>
+        internal static ResultError<TEnum> Convert(IResultError error)
+        {
+            if (error is ResultError<TEnum> already)
+            {
+                return already;
+            }
+
+            TEnum code = default;
+            if (error.Code != null && typeof(TEnum).IsEnum)
+            {
+                try
+                {
+                    code = (TEnum)Enum.Parse(typeof(TEnum), error.Code);
+                }
+                catch (ArgumentException)
+                {
+                }
+            }
+
+            return new ResultError<TEnum>(code, error.DisplayMessage) { Detail = error.Detail };
+        }
     }
 }

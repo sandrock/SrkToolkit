@@ -252,6 +252,30 @@ namespace SrkToolkit.Domain.Tests
                 Assert.Equal(1, proxy.Errors.Count);
                 Assert.Equal("NEW", proxy.Errors[0].Code);
             }
+
+            [Fact]
+            public void ReplaceByIndex_Generic_WithBasicResultError_ConvertsViaCode()
+            {
+                // Consumer pattern: result.Errors[i] = new BasicResultError(code, localizedMessage, detail)
+                // where result is IBaseResult backed by BasicResult<TResultCode>.
+                var target = new BasicResult<Lalala>();
+                target.Errors.Add(new ResultError<Lalala>(Lalala.One, "original"));
+                IBaseResult proxy = target;
+                proxy.Errors[0] = new BasicResultError("One", "localized", "detail");
+                Assert.Equal("One", proxy.Errors[0].Code);
+                Assert.Equal("localized", proxy.Errors[0].DisplayMessage);
+                Assert.Equal("detail", proxy.Errors[0].Detail);
+            }
+
+            [Fact]
+            public void AddViaProxy_Generic_WithBasicResultError_ConvertsViaCode()
+            {
+                var target = new BasicResult<Lalala>();
+                IBaseResult proxy = target;
+                proxy.Errors.Add(new BasicResultError("Many", "msg", null));
+                Assert.Equal(1, proxy.Errors.Count);
+                Assert.Equal("Many", proxy.Errors[0].Code);
+            }
         }
 
         // Legacy flat tests kept for regression coverage

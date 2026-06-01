@@ -841,46 +841,42 @@ namespace SrkToolkit.Web
         #endregion
 
         #endregion
-/*
         /// <summary>
         /// Returns many HTML radio buttons for the specified list and selected value.
+        /// Renders one <c>&lt;div class="RadioButton"&gt;&lt;input .../&gt;&lt;label .../&gt;&lt;/div&gt;</c> per item.
         /// </summary>
-        /// <typeparam name="TModel">The type of the model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property.</typeparam>
-        /// <param name="htmlHelper">The HTML helper.</param>
-        /// <param name="expression">The model expression.</param>
-        /// <param name="listOfValues">The list of values.</param>
-        /// <returns></returns>
-        public static HtmlString RadioButtonSelectList<TModel, TProperty>(
-            this IHtmlHelper<TModel> IHtmlHelper,
+        public static IHtmlContent RadioButtonSelectList<TModel, TProperty>(
+            this IHtmlHelper<TModel> htmlHelper,
             Expression<Func<TModel, TProperty>> expression,
             IEnumerable<SelectListItem> listOfValues)
         {
-            var metaData = ModelMetadata.FromLambdaExpression(expression, IHtmlHelper.ViewData);
-            var sb = new StringBuilder();
+            var builder = new HtmlContentBuilder();
 
             if (listOfValues != null)
             {
-                // Create a radio button for each item in the list
-                foreach (SelectListItem item in listOfValues)
+                var baseId = htmlHelper.IdFor(expression);
+
+                foreach (var item in listOfValues)
                 {
-                    // Generate an id to be given to the radio button field
-                    ////var id = string.Format("{0}_{1}", metaData.PropertyName, item.Value);
-                    var id = metaData.PropertyName + "_" + item.Value;
+                    var id = baseId + "_" + item.Value;
 
-                    // Create and populate a radio button using the existing html helpers
-                    var label = IHtmlHelper.Label(id, HttpUtility.HtmlEncode(item.Text));
-                    var radio = IHtmlHelper.RadioButtonFor(expression, item.Value, new { id = id }).ToHtmlString();
+                    var radio = htmlHelper.RadioButtonFor(expression, item.Value, new { id });
 
-                    // Create the html string that will be returned to the client
-                    // e.g. <input data-val="true" data-val-required="You must select an option" id="TestRadio_1" name="TestRadio" type="radio" value="1" /><label for="TestRadio_1">Line1</label>
-                    sb.AppendFormat("<div class=\"RadioButton\">{0}{1}</div>", radio, label);
+                    var label = new TagBuilder("label");
+                    label.Attributes["for"] = id;
+                    label.InnerHtml.Append(item.Text);
+
+                    var div = new TagBuilder("div");
+                    div.AddCssClass("RadioButton");
+                    div.InnerHtml.AppendHtml(radio);
+                    div.InnerHtml.AppendHtml(label);
+
+                    builder.AppendHtml(div);
                 }
             }
 
-            return new HtmlString(sb.ToString());
+            return builder;
         }
-*/
         #region GetFullHtmlFieldName
 
         public static string GetFullHtmlFieldName<TModel, TProperty>(this IHtmlHelper<TModel> helper, Expression<Func<TModel, TProperty>> expression)

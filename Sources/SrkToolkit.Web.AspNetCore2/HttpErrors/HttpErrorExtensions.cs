@@ -47,7 +47,11 @@ namespace SrkToolkit.Web.HttpErrors
         /// <c>UseExceptionHandler</c> and <c>UseStatusCodePagesWithReExecute</c>.
         /// Equivalent to <see cref="BaseErrorController.Show"/>.
         /// </summary>
-        public static ActionResult HttpErrorShow(this Controller controller, int code, bool includeExceptionDetails = false)
+        public static ActionResult HttpErrorShow(
+            this Controller controller, 
+            int code, 
+            bool includeExceptionDetails = false,
+            string viewName = "Error")
         {
             if (!Enum.IsDefined(typeof(HttpStatusCode), code))
             {
@@ -67,7 +71,7 @@ namespace SrkToolkit.Web.HttpErrors
                 model.Exception = exceptionFeature?.Error;
             }
 
-            return controller.HttpErrorWork("Show", model, code);
+            return controller.HttpErrorWork("Show", model, code, viewName: viewName);
         }
 
         /// <summary>
@@ -85,7 +89,8 @@ namespace SrkToolkit.Web.HttpErrors
             string action,
             HttpErrorModel model,
             int code,
-            Action<string, HttpErrorModel, int> onReady = null)
+            Action<string, HttpErrorModel, int> onReady = null,
+            string viewName = "Error")
         {
             Trace.WriteLine("ErrorController." + action + ": begin");
 
@@ -122,7 +127,7 @@ namespace SrkToolkit.Web.HttpErrors
             }
 
             controller.Response.ContentType = "text/html; charset=utf-8";
-            return controller.View("Error", model);
+            return controller.View(viewName, model);
         }
     }
 }

@@ -1088,7 +1088,7 @@ namespace SrkToolkit.Web
         #endregion
 
         #region File
-/*
+
         /// <summary>
         /// Returns a file input element by using the specified HTML helper and the name of the form field.
         /// </summary>
@@ -1098,9 +1098,12 @@ namespace SrkToolkit.Web
         public static HtmlString File(this IHtmlHelper html, string name)
         {
             var builder = new TagBuilder("input");
+            builder.TagRenderMode = TagRenderMode.SelfClosing;
             builder.MergeAttribute("type", "file");
             builder.MergeAttribute("name", name);
-            return new HtmlString(builder.ToString(TagRenderMode.SelfClosing));
+            using var writer = new System.IO.StringWriter();
+            builder.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
+            return new HtmlString(writer.ToString());
         }
 
         /// <summary>
@@ -1112,14 +1115,17 @@ namespace SrkToolkit.Web
         /// <returns>An input element whose type attribute is set to "file".</returns>
         public static HtmlString File(this IHtmlHelper html, string name, object htmlAttributes)
         {
-            var attributes = IHtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
             var builder = new TagBuilder("input");
+            builder.TagRenderMode = TagRenderMode.SelfClosing;
             builder.MergeAttributes<string, object>(attributes);
             builder.MergeAttribute("type", "file");
             builder.MergeAttribute("name", name);
-            return new HtmlString(builder.ToString(TagRenderMode.SelfClosing));
+            using var writer = new System.IO.StringWriter();
+            builder.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
+            return new HtmlString(writer.ToString());
         }
-*/
+
         #endregion
 
         #region OpenGraph
@@ -1212,13 +1218,12 @@ namespace SrkToolkit.Web
 
             return html.ViewData.ModelState[string.Empty].Errors.Count > 0;
         }
-/*
         /// <summary>
-        /// Enhancement of <see cref="System.Web.Mvc.Html.ValidationExtensions.ValidationSummary"/> that shows no HTML when there are no errors to display.
+        /// Enhancement of <see cref="Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper.ValidationSummary"/> that shows no HTML when there are no errors to display.
         /// </summary>
         /// <param name="html">The HTML.</param>
         /// <returns>A string that contains an unordered list (ul element) of validation messages.</returns>
-        public static HtmlString ValidationSummaryEx(this IHtmlHelper html)
+        public static IHtmlContent ValidationSummaryEx(this IHtmlHelper html)
         {
             if (SrkHtmlExtensions.HasOtherValidationErrors(html))
             {
@@ -1227,7 +1232,6 @@ namespace SrkToolkit.Web
 
             return null;
         }
-*/
         /// <summary>
         /// Gets the <see cref="NavigationLine"/> associated to the request.
         /// </summary>
@@ -1250,7 +1254,6 @@ namespace SrkToolkit.Web
 
             return line;
         }
-/*
         /// <summary>
         /// Returns an anchor element (a element) that contains a phone call url.
         /// </summary>
@@ -1261,7 +1264,7 @@ namespace SrkToolkit.Web
         {
             return SrkHtmlExtensions.CallLink(html, phoneNumber, new { @class = "tel", });
         }
-*//*
+
         /// <summary>
         /// Returns an anchor element (a element) that contains a phone call url.
         /// </summary>
@@ -1273,13 +1276,13 @@ namespace SrkToolkit.Web
         {
             var tag = new TagBuilder("a");
             tag.Attributes.Add("href", "tel:" + phoneNumber);
-            var attrCollection = IHtmlHelper.AnonymousObjectToHtmlAttributes(attributes);
+            var attrCollection = HtmlHelper.AnonymousObjectToHtmlAttributes(attributes);
             tag.MergeAttributes<string, object>(attrCollection, true);
-            ////tag.SetInnerText(phoneNumber); // AspNet
-            tag.InnerHtml.Append(phoneNumber); // AspNetCore?
-            return tag.ToMvcHtmlString(TagRenderMode.Normal);
+            tag.InnerHtml.Append(phoneNumber);
+            using var writer = new System.IO.StringWriter();
+            tag.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
+            return new HtmlString(writer.ToString());
         }
-*/
         /// <summary>
         /// Helps attach descriptors to a page in order to generate meta/link tags.
         /// </summary>
